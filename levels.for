@@ -7,7 +7,7 @@
 	  integer Wind_dir(52)
 	  integer*1 I_Header
           
-$INCLUDE:'modvars.h'
+      INCLUDE 'modvars.h'
 
       data I_Header,No_Levels, Thick_Level, No_variables
      /		/1, 52, 50, 4/

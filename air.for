@@ -5,7 +5,7 @@ C **  the potential temperature at height ZA.
 
       Real ZLS(50)
 
-$INCLUDE:'modvars.h'
+      INCLUDE 'modvars.h'
 
       IFIRST = 1.0
 		

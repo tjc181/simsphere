@@ -10,7 +10,7 @@ C **  day, season, atmospheric attenuation, and albedo.
       REAL SS(12)
       INTEGER MD(12)
 
-$INCLUDE:'modvars.h'
+      INCLUDE 'modvars.h'
 
 C **  The definition of the variables in the following DATA statements
 C **  can be found in the manual.

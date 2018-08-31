@@ -1,6 +1,6 @@
       SUBROUTINE  PSOIL
 
-$INCLUDE:'modvars.h'
+      INCLUDE 'modvars.h'
 
       DATA OMA , SFFK / 0.0000727 , 4 /
 

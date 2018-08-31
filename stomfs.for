@@ -1,6 +1,6 @@
       SUBROUTINE  STOMFS
 
-$INCLUDE:'modvars.h'
+      INCLUDE 'modvars.h'
 
 */ The exponential function for solar radiation -- Albert Olioso
 

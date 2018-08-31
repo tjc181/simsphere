@@ -16,7 +16,7 @@ c ridiculous.
 	REAL *4 ZLS(50)
 
 c Include the common blocks and variable definitions via NON-STANDARD extension;
-$include:'modvars.h'
+      include 'modvars.h'
 
 c Initialise some variables. CF block.for where a bunch of globals are initialised.
 c Completely non-obvious.

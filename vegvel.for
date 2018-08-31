@@ -3,7 +3,7 @@
       REAL SGMA
       integer*1 init_vel
 
-$INCLUDE:'modvars.h'
+      INCLUDE 'modvars.h'
 
       data init_vel /1/
 

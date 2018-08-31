@@ -1,6 +1,6 @@
        Subroutine Capac (Unscaled_RAF,H,B1_P,B2_P,vfl2)
 
-$INCLUDE:'modvars.h'
+       INCLUDE 'modvars.h'
 
        ZADD = ZG + ZP * FRZP
        FPM = 1 - FRHGT

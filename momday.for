@@ -10,7 +10,7 @@ C **  stability during periods when KM values are large.
 */	MAG(50), DIRCT(50)
 */	CHARACTER *12 MENUCH
 
-$INCLUDE:'modvars.h'
+      INCLUDE 'modvars.h'
 
       COMMON /MXDLYR/ THICK
 

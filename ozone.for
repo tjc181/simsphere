@@ -1,6 +1,6 @@
        SUBROUTINE  OZONE
 
-$INCLUDE:'modvars.h'
+       INCLUDE 'modvars.h'
 
 cc      created 4/5/96; MODIFIED 
 

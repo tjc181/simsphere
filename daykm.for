@@ -7,7 +7,7 @@ C **  the method of O'Brien.  Used in MOMDAY.
 
       REAL KTOP , KMA , KMAPRI , KMW(50)
 
-$INCLUDE:'modvars.h'
+      INCLUDE 'modvars.h'
 
       COMMON /MXDLYR/ THICK
 

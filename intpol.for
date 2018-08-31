@@ -2,7 +2,7 @@
 
 c      CHARACTER*1 CHOICE
 
-$INCLUDE:'modvars.h'
+      INCLUDE 'modvars.h'
 
       DATA ZZ,ZZDAY /50,250/
 

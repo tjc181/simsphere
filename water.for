@@ -16,7 +16,7 @@ C **  evaporation.  Note that constant CONST2 changed from earlier version.
 C **  Note if you wish to supress variation in substrate water content
 C **  with time, let wmax equal to a very large value, e.g. 10.
 
-$INCLUDE:'modvars.h'
+      INCLUDE 'modvars.h'
 
 C **  Constants for the water budget equation.
 

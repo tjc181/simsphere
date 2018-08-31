@@ -13,7 +13,7 @@
       integer*1 StabCriteria
       logical dual_regime
       
-$INCLUDE:'modvars.h'
+      INCLUDE 'modvars.h'
 
 */  ZO Roughness height, ZA Top of surface layer (50m)
 

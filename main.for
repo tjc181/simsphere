@@ -12,7 +12,7 @@
       real*4 ZLS(50)
 
   
-$INCLUDE:'modvars.h'		     ! Variable Definitions and Common Blocks
+      INCLUDE 'modvars.h'
 
 */ Set initial values to variables, see BLOCK.FOR
 

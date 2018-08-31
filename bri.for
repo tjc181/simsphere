@@ -9,7 +9,7 @@
 
       REAL MOL1
 
-$INCLUDE:'modvars.h'
+      INCLUDE 'modvars.h'
 
 */  The following are constants.  See manual for explanation.
 

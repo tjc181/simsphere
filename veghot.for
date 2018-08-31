@@ -1,6 +1,6 @@
       SUBROUTINE  VEGHOT (B,Heatv)
 
-$INCLUDE:'modvars.h'
+      INCLUDE 'modvars.h'
 
       HFN = DENS * CP * CHF * (TF - TAF)
       HF  = (HF + HFN) / 2

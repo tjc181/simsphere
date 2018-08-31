@@ -12,7 +12,7 @@
 
       REAL A(46) , B(46) , C(46)
 
-$INCLUDE:'modvars.h'
+      INCLUDE 'modvars.h'
 
       OPEN (UNIT = 14, FILE = 'LUT.DAT')
 

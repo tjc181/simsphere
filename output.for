@@ -6,7 +6,7 @@
       integer No_Rows
 
 
-$INCLUDE:'modvars.h'
+      INCLUDE 'modvars.h'
 
 
 */ Write the Header Information

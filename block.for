@@ -1,6 +1,6 @@
       BLOCK DATA
 
-$INCLUDE:'modvars.h'
+      INCLUDE 'modvars.h'
 
 */ Constants
 

@@ -10,7 +10,7 @@
       Real Lwup
       Integer *1 Init
 
-$INCLUDE:'modvars.h'
+      INCLUDE 'modvars.h'
 
 */    Compute the solar radiation.
 

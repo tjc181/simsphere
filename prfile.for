@@ -6,7 +6,7 @@
 */ Calculated in 3 different ways; specified by user.
 
 
-$INCLUDE:'modvars.h'
+      INCLUDE 'modvars.h'
 
 
           j = 1

@@ -1,6 +1,6 @@
       SUBROUTINE  CANRES
 
-$INCLUDE:'modvars.h'
+      INCLUDE 'modvars.h'
 
       EMBAR =  9999
       RESIST = 9999

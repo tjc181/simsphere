@@ -12,7 +12,7 @@
       Real BareHeatFlux
       Real Evap_Smooth
 
-$INCLUDE:'modvars.h'
+      INCLUDE 'modvars.h'
 
 */  We calculate OTEMP from GTEMP routine once we have reached
 */  radiative balance at night.

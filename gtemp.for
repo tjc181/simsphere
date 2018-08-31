@@ -8,7 +8,7 @@ C **  radiative balance.
 
       REAL A(5)
 
-$INCLUDE:'modvars.h'
+      INCLUDE 'modvars.h'
 
       X = OTEMP
 

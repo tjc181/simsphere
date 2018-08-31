@@ -12,9 +12,9 @@
       real Old_Ahum
 	Integer error
       
-$INCLUDE:'constant.h'
-$INCLUDE:'factors.h'
-$INCLUDE:'modvars.h'
+      INCLUDE 'constant.h'
+      INCLUDE 'factors.h'
+      INCLUDE 'modvars.h'
 
       Data Vert_Spacing /250/ ! 250 metre intervals
 	deltaz = vert_spacing

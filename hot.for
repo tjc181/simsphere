@@ -7,7 +7,7 @@
       Real BareNetRadn,BareEvapFlux
       Real BareHeatFlux,VegnHeatFlux,MixedHeatFlux
 
-$INCLUDE:'modvars.h'
+      INCLUDE 'modvars.h'
 
       A = ( Lambda * ( Atemp - TT(2) ) ) / Z(2)
       B = Lambda / ( Z(2) * Dens * Cp )

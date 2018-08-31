@@ -1,6 +1,6 @@
       SUBROUTINE  COND
 
-$INCLUDE:'modvars.h'
+      INCLUDE 'modvars.h'
 
 
 c * * program units are in m/s
