@@ -22,4 +22,3 @@ C **  geostrophic temperature advection.
  
       RETURN
       END
-

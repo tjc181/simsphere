@@ -69,4 +69,3 @@ C **  YCOUNT advanced to set the mode definitely for the daytime.
 
       RETURN
       END
-

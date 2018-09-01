@@ -1,10 +1,13 @@
+      PROGRAM simsphere
+!      IMPLICIT none
+
 */ Main program lists and defines model symbols, coordinates model
 */ subroutines, and establishes iteration sequence.
 
 */ Type declaration of variables.
 
       CHARACTER *5 FRACTN
-      integer*1 StabCriteria	! Neutral (0), Unstable (1), Stable (2)
+      integer*1 StabCriteria        ! Neutral (0), Unstable (1), Stable (2)
       Real*4 Obst_Hgt, zo_patch
       real*4 Old_Ahum
       integer*1 init
@@ -28,9 +31,9 @@
 
       CALL START (Obst_Hgt,dual_regime,zo_patch) ! Read and Check data
      
-      CALL SNDING (ZLS, Old_Ahum)		! Read Sounding - Call Spline to Interpolate
+      CALL SNDING (ZLS, Old_Ahum)                ! Read Sounding - Call Spline to Interpolate
 
-      CALL CALC (OLDTMP, No_Rows)	! Some basic calculations
+      CALL CALC (OLDTMP, No_Rows)        ! Some basic calculations
 
       CALL PRFILE                       ! Set a Geostrophic wind at the surface
 
@@ -38,7 +41,7 @@
 
 */ This is the start of the diurnal loop (TIMEND-STRTIM), nominally 22 hrs.
 
-      CALL PSOIL			! Set up for the soil
+      CALL PSOIL                        ! Set up for the soil
 
     5 CONTINUE                          ! Loop back here every 180 seconds
 
@@ -49,12 +52,12 @@
       PTIME = REALTM / 3600.
       TMOD = AMOD (TIME,OUTTT)
                     
-*/		CALL SUROUTINES IN THE SOLUTION SEQUENCE.
+*/                CALL SUROUTINES IN THE SOLUTION SEQUENCE.
 
 */ Net Radiation
 
       CALL NETRAD (TIME,BareRadioTemp,VegnRadioTemp,
-     /	BareNetRadn,VegnNetRadn,MixedNetRadn,Init)
+     /        BareNetRadn,VegnNetRadn,MixedNetRadn,Init)
 
 */ Resistance values in the Transition and Surface Layers
 */ Entry to nighttime formulations (BRI & MOM) through this subroutine
@@ -65,7 +68,7 @@
 */ Mixed Layer
 
       IF (HEAT.GT.0.00001 .AND. SWAVE .GT. 0 .AND. RNET .GT. 0)
-     /	  CALL AIR (ZLS, YCOUNT)
+     /          CALL AIR (ZLS, YCOUNT)
 
 */ Eddy Diffusivities in the Mixed Layer
 

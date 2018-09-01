@@ -1,6 +1,6 @@
       SUBROUTINE  STOMC
 
-      INCLUDE:'modvars.h'
+      INCLUDE 'modvars.h'
 
 */  Calculates the critical stomatal resistance for the
 */  critical ground water potential

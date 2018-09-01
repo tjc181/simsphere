@@ -81,7 +81,7 @@ c	  Stop
 
       Subroutine  Lwdown
 
-$INCLUDE:'modvars.h'
+      INCLUDE 'modvars.h'
 
       Lwdn = aepsi*sigma*(T_fine(3) - Tdif_s - 1.5)**4
 

@@ -46,4 +46,3 @@ C **  Reduce the boundaries until the difference is .LT. .0001.
 
       RETURN
       END
-
