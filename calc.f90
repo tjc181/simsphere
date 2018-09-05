@@ -1,4 +1,4 @@
-use constants
+use simsphere_mod
 
       SUBROUTINE  CALC (OLDTMP, No_Rows)
 
@@ -7,7 +7,7 @@ use constants
 
 !      INCLUDE 'factors.h'
 !      INCLUDE 'constant.h'
-      INCLUDE 'modvars.h'
+!      INCLUDE 'modvars.h'
 
       K = XLAT
       XLAT= (XLAT-K) / 0.6 + K

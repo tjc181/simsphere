@@ -1,4 +1,4 @@
-use constants
+use simsphere_mod
 
       SUBROUTINE  SNDING (ZLS, Old_Ahum)
 
@@ -16,7 +16,7 @@ use constants
       
 !      INCLUDE 'constant.h'
 !      INCLUDE 'factors.h'
-      INCLUDE 'modvars.h'
+!      INCLUDE 'modvars.h'
 
       Data Vert_Spacing /250/ ! 250 metre intervals
         deltaz = vert_spacing
