@@ -1,10 +1,12 @@
+use constants
+
       SUBROUTINE  CALC (OLDTMP, No_Rows)
 
       integer No_Rows
       real Lat_in_radians
 
-      INCLUDE 'factors.h'
-      INCLUDE 'constant.h'
+!      INCLUDE 'factors.h'
+!      INCLUDE 'constant.h'
       INCLUDE 'modvars.h'
 
       K = XLAT
@@ -25,13 +27,12 @@
       out_time_intv = outtt / 60
       out_time_intv = dectim(out_time_intv)
       No_Rows = ((INT(Timend) - INT(strtim))
-     /		   / INT(out_time_intv)) + 1
+     /   / INT(out_time_intv)) + 1
 
 
       SATAM = DECTIM(CLKTAM)
       SATPM = DECTIM(CLKTPM)
 
-	
 
 
 

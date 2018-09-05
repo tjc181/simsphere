@@ -1,3 +1,5 @@
+use constants
+
       SUBROUTINE  SNDING (ZLS, Old_Ahum)
 
       real*4,allocatable :: derivs(:)
@@ -12,8 +14,8 @@
       real Old_Ahum
         Integer error
       
-      INCLUDE 'constant.h'
-      INCLUDE 'factors.h'
+!      INCLUDE 'constant.h'
+!      INCLUDE 'factors.h'
       INCLUDE 'modvars.h'
 
       Data Vert_Spacing /250/ ! 250 metre intervals
