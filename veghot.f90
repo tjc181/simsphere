@@ -1,21 +1,21 @@
-      SUBROUTINE  VEGHOT (B,Heatv)
+subroutine  VEGHOT (B,Heatv)
   use simsphere_mod
 
 !      INCLUDE 'modvars.h'
 
-      HFN = DENS * CP * CHF * (TF - TAF)
-      HF  = (HF + HFN) / 2
-      AVEG = ( LAMBDA * ( TAF - TT(2) ) ) / Z(2)
+  HFN = DENS * CP * CHF * (TF - TAF)
+  HF  = (HF + HFN) / 2
+  AVEG = ( LAMBDA * ( TAF - TT(2) ) ) / Z(2)
 
-c      VGDENS = PS1 * 100 / (R * TAF )
+!      VGDENS = PS1 * 100 / (R * TAF )
 
-      HG = ( RNETG - XLEG - AVEG ) / ( 1 + B / CHG )
+  HG = ( RNETG - XLEG - AVEG ) / ( 1 + B / CHG )
 
-      HEATV = HG + HF
+  HEATV = HG + HF
 
-      CALL CO2FLX
+  call CO2FLX
 
-	call ozone
+  call ozone
 
-      RETURN
-      END
+  return
+end
