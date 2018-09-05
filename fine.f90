@@ -1,6 +1,7 @@
       SUBROUTINE  FINE
+  use simsphere_mod
 
-      INCLUDE 'modvars.h'
+!      INCLUDE 'modvars.h'
 
           j = 1
           height = 50

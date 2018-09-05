@@ -1,8 +1,9 @@
       SUBROUTINE  PSGCAL
+  use simsphere_mod
 
 */	REAL RLOGPSIL
 
-      INCLUDE 'modvars.h'
+!      INCLUDE 'modvars.h'
 
 C **  Calculates the conductivity of the soil
 C **  Cosby curves and coefficients (1984)

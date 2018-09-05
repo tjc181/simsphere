@@ -1,4 +1,5 @@
       SUBROUTINE  DAYKM
+  use simsphere_mod
 
 C **  This routine computes eddy diffusivities as a function of height,
 C **  friction velocity and Monin Obukhov length for all the relevant
@@ -7,7 +8,7 @@ C **  the method of O'Brien.  Used in MOMDAY.
 
       REAL KTOP , KMA , KMAPRI , KMW(50)
 
-      INCLUDE 'modvars.h'
+!      INCLUDE 'modvars.h'
 
       COMMON /MXDLYR/ THICK
 

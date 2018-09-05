@@ -1,5 +1,6 @@
       SUBROUTINE VEL (MONCE,IONCE,StabCriteria,YCOUNT,Obst_Hgt,
      /               dual_regime,zo_patch)
+  use simsphere_mod
 
 */  Subroutine VEL computes the Monin Obukhov Length, the Friction
 */  Velocity and the Integral of Heat Diffusivity.
@@ -13,7 +14,7 @@
       integer*1 StabCriteria
       logical dual_regime
       
-      INCLUDE 'modvars.h'
+!      INCLUDE 'modvars.h'
 
 */  ZO Roughness height, ZA Top of surface layer (50m)
 

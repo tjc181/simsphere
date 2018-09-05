@@ -1,4 +1,5 @@
       SUBROUTINE  BELOW (TIME,BareRadioTemp,BareEvapFlux)
+  use simphere_mod
 
 
 C **  Below is called every time step (N+1) to update the sub-surface
@@ -10,7 +11,7 @@ C **  also calls WATER to update the sub-surface soil moisture status.
 
       REAL TE(9) , TTT(9) , DTDT(8)
 
-      INCLUDE 'modvars.h'
+!      INCLUDE 'modvars.h'
 
 C **  TT(2) is the temperature at the first level below the soil.
 

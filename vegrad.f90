@@ -1,6 +1,7 @@
       SUBROUTINE  VEGRAD (TIME,RNETV,SWAVEV,TZERO)
+  use simsphere_mod
 
-      INCLUDE 'modvars.h'
+!      INCLUDE 'modvars.h'
 
        If (time .eq. 0.0) then ! Initialize
 	TAF = otemp

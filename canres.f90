@@ -1,6 +1,7 @@
       SUBROUTINE  CANRES
+  use simsphere_mod
 
-      INCLUDE 'modvars.h'
+!      INCLUDE 'modvars.h'
 
       EMBAR =  9999
       RESIST = 9999

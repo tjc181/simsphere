@@ -1,4 +1,5 @@
       SUBROUTINE  PRFILE
+  use simsphere_mod
 
 */ This routine generates the daytime and night-time vertical wind
 */ profiles of the geostrophic wind components at intervals of 250m
@@ -6,7 +7,7 @@
 */ Calculated in 3 different ways; specified by user.
 
 
-      INCLUDE 'modvars.h'
+!      INCLUDE 'modvars.h'
 
 
           j = 1

@@ -1,4 +1,5 @@
       SUBROUTINE  WATER (TIME,BareEvapFlux)
+  use simsphere_mod
 
 C **  WATER is based on the technique of Deardroff (1978). It uses the
 C **  evaporative flux value obtained in FLUX and updates two internal
@@ -16,7 +17,7 @@ C **  evaporation.  Note that constant CONST2 changed from earlier version.
 C **  Note if you wish to supress variation in substrate water content
 C **  with time, let wmax equal to a very large value, e.g. 10.
 
-      INCLUDE 'modvars.h'
+!      INCLUDE 'modvars.h'
 
 C **  Constants for the water budget equation.
 

@@ -1,6 +1,7 @@
-	SUBROUTINE BALL (PES, RHA)
+SUBROUTINE BALL (PES, RHA)
+  use simsphere_mod
 
-        INCLUDE 'modvars.h'
+!        INCLUDE 'modvars.h'
 
 */ 24th March 1995 -- RST is always unscaled in this subroutine.
      

@@ -57,39 +57,40 @@ use simsphere_mod
 
 ! Net Radiation
 
-      CALL NETRAD (TIME,BareRadioTemp,VegnRadioTemp,
-     /        BareNetRadn,VegnNetRadn,MixedNetRadn,Init)
+      CALL NETRAD (TIME,BareRadioTemp,VegnRadioTemp,BareNetRadn,VegnNetRadn,MixedNetRadn,Init)
 
 ! Resistance values in the Transition and Surface Layers
 ! Entry to nighttime formulations (BRI & MOM) through this subroutine
 
-      CALL VEL (MONCE,IONCE,StabCriteria,YCOUNT,Obst_Hgt,
-     /               dual_regime,zo_patch)
+      CALL VEL (MONCE,IONCE,StabCriteria,YCOUNT,Obst_Hgt,dual_regime,zo_patch)
 
 ! Mixed Layer
 
-      IF (HEAT.GT.0.00001 .AND. SWAVE .GT. 0 .AND. RNET .GT. 0)
-     /          CALL AIR (ZLS, YCOUNT)
+  IF (HEAT.GT.0.00001 .AND. SWAVE .GT. 0 .AND. RNET .GT. 0) THEN
+    CALL AIR (ZLS, YCOUNT)
+  END IF
 
 ! Eddy Diffusivities in the Mixed Layer
 
-      IF (HEAT.GT.0.00001 .AND. SWAVE .GT. 0 .AND. RNET .GT. 0)
-     /   CALL DAYKM
+  IF (HEAT.GT.0.00001 .AND. SWAVE .GT. 0 .AND. RNET .GT. 0) THEN
+    CALL DAYKM
+  END IF
 
 ! Momentum Equations - Mixed Layer
 
-      IF (HEAT.GT.0.00001 .AND. SWAVE .GT. 0 .AND. RNET .GT. 0)
-     /    CALL MOMDAY
+  IF (HEAT.GT.0.00001 .AND. SWAVE .GT. 0 .AND. RNET .GT. 0) THEN
+    CALL MOMDAY
+  END IF
 
 ! Evaporative Flux, Surface Temperature solutions
 
-      CALL FLUX (BareRadioTemp,VegnRadioTemp,BareEvapFlux,
-     /           BareHeatFlux)
+  CALL FLUX (BareRadioTemp,VegnRadioTemp,BareEvapFlux,BareHeatFlux)
 
 ! Heat FLux - Penman Formulation
 
-      IF((HEAT.GE.0 .or. RNET .GT.0).AND.SWAVE .GT.0)
-     /   CALL HOT (B,BareNetRadn,BareEvapFlux,BareHeatFlux)
+  IF((HEAT.GE.0 .or. RNET .GT.0).AND.SWAVE .GT.0) THEN
+    CALL HOT (B,BareNetRadn,BareEvapFlux,BareHeatFlux)
+  END IF
   
 !
       if (rnet .gt. 0)then

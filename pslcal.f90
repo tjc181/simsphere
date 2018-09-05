@@ -1,9 +1,10 @@
       SUBROUTINE  PSLCAL (SGMA, PES)
+  use simsphere_mod
 
       REAL SGMA
       integer*1 init
 
-      INCLUDE 'modvars.h'
+!      INCLUDE 'modvars.h'
 
       data init  /1/
 

@@ -1,9 +1,10 @@
       SUBROUTINE  TRANSM (PATH,FTABS,FTSCAT,FBSCAT)
+  use simsphere_mod
 
 C     Subroutine TRANSM calculates solar transmission by using the
 C     three-way lookup table produced in GETTBL.
 
-      INCLUDE 'modvars.h'
+!      INCLUDE 'modvars.h'
 
 C **  If the path length is very large (sun almost on the horizon) use
 C **  longest path length possible, ie last number in the table. Otherwise

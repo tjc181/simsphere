@@ -1,6 +1,7 @@
       SUBROUTINE  STOMFS
+  use simsphere_mod
 
-      INCLUDE 'modvars.h'
+!      INCLUDE 'modvars.h'
 
 */ The exponential function for solar radiation -- Albert Olioso
 

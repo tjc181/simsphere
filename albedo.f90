@@ -1,9 +1,10 @@
       SUBROUTINE  ALBEDO (SOLSIN)
+  use simsphere_mod
 
       LOGICAL ALGFLG,ALFFLG
       INTEGER ALBFLG
 
-      INCLUDE 'modvars.h'
+!      INCLUDE 'modvars.h'
 
 C **  Modified 1/8/90 to allow user to specify Albedoes.
 

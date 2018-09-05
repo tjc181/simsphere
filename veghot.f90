@@ -1,6 +1,7 @@
       SUBROUTINE  VEGHOT (B,Heatv)
+  use simsphere_mod
 
-      INCLUDE 'modvars.h'
+!      INCLUDE 'modvars.h'
 
       HFN = DENS * CP * CHF * (TF - TAF)
       HF  = (HF + HFN) / 2

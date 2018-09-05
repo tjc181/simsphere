@@ -1,11 +1,13 @@
       SUBROUTINE  AIR (ZLS, YCOUNT)
+  use simsphere_mod
 
 C **  Subroutine air computes the daytime height of the mixing layer and
 C **  the potential temperature at height ZA.
 
       Real ZLS(50)
 
-      INCLUDE 'modvars.h'
+!      INCLUDE 'modvars.h'
+
 
       IFIRST = 1.0
 		

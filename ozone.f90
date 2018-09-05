@@ -1,6 +1,7 @@
        SUBROUTINE  OZONE
+  use simsphere_mod
 
-       INCLUDE 'modvars.h'
+!       INCLUDE 'modvars.h'
 
 cc      created 4/5/96; MODIFIED 
 

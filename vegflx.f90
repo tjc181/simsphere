@@ -1,6 +1,7 @@
       SUBROUTINE  VEGFLX (EVAPV)
+  use simsphere_mod
 
-      INCLUDE 'modvars.h'
+!      INCLUDE 'modvars.h'
 
       QSTG = 10**( 6.1989 - 2353 / TG)
       XLEG = F * CHG * DENS * LE * (QSTG - QAF)

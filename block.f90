@@ -1,6 +1,7 @@
-      BLOCK DATA
+BLOCK DATA
+  use simsphere_mod
 
-      INCLUDE 'modvars.h'
+!      INCLUDE 'modvars.h'
 
 */ Constants
 

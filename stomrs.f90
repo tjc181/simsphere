@@ -1,6 +1,7 @@
        SUBROUTINE  STOMRS
+  use simsphere_mod
 
-       INCLUDE 'modvars.h'
+!       INCLUDE 'modvars.h'
 
 */  This program calculates stomatal resistance coefficients are
 */  initialized in stmcof.for

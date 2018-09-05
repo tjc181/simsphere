@@ -1,4 +1,5 @@
         SUBROUTINE  START (Obst_Hgt,dual_regime,zo_patch)
+  use simsphere_mod
 
         Real*4 Obst_Hgt, zo_patch
         logical  zo_flag, ob_flag, dual_regime
@@ -8,7 +9,7 @@
         Character*30  planttype
         Integer*1 num_soils, num_of_veggies, index_soils, index_veggies
 
-        INCLUDE 'modvars.h'
+!        INCLUDE 'modvars.h'
 
         zo_flag = .false.
         ob_flag = .false.

@@ -1,4 +1,5 @@
       SUBROUTINE  OUTPUT(No_Rows)
+  use simsphere_mod
 
 */ Here we finally get around to printing out the variables.
 
@@ -6,7 +7,7 @@
       integer No_Rows
 
 
-      INCLUDE 'modvars.h'
+!      INCLUDE 'modvars.h'
 
 
 */ Write the Header Information

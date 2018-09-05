@@ -1,4 +1,5 @@
       SUBROUTINE  GETTBL
+  use simsphere_mod
 
 */ This subroutine takes the precipitable water content (OMEGA) and
 */ calc's the transmission coefficient for absorbtion using a lookup
@@ -12,7 +13,7 @@
 
       REAL A(46) , B(46) , C(46)
 
-      INCLUDE 'modvars.h'
+!      INCLUDE 'modvars.h'
 
       OPEN (UNIT = 14, FILE = 'LUT.DAT')
 

@@ -1,6 +1,7 @@
        SUBROUTINE  CO2FLX
+  use simsphere_mod
 
-       INCLUDE 'modvars.h'
+!       INCLUDE 'modvars.h'
 
 cc      created 11/2/90; MODIFIED 06/17/91
 

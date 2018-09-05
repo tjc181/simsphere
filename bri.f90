@@ -1,4 +1,5 @@
       SUBROUTINE  BRI (T1,MONCE,PSIHNEW,YCOUNT,ZTEN)
+  use simsphere_mod
 
 */  Subroutine BRI computes the M-O-L when BRI is (+) and less than
 */  .2 using the Blackadar model.
@@ -9,7 +10,7 @@
 
       REAL MOL1
 
-      INCLUDE 'modvars.h'
+!      INCLUDE 'modvars.h'
 
 */  The following are constants.  See manual for explanation.
 

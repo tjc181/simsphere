@@ -1,8 +1,9 @@
       subroutine  sslope(sinsolelslope,solelslope,effdec,slb,hrangl)
+  use simsphere_mod
 
       real sinsolelslope,solelslope,dipan,dipaz
 
-      INCLUDE 'modvars.h'
+!      INCLUDE 'modvars.h'
 
 */ subroutine calculates solar elevation angle and azimuth 
 */ for sloping terrain when slope is non-zero.

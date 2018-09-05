@@ -1,4 +1,5 @@
       SUBROUTINE  GTEMP
+  use simsphere_mod
 
 C **  GTEMP determines the surface temperature in the absence of
 C **  turbulence. It sets up an energy balance equation as a fourth-
@@ -8,7 +9,7 @@ C **  radiative balance.
 
       REAL A(5)
 
-      INCLUDE 'modvars.h'
+!      INCLUDE 'modvars.h'
 
       X = OTEMP
 

@@ -1,4 +1,5 @@
 	 subroutine dynprf (No_Rows)
+  use simsphere_mod
 
 	  real V_wind(52),T_profile(52),q_profile(52)
 	  real aa,bb,dd
@@ -7,7 +8,7 @@
 	  integer Wind_dir(52)
 	  integer*1 I_Header
           
-      INCLUDE 'modvars.h'
+!      INCLUDE 'modvars.h'
 
       data I_Header,No_Levels, Thick_Level, No_variables
      /		/1, 52, 50, 4/

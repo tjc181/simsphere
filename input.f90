@@ -1,4 +1,5 @@
       SUBROUTINE  INPUT
+  use simsphere_mod
 
 C ** Modified 8/14/90 >> Modified Hi (SKONST / S).
 
@@ -10,7 +11,7 @@ C **  day, season, atmospheric attenuation, and albedo.
       REAL SS(12)
       INTEGER MD(12)
 
-      INCLUDE 'modvars.h'
+!      INCLUDE 'modvars.h'
 
 C **  The definition of the variables in the following DATA statements
 C **  can be found in the manual.

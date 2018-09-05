@@ -1,4 +1,5 @@
       SUBROUTINE  MOM (Pot_S,DT,MONCE)
+  use simsphere_mod
 
 C **  Subroutine MOM calculates the momentum and thermodynamic eqs. in the
 C **  lowest 500m of the atmosphere and produces profiles of the U & V
@@ -9,7 +10,7 @@ C **  surface and mixing layers.
       REAL CR(46), OK(46), BX(46), WIND(46), WGEOS(46)
       REAL B(46), DUW(46), KRAD, DVW(46), DTW(46), RI(46)
 
-      INCLUDE 'modvars.h'
+!      INCLUDE 'modvars.h'
 
       DATA KRAD /  0.75 /
 

@@ -1,6 +1,7 @@
       SUBROUTINE  STOMC
+  use simsphere_mod
 
-      INCLUDE 'modvars.h'
+!      INCLUDE 'modvars.h'
 
 */  Calculates the critical stomatal resistance for the
 */  critical ground water potential

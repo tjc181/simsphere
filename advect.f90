@@ -1,10 +1,11 @@
       SUBROUTINE  ADVECT
+use simsphere_mod
 
 C **  This subroutine calculates the geostrophic temperature
 C **  advection based on the thermal wind equation and the
 C **  vertical distribution of geostrophic wind.
 
-      INCLUDE 'modvars.h'
+!     INCLUDE 'modvars.h'
 
 C **  The depth of the layer over which we compute geostrophic
 C **  temperature advection is 1000 metres, Z(5)-Z(1)

@@ -1,4 +1,5 @@
       SUBROUTINE  MOMDAY
+  use simsphere_mod
 
 C **  This daytime routine updates the daytime winds UD, VD and specific
 C **  humidity QD using the eddy diff's obtained in DAYKM, assuming
@@ -10,7 +11,7 @@ C **  stability during periods when KM values are large.
 */	MAG(50), DIRCT(50)
 */	CHARACTER *12 MENUCH
 
-      INCLUDE 'modvars.h'
+!      INCLUDE 'modvars.h'
 
       COMMON /MXDLYR/ THICK
 

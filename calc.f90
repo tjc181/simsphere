@@ -1,13 +1,9 @@
-use simsphere_mod
 
-      SUBROUTINE  CALC (OLDTMP, No_Rows)
+SUBROUTINE  CALC (OLDTMP, No_Rows)
+  use simsphere_mod
 
       integer No_Rows
       real Lat_in_radians
-
-!      INCLUDE 'factors.h'
-!      INCLUDE 'constant.h'
-!      INCLUDE 'modvars.h'
 
       K = XLAT
       XLAT= (XLAT-K) / 0.6 + K

@@ -1,5 +1,6 @@
       SUBROUTINE FLUX (BareRadioTemp,VegnRadioTemp,BareEvapFlux,
      /                 BareHeatFlux)
+  use simsphere_mod
 
 */  During the day FLUX calc's surface temp and surface specific humidity
 */  from temp and humidity at ZA and the sensible & latent heat fluxes.
@@ -12,7 +13,7 @@
       Real BareHeatFlux
       Real Evap_Smooth
 
-      INCLUDE 'modvars.h'
+!      INCLUDE 'modvars.h'
 
 */  We calculate OTEMP from GTEMP routine once we have reached
 */  radiative balance at night.
