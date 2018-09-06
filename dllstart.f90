@@ -9,7 +9,8 @@ subroutine PSUBAMS
 ! visibility rules in Fortran; Even if they do work, they're global which is 
 ! ridiculous.
 
-  character(len=5) :: FRACTN
+! ** Compiler identifies FRACTN as unused
+!  character(len=5) :: FRACTN
 
   integer(kind=1) :: STABCRITERIA, INIT
   real(kind=4) :: OBST_HGT, ZO_PATCH, OLD_AHUM

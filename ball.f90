@@ -40,7 +40,7 @@ subroutine BALL (PES, RHA)
 !       CARBON FLUX AND RESISTANCES SHOULD BE PER UNIT LEAF AREA 
 !       TO GET PSHYSIOLOGICAL CII
 !
-  character :: LIMIT
+  character(len=7) :: LIMIT
 
   RST = RST * XLAI / PES
   RAF = RAF * XLAI / PES  ! Unscaled

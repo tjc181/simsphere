@@ -72,7 +72,8 @@ subroutine  PSOIL
 ! Correction of LAMBDA to account for reduction in temp wave in 1st
 ! soil layer. Consult manual for explanation.
 
-7678 CONTINUE
+! Label identified as unused by compiler
+!** 7678 CONTINUE
 
   CORR = 2 / ( 1 + EXP( -Z(2) * SQRT( OMA / ( 2 * KAPPA ) ) ) )
   LAMBDA = CORR * LAMBDA

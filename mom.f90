@@ -9,10 +9,12 @@ subroutine  MOM (Pot_S,DT,MONCE)
 
   real :: CR(46), OK(46), BX(46), WIND(46), WGEOS(46)
   real :: B(46), DUW(46), KRAD, DVW(46), DTW(46), RI(46)
+  real :: DZ, SB
+  integer :: IMAX, IMAX1
 
 !      INCLUDE 'modvars.h'
 
-  DATA KRAD /  0.75 /
+  KRAD = 0.75
 
 
   OKMAX = 1
@@ -25,7 +27,9 @@ subroutine  MOM (Pot_S,DT,MONCE)
 ! **  centred when the night SFL depth is below 50 m (ZA).
 ! **  This is not necessary at present as ZA = 50 m.
 
-    DATA  DZ , SB , IMAX / 50 , 784 , 46 /
+    DZ = 50.0 
+    SB = 784.0
+    IMAX = 50
 
     UIF = ( 2 * DZ / ZA ) - 1
     UIF2 = DZ / ( 2 * DZ - ZA )

@@ -11,6 +11,7 @@ subroutine INPUT
 ! **  double precision :: RADIAN , SDEC
   double precision :: SDEC
 
+  real(kind=8) :: EFFDEC, SOLSIN
   real :: SS(12)
   integer :: MD(12)
 

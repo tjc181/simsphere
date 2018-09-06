@@ -1,13 +1,14 @@
 program simsphere
-!      IMPLICIT none
   use simsphere_mod
+!  implicit none
 
 ! Main program lists and defines model symbols, coordinates model
 ! subroutines, and establishes iteration sequence.
 
 ! Type declaration of variables.
 
-  CHARACTER(len=5) FRACTN
+!** Compiler identifies FRACTN as unused
+!**   character(len=5) FRACTN
   integer(kind=1) StabCriteria        ! Neutral (0), Unstable (1), Stable (2)
   real(kind=4) :: Obst_Hgt, zo_patch
   real(kind=4) Old_Ahum

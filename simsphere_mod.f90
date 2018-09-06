@@ -135,10 +135,10 @@ module simsphere_mod
   real :: HEAT = 0.0
   real :: HGT = 50.0
   real, parameter :: ZA = 50.0
-  integer :: DELT = 1
-  integer :: CTHETA = 1
-  integer :: DHET = 0
-  integer :: EVAP = 0
+  real :: DELT = 1.0
+  real :: CTHETA = 1.0
+  real :: DHET = 0.0
+  real :: EVAP = 0.0
 !  DATA CHGT,USTAR,TSTAR,HEAT /4*0.0/,                                   &
 !       HGT,ZA,DELT,CTHETA,DHET,EVAP/2*50.,2*1,2*0/
 
@@ -154,7 +154,7 @@ module simsphere_mod
 !       /5.6521E-8,2.5E6,0.4,9.78,287.5,1.6E-5,1004.832/,                &
 !       DELTA/90/
 
-  integer :: MOL = 0
+  real :: MOL = 0.0
   integer :: BULK = 0
   integer :: IFIRST = 0
   integer :: NLVLS = 5

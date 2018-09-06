@@ -3,6 +3,8 @@ subroutine Capac (Unscaled_RAF,H,B1_P,B2_P,vfl2)
 
 !       INCLUDE 'modvars.h'
 
+  real :: IXCAP
+
   ZADD = ZG + ZP * FRZP
   FPM = 1 - FRHGT
   ZUH = ZP * (1-FRZP)
