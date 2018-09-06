@@ -6,7 +6,10 @@ subroutine INPUT
 ! **  Subroutine INPUT computes solar radiation as a function of the
 ! **  day, season, atmospheric attenuation, and albedo.
 
-  double precision :: RADIAN , SDEC
+! RADIAN is defined in simsphere_mod with value 57.29578, originally from constants.h
+! which was not included in this file.  Removing definition from this file.
+! **  double precision :: RADIAN , SDEC
+  double precision :: SDEC
 
   real :: SS(12)
   integer :: MD(12)
@@ -19,8 +22,10 @@ subroutine INPUT
   DATA MD / 31 , 29 , 31 , 30 , 31 , 30 , 31 , 31 , 30 , 31 , 30, 31/
   DATA SS / 0.967 , 0.971 , 0.982 , 0.999 , 1.016 , 1.029 , 1.034,      &
           1.030 , 1.018 , 1.002 , 0.985 , 0.973 /
-  DATA RADIAN,SDEC,SIGA / 572957.75913D-4 , 39784.988432D-5, 279.9348 /
-
+! RADIAN is defined in simsphere_mod with value 57.29578, originally from constants.h
+! which was not included in this file.  Removing definition from this file.
+!**  DATA RADIAN,SDEC,SIGA / 572957.75913D-4 , 39784.988432D-5, 279.9348 /
+  DATA SDEC,SIGA / 39784.988432D-5, 279.9348 /
   skonst = 1.94*4.1868e4/60
 
 ! **  Y ...Counter for determining celestial mechanics for long, lat and
