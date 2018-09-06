@@ -27,7 +27,7 @@ module simsphere_mod
 ! ** Removed LE, KARMAN, MOL from following declaration 
 ! ** (declared below in previous DATA blocks)
   real :: KM(50), LAMBDA, KAPPA, LWDN
-  real :: u_fine,v_fine,t_fine,q_fine
+  real :: u_fine(51),v_fine(51),t_fine(51),q_fine(51)
   integer(kind=1) :: cld_fract
   logical :: cloud_flag
 
@@ -35,56 +35,80 @@ module simsphere_mod
   real, parameter :: ft = 1.0
   integer, parameter :: rhow=1000 ! Density of Water
 
-      COMMON /TRANS/ ABSTBL(50),BSCTBL(50),SCATBL(50)
-      COMMON /PRFCOM/ UGS,VGS,ANGL,DTX,DTY,CF
-      COMMON /INITZ/ NTRP,DELTAZ
-      COMMON /OBRIAN/ ZI(50),ZK(50),KM
-      COMMON /WINDY/ UD(50),VD(50),UGD(50),VGD(50)
-      COMMON /STRCOM/ CLKTAM,CLKTPM,XTDIF,YTDIF,XPDIF,YPDIF
-      COMMON /SND/ GM(50),TS(50),TD(50),Tdif_50,Tdif_s,O_Pot_Tmp
+  real :: ABSTBL(50),BSCTBL(50),SCATBL(50)
+  real :: UGS,VGS,ANGL,DTX,DTY,CF
+! ** NTRP is used as a step in a do loop and array index, must be an integer
+  integer :: NTRP
+  real :: DELTAZ
+  real :: ZI(50),ZK(50)
+  real :: UD(50),VD(50),UGD(50),VGD(50)
+  real :: CLKTAM,CLKTPM,XTDIF,YTDIF,XPDIF,YPDIF
+  real :: GM(50),TS(50),TD(50),Tdif_50,Tdif_s,O_Pot_Tmp
 
-      COMMON /VEG1/ TA,TAF,TG,QAF,QSTF,QSTG
-      COMMON /VEG2/ HF,HG,XLEF,XLEG,TF,QA,WIDTH
-      COMMON /VEG3/ RST,UAF,RSF,RSG,RLF,RLG,UTEN
-      COMMON /VEG_COND/ CHA, CHG, CHF, RTRANW
-      COMMON /QDAT/ KQFLAG,QD(50),DQDT2(50),QQ(50),QN(51)
-      COMMON /METEO/ ATEMP,AHUM,AWIND,OMEGA,OTEMP,BTEMP,APTEMP
-      COMMON /KONST/ CP,LE,SIGMA,KARMAN,GRAV,R
-      COMMON /EXTRA/ HEAT,RNET,SUM,OSHUM,EVAP,XMAX,DQDT,SUMW
-      COMMON /SHGT/ FSUB,F,KAPPA,LAMBDA,ZA,ZO,TP,TI_A,TI_B,DELZ(8),CG
-      COMMON /BOUND/ GAM,DELTA,RAD,DHET,HET,DELT,HGT,CHGT,CTHETA
-      COMMON /PARM/ U(50),V(50),UG(50),VG(50),T(50),ZCOUNT
-      COMMON /PRNTIM/ OUTTT,SATAM,SATPM,TIMEND,STRTIM,REALTM,PTIME
-      COMMON /BELCOM/ DEL,DZETA,NLVLS,Z(9),TT(9),XFUN(9)
-      COMMON /INPCOM/ XLAT,XLONG,IMO,IDAY,TZ,ALBG,IYR,ALBDOE
-      COMMON /WAT/ WMAX,W2G,WGG,WILT
-      COMMON /NETCOM/ EPSI,EPSF,ALBF,XLAI,SOL,RNETG,RNETF,AEPSI
-      COMMON /REQD/ Y,USTAR,SWAVE,SIGF,LWDN,TSTAR,XMOD
+  real :: TA,TAF,TG,QAF,QSTF,QSTG
+! ** Removed HG, parameter declared elsewhere
+  real :: HF,XLEF,XLEG,TF,QA,WIDTH
+  real :: RST,UAF,RSF,RSG,RLF,RLG,UTEN
+  real :: CHA, CHG, CHF, RTRANW
+  real :: KQFLAG,QD(50)=0.0,DQDT2(50),QQ(50),QN(51)
+! ** Removed AHUM, parameter declared elsewhere
+  real :: ATEMP,AWIND,OMEGA,OTEMP,BTEMP,APTEMP
+! ** Removed SIGMA, LE, KARMAN, GRAV, R, CP parameter declared elsewhere
+! **   real :: 
+! ** Removed RNET, HEAT, EVAP parameter declared elsewhere
+  real :: SUM,OSHUM,XMAX,DQDT,SUMW
+! ** Removed KAPPA, LAMBDA, ZA declared previously
+  real :: FSUB,F,ZO,TP,TI_A,TI_B,DELZ(8),CG
+! ** Removed CHGT, HGT, DELT, CTHETA, DHET, RAD, DELTA parameter declared elsewhere
+  real :: GAM,HET
+  real :: U(50),V(50),UG(50),VG(50),T(50),ZCOUNT
+  real :: OUTTT,SATAM,SATPM,TIMEND,STRTIM,REALTM,PTIME
+! ** Remove NLVLS declared elsewhere
+  real :: DEL,DZETA,Z(9),TT(9),XFUN(9)
+! ** IMO is used as an array index, must be integer
+  integer :: IMO
+! ** IDAY is argument to float() which requires integer
+  integer :: IDAY
+! ** Removed ALBG parameter declared elsewhere
+  real :: XLAT,XLONG,TZ,IYR,ALBDOE
+  real :: WMAX,W2G,WGG,WILT
+! ** Removed ALBF parameter declared elsewhere
+  real :: EPSI,EPSF,XLAI,SOL,RNETG,RNETF,AEPSI
+! ** Removed LWDN declared previously
+! ** Removed Y, XMOD, SIGF, USTAR, TSTAR parameter declared elsewhere
+  real :: SWAVE
 
-      COMMON /AYRE/ IFIRST
+! ** Declared and initialized elsewhere
+! **   integer :: IFIRST
 
-      COMMON /TADV/ ADVGT
-      COMMON /PART/ FRVEG
-      COMMON /TZB/ TSCREN,PS1,PTM100
+  real :: ADVGT
+  real :: FRVEG
+  real :: TSCREN,PS1,PTM100
 
-      COMMON /CANRC/ RESIST,EMBAR,RZASCR
-      COMMON /MOLDAY/ MOL,BULK
+  real :: RESIST,EMBAR,RZASCR
+! ** Removed MOL, BULK parameter declared elsewhere
+! **   real :: 
 
-      COMMON/SWITCH/STMTYPE,STEADY,DUAL_TI
+! ** Declared previously as character
+! **   real :: STMTYPE,STEADY,DUAL_TI
 
-      COMMON/STOMINIT/THV,THMAX,PSIG,RKW,VFL,BETA,B1,B2,PSICM,PSICE,SC,ZP,MINTEMP,MAXTEMP,RCUT,RAF,RMIN,VEGHEIGHT
+  real :: THV,THMAX,PSIG,RKW,VFL,BETA,B1,B2,PSICM,PSICE,SC,ZP,MINTEMP,MAXTEMP,RCUT,RAF,RMIN,VEGHEIGHT
 
-      COMMON/STOMCALC/FS,RSCRIT,PSIWC,PSIM,PSIE,RS,WPSI,RLPSI,FC,FPSIE,RL,ZG,RLELF
-      COMMON/CAPACINIT/VOLINI,JCAP,RKOCAP,ZSTINI,FRHGT,FRZP,RCCAP,RZCAP,VOLREL
-      COMMON/CAPACCALC/PSIST,PSIX,FST,DELTVST,VOLRMV,ZST,CAPACI,FLUXGD,VOLIST,PSISUP
-      Common / soils / rks, cosbyb, psis
-      Common /FineMesh/ u_fine(51),v_fine(51),t_fine(51),q_fine(51) 
+  real :: FS,RSCRIT,PSIWC,PSIM,PSIE,RS,WPSI,RLPSI,FC,FPSIE,RL,ZG,RLELF
+! ** Removed JCAP declared elsewhere
+  real :: VOLINI,RKOCAP,ZSTINI,FRHGT,FRZP,RCCAP,RZCAP,VOLREL
+  real :: PSIST,PSIX,FST,DELTVST,VOLRMV,ZST,CAPACI,FLUXGD,VOLIST,PSISUP
+  real :: rks, cosbyb, psis
+! ** Declared previously
+! **   real :: u_fine(51),v_fine(51),t_fine(51),q_fine(51) 
 
-      COMMON/CO2/FCO2,CCAN,CI,CO,FRCO2
-    common/oz/ coz_sfc, coz_air, caf, fglobal, flux_plant, sumo3
-    common/cloud/ cld_fract, cloud_flag
+  real :: FCO2,CCAN,CI,CO,FRCO2
+  real :: coz_sfc, coz_air, caf, fglobal, flux_plant, sumo3
+! ** cld_fract declared previously as integer(kind=1)
+! ** cloud_flag declared previously as logical
+! ** real :: cld_fract, cloud_flag
 
-      COMMON/SLOPE/ SLOPE, ASPECT
+  real :: SLOPE, ASPECT
 
 ! Included from block.f90
 ! Reworked to not use DATA statements
@@ -100,17 +124,17 @@ module simsphere_mod
   real :: HG = 0.0
   real :: AHUM = 0.0
   real :: RNET = 0.0
-  real :: QD = 0.0
 !  DATA Y,ALBG,ALBF,XMOD,SIGF /1.0,4*0.0/,                               & 
 !       HG,AHUM,RNET/3*0.0/,                                             &
 !       (QD(I),I=1,21)/21*0.0/
+! QD declared previously...moved initialization to declaration
 
   real :: CHGT = 0.0
   real :: USTAR = 0.0
   real :: TSTAR = 0.0
   real :: HEAT = 0.0
   real :: HGT = 50.0
-  real :: ZA = 50.0
+  real, parameter :: ZA = 50.0
   integer :: DELT = 1
   integer :: CTHETA = 1
   integer :: DHET = 0
@@ -118,14 +142,14 @@ module simsphere_mod
 !  DATA CHGT,USTAR,TSTAR,HEAT /4*0.0/,                                   &
 !       HGT,ZA,DELT,CTHETA,DHET,EVAP/2*50.,2*1,2*0/
 
-  real :: SIGMA = 5.6521E-8
-  real :: LE = 2.5E6
-  real :: KARMAN = 0.4
-  real :: GRAV = 9.78
-  real :: R = 287.5
-  real :: RAD = 1.6E-5
-  real :: CP = 1004.832
-  integer ::  DELTA = 90
+  real, parameter :: SIGMA = 5.6521E-8
+  real, parameter :: LE = 2.5E6
+  real, parameter :: KARMAN = 0.4
+  real, parameter :: GRAV = 9.78
+  real, parameter :: R = 287.5
+  real, parameter :: RAD = 1.6E-5
+  real, parameter :: CP = 1004.832
+  integer, parameter ::  DELTA = 90
 !  DATA SIGMA,LE,KARMAN,GRAV,R,RAD,CP                                    &
 !       /5.6521E-8,2.5E6,0.4,9.78,287.5,1.6E-5,1004.832/,                &
 !       DELTA/90/
