@@ -1,46 +1,39 @@
-      SUBROUTINE  HOT (B,BareNetRadn,BareEvapFlux,BareHeatFlux)
+subroutine  HOT (B,BareNetRadn,BareEvapFlux,BareHeatFlux)
   use simsphere_mod
 
 
-*/  HOT is called during the day to compute the sensible heat flux HEAT
-*/  from net all wave radiation and the evaporation.
+!  HOT is called during the day to compute the sensible heat flux HEAT
+!  from net all wave radiation and the evaporation.
 
-      Real BareNetRadn,BareEvapFlux
-      Real BareHeatFlux,VegnHeatFlux,MixedHeatFlux
+  real :: BareNetRadn,BareEvapFlux
+  real :: BareHeatFlux,VegnHeatFlux,MixedHeatFlux
 
 !      INCLUDE 'modvars.h'
 
-      A = ( Lambda * ( Atemp - TT(2) ) ) / Z(2)
-      B = Lambda / ( Z(2) * Dens * Cp )
+  A = ( Lambda * ( Atemp - TT(2) ) ) / Z(2)
+  B = Lambda / ( Z(2) * Dens * Cp )
 
-      If (Frveg .eq. 1 .and. Rnet .gt. 0) Then
+  if (Frveg .eq. 1 .and. Rnet .gt. 0) then
 
-*/ Vegetation
+! Vegetation
 
-            Call Veghot(B,VegnHeatFlux)
-            Heat = VegnHeatFlux
+    call Veghot(B,VegnHeatFlux)
+    Heat = VegnHeatFlux
 
-      Else If (Frveg .gt. 0 .and. Frveg .lt. 1 .and. Rnet .gt. 0) Then
+  else if (Frveg .gt. 0 .and. Frveg .lt. 1 .and. Rnet .gt. 0) then
 
-*/ Mixed
+! Mixed
+    BareHeatFlux = (BareNetRadn - BareEvapFlux - A) / (1+B*SUM)
+    call Veghot (B,VegnHeatFlux)
+    MixedHeatFlux = (1-Frveg) * BareHeatFlux + Frveg * VegnHeatFlux
+    Heat = MixedHeatFlux
+  else
 
-	    BareHeatFlux = (BareNetRadn - BareEvapFlux - A) / (1+B*SUM)
+! Bare Soil
 
-	    Call Veghot (B,VegnHeatFlux)
+    BareHeatFlux = (BareNetRadn - BareEvapFlux - A) / (1 + B * SUM)
+    Heat = BareHeatFlux
 
-	    MixedHeatFlux = (1-Frveg) * BareHeatFlux + Frveg *
-     /                       VegnHeatFlux
-
-            Heat = MixedHeatFlux
-
-        Else
-
-*/ Bare Soil
-
-		BareHeatFlux = (BareNetRadn - BareEvapFlux - A) / (1 + B * SUM)
-		Heat = BareHeatFlux
-
-	End If
-
-      Return
-      End
+  end if
+  return
+end

@@ -1,90 +1,81 @@
-      SUBROUTINE FLUX (BareRadioTemp,VegnRadioTemp,BareEvapFlux,
-     /                 BareHeatFlux)
+subroutine FLUX (BareRadioTemp,VegnRadioTemp,BareEvapFlux,BareHeatFlux)
   use simsphere_mod
 
-*/  During the day FLUX calc's surface temp and surface specific humidity
-*/  from temp and humidity at ZA and the sensible & latent heat fluxes.
-*/  It also computes the updated value of the evaporative flux.
-*/  During the night it calls GTEMP to calc the temp in the absence of
-*/  turbulence.
+!  During the day FLUX calc's surface temp and surface specific humidity
+!  from temp and humidity at ZA and the sensible & latent heat fluxes.
+!  It also computes the updated value of the evaporative flux.
+!  During the night it calls GTEMP to calc the temp in the absence of
+!  turbulence.
 
-      Real BareRadioTemp,VegnRadioTemp,MixedRadioTemp
-      Real BareEvapFlux,VegnEvapFlux,MixedEvapFlux
-      Real BareHeatFlux
-      Real Evap_Smooth
+  real :: BareRadioTemp,VegnRadioTemp,MixedRadioTemp
+  real :: BareEvapFlux,VegnEvapFlux,MixedEvapFlux
+  real :: BareHeatFlux
+  real :: Evap_Smooth
 
 !      INCLUDE 'modvars.h'
 
-*/  We calculate OTEMP from GTEMP routine once we have reached
-*/  radiative balance at night.
+!  We calculate OTEMP from GTEMP routine once we have reached
+!  radiative balance at night.
 
-*/  Put in a time restraint so you do not call GTEMP in the am.
+!  Put in a time restraint so you do not call GTEMP in the am.
 
 
-      Oshum = 10**( 6.1989 - (2353 / BareRadioTemp) )
-      BareEvapFlux = Le * Dens * ( Oshum - Qd(1) ) / Sumw * F
-      If ( qd(1) .ge. oshum ) BareEvapFlux = 0.001
+  Oshum = 10**( 6.1989 - (2353 / BareRadioTemp) )
+  BareEvapFlux = Le * Dens * ( Oshum - Qd(1) ) / Sumw * F
+  if ( qd(1) .ge. oshum ) BareEvapFlux = 0.001
 
-      call average (BareEvapFlux, Evap_Smooth)
-      BareEvapFlux = Evap_Smooth
-      Evap = BareEvapFlux
+  call average (BareEvapFlux, Evap_Smooth)
+  BareEvapFlux = Evap_Smooth
+  Evap = BareEvapFlux
 
-*/ Nighttime
+! Nighttime
 
-      If ( rnet .lt. 0 ) Then
+  if ( rnet .lt. 0 ) then
+    Call Gtemp
+    BareHeatFlux = Heat
+    VegnRadioTemp = Otemp
+    BareRadioTemp = Otemp
+    MixedRadioTemp = Otemp
+    Evap = BareEvapFlux
 
-       Call Gtemp
+! Daytime
+!
+! Bare soil
 
-	 BareHeatFlux = Heat
-         VegnRadioTemp = Otemp
-         BareRadioTemp = Otemp
-         MixedRadioTemp = Otemp
-	 Evap = BareEvapFlux
+  else
+    BareRadioTemp = Aptemp + ( BareHeatFlux * Sum / ( Dens * Cp ) )     &
+                    - Tdif_s
 
-*/ Daytime
-*/
-*/ Bare soil
+    Otemp=BareRadioTemp
 
-      Else
+! Daytime Restraint
 
-       BareRadioTemp = Aptemp + ( BareHeatFlux * Sum / ( Dens * Cp ) )
-     /		       - Tdif_s
+    if (Rnet .gt. 0) then
 
-	Otemp=BareRadioTemp
+! Vegetation
 
-*/ Daytime Restraint
+      if (Frveg .eq. 1 ) then
+        call Vegflx (VegnEvapFlux)
+        Evap = VegnEvapFlux
+        Otemp = VegnRadioTemp
 
-        If (Rnet .gt. 0) Then
+! Mixed
+      else if (Frveg.gt. 0 .and. Frveg .lt. 1) then
+        call Vegflx (VegnEvapFlux)
+        MixedEvapFlux = (1-Frveg) * BareEvapFlux + Frveg * VegnEvapFlux
+        MixedRadioTemp = (BareRadioTemp**4 * (1-Frveg) + Frveg *        &
+                         VegnRadioTemp**4)**0.25
 
-*/ Vegetation
+        Evap = MixedEvapFLux
+        Otemp = MixedRadioTemp
 
-          If (Frveg .eq. 1 ) Then
+      end if
 
-             Call Vegflx (VegnEvapFlux)
+    end if
 
-             Evap = VegnEvapFlux
-             Otemp = VegnRadioTemp
+  end if
 
-*/ Mixed
+  Ahum = Qd(1)
 
-          Else if (Frveg.gt. 0 .and. Frveg .lt. 1) Then
-
-             Call Vegflx (VegnEvapFlux)
-             MixedEvapFlux = (1-Frveg) * BareEvapFlux + Frveg *
-     /			     VegnEvapFlux
-             MixedRadioTemp = (BareRadioTemp**4 * (1-Frveg) + Frveg *
-     /			      VegnRadioTemp**4)**0.25
-
-             Evap = MixedEvapFLux
-             Otemp = MixedRadioTemp
-
-          End If
-
-        End If
-
-      End If
-
-      Ahum = Qd(1)
-
-      RETURN
-      END
+  return
+end

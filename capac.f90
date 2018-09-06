@@ -1,260 +1,230 @@
-       Subroutine Capac (Unscaled_RAF,H,B1_P,B2_P,vfl2)
+subroutine Capac (Unscaled_RAF,H,B1_P,B2_P,vfl2)
   use simsphere_mod
 
 !       INCLUDE 'modvars.h'
 
-       ZADD = ZG + ZP * FRZP
-       FPM = 1 - FRHGT
-       ZUH = ZP * (1-FRZP)
+  ZADD = ZG + ZP * FRZP
+  FPM = 1 - FRHGT
+  ZUH = ZP * (1-FRZP)
 
-c **  below there are two solutions for psist. The first is the
-c **  log, while the second is a regular integral based on volume
-c **  to a power.  There are also two similar solutions for zst
-c **  and capacitance.
-C **  Note also that psist, psist and psix are a time step behind because
-c **  psist is not allowed to exceed psix of the previous time
-c **  step (psix is a function of psis).
-c **  There are also to ways to set the volume of water in
-c **  storage. If xcap is set equal to zero, then volist storage is a
-c **  function of psig. If not, it is a function of xcap or
-c **  relative water content
+! **  below there are two solutions for psist. The first is the
+! **  log, while the second is a regular integral based on volume
+! **  to a power.  There are also two similar solutions for zst
+! **  and capacitance.
+! **  Note also that psist, psist and psix are a time step behind because
+! **  psist is not allowed to exceed psix of the previous time
+! **  step (psix is a function of psis).
+! **  There are also to ways to set the volume of water in
+! **  storage. If xcap is set equal to zero, then volist storage is a
+! **  function of psig. If not, it is a function of xcap or
+! **  relative water content
 
-      IF ( JCAP .EQ. 1 ) THEN
+  IF ( JCAP .EQ. 1 ) THEN
 
-	NCAP = RCCAP
-	IDEL = 0
-	JDEL = 0
-	PSIX = PSIG - FRHGT * H
-	IXCAP = VOLREL
-	VOLREL = .01 * VOLREL
-	CAPINI = VOLINI / RKOCAP
-	JCAP = 2
+    NCAP = RCCAP
+    IDEL = 0
+    JDEL = 0
+    PSIX = PSIG - FRHGT * H
+    IXCAP = VOLREL
+    VOLREL = .01 * VOLREL
+    CAPINI = VOLINI / RKOCAP
+    JCAP = 2
 
-       IF ( IXCAP .EQ. 0 ) THEN
+    IF ( IXCAP .EQ. 0 ) THEN
 
-	IF ( NCAP .EQ. 1 ) THEN
+       IF ( NCAP .EQ. 1 ) THEN
+         VOLIST = VOLINI * EXP ( CAPINI * (PSIG - FRHGT * H)            &
+                  / VOLINI )
 
-	     VOLIST = VOLINI * EXP ( CAPINI * (PSIG - FRHGT * H)
-     #		     / VOLINI )
+         CAPACI = CAPINI * ( VOLIST ) / VOLINI
 
-	     CAPACI = CAPINI * ( VOLIST ) / VOLINI
+       ELSE IF ( NCAP .NE. 1 ) THEN
 
-	ELSE IF ( NCAP .NE. 1 ) THEN
+         CAPRAT =  (RCCAP - 1)/ RCCAP
+         VOLIST = VOLINI * ( 1 + CAPINI * (PSIG - FRHGT * H)            &
+                  * CAPRAT / VOLINI ) ** ( 1 / CAPRAT )
 
-	     CAPRAT =  (RCCAP - 1)/ RCCAP
-	     VOLIST = VOLINI * ( 1 + CAPINI * (PSIG - FRHGT * H)
-     #		      * CAPRAT / VOLINI ) ** ( 1 / CAPRAT )
-
-	     CAPACI = CAPINI * ( ( VOLIST ) / VOLINI ) **
-     #		      ( 1 / RCCAP )
-
-	END IF
-
-C ** It is possible that the volist will be calculated as being
-C ** less than zero.  This is impossible.  Therefore, we set:
-
-	IF ( VOLIST .LT. 0 ) THEN
-
-	   VOLIST = .00001*VOLINI
-	   VOLRMV = .99999*VOLINI
-
-	END IF
-
-       ELSE
-
-	VOLIST = VOLREL * VOLINI
-	VOLISO = VOLIST
-
-	IF ( NCAP .EQ. 1 ) THEN
-
-	     CAPACI = CAPINI *	VOLREL
-
-	ELSE IF ( NCAP .NE. 1 ) THEN
-
-	     CAPRAT =  (RCCAP - 1)/ RCCAP
-	     CAPACI = CAPINI * ( VOLREL ) ** ( 1 / RCCAP )
-
-	END IF
+         CAPACI = CAPINI * ( ( VOLIST ) / VOLINI ) **                   &
+                  ( 1 / RCCAP )
 
        END IF
 
-      END IF
+! ** It is possible that the volist will be calculated as being
+! ** less than zero.  This is impossible.  Therefore, we set:
 
-      VOLREL = VOLIST / VOLINI
+     IF ( VOLIST .LT. 0 ) THEN
 
-      IF ( NCAP .EQ. 1 ) THEN
+       VOLIST = .00001*VOLINI
+       VOLRMV = .99999*VOLINI
 
-	  PSIST = ( VOLINI / CAPINI ) * LOG ( VOLREL )
-	  CAPACI = CAPINI * ( VOLIST ) / VOLINI
+     END IF
 
-      ELSE
+   ELSE
 
-	  PSIST = (VOLINI/CAPINI) * ( VOLREL ** CAPRAT	- 1 )
-     #		   * (RCCAP /( RCCAP - 1 ) )
+     VOLIST = VOLREL * VOLINI
+     VOLISO = VOLIST
 
-C **  THIS IF STATEMENT IS IN PLACE OF VOLUME CONSTRAINTS
+     IF ( NCAP .EQ. 1 ) THEN
 
-	  IF ( PSIST .GE. 0 ) THEN
+       CAPACI = CAPINI * VOLREL
 
-	       PSIST = 0
+     ELSE IF ( NCAP .NE. 1 ) THEN
 
-	  END IF
+       CAPRAT =  (RCCAP - 1)/ RCCAP
+       CAPACI = CAPINI * ( VOLREL ) ** ( 1 / RCCAP )
 
-c **  The following if statement causes psist to fall as volume
-c **  approaches zero (the above equation reaches a limit).
-c **  (ITRAP is defined below to prevent the loop from being
-c **   exercised on the first time step.)
-C **   The next statement prevents psist from becoming more
-C	positive then psig
+     END IF
 
-	  IF ( ITRAP .EQ. 1 .AND. DELTVST .EQ. 0 ) THEN
+   END IF
 
-	       PSIST = PSIX
+ END IF
 
-	  END IF
+ VOLREL = VOLIST / VOLINI
 
-	     CAPACI = CAPINI * ( VOLREL ) ** ( 1 / RCCAP)
+ IF ( NCAP .EQ. 1 ) THEN
 
-      END IF
+    PSIST = ( VOLINI / CAPINI ) * LOG ( VOLREL )
+    CAPACI = CAPINI * ( VOLIST ) / VOLINI
 
-	  IF ( NCAP .EQ. 1 ) THEN
+ ELSE
 
-	      ZST = ZSTINI / VOLREL
+    PSIST = (VOLINI/CAPINI) * ( VOLREL ** CAPRAT - 1 ) * (RCCAP /( RCCAP - 1 ) )
 
-	  ELSE IF ( NCAP .NE. 1 ) THEN
+! **  THIS IF STATEMENT IS IN PLACE OF VOLUME CONSTRAINTS
 
-	      ZST = ZSTINI * ( 1./VOLREL ) ** ( RZCAP )
+    IF ( PSIST .GE. 0 ) THEN
+      PSIST = 0
+    END IF
 
-	  END IF
+! **  The following if statement causes psist to fall as volume
+! **  approaches zero (the above equation reaches a limit).
+! **  (ITRAP is defined below to prevent the loop from being
+! **   exercised on the first time step.)
+! **   The next statement prevents psist from becoming more
+! positive then psig
 
-c **  The following if statement prevents zst from becoming very
-c**   large.
+    IF ( ITRAP .EQ. 1 .AND. DELTVST .EQ. 0 ) THEN
+      PSIST = PSIX
+    END IF
 
-      IF ( ZST .GT. 1E3 ) THEN
+    CAPACI = CAPINI * ( VOLREL ) ** ( 1 / RCCAP)
 
-	 ZST = 1E3
+  END IF
 
-      END IF
+  IF ( NCAP .EQ. 1 ) THEN
+    ZST = ZSTINI / VOLREL
+  ELSE IF ( NCAP .NE. 1 ) THEN
+    ZST = ZSTINI * ( 1./VOLREL ) ** ( RZCAP )
+  END IF
 
-c **  The following if statements prevent psist from exceeding
-c **  psix during a time interval
+! **  The following if statement prevents zst from becoming very
+!**   large.
 
-      IF ( DELTVST .LT. 0 .AND. PSIST .LT. PSIX ) THEN
+  IF ( ZST .GT. 1E3 ) THEN
+    ZST = 1E3
+  END IF
 
-	  PSIST = PSIX
+! **  The following if statements prevent psist from exceeding
+! **  psix during a time interval
 
-      ELSE IF ( DELTVST .GT. 0 .AND. PSIST .GT. PSIX ) THEN
-
-	  PSIST = PSIX
-
-      END IF
-
-
-      RSTDIV =	Unscaled_RAF + ( RCUT * RSCRIT ) / ( RCUT + RSCRIT )
-
-c **  we need to compare psig to psigc before proceeding
-C **  we can determine this by solving for psig given various
-C **  parameters.
-
-C **   ADDIT  is an additional term that incorporates storage flux.
-
-      ADDIT = 1 + ZUH / ZADD + ZUH / ZST
-
-c**    define a critical water potential. As the flux
-c **   from storage approaches zero, it approaches that of
-c **   the soil.
-
-      PSIWC =  SGMA * VFL * ZUH / RSTDIV
-     #	       + PSICE + beta * vfl2 + FPM * H
-
-      PSISUP = PSIX
-
-      IF ( PSISUP .GT. PSIWC ) THEN
-
-       AROOT = FS * FT * b1_p * (RCUT + Unscaled_RAF) * ( ZST * (-1)
-     #		- ZADD )
-
-       BROOT = FS * FT * (RCUT + Unscaled_RAF) * ( RMIN *
-     #		 ( - ZST - ZADD ) + b1_p * ( ZST * ( PSIG - BETA *
-     #		 vfl2 - H ) + ZADD * (PSIST - beta * vfl2 - FPM * H )
-     #	       - ZADD * ZST * SGMA * VFL * ADDIT /
-     #		 ( RCUT + Unscaled_RAF) ) )
-     #	       + RCUT * Unscaled_RAF * ( - ZST - ZADD )
+  IF ( DELTVST .LT. 0 .AND. PSIST .LT. PSIX ) THEN
+    PSIST = PSIX
+  ELSE IF ( DELTVST .GT. 0 .AND. PSIST .GT. PSIX ) THEN
+    PSIST = PSIX
+  END IF
 
 
-       CROOT = FS * FT * (RCUT + Unscaled_RAF) * ( RMIN * ( ZST
-     #	       * (PSIG - beta * vfl2 - H ) + ZADD * ( PSIST
-     #	       - beta * vfl2 - FPM * H )
-     #	       - ZADD * ZST * SGMA * VFL * ADDIT / (RCUT + Unscaled_RAF)
-     #		 ) )
-     #	       + RCUT * Unscaled_RAF * ( ZST * (PSIG - beta * vfl2 - H )
-     #	       + ZADD * ( PSIST - beta * vfl2 - FPM * H ) )
-     #	       - RCUT * ZADD * ZST * SGMA * VFL * ADDIT
+  RSTDIV = Unscaled_RAF + ( RCUT * RSCRIT ) / ( RCUT + RSCRIT )
 
-      ELSE
+! **  we need to compare psig to psigc before proceeding
+! **  we can determine this by solving for psig given various
+! **  parameters.
 
-       AROOT = FS * FT * b2_p * ( RCUT + Unscaled_RAF ) *
-     #		 ( ZST + ZADD )
+! **   ADDIT  is an additional term that incorporates storage flux.
 
-       BROOT = FS * FT *  ( RCUT + Unscaled_RAF ) * ( ( RMIN
-     #	       + b1_p * PSICE + b2_p * PSICE) * ( -ZST - ZADD )
-     #	       - b2_p * ( ZST * (PSIG - beta * vfl2 - H )
-     #	       + ZADD * ( PSIST - beta * vfl2 - FPM * H )
-     #	       - ZADD * ZST * SGMA * VFL * ADDIT /
-     #		 (RCUT + Unscaled_RAF) ) )
-     #	       + RCUT * Unscaled_RAF * ( - ZST - ZADD )
+  ADDIT = 1 + ZUH / ZADD + ZUH / ZST
 
-       CROOT = FS * FT* (RCUT + Unscaled_RAF) * ( RMIN + b1_p * PSICE
-     #	       + b2_p * PSICE ) * ( ZST * (PSIG - beta * vfl2 - H )
-     #	       + ZADD * (PSIST - beta * vfl2 - FPM * H )
-     #	       - ZADD * ZST * SGMA * VFL * ADDIT /(RCUT + Unscaled_RAF))
-     #	       + RCUT * Unscaled_RAF * ( ZST * ( PSIG - beta * vfl2 - H)
-     #	       + ZADD * (PSIST - beta * vfl2 - FPM * H ) )
-     #	       - RCUT * ZADD * ZST * SGMA * VFL * ADDIT
+!**    define a critical water potential. As the flux
+! **   from storage approaches zero, it approaches that of
+! **   the soil.
 
-      END IF
+  PSIWC =  SGMA * VFL * ZUH / RSTDIV + PSICE + beta * vfl2 + FPM * H
+  PSISUP = PSIX
 
-      ACTSQRT  = BROOT ** 2 - 4 * AROOT * CROOT
-      PSIE = ( -BROOT - SQRT ( ACTSQRT ) ) / (2 * AROOT )
+  IF ( PSISUP .GT. PSIWC ) THEN
+    AROOT = FS * FT * b1_p * (RCUT + Unscaled_RAF) * ( ZST * (-1) - ZADD )
 
-      CALL STOMRS
+    BROOT = FS * FT * (RCUT + Unscaled_RAF) * ( RMIN *                  &
+            ( - ZST - ZADD ) + b1_p * ( ZST * ( PSIG - BETA *           &
+            vfl2 - H ) + ZADD * (PSIST - beta * vfl2 - FPM * H )        &
+            - ZADD * ZST * SGMA * VFL * ADDIT /                         &
+            ( RCUT + Unscaled_RAF) ) ) + RCUT * Unscaled_RAF * ( - ZST - ZADD )
 
 
-C * * STRESS INDICES
+    CROOT = FS * FT * (RCUT + Unscaled_RAF) * ( RMIN * ( ZST            &
+            * (PSIG - beta * vfl2 - H ) + ZADD * ( PSIST                &
+            - beta * vfl2 - FPM * H )                                   &
+            - ZADD * ZST * SGMA * VFL * ADDIT / (RCUT + Unscaled_RAF)   &
+            ) )                                                         &
+            + RCUT * Unscaled_RAF * ( ZST * (PSIG - beta * vfl2 - H )   &
+            + ZADD * ( PSIST - beta * vfl2 - FPM * H ) )                &
+            - RCUT * ZADD * ZST * SGMA * VFL * ADDIT
 
-      PSIM = PSIE + beta * vfl2
-      PES = XLAI/2 + 1
-      RLELF = SGMA * VFL / (RS*RCUT/(RS + RCUT) + Unscaled_RAF)
-      PSIX = RLELF  * ZUH + PSIM + FPM * H
-      FST = -( PSIST - PSIX ) / ZST
-      DELTVST = -DELTA * ( PSIST - PSIX ) / (ZST * LE
-     #	   * RHOW )
-      FLUXGD = ( PSIG - PSIX - FRHGT * H ) / ZADD
-      VOLRMO = VOLRMV
-      VOLIST = VOLIST + DELTVST
-      VOLRMV = VOLINI - VOLIST
+  ELSE
 
-c **   the following if statements prevent the volume in
-c **   storage from becoming negative.
+    AROOT = FS * FT * b2_p * ( RCUT + Unscaled_RAF ) * ( ZST + ZADD )
 
-      IF ( VOLRMV .GT. VOLINI .AND. DELTVST .LE. 0 ) THEN
+    BROOT = FS * FT *  ( RCUT + Unscaled_RAF ) * ( ( RMIN               &
+            + b1_p * PSICE + b2_p * PSICE) * ( -ZST - ZADD )            &
+            - b2_p * ( ZST * (PSIG - beta * vfl2 - H )                  &
+            + ZADD * ( PSIST - beta * vfl2 - FPM * H )                  &
+            - ZADD * ZST * SGMA * VFL * ADDIT /                         &
+            (RCUT + Unscaled_RAF) ) )                                   &
+            + RCUT * Unscaled_RAF * ( - ZST - ZADD )                    
 
-	   IF ( IDEL .EQ. 0 ) THEN
+    CROOT = FS * FT* (RCUT + Unscaled_RAF) * ( RMIN + b1_p * PSICE      &
+            + b2_p * PSICE ) * ( ZST * (PSIG - beta * vfl2 - H )        &
+            + ZADD * (PSIST - beta * vfl2 - FPM * H )                   &
+            - ZADD * ZST * SGMA * VFL * ADDIT /(RCUT + Unscaled_RAF))   &
+            + RCUT * Unscaled_RAF * ( ZST * ( PSIG - beta * vfl2 - H)   &
+            + ZADD * (PSIST - beta * vfl2 - FPM * H ) )                 &
+            - RCUT * ZADD * ZST * SGMA * VFL * ADDIT
 
-	      DELTVST = (VOLINI - VOLRMO)
-	      IDEL = 1
+  END IF
 
-	   ELSE
+  ACTSQRT  = BROOT ** 2 - 4 * AROOT * CROOT
+  PSIE = ( -BROOT - SQRT ( ACTSQRT ) ) / (2 * AROOT )
 
-	      DELTVST = 0.0
-	      ITRAP = 1
+  CALL STOMRS
 
-	   END IF
 
-	   VOLRMV = .99999*VOLINI
-	   VOLIST = .00001*VOLINI
+! * * STRESS INDICES
 
-      END IF
+  PSIM = PSIE + beta * vfl2
+  PES = XLAI/2 + 1
+  RLELF = SGMA * VFL / (RS*RCUT/(RS + RCUT) + Unscaled_RAF)
+  PSIX = RLELF  * ZUH + PSIM + FPM * H
+  FST = -( PSIST - PSIX ) / ZST
+  DELTVST = -DELTA * ( PSIST - PSIX ) / (ZST * LE * RHOW )
+  FLUXGD = ( PSIG - PSIX - FRHGT * H ) / ZADD
+  VOLRMO = VOLRMV
+  VOLIST = VOLIST + DELTVST
+  VOLRMV = VOLINI - VOLIST
 
-      return
-      end
+! **   the following if statements prevent the volume in
+! **   storage from becoming negative.
+
+  IF ( VOLRMV .GT. VOLINI .AND. DELTVST .LE. 0 ) THEN
+    IF ( IDEL .EQ. 0 ) THEN
+      DELTVST = (VOLINI - VOLRMO)
+      IDEL = 1
+    ELSE
+      DELTVST = 0.0
+      ITRAP = 1
+    END IF
+    VOLRMV = .99999*VOLINI
+    VOLIST = .00001*VOLINI
+  END IF
+
+  return
+end

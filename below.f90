@@ -1,24 +1,24 @@
-      SUBROUTINE  BELOW (TIME,BareRadioTemp,BareEvapFlux)
-  use simphere_mod
+subroutine  BELOW (TIME,BareRadioTemp,BareEvapFlux)
+  use simsphere_mod
 
 
-C **  Below is called every time step (N+1) to update the sub-surface
-C **  temp's. The lowest level has a constant temp BTEMP, whereas the
-C **  the surface temp has been found previously in FLUX. Use of the
-C **  leap-frog method computes sub-surface temp's at the next time
-C **  step from those at the current and the previous time step. BELOW
-C **  also calls WATER to update the sub-surface soil moisture status.
+! **  Below is called every time step (N+1) to update the sub-surface
+! **  temp's. The lowest level has a constant temp BTEMP, whereas the
+! **  the surface temp has been found previously in FLUX. Use of the
+! **  leap-frog method computes sub-surface temp's at the next time
+! **  step from those at the current and the previous time step. BELOW
+! **  also calls WATER to update the sub-surface soil moisture status.
 
       REAL TE(9) , TTT(9) , DTDT(8)
 
 !      INCLUDE 'modvars.h'
 
-C **  TT(2) is the temperature at the first level below the soil.
+! **  TT(2) is the temperature at the first level below the soil.
 
       NLVL1 = NLVLS + 1
 
-C **  Use the fraction of vegetation to set the boundary conditions
-C **  for the 1st level in the ground (surface).
+! **  Use the fraction of vegetation to set the boundary conditions
+! **  for the 1st level in the ground (surface).
 
       IF ( FRVEG .EQ. 0 ) THEN
          TT(1) = OTEMP
@@ -27,16 +27,16 @@ C **  for the 1st level in the ground (surface).
       ELSE IF ( FRVEG .EQ. 1 ) THEN
          TT(1) = TG
       ELSE
-c	  PRINT*, ' Error ... Fraction of vegetation outwith bounds '
-c	  STOP
-	  continue
+!   PRINT*, ' Error ... Fraction of vegetation outwith bounds '
+!   STOP
+   continue
       END IF
 
       IF (HEAT .LT. 0.0 .OR. RNET .LT. 0) THEN
           TT(1) = OTEMP
       END IF
 
-C **  K refers to level, K=1 being the surface.
+! **  K refers to level, K=1 being the surface.
 
       IF ( TIME .EQ. 0 ) THEN
 
@@ -46,9 +46,9 @@ C **  K refers to level, K=1 being the surface.
 
       END IF
 
-C **  TT is at time N, TE is at time N-1, TTT is at time N+1
-C **  Here we represent the diffusion term ... see manual for
-C **  derivation.
+! **  TT is at time N, TE is at time N-1, TTT is at time N+1
+! **  Here we represent the diffusion term ... see manual for
+! **  derivation.
 
       DO 10 K = 2 , NLVLS
 
@@ -60,15 +60,15 @@ C **  derivation.
 
         IF ( TIME .EQ. 0 ) THEN
 
-C **  Initial computation of TT(K) and redefinition for the future.
+! **  Initial computation of TT(K) and redefinition for the future.
 
          TTT(K) = TE(K) + DELTA * DTDT(K)
          TT(K) = TTT(K)
 
        ELSE
 
-C **  Computation of TTT(K) via leapfrog rule, along with redefinition
-C **  for the future.
+! **  Computation of TTT(K) via leapfrog rule, along with redefinition
+! **  for the future.
 
         TTT(K) = TE(K) + 2 * DELTA * DTDT(K)
         TE(K) = TT(K)
@@ -78,11 +78,11 @@ C **  for the future.
 
    10 CONTINUE
 
-	if(ptime .eq. 16) then
-	dummy = 1
-	endif
+ if(ptime .eq. 16) then
+ dummy = 1
+ endif
 
-C **  Skip the substrate water component if WMAX > 1.
+! **  Skip the substrate water component if WMAX > 1.
 
       IF ( WMAX .GT. 1 ) THEN
 

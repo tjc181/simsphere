@@ -1,10 +1,10 @@
 SUBROUTINE SNDING (ZLS, Old_Ahum)
   use simsphere_mod
 
-  real*4,allocatable :: derivs(:)
+  real(kind=4),allocatable :: derivs(:)
 
-  real PS(50), EW(50),QS(50), DEP(50), DD0(50), FF0(50), ZLS(50)
-  real ZH(50),UCOMP(50), VCOMP(50), GMQ(50), Pot_Temp (50)
+  real :: PS(50), EW(50),QS(50), DEP(50), DD0(50), FF0(50), ZLS(50)
+  real :: ZH(50),UCOMP(50), VCOMP(50), GMQ(50), Pot_Temp (50)
 
 ! Actual and decomposed values
 
@@ -102,22 +102,21 @@ SUBROUTINE SNDING (ZLS, Old_Ahum)
 
 ! Free up space taken by the list of derivatives
 
-      deallocate (derivs, STAT = error)
+  deallocate (derivs, STAT = error)
 
 ! 2. Moisture
 
-      allocate (derivs(NOBS_pTq), STAT = error)
-      if (error .ne. 0) stop 'not enough memory'
+  allocate (derivs(NOBS_pTq), STAT = error)
+  if (error .ne. 0) stop 'not enough memory'
 
 ! Calculate derivatives at the boundaries
 
-      dydx = (QS(2) - QS(1)) / (ZLS(2) - ZLS(1))
-      dydxn = (QS(NOBS_pTq) - QS(NOBS_pTq-1)) / &
-              (ZLS(NOBS_pTq) - ZLS(NOBS_pTq-1))
+  dydx = (QS(2) - QS(1)) / (ZLS(2) - ZLS(1))
+  dydxn = (QS(NOBS_pTq) - QS(NOBS_pTq-1)) / (ZLS(NOBS_pTq) - ZLS(NOBS_pTq-1))
 
 ! Calculate array of derivatives
 
-      call spline (ZLS, QS, NOBS_pTq, dydx, dydxn, derivs)
+  call spline (ZLS, QS, NOBS_pTq, dydx, dydxn, derivs)
 
 ! Call splint to get actual value at 50m and subsequent N metre intervals
 
@@ -128,7 +127,7 @@ SUBROUTINE SNDING (ZLS, Old_Ahum)
 
 ! Free up space taken by the list of derivatives
 
-      deallocate (derivs, STAT = error)
+  deallocate (derivs, STAT = error)
 
 ! 3. Winds
 
@@ -136,18 +135,18 @@ SUBROUTINE SNDING (ZLS, Old_Ahum)
 
 ! Create an array of REALS (floats) to put the dy/dx values into
 
-      allocate (derivs(NOBS_wind), STAT = error)
-      if (error .ne. 0) stop 'not enough memory'
+  allocate (derivs(NOBS_wind), STAT = error)
+  if (error .ne. 0) stop 'not enough memory'
 
 ! Calculate derivatives at the boundaries
 
-      dydx = (ucomp(2) - ucomp(1)) / (ZH(2) - ZH(1))
-      dydxn = (ucomp(NOBS_wind) - ucomp(NOBS_wind-1)) / &
+  dydx = (ucomp(2) - ucomp(1)) / (ZH(2) - ZH(1))
+  dydxn = (ucomp(NOBS_wind) - ucomp(NOBS_wind-1)) / &
               (ZH(NOBS_wind) - ZH(NOBS_wind-1))
 
 ! Calculate array of derivatives
 
-      call spline (ZH, ucomp, NOBS_wind, dydx, dydxn, derivs)
+  call spline (ZH, ucomp, NOBS_wind, dydx, dydxn, derivs)
 
 ! Call splint to get actual value at 50m and subsequent 250m intervals
 
@@ -158,24 +157,23 @@ SUBROUTINE SNDING (ZLS, Old_Ahum)
 
 ! Free up space taken by the list of derivatives
 
-      deallocate (derivs, STAT = error)
+  deallocate (derivs, STAT = error)
 
 ! Do the same for v component
 
 ! Create an array of REALS (floats) to put the dy/dx values into
 
-      allocate (derivs(NOBS_wind), STAT = error)
-      if (error .ne. 0) stop 'not enough memory'
+  allocate (derivs(NOBS_wind), STAT = error)
+  if (error .ne. 0) stop 'not enough memory'
 
 ! Calculate derivatives at the boundaries
 
-      dydx = (vcomp(2) - vcomp(1)) / (ZH(2) - ZH(1))
-      dydxn = (vcomp(NOBS_wind) - vcomp(NOBS_wind-1)) / &
-              (ZH(NOBS_wind) - ZH(NOBS_wind-1))
+  dydx = (vcomp(2) - vcomp(1)) / (ZH(2) - ZH(1))
+  dydxn = (vcomp(NOBS_wind) - vcomp(NOBS_wind-1)) / (ZH(NOBS_wind) - ZH(NOBS_wind-1))
 
 ! Calculate array of derivatives
 
-      call spline (ZH, vcomp, NOBS_wind, dydx, dydxn, derivs)
+  call spline (ZH, vcomp, NOBS_wind, dydx, dydxn, derivs)
 
 ! Call splint to get actual value at 50m and subsequent 250m intervals
 
@@ -186,30 +184,30 @@ SUBROUTINE SNDING (ZLS, Old_Ahum)
 
 ! Free up space taken by the list of derivatives
 
-      deallocate (derivs, STAT = error)
+  deallocate (derivs, STAT = error)
 
 ! +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 ! Calc lapse rate of temp in 1st layer and EW at screen level for
 ! use in the calc of screen level sat'n spec humidity.
 
-      ATEMP = 50 * (TS(2) - TS(1)) / ZLS(2) + TS(1) + 273.15
-      TSCREN = TS(1) + 273.15 ! Screen Temperature
-      EW = 6.11 * EXP (( 2.49E6 / 461.51 ) *(1 / 273.15 - 1 / TSCREN))
+  ATEMP = 50 * (TS(2) - TS(1)) / ZLS(2) + TS(1) + 273.15
+  TSCREN = TS(1) + 273.15 ! Screen Temperature
+  EW = 6.11 * EXP (( 2.49E6 / 461.51 ) *(1 / 273.15 - 1 / TSCREN))
 
-      OSHUM = 0.622 * EW(1) / PS(1)
-      AHUM = QS(1)
-      Old_Ahum = QS(1)
-      PS1 = PS(1)
+  OSHUM = 0.622 * EW(1) / PS(1)
+  AHUM = QS(1)
+  Old_Ahum = QS(1)
+  PS1 = PS(1)
 
 ! Changes 2/10/92
 
-      Pres_50 = PS(1)*EXP(-9.8*50/(287* (TS(1) + 273.15)))
-      Pot_50 = ATEMP * (1000 / Pres_50)** 0.286
-      APTEMP = Pot_50
-      O_Pot_Tmp = Pot_50
-      Tdif_50 = Pot_50 - Atemp
-      Tdif_s = Tdif_50 - 0.5
+  Pres_50 = PS(1)*EXP(-9.8*50/(287* (TS(1) + 273.15)))
+  Pot_50 = ATEMP * (1000 / Pres_50)** 0.286
+  APTEMP = Pot_50
+  O_Pot_Tmp = Pot_50
+  Tdif_50 = Pot_50 - Atemp
+  Tdif_s = Tdif_50 - 0.5
 
 !        tdeww = tdew-273.15
 !        expt=7.5*tdeww/(237.3+tdeww)
@@ -224,7 +222,7 @@ SUBROUTINE SNDING (ZLS, Old_Ahum)
 ! Input file wasn't being close explicitly, now it is. (It's opened 
 ! in subroutine START.
 
-        CLOSE(UNIT=9)
+  close(UNIT=9)
 
-      RETURN
+  return
 end

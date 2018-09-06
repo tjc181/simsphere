@@ -1,32 +1,32 @@
-      SUBROUTINE  PSGCAL
+subroutine  PSGCAL
   use simsphere_mod
 
-*/	REAL RLOGPSIL
+!	REAL RLOGPSIL
 
 !      INCLUDE 'modvars.h'
 
-C **  Calculates the conductivity of the soil
-C **  Cosby curves and coefficients (1984)
+! **  Calculates the conductivity of the soil
+! **  Cosby curves and coefficients (1984)
 
-*/  Field Capacity(75% of THMAX) used instead of THMAX.  Lower value
-*/  felt to fit local measurements better than the fit with tabulated
-*/  values.
+!  Field Capacity(75% of THMAX) used instead of THMAX.  Lower value
+!  felt to fit local measurements better than the fit with tabulated
+!  values.
 
-C **  convert ground water contents to percents
+! **  convert ground water contents to percents
 
-      PERWMAX = THMAX * 100 * 0.75
-      PERW2G = THV * 100
-      RLOGPSIG = ALOG10 ( PSIS ) + COSBYB * ALOG10 ( PERWMAX )
-     #              - COSBYB * ALOG10 ( PERW2G )
+  PERWMAX = THMAX * 100 * 0.75
+  PERW2G = THV * 100
+  RLOGPSIG = ALOG10 ( PSIS ) + COSBYB * ALOG10 ( PERWMAX )              &
+             - COSBYB * ALOG10 ( PERW2G )
 
-c * * psig is positive in this program
+! * * psig is positive in this program
 
-      RNPSIG = 10 ** ( RLOGPSIG )
+  RNPSIG = 10 ** ( RLOGPSIG )
 
 
-c * * convert cm to bars
+! * * convert cm to bars
 
-      PSIG = -RNPSIG / 1020
+  PSIG = -RNPSIG / 1020
 
-      RETURN
-      END
+  return
+end

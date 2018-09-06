@@ -24,9 +24,11 @@ module simsphere_mod
 ! **  model.
 
   character(len=1) :: STMTYPE, STEADY, DUAL_TI
-  real :: KM(50), LAMBDA, KAPPA, LE, KARMAN, LWDN, MOL
+! ** Removed LE, KARMAN, MOL from following declaration 
+! ** (declared below in previous DATA blocks)
+  real :: KM(50), LAMBDA, KAPPA, LWDN
   real :: u_fine,v_fine,t_fine,q_fine
-  integer*1 :: cld_fract
+  integer(kind=1) :: cld_fract
   logical :: cloud_flag
 
   real, parameter :: dens = 1.1 ! Density of Air
@@ -84,4 +86,64 @@ module simsphere_mod
 
       COMMON/SLOPE/ SLOPE, ASPECT
 
+! Included from block.f90
+! Reworked to not use DATA statements
+! Constants
+
+! These should all have the parameter attribute added after the COMMON statements 
+! are removed
+  real :: Y = 1.0
+  real :: ALBG = 0.0
+  real :: ALBF = 0.0
+  real :: XMOD = 0.0
+  real :: SIGF = 0.0
+  real :: HG = 0.0
+  real :: AHUM = 0.0
+  real :: RNET = 0.0
+  real :: QD = 0.0
+!  DATA Y,ALBG,ALBF,XMOD,SIGF /1.0,4*0.0/,                               & 
+!       HG,AHUM,RNET/3*0.0/,                                             &
+!       (QD(I),I=1,21)/21*0.0/
+
+  real :: CHGT = 0.0
+  real :: USTAR = 0.0
+  real :: TSTAR = 0.0
+  real :: HEAT = 0.0
+  real :: HGT = 50.0
+  real :: ZA = 50.0
+  integer :: DELT = 1
+  integer :: CTHETA = 1
+  integer :: DHET = 0
+  integer :: EVAP = 0
+!  DATA CHGT,USTAR,TSTAR,HEAT /4*0.0/,                                   &
+!       HGT,ZA,DELT,CTHETA,DHET,EVAP/2*50.,2*1,2*0/
+
+  real :: SIGMA = 5.6521E-8
+  real :: LE = 2.5E6
+  real :: KARMAN = 0.4
+  real :: GRAV = 9.78
+  real :: R = 287.5
+  real :: RAD = 1.6E-5
+  real :: CP = 1004.832
+  integer ::  DELTA = 90
+!  DATA SIGMA,LE,KARMAN,GRAV,R,RAD,CP                                    &
+!       /5.6521E-8,2.5E6,0.4,9.78,287.5,1.6E-5,1004.832/,                &
+!       DELTA/90/
+
+  integer :: MOL = 0
+  integer :: BULK = 0
+  integer :: IFIRST = 0
+  integer :: NLVLS = 5
+!  DATA MOL,BULK,IFIRST,NLVLS /3*0,5/
+
+
+! Initialization of variables
+
+  integer :: JCAP = 1
+!  DATA JCAP/1/
+
+
+!  SUBROUTINE  BLOCK ()
+
+!  END
 end module simsphere_mod
