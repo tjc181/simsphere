@@ -99,7 +99,7 @@ SUBROUTINE SNDING (ZLS, Old_Ahum)
 
 ! Calculate array of derivatives
 
-  call spline (ZLS, Pot_Temp, NOBS_pTq, dydx, dydxn, derivs)
+  derivs=spline (ZLS, Pot_Temp, NOBS_pTq, dydx, dydxn)
 
 ! Call splint to get actual value at 50m and subsequent N metre intervals
 
@@ -125,7 +125,7 @@ SUBROUTINE SNDING (ZLS, Old_Ahum)
 
 ! Calculate array of derivatives
 
-  call spline (ZLS, QS, NOBS_pTq, dydx, dydxn, derivs)
+  derivs=spline (ZLS, QS, NOBS_pTq, dydx, dydxn)
 
 ! Call splint to get actual value at 50m and subsequent N metre intervals
 
@@ -155,7 +155,7 @@ SUBROUTINE SNDING (ZLS, Old_Ahum)
 
 ! Calculate array of derivatives
 
-  call spline (ZH, ucomp, NOBS_wind, dydx, dydxn, derivs)
+  derivs=spline (ZH, ucomp, NOBS_wind, dydx, dydxn)
 
 ! Call splint to get actual value at 50m and subsequent 250m intervals
 
@@ -182,7 +182,7 @@ SUBROUTINE SNDING (ZLS, Old_Ahum)
 
 ! Calculate array of derivatives
 
-  call spline (ZH, vcomp, NOBS_wind, dydx, dydxn, derivs)
+  derivs=spline (ZH, vcomp, NOBS_wind, dydx, dydxn )
 
 ! Call splint to get actual value at 50m and subsequent 250m intervals
 
