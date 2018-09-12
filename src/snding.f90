@@ -1,7 +1,9 @@
 SUBROUTINE SNDING (ZLS, Old_Ahum)
   use simsphere_mod
+  implicit none
 
-  real(kind=4),allocatable :: derivs(:)
+!TJC  real(kind=4),allocatable :: derivs(:)
+  real,allocatable :: derivs(:)
 
   real :: PS(50), EW(50),QS(50), DEP(50), DD0(50), FF0(50), ZLS(50)
   real :: ZH(50),UCOMP(50), VCOMP(50), GMQ(50), Pot_Temp (50)
@@ -13,8 +15,14 @@ SUBROUTINE SNDING (ZLS, Old_Ahum)
 
   real :: Old_Ahum
   integer :: error
+
+  integer :: NOBS_pTq, NOBS_wind, I, J, h
+  real :: Station_Height, HEIGHT, TDEW, TBAR, THICK 
+  real :: precip_H2O, sum_precip_H2O, dydx, dydxn, Pres_50, Pot_50
+  real :: Height_at_NTRP
       
-  data Vert_Spacing /250/ ! 250 metre intervals
+!TJC  Moved to simsphere_mod.f90
+!  data Vert_Spacing /250/ ! 250 metre intervals
   deltaz = vert_spacing
 
   read(9,*) NOBS_pTq, NOBS_wind, Station_Height, UGS, VGS
@@ -30,19 +38,20 @@ SUBROUTINE SNDING (ZLS, Old_Ahum)
 ! P/T/q first
 
   HEIGHT = 0.
+  sum_precip_H2O = 0.
 
   do J = 1 , NOBS_pTq
 
     I = J - 1
 
-    TDEW = TS(J) - DEP(J) + 273.15 ! Dew Point (K)
-    EW(J) = 6.11 * EXP((2.49E6 / 461.51)*(1 / 273.15 - 1 / TDEW)) ! es (mb)
+    TDEW = TS(J) - DEP(J) + Celsius_to_Kelvin ! Dew Point (K)
+    EW(J) = 6.11 * EXP((2.49E6 / 461.51)*(1 / Celsius_to_Kelvin - 1 / TDEW)) ! es (mb)
     QS(J) = 0.622 * EW(J) / PS(J) ! Specific Humidity (g/Kg)
-    Pot_Temp(J) = (TS(J) + 273.15) * (1000. / PS(J)) ** 0.286 ! Theta (K)
+    Pot_Temp(J) = (TS(J) + Celsius_to_Kelvin) * (1000. / PS(J)) ** 0.286 ! Theta (K)
 
     if (J .GT. 1) then
 
-      TBAR = (( TS(I) + TS(I+1) ) / 2 ) + 273.15 ! Average Temperature (K)
+      TBAR = (( TS(I) + TS(I+1) ) / 2 ) + Celsius_to_Kelvin ! Average Temperature (K)
       THICK = 287 * (TBAR / 9.8) * ALOG(PS(I) / PS(I+1)) ! Thickness (m)
       HEIGHT = HEIGHT + THICK ! Height (above station) of pressure level
       ZLS(I+1) = HEIGHT
@@ -202,7 +211,7 @@ SUBROUTINE SNDING (ZLS, Old_Ahum)
 
 ! Changes 2/10/92
 
-  Pres_50 = PS(1)*EXP(-9.8*50/(287* (TS(1) + 273.15)))
+  Pres_50 = PS(1)*EXP(-9.8*50/(287* (TS(1) + Celsius_to_Kelvin)))
   Pot_50 = ATEMP * (1000 / Pres_50)** 0.286
   APTEMP = Pot_50
   O_Pot_Tmp = Pot_50

@@ -1,5 +1,9 @@
 subroutine  TRANSM (PATH,FTABS,FTSCAT,FBSCAT)
   use simsphere_mod
+  implicit none
+
+  real :: FTABS, FTSCAT, FBSCAT, FRACP, PATH, FRACT, FRACT2
+  integer :: IPATH, JPATH
 
 !     Subroutine TRANSM calculates solar transmission by using the
 !     three-way lookup table produced in GETTBL.

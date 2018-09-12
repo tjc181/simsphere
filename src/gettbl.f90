@@ -1,5 +1,6 @@
 subroutine  GETTBL
   use simsphere_mod
+  implicit none
 
 ! This subroutine takes the precipitable water content (OMEGA) and
 ! calc's the transmission coefficient for absorbtion using a lookup
@@ -12,6 +13,8 @@ subroutine  GETTBL
 ! backscattering (BSCTBL) tables from file into the common block.
 
   real :: A(46) , B(46) , C(46)
+  real :: FRACT, FRACT2
+  integer :: I,J,K,L
 
 !      INCLUDE 'modvars.h'
 

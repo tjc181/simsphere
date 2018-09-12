@@ -4,7 +4,6 @@ program test_simsphere
 
 
   integer :: i
-
   real(kind=4) :: T_Obst_Hgt, T_zo_patch
   logical :: T_dual_regime
   
@@ -14,6 +13,7 @@ program test_simsphere
   real :: st_arg1(50), st_arg2(50)  
   real(kind=4), allocatable :: st_arg3(:)
   integer :: st_arg4, st_arg5
+  integer, parameter :: splint_max_array = 50
   real :: st_arg6
 
 ! Set logical to control test execution
@@ -32,23 +32,26 @@ program test_simsphere
 ! splint_test
 !
   if (splint_test) then
-    st_arg1 = 0.0
-    st_arg2 = 1.0
-    st_arg4 = 4
+    do i = 1,splint_max_array
+      st_arg1(i) = 2*i
+      st_arg2(i) = 2*i
+    end do
+    st_arg4 = 12
     if (.not. allocated(st_arg3)) then
       allocate(st_arg3(st_arg4))
-      st_arg3 = 1.0
+      do i = 1,st_arg4
+        st_arg3(i) = 2*i
+      end do
     end if
     st_arg5 = 3
     st_arg6 = 3.5
 
     call splint(st_arg1, st_arg2, st_arg3, st_arg4, st_arg5, st_arg6)
-    write(*,*) st_arg1
-    write(*,*) st_arg2
-    write(*,*) st_arg3
-    write(*,*) st_arg4
-    write(*,*) st_arg5
-    write(*,*) st_arg6
+    if (st_arg6 .ne. 1.5) then
+      write(*,*) 'splint_test: left /= right: ', st_arg6, 1.5
+    else
+      write(*,*) 'splint_test: OK'
+    end if
   end if
 
 !

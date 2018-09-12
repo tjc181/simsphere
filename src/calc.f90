@@ -1,8 +1,11 @@
 SUBROUTINE  CALC (OLDTMP, No_Rows)
   use simsphere_mod
+  implicit none
 
   integer :: No_Rows
-  real :: Lat_in_radians
+  real :: Lat_in_radians, K
+
+  real :: OLDTMP, DECTIM, out_time_intv
 
   K = XLAT
   XLAT= (XLAT-K) / 0.6 + K
@@ -21,9 +24,7 @@ SUBROUTINE  CALC (OLDTMP, No_Rows)
 
   out_time_intv = outtt / 60
   out_time_intv = dectim(out_time_intv)
-  No_Rows = ((INT(Timend) - INT(strtim))                                &
-            / INT(out_time_intv)) + 1
-
+  No_Rows = ((INT(Timend) - INT(strtim)) / INT(out_time_intv)) + 1 
 
   SATAM = DECTIM(CLKTAM)
   SATPM = DECTIM(CLKTPM)
@@ -43,13 +44,13 @@ SUBROUTINE  CALC (OLDTMP, No_Rows)
   return
 end
  
-function DECTIM(TIMIN)
-
+real function DECTIM(TIMIN)
 ! Converts time (Hr.Min Format) to decimal
+  real :: INTIM, TIMIN, RINTIM
  
   INTIM = TIMIN / 100
   RINTIM = INTIM * 100.
-  DECTIM = ((TIMIN - RINTIM) / 60. + FLOAT(INTIM)) * 3600.
+  DECTIM = ((TIMIN - RINTIM) / 60. + INTIM) * 3600.
  
   return
 end

@@ -1,6 +1,6 @@
 program simsphere
   use simsphere_mod
-!  implicit none
+  implicit none
 
 ! Main program lists and defines model symbols, coordinates model
 ! subroutines, and establishes iteration sequence.
@@ -9,12 +9,20 @@ program simsphere
 
 !** Compiler identifies FRACTN as unused
 !**   character(len=5) FRACTN
-  integer(kind=1) StabCriteria        ! Neutral (0), Unstable (1), Stable (2)
+  integer(kind=1) :: StabCriteria        ! Neutral (0), Unstable (1), Stable (2)
   real(kind=4) :: Obst_Hgt, zo_patch
-  real(kind=4) Old_Ahum
-  integer(kind=1) init
-  integer No_Rows
-  real(kind=4) ZLS(50)
+  real(kind=4) :: Old_Ahum
+  integer(kind=1) :: init
+  integer :: No_Rows, IONCE, MONCE
+!TJC  real(kind=4) :: ZLS(50)
+  real :: ZLS(50)
+
+!TJC Guessing at some types...
+  real :: B, BareEvapFlux, BareHeatFlux, BareNetRadn, BareRadioTemp
+  real :: MixedNetRadn, OLDTMP, TIME, TMOD
+  real :: VegnNetRadn, VegnRadioTemp
+  integer :: YCOUNT
+  logical :: dual_regime
 
   
 !      INCLUDE 'modvars.h'

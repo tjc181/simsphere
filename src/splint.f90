@@ -1,5 +1,9 @@
 subroutine SPLINT(XA,YA,Y2A,N,X,Y)
+  implicit none
+
+  integer :: n, x, klo, khi, k
   real :: XA(N),YA(N),Y2A(N)
+  real :: A,B,Y,H
 
   KLO=1
   KHI=N

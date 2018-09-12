@@ -76,7 +76,7 @@ subroutine  START (Obst_Hgt,dual_regime,zo_patch)
 
 ! Make conversions
 
-  Btemp = btemp + 273.15
+  Btemp = btemp + Celsius_to_Kelvin
   Outtt = outtt * 60
   CO = CO*1E-6
   CI = CI*1E-6

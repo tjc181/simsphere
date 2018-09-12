@@ -1,4 +1,5 @@
 module simsphere_mod
+  implicit none
 !
 ! Simsphere module provides parameters used by various other parts of the program.
 ! This module was originally three "header" files: constants.h, factors.h, and 
@@ -7,10 +8,20 @@ module simsphere_mod
 ! an initial effort to modernize the code.
 !
 
+! Paremeters incorporated from elsewhere
+
+! snding.f90
+  integer, parameter :: vert_spacing = 250
+
+
 !    list of parameter constants (formerly constants.h).
 
-  real, parameter :: radian = 57.29578
   real, parameter :: rot_rate_earth = 7.27e-5
+  real, parameter :: siga = 279.9348
+
+!  real, parameter :: radian = 57.29578
+  double precision, parameter :: radian = 572957.75913D-4
+  double precision, parameter :: sdec = 39784.988432D-5
 
 !    conversion factors (formerly factors.h)
 
@@ -30,6 +41,8 @@ module simsphere_mod
   real :: u_fine(51),v_fine(51),t_fine(51),q_fine(51)
   integer(kind=1) :: cld_fract
   logical :: cloud_flag
+
+  integer :: RCCAP
 
   real, parameter :: dens = 1.1 ! Density of Air
   real, parameter :: ft = 1.0
@@ -95,8 +108,8 @@ module simsphere_mod
   real :: THV,THMAX,PSIG,RKW,VFL,BETA,B1,B2,PSICM,PSICE,SC,ZP,MINTEMP,MAXTEMP,RCUT,RAF,RMIN,VEGHEIGHT
 
   real :: FS,RSCRIT,PSIWC,PSIM,PSIE,RS,WPSI,RLPSI,FC,FPSIE,RL,ZG,RLELF
-! ** Removed JCAP declared elsewhere
-  real :: VOLINI,RKOCAP,ZSTINI,FRHGT,FRZP,RCCAP,RZCAP,VOLREL
+! ** Removed JCAP, RCCAP declared elsewhere
+  real :: VOLINI,RKOCAP,ZSTINI,FRHGT,FRZP,RZCAP,VOLREL
   real :: PSIST,PSIX,FST,DELTVST,VOLRMV,ZST,CAPACI,FLUXGD,VOLIST,PSISUP
   real :: rks, cosbyb, psis
 ! ** Declared previously
@@ -155,7 +168,7 @@ module simsphere_mod
 !       DELTA/90/
 
   real :: MOL = 0.0
-  integer :: BULK = 0
+  real :: BULK = 0.0
   integer :: IFIRST = 0
   integer :: NLVLS = 5
 !  DATA MOL,BULK,IFIRST,NLVLS /3*0,5/
