@@ -14,7 +14,7 @@ program test_simsphere
   real(kind=4), allocatable :: st_arg3(:)
   integer :: st_arg4, st_arg5
   integer, parameter :: splint_max_array = 50
-  real :: st_arg6
+  real :: splint_output
 
 ! Set logical to control test execution
   start_test = .false.
@@ -44,11 +44,10 @@ program test_simsphere
       end do
     end if
     st_arg5 = 3
-    st_arg6 = 3.5
 
-    call splint(st_arg1, st_arg2, st_arg3, st_arg4, st_arg5, st_arg6)
-    if (st_arg6 .ne. 1.5) then
-      write(*,*) 'splint_test: left /= right: ', st_arg6, 1.5
+    splint_output=splint(st_arg1, st_arg2, st_arg3, st_arg4, st_arg5)
+    if (splint_output .ne. 1.5) then
+      write(*,*) 'splint_test: left /= right: ', splint_output, 1.5
     else
       write(*,*) 'splint_test: OK'
     end if

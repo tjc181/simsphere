@@ -1,7 +1,9 @@
 module simsphere_mod
   implicit none
+  public
+
 !
-! Simsphere module provides parameters used by various other parts of the program.
+! Simsphere module provides parameters and functions used by various other parts of the program.
 ! This module was originally three "header" files: constants.h, factors.h, and 
 ! modvars.h.  These files were used via an INCLUDE (or, originally, $INCLUDE for a
 ! suspected DEC compiler).  The contents have been collected into this module in
@@ -183,4 +185,36 @@ module simsphere_mod
 !  SUBROUTINE  BLOCK ()
 
 !  END
+
+  contains
+    
+    real pure function splint(XA,YA,Y2A,n,x)
+      integer, intent(in) :: n, x
+      real, intent(in) :: XA(50), YA(50), Y2A(n)
+    
+      real :: h, a, b
+      integer :: klo, khi, k
+    
+      klo=1
+      khi=n
+    
+      do 
+        if (khi-klo .le. 1) exit
+        if (khi-klo .gt. 1) then
+          k=(khi+klo)/2
+          if (XA(k) .gt. x) then
+            khi=k
+          else
+            klo=k
+          end if
+        end if
+      end do
+    
+      H=XA(KHI)-XA(KLO)
+      A=(XA(KHI)-X)/H
+      B=(X-XA(KLO))/H
+      splint=A*YA(KLO)+B*YA(KHI)+((A**3-A)*Y2A(KLO)+(B**3-B)*Y2A(KHI))*(H**2)/6.
+    
+    end function
+
 end module simsphere_mod

@@ -106,7 +106,7 @@ SUBROUTINE SNDING (ZLS, Old_Ahum)
   do i = 0, NTRP
     h = 50 + (Vert_Spacing * i)
     zi(i+1) = h
-    call splint (ZLS, Pot_Temp, derivs, NOBS_pTq, h, TD(i+1))
+    TD(i+1) = splint (ZLS, Pot_Temp, derivs, NOBS_pTq, h)
   end do
 
 ! Free up space taken by the list of derivatives
@@ -131,7 +131,7 @@ SUBROUTINE SNDING (ZLS, Old_Ahum)
 
   do i = 0, NTRP
     h = 50 + (Vert_Spacing * i)
-    call splint (ZLS, QS, derivs, NOBS_pTq, h, QD(i+1))
+    QD(i+1) =  splint (ZLS, QS, derivs, NOBS_pTq, h)
   end do
 
 ! Free up space taken by the list of derivatives
@@ -161,7 +161,7 @@ SUBROUTINE SNDING (ZLS, Old_Ahum)
 
   do i = 0, NTRP
     h = 50 + (Vert_Spacing * i)
-    call splint (ZH, ucomp, derivs, NOBS_wind, h, UD(i+1))
+    UD(i+1) = splint (ZH, ucomp, derivs, NOBS_wind, h)
   end do
 
 ! Free up space taken by the list of derivatives
@@ -188,7 +188,7 @@ SUBROUTINE SNDING (ZLS, Old_Ahum)
 
   do i = 0, NTRP
     h = 50 + (Vert_Spacing * i)
-    call splint (ZH, vcomp, derivs, NOBS_wind, h, VD(i+1))
+    VD(i+1) = splint (ZH, vcomp, derivs, NOBS_wind, h)
   end do
 
 ! Free up space taken by the list of derivatives
