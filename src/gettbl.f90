@@ -12,7 +12,7 @@ subroutine  GETTBL
 ! The subroutine also copies the scattering (SCATBL) and the
 ! backscattering (BSCTBL) tables from file into the common block.
 
-  real :: A(46) , B(46) , C(46)
+  real(kind=4) :: A(46) , B(46) , C(46)
   real :: FRACT, FRACT2
   integer :: I,J,K,L
 

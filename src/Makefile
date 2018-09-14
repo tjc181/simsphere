@@ -5,9 +5,9 @@ FCFLAGS= -I. -Wall -pedantic -std=f2003 -ggdb -fbacktrace
 PROG=simsphere
 
 $(PROG): 
-	$(FC) $(FCFLAGS) -o ../$(PROG) $(FILES)
+	$(FC) $(FCFLAGS) -o ../bin/$(PROG) $(FILES)
 
 all: $(PROG)
 
 clean:
-	$(RM) *.o *.gch *.mod $(PROG) 
+	$(RM) *.o *.mod 

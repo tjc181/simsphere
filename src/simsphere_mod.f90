@@ -220,7 +220,7 @@ module simsphere_mod
     pure function spline(X,Y,N,YP1,YPN)
       integer, parameter :: NMAX=100
       real :: U(NMAX)
-      real :: Q,UN,QN,P,SIG
+      real :: UN,QN,P,SIG
       integer, intent(in) :: N
       integer :: i, k
       real, intent(in) :: X(N), Y(N), YP1, YPN

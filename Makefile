@@ -1,16 +1,23 @@
 FC=gfortran
 SRC= src
-TESTS= tests
 PROG=simsphere
+BIN= bin
 
 $(PROG): $(SRC)
 
-$(SRC):
+$(SRC): $(BIN)
 	$(MAKE) -C $@ $(MAKECMDGOALS)
 
-all: $(PROG)
+$(BIN):
+	mkdir $(BIN)
+
+all: $(PROG) 
+
+test: $(BIN)
+	$(MAKE) -C tests $(MAKECMDGOALS)
+	$(BIN)/test
 
 clean:
-	$(RM) *.o *.gch *.mod $(PROG) 
+	$(RM) *.o *.mod $(BIN)/$(PROG) $(BIN)/test
 
 .PHONY: $(SRC)

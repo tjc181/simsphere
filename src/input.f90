@@ -13,7 +13,7 @@ subroutine INPUT
 
   real :: FTABS, FBSCAT, FTSCAT, PATH, RM, S, N
   real :: TABS, BSCAT, TSCAT, TABSD, BSCATD, TSCATD
-  real :: DF, DE, SIG, EQT, HRANGL, SLB, SOLEL, SHEAT, HI, XSER
+  real :: DF, DE, SIG, EQT, HRANGL, SLB, SHEAT, HI, XSER, SOLEL
   real :: RLPATH, sinsolelslope, solelslope
   real, parameter :: skonst = 1.94*4.1868e4/60
   integer :: IMO1, JMO, I, K, DAD, GMT
@@ -62,7 +62,7 @@ subroutine INPUT
 ! **  Correction to declination caused by elliptical orbit.
 
   SIG = SIGA + DF + 1.914827 * SIN( DE ) - 0.079525 * COS( DE )         &
-        + 0.019938 * SIN( DE * 2 ) - 0.00162 * COS( DE * 2 )
+        & + 0.019938 * SIN( DE * 2 ) - 0.00162 * COS( DE * 2 )
   SIG = SIG / RADIAN
 
 ! **  Declination of the sun.
@@ -72,7 +72,7 @@ subroutine INPUT
 ! **  True solar noon.
 
   EQT = 0.12357 * SIN( DE ) - 0.004289 * COS( DE )                      &
-        + 0.153809 * SIN( DE * 2 ) + 0.060783 * COS( DE * 2 )
+        & + 0.153809 * SIN( DE * 2 ) + 0.060783 * COS( DE * 2 )
   EQT = EQT + 12
 
 19 CONTINUE
@@ -140,7 +140,7 @@ subroutine INPUT
   SHEAT = SKONST * sinsolelslope / S
   XSER  = BSCATD * ALBDOE * ( 1 - TSCATD ) * TABSD * SIN( SOLEL )
   HI = ( SHEAT * TABS * TSCAT ) + ( SKONST / S* TABS * ( 1 - TSCAT )    &
-       * ( 1 - BSCAT ) ) * SIN( SOLEL )
+&       * ( 1 - BSCAT ) ) * SIN( SOLEL )
   SWAVE = ( HI * ( 1 - ALBDOE ) ) / ( 1 - XSER )
 
   IF(CLOUD_FLAG) SWAVE = SWAVE*(1-(0.7*(0.1*CLD_FRACT)))
