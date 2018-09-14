@@ -13,7 +13,7 @@ program simsphere
   real(kind=4) :: Obst_Hgt, zo_patch
   real(kind=4) :: Old_Ahum
   integer(kind=1) :: init
-  integer :: No_Rows, IONCE, MONCE
+  integer :: No_Rows, IONCE=0, MONCE=0
 !TJC  real(kind=4) :: ZLS(50)
   real :: ZLS(50)
 
@@ -29,7 +29,7 @@ program simsphere
 
 ! Set initial values to variables, see BLOCK.FOR
 
-  DATA IONCE,MONCE,ycount,TIME / 2*0,2*0.0 /
+  DATA ycount,TIME / 2*0.0 /
   StabCriteria = 0
   init = 1
 

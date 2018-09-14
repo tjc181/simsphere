@@ -254,5 +254,34 @@ module simsphere_mod
       return
     end function
 
+    pure function ftabsT(path)
+      real :: FTABST, FRACP, FRACT, FRACT2
+      real, intent(in) :: path
+      integer :: IPATH, JPATH
+
+!     Subroutine TRANSM calculates solar transmission by using the
+!     three-way lookup table produced in GETTBL.
+
+! **  If the path length is very large (sun almost on the horizon) use
+! **  longest path length possible, ie last number in the table. Otherwise
+! **  calc trans coeff's for entries bracketing the supplied path length.
+! **  FRACTP - Scaling fact for depth of atmos. FRACT & FRACT2 weighting
+! **  factors for interpol'n between 2 successive path lenghts in table.
+
+      if ( path .GE. 10 ) then
+        FTABST = ABSTBL (46)
+      else
+        FRACP = PS1 / 1013.25
+        FRACT= 5 * ( path - 1 ) + 1
+        IPATH = IFIX( FRACT )
+        JPATH = IPATH + 1
+        FRACT = ( FRACT - IPATH )
+        FRACT2 = 1 - FRACT
+        FTABST = FRACT2 * ABSTBL( IPATH ) + FRACT * ABSTBL( JPATH )
+        FTABST = FRACP * ( FTABST - 1 ) + 1
+      end if
+     end function ftabst
+
+
 
 end module simsphere_mod

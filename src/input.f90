@@ -114,6 +114,8 @@ subroutine INPUT
 
   CALL TRANSM (RLPATH,FTABS,FTSCAT,FBSCAT)
 
+  CALL TRANSM (11,FTABS,FTSCAT,FBSCAT)
+
 !  Store values for use.
 
   TABS = FTABS

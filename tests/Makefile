@@ -1,5 +1,5 @@
 FC=gfortran
-FILES= ../src/simsphere_mod.f90 ../src/transm.f90 tests.f90
+FILES= ../src/simsphere_mod.f90 ../src/transm.f90 ../src/gettbl.f90 tests.f90
 #FCFLAGS= -I. -Wall -pedantic -std=f2003 -ggdb -fbacktrace -ffpe-trap=zero,overflow,underflow
 FCFLAGS= -I. -Wall -pedantic -std=f2003 -ggdb -fbacktrace
 
