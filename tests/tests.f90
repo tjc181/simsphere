@@ -61,8 +61,8 @@ program test_simsphere
   spline_test = .true.
   transm_ftabs_test = .true.
   transm_ftabs_test2 = .true.
-  transm_test = .true.
-  transm_test2 = .true.
+  transm_test = .false.
+  transm_test2 = .false.
   transm_ftscatT_test = .true.
   transm_ftscatT_test2 = .true.
   transm_fbscatT_test = .true.

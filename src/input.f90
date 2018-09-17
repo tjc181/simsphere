@@ -112,27 +112,39 @@ subroutine INPUT
   PATH = 0.001 * PS1 * RLPATH
   SOLEL = SOLEL / RADIAN
 
-  CALL TRANSM (RLPATH,FTABS,FTSCAT,FBSCAT)
-
-  CALL TRANSM (11,FTABS,FTSCAT,FBSCAT)
+!TJC  These lines moved to functions in module: ftabsT, ftscatT, fbscatT
+!  CALL TRANSM (RLPATH,FTABS,FTSCAT,FBSCAT)
 
 !  Store values for use.
 
-  TABS = FTABS
-  TSCAT = FTSCAT
-  BSCAT = FBSCAT
+!  TABS = FTABS
+!  TSCAT = FTSCAT
+!  BSCAT = FBSCAT
+
+   TABS = ftabsT(RLPATH)
+   TSCAT = ftscatT(RLPATH)
+   BSCAT = fbscatT(RLPATH)
+
+!TJC End
 
 !  Set the PATH length for diffuse radiation equal to 1.7.
 
   PATH = 1.7
 
-  CALL TRANSM (PATH,FTABS,FTSCAT,FBSCAT)
+!TJC  These lines moved to functions in module: ftabsT, ftscatT, fbscatT
+!  CALL TRANSM (PATH,FTABS,FTSCAT,FBSCAT)
+!
+!!  Again store values for use.
+!
+!  TABSD  = FTABS
+!  TSCATD = FTSCAT
+!  BSCATD = FBSCAT
 
-!  Again store values for use.
+   TABSD = ftabsT(PATH)
+   TSCATD = ftscatT(PATH)
+   BSCATD = fbscatT(PATH)
 
-  TABSD  = FTABS
-  TSCATD = FTSCAT
-  BSCATD = FBSCAT
+!TJC End
 
 ! **  SHEAT >>> Sunlight amount on horizontal plane outside atmosphere
 ! **  XSER  >>> Diffuse Shortwave Radiation at the ground.
