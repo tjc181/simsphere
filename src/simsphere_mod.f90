@@ -276,8 +276,47 @@ module simsphere_mod
         ftabst = fract2 * abstbl( ipath ) + fract * abstbl( jpath )
         ftabst = fracp * ( ftabst - 1 ) + 1
       end if
-     end function ftabst
+     end function ftabsT
 
+    pure function ftscatT(path)
+      real :: ftscatT, fracp, fract, fract2
+      real, intent(in) :: path
+      integer :: ipath, jpath
 
+!     Reference comments in ftabsT()
+
+      if ( path >= TRANSM_MAX_PATH ) then
+        ftscatT = scatbl(size(scatbl))
+      else
+        fracp = ps1 / 1013.25
+        fract= 5 * ( path - 1 ) + 1
+        ipath = INT( fract )
+        jpath = ipath + 1
+        fract = ( fract - ipath )
+        fract2 = 1 - fract
+        ftscatT = fract2 * scatbl( ipath ) + fract * scatbl( jpath )
+        ftscatT = fracp * ( ftscatT - 1 ) + 1
+      end if
+    end function ftscatT
+
+    pure function fbscatT(path)
+      real :: fbscatT, fracp, fract, fract2
+      real, intent(in) :: path
+      integer :: ipath, jpath
+
+!     Reference comments in ftabsT()
+
+      if ( path >= TRANSM_MAX_PATH ) then
+        fbscatT = bsctbl(size(bsctbl))
+      else
+        fracp = ps1 / 1013.25
+        fract= 5 * ( path - 1 ) + 1
+        ipath = INT( fract )
+        jpath = ipath + 1
+        fract = ( fract - ipath )
+        fract2 = 1 - fract
+        fbscatT = fract2 * bsctbl( ipath ) + fract * bsctbl( jpath )
+      end if
+    end function fbscatT
 
 end module simsphere_mod

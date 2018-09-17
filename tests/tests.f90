@@ -9,6 +9,8 @@ program test_simsphere
   
   logical :: splint_test, spline_test, start_test, transm_test, transm_test2
   logical :: transm_ftabs_test, transm_ftabs_test2
+  logical :: transm_ftscatT_test, transm_ftscatT_test2
+  logical :: transm_fbscatT_test, transm_fbscatT_test2
 
 ! splint_test variables
   integer, parameter :: splint_max_array = 50
@@ -38,11 +40,20 @@ program test_simsphere
   real, parameter :: transm_arg3_expected_2 = 0.173223004
   real, parameter :: transm_arg4_expected_2 = 0.304252803
 
-! transm_ftabs variables
-  real :: transm_ftabs_arg1, transm_ftabs_output, transm_ftabs_output2
+! transm_ftabsT variables
+  real :: transm_ftabs_arg1, transm_ftabs_output
   real, parameter :: transm_ftabs_expected = 0.722923875
   real, parameter :: transm_ftabs_expected2 = 0.437107921
 
+! transm_ftscatT variables
+  real :: transm_ftscatT_arg1, transm_ftscatT_output
+  real, parameter :: transm_ftscatT_expected = 0.553545594
+  real, parameter :: transm_ftscatT_expected2 = 0.173223004 
+
+! transm_fbscatT variables
+  real :: transm_fbscatT_arg1, transm_fbscatT_output
+  real, parameter :: transm_fbscatT_expected = 0.307550341
+  real, parameter :: transm_fbscatT_expected2 = 0.304252803
 
 ! Set logical to control test execution
   start_test = .false.
@@ -52,6 +63,10 @@ program test_simsphere
   transm_ftabs_test2 = .true.
   transm_test = .true.
   transm_test2 = .true.
+  transm_ftscatT_test = .true.
+  transm_ftscatT_test2 = .true.
+  transm_fbscatT_test = .true.
+  transm_fbscatT_test2 = .true.
 
 ! Setup for transm tests
   OMEGA = 3.13
@@ -194,11 +209,68 @@ program test_simsphere
 
   if (transm_ftabs_test2) then
     transm_ftabs_arg1 = 11.0
-    transm_ftabs_output2 = ftabst(transm_ftabs_arg1)
-    if (transm_ftabs_output2 /= transm_ftabs_expected2) then
-      write(*,*) 'transm_ftabs2: arg2 actual /= expected: ', transm_ftabs_output2, transm_ftabs_expected2
+    transm_ftabs_output = ftabst(transm_ftabs_arg1)
+    if (transm_ftabs_output /= transm_ftabs_expected2) then
+      write(*,*) 'transm_ftabs2: arg2 actual /= expected: ', transm_ftabs_output, transm_ftabs_expected2
     else
       write(*,*) 'transm_ftabs2: OK'
     end if
   end if
+
+!
+! transm_ftscatT_test
+!
+
+  if (transm_ftscatT_test) then
+    transm_ftscatT_arg1 = 2.75401473
+    transm_ftscatT_output = ftscatT(transm_ftscatT_arg1)
+    if (transm_ftscatT_output /= transm_ftscatT_expected) then
+      write(*,*) 'transm_ftscatT: actual /= expected: ', transm_ftscatT_output, transm_ftscatT_expected
+    else
+      write(*,*) 'transm_ftscatT: OK'
+    end if
+  end if
+
+!
+! transm_ftscatT_test2
+!
+
+  if (transm_ftscatT_test2) then
+    transm_ftscatT_arg1 = 11.0
+    transm_ftscatT_output = ftscatT(transm_ftscatT_arg1)
+    if (transm_ftscatT_output /= transm_ftscatT_expected2) then
+      write(*,*) 'transm_ftscatT2: actual /= expected: ', transm_ftscatT_output, transm_ftscatT_expected2
+    else
+      write(*,*) 'transm_ftscatT2: OK'
+    end if
+  end if
+
+!
+! transm_fbscatT_test
+!
+
+  if (transm_fbscatT_test) then
+    transm_fbscatT_arg1 = 2.75401473
+    transm_fbscatT_output = fbscatT(transm_fbscatT_arg1)
+    if (transm_fbscatT_output /= transm_fbscatT_expected) then
+      write(*,*) 'transm_fbscatT: actual /= expected: ', transm_fbscatT_output, transm_fbscatT_expected
+    else
+      write(*,*) 'transm_fbscatT: OK'
+    end if
+  end if
+
+!
+! transm_fbscatT_test2
+!
+
+  if (transm_fbscatT_test2) then
+    transm_fbscatT_arg1 = 11.0
+    transm_fbscatT_output = fbscatT(transm_fbscatT_arg1)
+    if (transm_fbscatT_output /= transm_fbscatT_expected2) then
+      write(*,*) 'transm_fbscatT2: actual /= expected: ', transm_fbscatT_output, transm_fbscatT_expected2
+    else
+      write(*,*) 'transm_fbscatT2: OK'
+    end if
+  end if
+
 end program
