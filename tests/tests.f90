@@ -28,20 +28,20 @@ program test_simsphere
 
 ! transm_test variables
   real :: transm_arg1, transm_arg2, transm_arg3, transm_arg4
-  real, parameter :: transm_arg2_expected = 0.712951779
+  real, parameter :: transm_arg2_expected = 0.722923875
   real, parameter :: transm_arg3_expected = 0.553545594
   real, parameter :: transm_arg4_expected = 0.307550341
 
 ! transm_test2 variables
   real :: transm_arg1_2, transm_arg2_2, transm_arg3_2, transm_arg4_2
-  real, parameter :: transm_arg2_expected_2 = 0.775118172
-  real, parameter :: transm_arg3_expected_2 = 0.67742461
-  real, parameter :: transm_arg4_expected_2 = 0.310547352
+  real, parameter :: transm_arg2_expected_2 = 0.437107921
+  real, parameter :: transm_arg3_expected_2 = 0.173223004
+  real, parameter :: transm_arg4_expected_2 = 0.304252803
 
 ! transm_ftabs variables
   real :: transm_ftabs_arg1, transm_ftabs_output, transm_ftabs_output2
-  real, parameter :: transm_ftabs_expected = 0.712951779
-  real, parameter :: transm_ftabs_expected2 = 4.56451774E-02
+  real, parameter :: transm_ftabs_expected = 0.722923875
+  real, parameter :: transm_ftabs_expected2 = 0.437107921
 
 
 ! Set logical to control test execution
@@ -53,23 +53,23 @@ program test_simsphere
   transm_test = .true.
   transm_test2 = .true.
 
+! Setup for transm tests
   OMEGA = 3.13
   call GETTBL
   PS1 = 967.0
 
-!
 ! Initialize some external variables used by the transm routine for transm_test
-!?  if (transm_test) then
-!?    ABSTBL(9) = 0.707942665
-!?    ABSTBL(10) = 0.696619153
-!?    SCATBL(9) = 0.548576415
-!?    SCATBL(10) = 0.527300596
-!?    BSCTBL(9) = 0.307897508
-!?    BSCTBL(10) = 0.307446688
-!?    PS1 = 967
-!?  end if
-!?
-!?!
+!  if (transm_test) then
+!    ABSTBL(9) = 0.707942665
+!    ABSTBL(10) = 0.696619153
+!    SCATBL(9) = 0.548576415
+!    SCATBL(10) = 0.527300596
+!    BSCTBL(9) = 0.307897508
+!    BSCTBL(10) = 0.307446688
+!    PS1 = 967
+!  end if
+
+!
 ! Initialize some external variables used by the transm routine for transm_test2
 !  if (transm_test2) then
 !    ABSTBL(4) = 0.771224916
@@ -193,7 +193,7 @@ program test_simsphere
 !
 
   if (transm_ftabs_test2) then
-    transm_ftabs_arg1 = 11
+    transm_ftabs_arg1 = 11.0
     transm_ftabs_output2 = ftabst(transm_ftabs_arg1)
     if (transm_ftabs_output2 /= transm_ftabs_expected2) then
       write(*,*) 'transm_ftabs2: arg2 actual /= expected: ', transm_ftabs_output2, transm_ftabs_expected2
