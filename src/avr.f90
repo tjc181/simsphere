@@ -1,7 +1,8 @@
 subroutine average(T_Unsmoothed, T_smoothed)
+  implicit none
 
-  real :: av_array(4), sum, T_Unsmoothed, T_smoothed
-  integer :: init
+  real :: av_array(4), sum_array, T_Unsmoothed, T_smoothed
+  integer :: init, i, j, k
 
   data init /1/
 
@@ -23,12 +24,12 @@ subroutine average(T_Unsmoothed, T_smoothed)
 
   endif
 
-  sum = 0
+  sum_array = 0
   do k = 1,4
-    sum = av_array(k) + sum
+    sum_array = av_array(k) + sum_array
   end do
 
-  T_smoothed = sum / 4
+  T_smoothed = sum_array / 4
 
   return
 end

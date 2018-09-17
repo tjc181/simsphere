@@ -65,7 +65,7 @@ module simsphere_mod
 ! ** Removed SIGMA, LE, KARMAN, GRAV, R, CP parameter declared elsewhere
 ! **   real :: 
 ! ** Removed RNET, HEAT, EVAP parameter declared elsewhere
-  real :: SUM,OSHUM,XMAX,DQDT,SUMW
+  real :: GBL_sum,OSHUM,XMAX,DQDT,SUMW
 ! ** Removed KAPPA, LAMBDA, ZA declared previously
   real :: FSUB,F,ZO,TP,TI_A,TI_B,DELZ(8),CG
 ! ** Removed CHGT, HGT, DELT, CTHETA, DHET, RAD, DELTA parameter declared elsewhere
@@ -318,5 +318,107 @@ module simsphere_mod
         fbscatT = fract2 * bsctbl( ipath ) + fract * bsctbl( jpath )
       end if
     end function fbscatT
+
+    !  Function Definitions for Vel */
+    
+    !
+    real function You_star (Wind,Height,Roughness,Stability)
+      real(kind=4), parameter :: R_Karman = 0.4
+      real :: Wind, Height, Roughness, Stability
+    
+      You_star = R_Karman * Wind / ((ALOG(Height / Roughness) + Stability))  
+    
+      return
+    end function You_star
+    
+    !
+    
+    real function R_ohms (Friction,Height,Roughness,Stability)
+      real(kind=4), parameter :: Karman = 0.4
+      real(kind=4), parameter :: Konst = 0.74
+      real :: Friction, Height, Roughness, Stability
+             
+      R_ohms = Konst * (ALOG(Height/Roughness) + Stability)/(Karman * Friction)
+       
+      return
+    end function R_ohms
+    
+    !
+    
+    real function WindF (Star,Height,Roughness,Stability)
+      real(kind=4), parameter :: R_Karman = 0.4
+      real :: Star, Height, Roughness, Stability
+    
+      WindF = (Star / R_Karman)*(ALOG(Height/Roughness) + Stability)
+    
+      return
+    end function WindF
+    
+    !
+    
+    real function Stab (Height)
+!      use simsphere_mod
+    
+      real :: Height
+    ! MOL and MOLDAY declared in simsphere module
+    !  real(kind=4) :: MOL
+    !
+    !  COMMON /MOLDAY/ MOL,BULK 
+    
+      Stab = (1 - 15 * Height / MOL)**0.25
+    
+      return
+    end function Stab
+    
+    !
+    
+    real function StabH (Height)
+!      use simsphere_mod
+      real :: Height
+    
+    ! MOL and MOLDAY declared in simsphere module
+    !  real(kind=4) :: MOL
+    !
+    !  COMMON /MOLDAY/ MOL,BULK 
+    
+      StabH = (1 - 9 * Height / MOL)**0.5
+           
+      return
+    end function StabH
+    
+    !
+    
+    real function FstabH (Par1,Par2)
+      real :: Par1, Par2
+    
+      FstabH = 2 * ALOG(( Par1 + 1) / (Par2 + 1))
+           
+      return
+    end function FstabH
+    
+    !
+    
+    real function FstabM (Par1,Par2)
+      real :: Par1, Par2
+    
+      FStabM = ALOG (((Par1**2 + 1 ) * (Par1 + 1 )**2 ) /                   &
+                    ((Par2 + 1 ) * (Par2 + 1 )**2 )) + 2 *                  &
+                    ( ATAN(Par2) - ATAN(Par1))
+           
+      return
+    end function FstabM
+    
+    !
+    
+    real function ResTrn (Star,Roughness,Par3)
+      real :: Star, Roughness, Par3
+    
+      real(kind=4), parameter :: R_KARMAN = 0.4
+    
+      RESTRN = (ALOG(R_KARMAN* Star*Roughness+Par3) - ALOG(Par3)) / (R_KARMAN  * Star)
+    
+      return
+    end function ResTrn
+
 
 end module simsphere_mod

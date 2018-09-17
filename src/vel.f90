@@ -1,5 +1,6 @@
 subroutine VEL (MONCE,IONCE,StabCriteria,YCOUNT,Obst_Hgt,dual_regime,zo_patch)
   use simsphere_mod
+  implicit none
 
 !  Subroutine VEL computes the Monin Obukhov Length, the Friction
 !  Velocity and the Integral of Heat Diffusivity.
@@ -12,6 +13,15 @@ subroutine VEL (MONCE,IONCE,StabCriteria,YCOUNT,Obst_Hgt,dual_regime,zo_patch)
   real(kind=4) :: Obst_Hgt,zo_patch
   integer(kind=1) :: StabCriteria
   logical :: dual_regime
+  integer :: MONCE, IONCE, YCOUNT
+  real :: REFLEV, ZTEN, CMH, CMW
+  real :: USCRN, RZAZO, U_Patch, Ustar_Patch, RZA_Obst, RObst_Patch
+  real :: PTMP20, BOWEN, RTRANS, RTRANO3
+  real :: SA, SRFCZO, SO10M, STEN, FM, FTEN, USTAR1
+  real :: CHIO, CHIA, CHI20, T_ft, FT20, SObst_Hgt, FObst_Hgt
+  real :: CH_Obst_Hgt, FT_Obst_Hgt, RZA_Obst_Hgt
+  real :: T1, PSIHNEW, REKUST
+  real :: Rtrans_patch, RtransW_patch
       
 !      INCLUDE 'modvars.h'
 
@@ -33,15 +43,15 @@ subroutine VEL (MONCE,IONCE,StabCriteria,YCOUNT,Obst_Hgt,dual_regime,zo_patch)
        
     USTAR = You_Star (AWIND,ZA,ZO,0.0)      ! Friction Velocity
 
-    USCRN = Wind (USTAR,Reflev,ZO,0.0)      ! Wind Speeds
-    UTEN =  Wind (USTAR,ZTEN,ZO,0.0)
+    USCRN = WindF (USTAR,Reflev,ZO,0.0)      ! Wind Speeds
+    UTEN =  WindF (USTAR,ZTEN,ZO,0.0)
 
     RZAZO = R_ohms (USTAR,ZA,ZO,0.0)        ! Resistances
     RZASCR = R_ohms (USTAR,ZA,REFLEV,0.0) 
        
   if (dual_regime) then
 
-     U_Patch = Wind (USTAR,Obst_Hgt,ZO,0.0)
+     U_Patch = WindF (USTAR,Obst_Hgt,ZO,0.0)
      Ustar_Patch = You_Star (U_Patch,Obst_Hgt,zo_patch,0.0)
      RZA_Obst = R_ohms (USTAR,ZA,Obst_Hgt,0.0)
      RObst_Patch = R_ohms (Ustar_Patch,Obst_Hgt,zo_patch,0.0)
@@ -92,8 +102,8 @@ subroutine VEL (MONCE,IONCE,StabCriteria,YCOUNT,Obst_Hgt,dual_regime,zo_patch)
     T_ft = FstabH (CHIO,CHIA)
     FT20 = FstabH (CHI20,CHIA)
        
-    UTEN = Wind (USTAR,ZTEN,ZO,FTEN)       ! Surface Winds at 
-    USCRN = Wind (USTAR,REFLEV,ZO,0.0)     ! Screen Level & 10 metres
+    UTEN = WindF (USTAR,ZTEN,ZO,FTEN)       ! Surface Winds at 
+    USCRN = WindF (USTAR,REFLEV,ZO,0.0)     ! Screen Level & 10 metres
 
     RZASCR = R_ohms (USTAR,ZA,REFLEV,FT20) ! Resistances in 
     RZAZO = R_ohms (USTAR,ZA,ZO,T_ft)  ! Surface Layer
@@ -102,7 +112,7 @@ subroutine VEL (MONCE,IONCE,StabCriteria,YCOUNT,Obst_Hgt,dual_regime,zo_patch)
 
       Sobst_Hgt = Stab (Obst_Hgt)
       Fobst_Hgt = FstabM (SRFCZO, Sobst_Hgt)
-      U_Patch = Wind (USTAR,Obst_Hgt,ZO,0.0)
+      U_Patch = WindF (USTAR,Obst_Hgt,ZO,0.0)
       Ustar_Patch = You_Star(U_Patch,Obst_Hgt,zo_patch,Fobst_Hgt)
 
       CH_Obst_Hgt = StabH (Obst_Hgt) 
@@ -160,7 +170,7 @@ subroutine VEL (MONCE,IONCE,StabCriteria,YCOUNT,Obst_Hgt,dual_regime,zo_patch)
 
 !  Finally compute the total series resistance over both layers.
 
-  SUM = RZAZO + RTRANS
+  GBL_sum = RZAZO + RTRANS
   SUMW = RZAZO + RTRANW
   sumo3 = rzazo + rtrano3
 
@@ -168,7 +178,7 @@ subroutine VEL (MONCE,IONCE,StabCriteria,YCOUNT,Obst_Hgt,dual_regime,zo_patch)
     Rtrans_Patch = ResTrn (ustar_patch,ZO,KMM)
     RtransW_Patch = ResTrn (ustar_patch,ZO,KX)
 
-    SUM = RZA_Obst_Hgt + RObst_Patch + Rtrans_Patch
+    GBL_sum = RZA_Obst_Hgt + RObst_Patch + Rtrans_Patch
     SUMW = RZA_Obst_Hgt + RObst_Patch + RtransW_Patch
   End if
 
@@ -179,103 +189,6 @@ subroutine VEL (MONCE,IONCE,StabCriteria,YCOUNT,Obst_Hgt,dual_regime,zo_patch)
   END IF
 
   return
-end
 
+end subroutine
 
-
-!  Function Definitions for Vel */
-
-!
-
-function You_star (Wind,Height,Roughness,Stability)
-
-  real(kind=4), parameter :: R_Karman = 0.4
-
-  You_star = R_Karman * Wind / ((ALOG(Height / Roughness) + Stability))  
-
-  return
-end 
-
-!
-
-function R_ohms (Friction,Height,Roughness,Stability)
-
-  real(kind=4), parameter :: Karman = 0.4
-  real(kind=4), parameter :: Konst = 0.74
-           
-  R_ohms = Konst * (ALOG(Height/Roughness) + Stability)/(Karman * Friction)
-     
-  return
-end
-
-!
-
-function Wind (Star,Height,Roughness,Stability)
-
-  real(kind=4), parameter :: R_Karman = 0.4
-
-  Wind = (Star / R_Karman)*(ALOG(Height/Roughness) + Stability)
-
-  return
-end
-
-!
-
-function Stab (Height)
-  use simsphere_mod
-
-! MOL and MOLDAY declared in simsphere module
-!  real(kind=4) :: MOL
-!
-!  COMMON /MOLDAY/ MOL,BULK 
-
-  Stab = (1 - 15 * Height / MOL)**0.25
-
-  return
-end
-
-!
-
-function StabH (Height)
-  use simsphere_mod
-
-! MOL and MOLDAY declared in simsphere module
-!  real(kind=4) :: MOL
-!
-!  COMMON /MOLDAY/ MOL,BULK 
-
-  StabH = (1 - 9 * Height / MOL)**0.5
-       
-  return
-end 
-
-!
-
-function FstabH (Par1,Par2)
-
-  FstabH = 2 * ALOG(( Par1 + 1) / (Par2 + 1))
-       
-  return
-end
-
-!
-
-function FstabM (Par1,Par2)
-
-  FStabM = ALOG (((Par1**2 + 1 ) * (Par1 + 1 )**2 ) /                   &
-                ((Par2 + 1 ) * (Par2 + 1 )**2 )) + 2 *                  &
-                ( ATAN(Par2) - ATAN(Par1))
-       
-  return
-end
-
-!
-
-function ResTrn (Star,Roughness,Par3)
-
-  real(kind=4), parameter :: R_KARMAN = 0.4
-
-  RESTRN = (ALOG(R_KARMAN* Star*Roughness+Par3) - ALOG(Par3)) / (R_KARMAN  * Star)
-
-  return
-end

@@ -1,5 +1,6 @@
 subroutine  NETRAD (Time,BareRadioTemp,VegnRadioTemp,BareNetRadn,VegnNetRadn,MixedNetRadn,Init)
   use simsphere_mod
+  implicit none
 
 !  Subroutine NETRAD computes up and down longwave fluxes and
 !  the Net Radiation.
@@ -8,6 +9,7 @@ subroutine  NETRAD (Time,BareRadioTemp,VegnRadioTemp,BareNetRadn,VegnNetRadn,Mix
   real :: BareNetRadn,VegnNetRadn,MixedNetRadn
   real :: VegnShortWave
   real :: Lwup
+  real :: time
   integer(kind=1) :: Init
 
 !      INCLUDE 'modvars.h'

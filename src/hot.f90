@@ -1,5 +1,6 @@
 subroutine  HOT (B,BareNetRadn,BareEvapFlux,BareHeatFlux)
   use simsphere_mod
+  implicit none
 
 
 !  HOT is called during the day to compute the sensible heat flux HEAT
@@ -7,6 +8,7 @@ subroutine  HOT (B,BareNetRadn,BareEvapFlux,BareHeatFlux)
 
   real :: BareNetRadn,BareEvapFlux
   real :: BareHeatFlux,VegnHeatFlux,MixedHeatFlux
+  real :: A, B
 
 !      INCLUDE 'modvars.h'
 
@@ -23,7 +25,7 @@ subroutine  HOT (B,BareNetRadn,BareEvapFlux,BareHeatFlux)
   else if (Frveg .gt. 0 .and. Frveg .lt. 1 .and. Rnet .gt. 0) then
 
 ! Mixed
-    BareHeatFlux = (BareNetRadn - BareEvapFlux - A) / (1+B*SUM)
+    BareHeatFlux = (BareNetRadn - BareEvapFlux - A) / (1+B*GBL_sum)
     call Veghot (B,VegnHeatFlux)
     MixedHeatFlux = (1-Frveg) * BareHeatFlux + Frveg * VegnHeatFlux
     Heat = MixedHeatFlux
@@ -31,7 +33,7 @@ subroutine  HOT (B,BareNetRadn,BareEvapFlux,BareHeatFlux)
 
 ! Bare Soil
 
-    BareHeatFlux = (BareNetRadn - BareEvapFlux - A) / (1 + B * SUM)
+    BareHeatFlux = (BareNetRadn - BareEvapFlux - A) / (1 + B * GBL_sum)
     Heat = BareHeatFlux
 
   end if

@@ -1,5 +1,6 @@
 subroutine FLUX (BareRadioTemp,VegnRadioTemp,BareEvapFlux,BareHeatFlux)
   use simsphere_mod
+  implicit none
 
 !  During the day FLUX calc's surface temp and surface specific humidity
 !  from temp and humidity at ZA and the sensible & latent heat fluxes.
@@ -43,7 +44,7 @@ subroutine FLUX (BareRadioTemp,VegnRadioTemp,BareEvapFlux,BareHeatFlux)
 ! Bare soil
 
   else
-    BareRadioTemp = Aptemp + ( BareHeatFlux * Sum / ( Dens * Cp ) )     &
+    BareRadioTemp = Aptemp + ( BareHeatFlux * GBL_sum / ( Dens * Cp ) )     &
                     - Tdif_s
 
     Otemp=BareRadioTemp
