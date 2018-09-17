@@ -10,13 +10,8 @@ module simsphere_mod
 ! an initial effort to modernize the code.
 !
 
-! Paremeters incorporated from elsewhere
-
-! snding.f90
   integer, parameter :: vert_spacing = 250
-
-
-!    list of parameter constants (formerly constants.h).
+  integer, parameter :: TRANSM_MAX_PATH = 10
 
   real, parameter :: rot_rate_earth = 7.27e-5
   real, parameter :: siga = 279.9348
@@ -26,7 +21,6 @@ module simsphere_mod
   double precision, parameter :: sdec = 39784.988432D-5
 
 !    conversion factors (formerly factors.h)
-
   real, parameter :: Kts_To_Metres = 1.944       ! Knots to ms-1
   real, parameter :: Ft_To_Metres = 3.281        ! Feet to meters
   real, parameter :: Degs_To_Radians = 0.0174533 ! Degrees to Radians
@@ -50,7 +44,7 @@ module simsphere_mod
   real, parameter :: ft = 1.0
   integer, parameter :: rhow=1000 ! Density of Water
 
-  real :: ABSTBL(50),BSCTBL(50),SCATBL(50)
+  real :: ABSTBL(46),BSCTBL(46),SCATBL(46)
   real :: UGS,VGS,ANGL,DTX,DTY,CF
 ! ** NTRP is used as a step in a do loop and array index, must be an integer
   integer :: NTRP
@@ -270,8 +264,8 @@ module simsphere_mod
 
 ! ABSTBL and PS1 are globals...pass these in as arguments, instead?
 
-      if ( path .GE. 10 ) then
-        ftabst = abstbl(46)
+      if ( path >= TRANSM_MAX_PATH ) then
+        ftabst = abstbl(size(abstbl))
       else
         fracp = ps1 / 1013.25
         fract= 5 * ( path - 1 ) + 1
