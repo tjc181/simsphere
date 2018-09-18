@@ -37,7 +37,7 @@ program simsphere
 ! going and Snding reads in the sounding file.
 
 
-  OPEN ( UNIT=11, FILE = 'o_model.dat' ) ! Open the output file
+  OPEN ( UNIT=11, FILE = f_output ) ! Open the output file
 
 !  CALL START (Obst_Hgt,dual_regime,zo_patch) ! Read and Check data
   CALL START (Obst_Hgt)                       ! Read data

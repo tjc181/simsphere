@@ -18,7 +18,7 @@ subroutine  GETTBL
 
 !      INCLUDE 'modvars.h'
 
-  OPEN (UNIT = 14, FILE = 'LUT.DAT')
+  OPEN (UNIT = 14, FILE = f_precip_lut )
 
   I = INT(1 + OMEGA * 2)
   J = I - 1

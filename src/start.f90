@@ -24,7 +24,7 @@ subroutine  START (Obst_Hgt)
 ! **  This subroutine reads in the control variables from the input
 ! **  file.
 
-  OPEN ( UNIT=9, FILE = 'i_model.dat' ) ! Open file for input
+  OPEN ( UNIT=9, FILE = f_control ) ! Open file for input
                                               ! Closed in Snding.for
 !     ^^^^------------------- it should have been, but it wasn't.
 
@@ -51,7 +51,7 @@ subroutine  START (Obst_Hgt)
   xlef = 1
 
   If (FRVEG .gt. 0.0 .and. stmtype .eq. 'L') then
-    open (1, file = 'soils.dat') ! Begin with opening the file
+    open (1, file = f_soil_lut) ! Begin with opening the file
 
     Read (1, *) num_soils             ! Required for Interface
 
@@ -61,7 +61,7 @@ subroutine  START (Obst_Hgt)
 
     close (unit = 1)
 
-    open (1, file = 'veglut.dat') ! Open Veg File
+    open (1, file = f_veg_lut) ! Open Veg File
 
     Read (1, *) num_of_veggies    ! Required for Interface
 
