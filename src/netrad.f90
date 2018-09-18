@@ -16,7 +16,12 @@ subroutine  NETRAD (Time,BareRadioTemp,VegnRadioTemp,BareNetRadn,VegnNetRadn,Mix
 
 !    Compute the solar radiation.
 
-  call Input
+  if ( time >= 0.0 ) then
+    call Input
+  else
+    write(*,*) 'Error: negative time detected.'
+    continue
+  end if
 
 !  Calculate the net radiation for the appropriate ground conditions.
 !  The decision is made on the fraction of vegetation.

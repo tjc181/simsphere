@@ -17,10 +17,8 @@ module simsphere_mod
   real, parameter :: siga = 279.9348
 
 !  real, parameter :: radian = 57.29578
-!  double precision, parameter :: radian = 572957.75913D-4
-!  double precision, parameter :: sdec = 39784.988432D-5
-  real, parameter :: radian = 572957.75913D-4
-  real, parameter :: sdec = 39784.988432D-5
+  double precision, parameter :: radian = 572957.75913D-4
+  double precision, parameter :: sdec = 39784.988432D-5
 
 !    conversion factors (formerly factors.h)
   real, parameter :: Kts_To_Metres = 1.944       ! Knots to ms-1

@@ -74,8 +74,8 @@ SUBROUTINE SNDING (ZLS, Old_Ahum)
 ! Calculate u and v velocity components
 
   do J = 1 , NOBS_wind
-    ucomp(j)=(-FF0(j)*cos((90.-DD0(j))/radian))/Kts_To_Metres
-    vcomp(j)=(-FF0(j)*sin((90.-DD0(j))/radian))/Kts_To_Metres
+    ucomp(j)=real((-FF0(j)*cos((90.-DD0(j))/radian))/Kts_To_Metres,4)
+    vcomp(j)=real((-FF0(j)*sin((90.-DD0(j))/radian))/Kts_To_Metres,4)
   end do
 
 ! Number of levels it's possible to interpolate (NTRP) to are

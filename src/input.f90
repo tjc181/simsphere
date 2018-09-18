@@ -17,9 +17,9 @@ subroutine INPUT
   real :: RM, S, N, RLPATH, PATH
   real :: TABS, BSCAT, TSCAT, TABSD, BSCATD, TSCATD
   real :: DF, DE, SIG, EQT, HRANGL, SLB, SHEAT, HI, XSER, SOLEL
-  real :: sinsolelslope, solelslope 
+  real :: sinsolelslope, solelslope, GMT
   real, parameter :: skonst = 1.94*4.1868e4/60
-  integer :: IMO1, JMO, I, K, DAD, GMT
+  integer :: IMO1, JMO, I, K, DAD
 
 !      INCLUDE 'modvars.h'
 
@@ -60,17 +60,17 @@ subroutine INPUT
 ! **  Calculate the angular fraction of a year, convert to radians.
 
   DF = DAD * 360 / 365.242
-  DE = DF / RADIAN
+  DE = real(DF / RADIAN,4)
 
 ! **  Correction to declination caused by elliptical orbit.
 
   SIG = SIGA + DF + 1.914827 * SIN( DE ) - 0.079525 * COS( DE )         &
         & + 0.019938 * SIN( DE * 2 ) - 0.00162 * COS( DE * 2 )
-  SIG = SIG / RADIAN
+  SIG = real(SIG / RADIAN,4)
 
 ! **  Declination of the sun.
 
-  EFFDEC = ASIN( SDEC * SIN( SIG ) )
+  EFFDEC = real(ASIN( SDEC * SIN( SIG ) ),4)
 
 ! **  True solar noon.
 
@@ -87,13 +87,13 @@ subroutine INPUT
 !  Calculate the solar hour angle in radians.
 
   HRANGL = 15 * ( GMT - EQT ) - XLONG
-  HRANGL = HRANGL / RADIAN
+  HRANGL = real(HRANGL / RADIAN,4)
 
 !  Now we can finally compute the solar elevation angle.
 
-  SLB = XLAT / RADIAN
+  SLB = real(XLAT / RADIAN,4)
   SOLSIN = SIN(EFFDEC)*SIN(SLB)+COS(EFFDEC)*COS(SLB)*COS(HRANGL)
-  SOLEL = ASIN( SOLSIN ) * RADIAN
+  SOLEL = real(ASIN( SOLSIN ) * RADIAN,4)
 
   if (SLOPE .GT. 0) then
     call sslope (sinsolelslope,solelslope,effdec,slb,hrangl)
@@ -113,7 +113,7 @@ subroutine INPUT
   RLPATH = ( SOLSIN + 0.15 * ( SOLEL + 3.885 ) ** (-1.253) ) ** (-1)
 !      if (rlpath .lt. 1.0) rlpath = 1.0 
   PATH = 0.001 * PS1 * RLPATH
-  SOLEL = SOLEL / RADIAN
+  SOLEL = real(SOLEL / RADIAN,4)
 
 !  write(*,*) 'SOLSIN: ',SOLSIN, ' SOLEL: ',SOLEL,' RLPATH: ',RLPATH,' PATH: ',PATH
 !TJC  These lines moved to functions in module: ftabsT, ftscatT, fbscatT
@@ -125,9 +125,14 @@ subroutine INPUT
 !  TSCAT = FTSCAT
 !  BSCAT = FBSCAT
 
-   TABS = ftabsT(RLPATH)
-   TSCAT = ftscatT(RLPATH)
-   BSCAT = fbscatT(RLPATH)
+  if ( RLPATH == RLPATH ) then
+    TABS = ftabsT(RLPATH)
+    TSCAT = ftscatT(RLPATH)
+    BSCAT = fbscatT(RLPATH)
+  else
+    write(*,*) 'RLPATH is NaN'
+    continue
+  end if
 
 !TJC End
 
