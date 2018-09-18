@@ -357,5 +357,20 @@ module simsphere_mod
       return
     end function ResTrn
 
+!
+! advect function replaces ADVECT subroutine
+!
+
+   real pure function advect ()
+     implicit none
+
+     real, parameter :: dz = 1000
+     real :: dtdx, dtdy
+
+     dtdx = cf * otemp / (grav * dz) * (vgd(5) - vgd(1))
+     dtdy = -cf * otemp / (grav * dz) * (ugd(5) - ugd(1))
+     advect = (-(ugd(3) * dtdx + vgd(3) * dtdy))/2
+
+   end function advect
 
 end module simsphere_mod

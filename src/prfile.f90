@@ -28,7 +28,8 @@ subroutine  PRFILE
 
   CALL INTPOL
 
-  CALL ADVECT
+!  CALL ADVECT
+  advgt=advect()
 
 
 ! Calc the initial value of the wind at 50 metres .... Vel, Bri.

@@ -12,7 +12,7 @@ program test_simsphere
   logical :: transm_ftabs_test, transm_ftabs_test2
   logical :: transm_ftscatT_test, transm_ftscatT_test2
   logical :: transm_fbscatT_test, transm_fbscatT_test2
-  logical :: advect_test
+  logical :: advect_test, advect_func_test
 
 ! splint_test variables
   integer, parameter :: splint_max_array = 50
@@ -77,7 +77,8 @@ program test_simsphere
   transm_ftscatT_test2 = .true.
   transm_fbscatT_test = .true.
   transm_fbscatT_test2 = .true.
-  advect_test = .true.
+  advect_test = .false.
+  advect_func_test = .true.
 
 ! Setup for transm tests
   if (transm_init) then
@@ -276,7 +277,7 @@ program test_simsphere
     UGD(5) = 13.0658665
     UGD(3) = 9.05783463
     UGD(1) = 5.04980326
-    call advect
+!    call advect
     if (advgt /= advect_test_expected) then
       write(*,*) 'advect_test: actual /= expected: ', advgt, advect_test_expected
     else
@@ -284,5 +285,25 @@ program test_simsphere
     end if
   end if   
 
+!
+! advect_func_test
+!
+  if (advect_func_test) then
+    ! Initialize some globals used in advect
+    CF = 9.19953891E-05
+    OTEMP = 295.149994
+    VGD(5) = 8.41951942
+    VGD(3) = 8.43165302
+    VGD(1) = 8.44378662
+    UGD(5) = 13.0658665
+    UGD(3) = 9.05783463
+    UGD(1) = 5.04980326
+    advgt=advect()
+    if (advgt /= advect_test_expected) then
+      write(*,*) 'advect_test: actual /= expected: ', advgt, advect_test_expected
+    else
+      write(*,*) 'advect_test: OK'
+    end if
+  end if   
 
 end program
