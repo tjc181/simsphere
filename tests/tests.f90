@@ -7,10 +7,12 @@ program test_simsphere
   real(kind=4) :: T_Obst_Hgt, T_zo_patch
   logical :: T_dual_regime
   
-  logical :: splint_test, spline_test, start_test, transm_test, transm_test2
+  logical :: splint_test, spline_test, start_test 
+  logical :: transm_init, transm_test, transm_test2
   logical :: transm_ftabs_test, transm_ftabs_test2
   logical :: transm_ftscatT_test, transm_ftscatT_test2
   logical :: transm_fbscatT_test, transm_fbscatT_test2
+  logical :: advect_test
 
 ! splint_test variables
   integer, parameter :: splint_max_array = 50
@@ -59,10 +61,14 @@ program test_simsphere
   real, parameter :: aepsi_expected = 0.804384410
   real, parameter :: aepsi_cloud_flag_expected = 1.02347386
 
+! advect_test variables
+  real, parameter :: advect_test_expected = 9.41291146E-05
+
 ! Set logical to control test execution
   start_test = .false.
   splint_test = .true.
   spline_test = .true.
+  transm_init = .true.
   transm_ftabs_test = .true.
   transm_ftabs_test2 = .true.
   transm_test = .false.
@@ -71,11 +77,14 @@ program test_simsphere
   transm_ftscatT_test2 = .true.
   transm_fbscatT_test = .true.
   transm_fbscatT_test2 = .true.
+  advect_test = .true.
 
 ! Setup for transm tests
-  OMEGA = 3.13
-  call GETTBL
-  PS1 = 967.0
+  if (transm_init) then
+    OMEGA = 3.13
+    call GETTBL
+    PS1 = 967.0
+  end if
 
 ! Initialize some test values
   T_Obst_Hgt = 0.0
@@ -254,6 +263,26 @@ program test_simsphere
     end if
   end if
 
+!
+! advect_test
+!
+  if (advect_test) then
+    ! Initialize some globals used in advect
+    CF = 9.19953891E-05
+    OTEMP = 295.149994
+    VGD(5) = 8.41951942
+    VGD(3) = 8.43165302
+    VGD(1) = 8.44378662
+    UGD(5) = 13.0658665
+    UGD(3) = 9.05783463
+    UGD(1) = 5.04980326
+    call advect
+    if (advgt /= advect_test_expected) then
+      write(*,*) 'advect_test: actual /= expected: ', advgt, advect_test_expected
+    else
+      write(*,*) 'advect_test: OK'
+    end if
+  end if   
 
 
 end program

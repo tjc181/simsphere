@@ -20,6 +20,6 @@ subroutine  ADVECT
 ! **  geostrophic temperature advection.
  
   ADVGT = ADVGT/2
- 
+
   return
 end
