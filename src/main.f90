@@ -61,7 +61,9 @@ program simsphere
 
   REALTM = TIME + STRTIM
   PTIME = REALTM / 3600.
-  TMOD = MOD (TIME,OUTTT)
+  if ( OUTTT /= 0.0 ) then
+    TMOD = MOD (TIME,OUTTT)
+  end if
                     
 !                CALL SUROUTINES IN THE SOLUTION SEQUENCE.
 
