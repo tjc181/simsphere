@@ -168,7 +168,7 @@ subroutine  BRI (T1,MONCE,PSIHNEW,YCOUNT,ZTEN)
 ! **  Mitre the night-time loop; cycle through twice (120s).
 
   X1 = X1 + 1
-  XMOD = AMOD ( X1 , 2.0 )
+  XMOD = MOD ( X1 , 2.0 )
   IF( XMOD .NE. 0 ) GO TO 11
 
 ! **  Call MOM to calculate the night-time vertical profiles of

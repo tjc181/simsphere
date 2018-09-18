@@ -61,7 +61,7 @@ program simsphere
 
   REALTM = TIME + STRTIM
   PTIME = REALTM / 3600.
-  TMOD = AMOD (TIME,OUTTT)
+  TMOD = MOD (TIME,OUTTT)
                     
 !                CALL SUROUTINES IN THE SOLUTION SEQUENCE.
 

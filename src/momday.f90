@@ -137,7 +137,7 @@ subroutine  MOMDAY
 ! **  Cycle through twice.
 
   XXX = XXX + 1
-  OVER = AMOD( XXX , 2.0)
+  OVER = MOD( XXX , 2.0)
   IF ( OVER .NE. 0 ) GO TO 666
 
 999   continue

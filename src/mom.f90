@@ -132,7 +132,7 @@ subroutine  MOM (Pot_S,DT,MONCE)
 ! **  Increment the time control and cycle through twice (120s).
 
   X1 = X1 + 1
-  XMOD = AMOD ( X1 , 2.0 )
+  XMOD = MOD ( X1 , 2.0 )
   IF ( XMOD .NE. 0 ) GO TO 100
 
   AWIND =  ( SQRT(U(1)**2 + V(1)**2) )
