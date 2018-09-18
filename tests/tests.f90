@@ -55,6 +55,10 @@ program test_simsphere
   real, parameter :: transm_fbscatT_expected = 0.307550341
   real, parameter :: transm_fbscatT_expected2 = 0.304252803
 
+! netrad_init_test variables
+  real, parameter :: aepsi_expected = 0.804384410
+  real, parameter :: aepsi_cloud_flag_expected = 1.02347386
+
 ! Set logical to control test execution
   start_test = .false.
   splint_test = .true.
@@ -72,29 +76,6 @@ program test_simsphere
   OMEGA = 3.13
   call GETTBL
   PS1 = 967.0
-
-! Initialize some external variables used by the transm routine for transm_test
-!  if (transm_test) then
-!    ABSTBL(9) = 0.707942665
-!    ABSTBL(10) = 0.696619153
-!    SCATBL(9) = 0.548576415
-!    SCATBL(10) = 0.527300596
-!    BSCTBL(9) = 0.307897508
-!    BSCTBL(10) = 0.307446688
-!    PS1 = 967
-!  end if
-
-!
-! Initialize some external variables used by the transm routine for transm_test2
-!  if (transm_test2) then
-!    ABSTBL(4) = 0.771224916
-!    ABSTBL(5) = 0.757499993
-!    SCATBL(4) = 0.676431477
-!    SCATBL(5) = 0.647561312
-!    BSCTBL(4) = 0.31090641
-!    BSCTBL(5) = 0.310188293
-!    PS1 = 967
-!  end if
 
 ! Initialize some test values
   T_Obst_Hgt = 0.0
@@ -272,5 +253,7 @@ program test_simsphere
       write(*,*) 'transm_fbscatT2: OK'
     end if
   end if
+
+
 
 end program

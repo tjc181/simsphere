@@ -7,14 +7,17 @@ subroutine INPUT
 ! **  Subroutine INPUT computes solar radiation as a function of the
 ! **  day, season, atmospheric attenuation, and albedo.
 
-  real(kind=8) :: EFFDEC, SOLSIN
+!  real(kind=8) :: EFFDEC, SOLSIN
+  real :: EFFDEC, SOLSIN
   real :: SS(12)
   integer :: MD(12)
 
-  real :: FTABS, FBSCAT, FTSCAT, PATH, RM, S, N
+! Don't need to declare FTABS, FBSCAT, FTSCAT -- subroutine rewritten as function
+!  real :: FTABS, FBSCAT, FTSCAT,  RM, S, N
+  real :: RM, S, N, RLPATH, PATH
   real :: TABS, BSCAT, TSCAT, TABSD, BSCATD, TSCATD
   real :: DF, DE, SIG, EQT, HRANGL, SLB, SHEAT, HI, XSER, SOLEL
-  real :: RLPATH, sinsolelslope, solelslope
+  real :: sinsolelslope, solelslope 
   real, parameter :: skonst = 1.94*4.1868e4/60
   integer :: IMO1, JMO, I, K, DAD, GMT
 
@@ -112,6 +115,7 @@ subroutine INPUT
   PATH = 0.001 * PS1 * RLPATH
   SOLEL = SOLEL / RADIAN
 
+!  write(*,*) 'SOLSIN: ',SOLSIN, ' SOLEL: ',SOLEL,' RLPATH: ',RLPATH,' PATH: ',PATH
 !TJC  These lines moved to functions in module: ftabsT, ftscatT, fbscatT
 !  CALL TRANSM (RLPATH,FTABS,FTSCAT,FBSCAT)
 

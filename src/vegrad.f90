@@ -68,5 +68,7 @@ subroutine  VEGRAD (TIME,RNETV,SWAVEV,TZERO)
 !
   SWAVEV = (RSG + RSF)
 
+  write(*,*) 'TZERO: ', TZERO,' RNETV: ',RNETV,' SWAVEV: ',SWAVEV
+
  return
 end

@@ -20,7 +20,7 @@ subroutine  GETTBL
 
   OPEN (UNIT = 14, FILE = 'LUT.DAT')
 
-  I = 1 + OMEGA * 2
+  I = INT(1 + OMEGA * 2)
   J = I - 1
   IF ( I .GT. 11 ) I = 11
 

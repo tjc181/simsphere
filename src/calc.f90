@@ -5,7 +5,7 @@ SUBROUTINE  CALC (OLDTMP, No_Rows)
   integer :: No_Rows
   real :: Lat_in_radians, K
 
-  real :: OLDTMP, DECTIM, out_time_intv
+  real :: OLDTMP, DECTIM, out_time_intv, CLKTAM, CLKTPM
 
   K = XLAT
   XLAT= (XLAT-K) / 0.6 + K
@@ -46,11 +46,11 @@ end
  
 real function DECTIM(TIMIN)
 ! Converts time (Hr.Min Format) to decimal
-  real :: INTIM, TIMIN, RINTIM
+  real :: INTIM, RINTIM, TIMIN
  
   INTIM = TIMIN / 100
   RINTIM = INTIM * 100.
   DECTIM = ((TIMIN - RINTIM) / 60. + INTIM) * 3600.
- 
+
   return
 end

@@ -17,8 +17,10 @@ module simsphere_mod
   real, parameter :: siga = 279.9348
 
 !  real, parameter :: radian = 57.29578
-  double precision, parameter :: radian = 572957.75913D-4
-  double precision, parameter :: sdec = 39784.988432D-5
+!  double precision, parameter :: radian = 572957.75913D-4
+!  double precision, parameter :: sdec = 39784.988432D-5
+  real, parameter :: radian = 572957.75913D-4
+  real, parameter :: sdec = 39784.988432D-5
 
 !    conversion factors (formerly factors.h)
   real, parameter :: Kts_To_Metres = 1.944       ! Knots to ms-1
@@ -51,7 +53,7 @@ module simsphere_mod
   real :: DELTAZ
   real :: ZI(50),ZK(50)
   real :: UD(50),VD(50),UGD(50),VGD(50)
-  real :: CLKTAM,CLKTPM,XTDIF,YTDIF,XPDIF,YPDIF
+  real :: XTDIF,YTDIF,XPDIF,YPDIF
   real :: GM(50),TS(50),TD(50),Tdif_50,Tdif_s,O_Pot_Tmp
 
   real :: TA,TAF,TG,QAF,QSTF,QSTG
@@ -71,7 +73,7 @@ module simsphere_mod
 ! ** Removed CHGT, HGT, DELT, CTHETA, DHET, RAD, DELTA parameter declared elsewhere
   real :: GAM,HET
   real :: U(50),V(50),UG(50),VG(50),T(50),ZCOUNT
-  real :: OUTTT,SATAM,SATPM,TIMEND,STRTIM,REALTM,PTIME
+  real :: OUTTT,SATAM,SATPM,STRTIM, TIMEND, REALTM, PTIME
 ! ** Remove NLVLS declared elsewhere
   real :: DEL,DZETA,Z(9),TT(9),XFUN(9)
 ! ** IMO is used as an array index, must be integer

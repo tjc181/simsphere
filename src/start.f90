@@ -1,8 +1,13 @@
-subroutine  START (Obst_Hgt,dual_regime,zo_patch)
+!subroutine  START (Obst_Hgt,dual_regime,zo_patch)
+! dual_regime and zo_patch are not currently used.  Comment at end of this
+! file suggests planned data read checks, not currently implemented.
+subroutine  START (Obst_Hgt)
   use simsphere_mod
 
-  real(kind=4) :: Obst_Hgt, zo_patch
-  logical :: zo_flag, ob_flag, dual_regime
+!  real(kind=4) :: Obst_Hgt, zo_patch
+  real(kind=4) :: Obst_Hgt
+! logical :: zo_flag, ob_flag, dual_regime
+  logical :: zo_flag, ob_flag
 
   character :: Class
   character(len=1) :: ALBEDO_GFLAG, ALBEDO_FFLAG ! For Interface

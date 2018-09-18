@@ -81,7 +81,7 @@ SUBROUTINE SNDING (ZLS, Old_Ahum)
 ! Number of levels it's possible to interpolate (NTRP) to are
 
   Height_at_NTRP = MIN(HEIGHT, ZH(NOBS_wind))
-  NTRP = AINT((Height_at_NTRP - 50.) / Vert_Spacing)
+  NTRP = INT((Height_at_NTRP - 50.) / Vert_Spacing)
 
 ! Interpolate at 'h' height intervals using cubic splines.
 ! Numerical Recipes in FORTRAN -- pages 109, 110.

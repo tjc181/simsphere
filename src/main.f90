@@ -39,7 +39,8 @@ program simsphere
 
   OPEN ( UNIT=11, FILE = 'o_model.dat' ) ! Open the output file
 
-  CALL START (Obst_Hgt,dual_regime,zo_patch) ! Read and Check data
+!  CALL START (Obst_Hgt,dual_regime,zo_patch) ! Read and Check data
+  CALL START (Obst_Hgt)                       ! Read data
      
   CALL SNDING (ZLS, Old_Ahum)                ! Read Sounding - Call Spline to Interpolate
 
