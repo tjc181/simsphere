@@ -93,13 +93,15 @@ module simsphere_mod
   real :: HG = 0.0
   real :: AHUM = 0.0
   real :: RNET = 0.0
-  real :: CHGT = 0.0
+!TJC Moved CHGT = 0.0 to air.f90 (only used in that subroutine)
+!TJC  real :: CHGT = 0.0
   real :: USTAR = 0.0
   real :: TSTAR = 0.0
   real :: HEAT = 0.0
   real :: HGT = 50.0
   real :: DELT = 1.0
-  real :: CTHETA = 1.0
+!TJC Moved CTHETA to air.f90 (only used in that subroutine)
+!TJC  real :: CTHETA = 1.0
   real :: DHET = 0.0
   real :: EVAP = 0.0
   real :: MOL = 0.0

@@ -9,29 +9,22 @@ program simsphere
 
 !** Compiler identifies FRACTN as unused
 !**   character(len=5) FRACTN
-  integer(kind=1) :: StabCriteria        ! Neutral (0), Unstable (1), Stable (2)
+  integer(kind=1) :: StabCriteria=0        ! Neutral (0), Unstable (1), Stable (2)
   real(kind=4) :: Obst_Hgt, zo_patch
   real(kind=4) :: Old_Ahum
-  integer(kind=1) :: init
+  integer(kind=1) :: init=1
   integer :: No_Rows, IONCE=0, MONCE=0
 !TJC  real(kind=4) :: ZLS(50)
   real :: ZLS(50)
 
 !TJC Guessing at some types...
   real :: B, BareEvapFlux, BareHeatFlux, BareNetRadn, BareRadioTemp
-  real :: MixedNetRadn, OLDTMP, TIME, TMOD
-  real :: VegnNetRadn, VegnRadioTemp
-  integer :: YCOUNT
+  real :: MixedNetRadn, OLDTMP, TIME=0.0, TMOD
+  real :: VegnNetRadn, VegnRadioTemp, YCOUNT=0.0
   logical :: dual_regime
 
   
 !      INCLUDE 'modvars.h'
-
-! Set initial values to variables, see BLOCK.FOR
-
-  DATA ycount,TIME / 2*0.0 /
-  StabCriteria = 0
-  init = 1
 
 ! Start reads the values of various input parameters to get the model
 ! going and Snding reads in the sounding file.
