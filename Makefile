@@ -1,5 +1,6 @@
 FC=gfortran
 SRC= src
+TESTS= tests
 PROG=simsphere
 BIN= bin
 
@@ -14,10 +15,12 @@ $(BIN):
 all: $(PROG) 
 
 test: $(BIN)
-	$(MAKE) -C tests $(MAKECMDGOALS)
+	$(MAKE) -C $(TESTS) $(MAKECMDGOALS)
 	$(BIN)/test
 
 clean:
+	$(MAKE) -C $(SRC) $(MAKECMDGOALS)
+	$(MAKE) -C $(TESTS) $(MAKECMDGOALS)
 	$(RM) *.o *.mod $(BIN)/$(PROG) $(BIN)/test
 
 .PHONY: $(SRC)

@@ -1,4 +1,7 @@
 module simsphere_mod
+  use snding_mod, only: splint, spline
+  use transm_mod, only: ftabsT, ftscatT, fbscatT, ABSTBL, SCATBL, BSCTBL, PS1
+  use vel_mod, only: You_star, R_ohms, WindF, Stab, StabH, FStabH, FStabM, ResTrn, MOL
   implicit none
   public
 
@@ -11,7 +14,6 @@ module simsphere_mod
 !
 
   integer, parameter :: vert_spacing = 250
-  integer, parameter :: TRANSM_MAX_PATH = 10
   integer, parameter :: rhow=1000                ! Density of Water
   integer, parameter ::  DELTA = 90
 
@@ -50,7 +52,6 @@ module simsphere_mod
 
   real :: KM(50), LAMBDA, KAPPA, LWDN
   real :: u_fine(51),v_fine(51),t_fine(51),q_fine(51)
-  real :: ABSTBL(46),BSCTBL(46),SCATBL(46)
   real :: UGS,VGS,ANGL,DTX,DTY,CF
   real :: DELTAZ
   real :: ZI(50),ZK(50)
@@ -75,7 +76,7 @@ module simsphere_mod
   real :: SWAVE
   real :: ADVGT
   real :: FRVEG
-  real :: TSCREN,PS1,PTM100
+  real :: TSCREN,PTM100
   real :: RESIST,EMBAR,RZASCR
   real :: THV,THMAX,PSIG,RKW,VFL,BETA,B1,B2,PSICM,PSICE,SC,ZP,MINTEMP,MAXTEMP,RCUT,RAF,RMIN,VEGHEIGHT
   real :: FS,RSCRIT,PSIWC,PSIM,PSIE,RS,WPSI,RLPSI,FC,FPSIE,RL,ZG,RLELF
@@ -93,18 +94,13 @@ module simsphere_mod
   real :: HG = 0.0
   real :: AHUM = 0.0
   real :: RNET = 0.0
-!TJC Moved CHGT = 0.0 to air.f90 (only used in that subroutine)
-!TJC  real :: CHGT = 0.0
   real :: USTAR = 0.0
   real :: TSTAR = 0.0
   real :: HEAT = 0.0
   real :: HGT = 50.0
   real :: DELT = 1.0
-!TJC Moved CTHETA to air.f90 (only used in that subroutine)
-!TJC  real :: CTHETA = 1.0
   real :: DHET = 0.0
   real :: EVAP = 0.0
-  real :: MOL = 0.0
   real :: BULK = 0.0
 
 
@@ -122,249 +118,8 @@ module simsphere_mod
   logical :: cloud_flag
 
 
-
-! Function splint formerly subroutine splint
-
   contains
     
-    real pure function splint(XA,YA,Y2A,n,x)
-      integer, intent(in) :: n, x
-      real, intent(in) :: XA(50), YA(50), Y2A(n)
-    
-      real :: h, a, b
-      integer :: klo, khi, k
-    
-      klo=1
-      khi=n
-    
-      do 
-        if (khi-klo .le. 1) exit
-        if (khi-klo .gt. 1) then
-          k=(khi+klo)/2
-          if (XA(k) .gt. x) then
-            khi=k
-          else
-            klo=k
-          end if
-        end if
-      end do
-    
-      H=XA(KHI)-XA(KLO)
-      A=(XA(KHI)-X)/H
-      B=(X-XA(KLO))/H
-      splint=A*YA(KLO)+B*YA(KHI)+((A**3-A)*Y2A(KLO)+(B**3-B)*Y2A(KHI))*(H**2)/6.
-    
-    end function
-
-! Function spline formerly subroutine spline
-
-    pure function spline(X,Y,N,YP1,YPN)
-      integer, parameter :: NMAX=100
-      real :: U(NMAX)
-      real :: UN,QN,P,SIG
-      integer, intent(in) :: N
-      integer :: i, k
-      real, intent(in) :: X(N), Y(N), YP1, YPN
-      real :: spline(N)
-    
-      IF (YP1.GT..99E30) THEN
-        spline(1)=0.
-        U(1)=0.
-      ELSE
-        spline(1)=-0.5
-        U(1)=(3./(X(2)-X(1)))*((Y(2)-Y(1))/(X(2)-X(1))-YP1)
-      end if
-      do I=2,N-1
-        SIG=(X(I)-X(I-1))/(X(I+1)-X(I-1))
-        P=SIG*spline(I-1)+2.
-        spline(I)=(SIG-1.)/P
-        U(I)=(6.*((Y(I+1)-Y(I))/(X(I+1)-X(I))-(Y(I)-Y(I-1))                 &
-             /(X(I)-X(I-1)))/(X(I+1)-X(I-1))-SIG*U(I-1))/P
-      end do
-      IF (YPN.GT..99E30) THEN
-        QN=0.
-        UN=0.
-      ELSE
-        QN=0.5
-        UN=(3./(X(N)-X(N-1)))*(YPN-(Y(N)-Y(N-1))/(X(N)-X(N-1)))
-      end if
-      spline(N)=(UN-QN*U(N-1))/(QN*spline(N-1)+1.)
-      do K=N-1,1,-1
-        spline(K)=spline(K)*spline(K+1)+U(K)
-      end do
-      return
-    end function
-
-! Functions from former subroutine transm
-
-    pure function ftabsT(path)
-      real :: ftabst, fracp, fract, fract2
-      real, intent(in) :: path
-      integer :: ipath, jpath
-
-!     Subroutine TRANSM calculates solar transmission by using the
-!     three-way lookup table produced in GETTBL.
-
-! **  If the path length is very large (sun almost on the horizon) use
-! **  longest path length possible, ie last number in the table. Otherwise
-! **  calc trans coeff's for entries bracketing the supplied path length.
-! **  FRACTP - Scaling fact for depth of atmos. FRACT & FRACT2 weighting
-! **  factors for interpol'n between 2 successive path lenghts in table.
-
-      if ( path >= TRANSM_MAX_PATH ) then
-        ftabst = abstbl(size(abstbl))
-      else
-        fracp = ps1 / 1013.25
-        fract= 5 * ( path - 1 ) + 1
-        ipath = INT( fract )
-        jpath = ipath + 1
-        fract = ( fract - ipath )
-        fract2 = 1 - fract
-        ftabst = fract2 * abstbl( ipath ) + fract * abstbl( jpath )
-        ftabst = fracp * ( ftabst - 1 ) + 1
-      end if
-     end function ftabsT
-
-    pure function ftscatT(path)
-      real :: ftscatT, fracp, fract, fract2
-      real, intent(in) :: path
-      integer :: ipath, jpath
-
-!     Reference comments in ftabsT()
-
-      if ( path >= TRANSM_MAX_PATH ) then
-        ftscatT = scatbl(size(scatbl))
-      else
-        fracp = ps1 / 1013.25
-        fract= 5 * ( path - 1 ) + 1
-        ipath = INT( fract )
-        jpath = ipath + 1
-        fract = ( fract - ipath )
-        fract2 = 1 - fract
-        ftscatT = fract2 * scatbl( ipath ) + fract * scatbl( jpath )
-        ftscatT = fracp * ( ftscatT - 1 ) + 1
-      end if
-    end function ftscatT
-
-    pure function fbscatT(path)
-      real :: fbscatT, fracp, fract, fract2
-      real, intent(in) :: path
-      integer :: ipath, jpath
-
-!     Reference comments in ftabsT()
-
-      if ( path >= TRANSM_MAX_PATH ) then
-        fbscatT = bsctbl(size(bsctbl))
-      else
-        fracp = ps1 / 1013.25
-        fract= 5 * ( path - 1 ) + 1
-        ipath = INT( fract )
-        jpath = ipath + 1
-        fract = ( fract - ipath )
-        fract2 = 1 - fract
-        fbscatT = fract2 * bsctbl( ipath ) + fract * bsctbl( jpath )
-      end if
-    end function fbscatT
-
-
-
-!  Function Definitions for Vel
-    
-    real function You_star (Wind,Height,Roughness,Stability)
-      real(kind=4), parameter :: R_Karman = 0.4
-      real :: Wind, Height, Roughness, Stability
-    
-      You_star = R_Karman * Wind / ((ALOG(Height / Roughness) + Stability))  
-    
-      return
-    end function You_star
-    
-    
-
-
-
-    real function R_ohms (Friction,Height,Roughness,Stability)
-      real(kind=4), parameter :: Karman = 0.4
-      real(kind=4), parameter :: Konst = 0.74
-      real :: Friction, Height, Roughness, Stability
-             
-      R_ohms = Konst * (ALOG(Height/Roughness) + Stability)/(Karman * Friction)
-       
-      return
-    end function R_ohms
-    
-    
-
-
-
-    real function WindF (Star,Height,Roughness,Stability)
-      real(kind=4), parameter :: R_Karman = 0.4
-      real :: Star, Height, Roughness, Stability
-    
-      WindF = (Star / R_Karman)*(ALOG(Height/Roughness) + Stability)
-    
-      return
-    end function WindF
-    
-    
-
-
-
-    real function Stab (Height)
-      real :: Height
-    
-      Stab = (1 - 15 * Height / MOL)**0.25
-    
-      return
-    end function Stab
-    
-    
-
-
-
-    real function StabH (Height)
-      real :: Height
-    
-      StabH = (1 - 9 * Height / MOL)**0.5
-           
-      return
-    end function StabH
-    
-    
- 
-
-    real function FstabH (Par1,Par2)
-      real :: Par1, Par2
-    
-      FstabH = 2 * ALOG(( Par1 + 1) / (Par2 + 1))
-           
-      return
-    end function FstabH
-    
-    
-
-
-    real function FstabM (Par1,Par2)
-      real :: Par1, Par2
-    
-      FStabM = ALOG (((Par1**2 + 1 ) * (Par1 + 1 )**2 ) /                   &
-                    ((Par2 + 1 ) * (Par2 + 1 )**2 )) + 2 *                  &
-                    ( ATAN(Par2) - ATAN(Par1))
-           
-      return
-    end function FstabM
-    
-
-    
-    real function ResTrn (Star,Roughness,Par3)
-      real :: Star, Roughness, Par3
-    
-      real(kind=4), parameter :: R_KARMAN = 0.4
-    
-      RESTRN = (ALOG(R_KARMAN* Star*Roughness+Par3) - ALOG(Par3)) / (R_KARMAN  * Star)
-    
-      return
-    end function ResTrn
 
 !
 ! advect function replaces ADVECT subroutine
