@@ -85,7 +85,7 @@ subroutine  PSLCAL (SGMA, PES)
 
   IF (STEADY .EQ. 'N') THEN ! capacitance solution
 
-    call capac (Unscaled_RAF,H,B1_P,B2_P,vfl2)
+    call capac (Unscaled_RAF,H,B1_P,B2_P,vfl2, sgma)
 
   ELSE ! Steady State (non-capacitance = Yes) solution
 

@@ -1,4 +1,4 @@
-subroutine Capac (Unscaled_RAF,H,B1_P,B2_P,vfl2)
+subroutine Capac (Unscaled_RAF,H,B1_P,B2_P,vfl2, sgma)
   use simsphere_mod
   implicit none
 
@@ -7,8 +7,8 @@ subroutine Capac (Unscaled_RAF,H,B1_P,B2_P,vfl2)
   real :: IXCAP
   integer :: NCAP, IDEL, JDEL, H, CAPRAT, ITRAP=0
   real :: capini, ZADD, FPM, ZUH, Unscaled_RAF, B1_P, B2_P, vfl2 
-  real :: VOLISO, RSTDIV, ADDIT, SGMA, AROOT, BROOT, CROOT, ACTSQRT
-  real :: PES, VOLRMO
+  real :: VOLISO, RSTDIV, ADDIT, AROOT, BROOT, CROOT, ACTSQRT
+  real :: PES, VOLRMO, SGMA
 
   ZADD = ZG + ZP * FRZP
   FPM = 1 - FRHGT
