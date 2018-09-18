@@ -1,9 +1,16 @@
 subroutine  BRI (T1,MONCE,PSIHNEW,YCOUNT,ZTEN)
   use simsphere_mod
+  implicit none
 
 !  Subroutine BRI computes the M-O-L when BRI is (+) and less than
 !  .2 using the Blackadar model.
 
+  integer :: MONCE, DT, PHIH, I
+  real :: T1, T2, PSIHNEW, YCOUNT, ZTEN
+  real :: A, Z1, B
+  real :: ANEW, BNEW, CNEW, DNEW
+  real :: Pot_S, WG1, CR1, TDIF, RADCOR, TSURF, USTAR1
+  real :: ZtenOVERL, ZOVERL, PSImzten, PSIMNEW, X1
 
 
 ! Code altered 5th May 1992 ... transfer from Vel.for.
@@ -68,11 +75,19 @@ subroutine  BRI (T1,MONCE,PSIHNEW,YCOUNT,ZTEN)
   RADCOR = A * ( OTEMP - T1 ) - RAD
 !      TDIF = ABS( T(1) - T1 )
   TSURF = T1 - TSTAR * ALOG( Z1 / ZO )
-  BULK = ( (T(1) - Pot_S) * GRAV * ZA ) / ( OTEMP * AWIND**2 )
+
+!TJC Seeing BULK set to NaN intermittently.  Check for divide by zero and print some
+!TJC diagnostic if detected.
+  if ((OTEMP /=0) .and. (AWIND /= 0)) then
+    BULK = ( (T(1) - Pot_S) * GRAV * ZA ) / ( OTEMP * AWIND**2 )
+  else
+    write(*,*) 'OTEMP: ', OTEMP, ' AWIND: ',AWIND
+  end if
 
 ! **  Now use this to determine the stability criteria and execute the
 ! **  the appropriate physics.
 
+!  write(*,*) 'TDIF: ',TDIF,' BULK: ',BULK
   IF ( TDIF .LT. 0.05 ) THEN
 
 !     .... Soln Sequence Neutral ....

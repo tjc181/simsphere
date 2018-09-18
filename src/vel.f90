@@ -134,6 +134,8 @@ subroutine VEL (MONCE,IONCE,StabCriteria,YCOUNT,Obst_Hgt,dual_regime,zo_patch)
 
     CALL BRI (T1,MONCE,PSIHNEW,YCOUNT,ZTEN) ! Stable
 
+!    write(*,*) HEAT
+
     REKUST = 1 / (KARMAN * USTAR)
     RZAZO =  REKUST * ( ALOG( ZA / ZO ) + psihnew )
 

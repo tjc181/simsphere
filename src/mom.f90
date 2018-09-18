@@ -1,5 +1,6 @@
 subroutine  MOM (Pot_S,DT,MONCE)
   use simsphere_mod
+  implicit none
 
 ! **  Subroutine MOM calculates the momentum and thermodynamic eqs. in the
 ! **  lowest 500m of the atmosphere and produces profiles of the U & V
@@ -9,8 +10,10 @@ subroutine  MOM (Pot_S,DT,MONCE)
 
   real :: CR(46), OK(46), BX(46), WIND(46), WGEOS(46)
   real :: B(46), DUW(46), KRAD, DVW(46), DTW(46), RI(46)
-  real :: DZ, SB
-  integer :: IMAX, IMAX1
+  real :: DZ, SB, Pot_S, UIF, UIF2, RC, BX1
+  real :: DU, DV, ABDU, ABDV, X1, OKMAX
+  integer :: IMAX, IMAX1, DT, MONCE
+  integer :: I
 
 !      INCLUDE 'modvars.h'
 

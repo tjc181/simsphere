@@ -71,6 +71,7 @@ program simsphere
 
 ! Mixed Layer
 
+!  write(*,*) 'HEAT: ',HEAT,' SWAVE: ',SWAVE,' RNET: ',RNET
   IF (HEAT.GT.0.00001 .AND. SWAVE .GT. 0 .AND. RNET .GT. 0) THEN
     CALL AIR (ZLS, YCOUNT)
   END IF

@@ -13,6 +13,7 @@ program test_simsphere
   logical :: transm_ftscatT_test, transm_ftscatT_test2
   logical :: transm_fbscatT_test, transm_fbscatT_test2
   logical :: advect_test, advect_func_test
+  logical :: air_test
 
 ! splint_test variables
   integer, parameter :: splint_max_array = 50
@@ -63,6 +64,9 @@ program test_simsphere
 
 ! advect_test variables
   real, parameter :: advect_test_expected = 9.41291146E-05
+
+! air_test variables
+  real, parameter :: air_test_expected = 0.0
 
 ! Set logical to control test execution
   start_test = .false.
