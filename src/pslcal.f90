@@ -29,7 +29,7 @@ subroutine  PSLCAL (SGMA, PES)
 
   THV = W2G
 
-  CALL STOMFS
+  FS = stomfs()
 
 ! **  following is Choudhury and Idso's adaptation for zg
 ! **  units is a conversion factor from s given in Choudhury to
