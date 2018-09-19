@@ -14,6 +14,7 @@ program test_simsphere
   logical :: advect_func_test
 !  logical :: air_test
   logical :: cond_test
+  logical :: stomfs_test
 
 ! splint_test variables
   integer, parameter :: splint_max_array = 50
@@ -60,6 +61,10 @@ program test_simsphere
   real, parameter :: cond_test_expected = 1.46884334
   real :: cond_test_output
 
+! stomfs_test variables
+  real, parameter :: stomfs_test_expected = 1.58197677
+  real :: stomfs_test_output
+
 ! Set logical to control test execution
   start_test = .false.
   splint_test = .true.
@@ -72,6 +77,7 @@ program test_simsphere
   transm_fbscatT_test2 = .true.
   advect_func_test = .true.
   cond_test = .true.
+  stomfs_test = .true.
 
 
 ! Initialize some test values
@@ -246,12 +252,25 @@ program test_simsphere
 !
   if (cond_test) then
     call cond_init
-!    call cond
     cond_test_output = cond()
     if (cond_test_output /= cond_test_expected) then
       write(*,*) 'cond_test: actual /= expected: ', RKW, cond_test_expected
     else
       write(*,*) 'cond_test: OK'
+    end if
+  end if
+
+!
+! stomfs_test
+!
+  if (stomfs_test) then
+    call stomfs_init
+    call stomfs
+    stomfs_test_output = fs
+    if (stomfs_test_output /= stomfs_test_expected) then
+      write(*,*) 'stomfs_test: actual /= expected: ',stomfs_test_output,stomfs_test_expected
+    else
+      write(*,*) 'stomfs_test: OK'
     end if
   end if
 
@@ -297,5 +316,10 @@ contains
     THMAX = 0.338999987
     COSBYB = 2.78999996
   end subroutine cond_init
+
+  subroutine stomfs_init
+    sc = 1.0
+    sol = 1.0
+  end subroutine stomfs_init
 
 end program
