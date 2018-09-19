@@ -125,28 +125,42 @@ module simsphere_mod
 ! advect function replaces ADVECT subroutine
 !
 
-   real pure function advect ()
-     implicit none
+    real pure function advect ()
+      implicit none
 
-     real, parameter :: dz = 1000
-     real :: dtdx, dtdy
+      real, parameter :: dz = 1000
+      real :: dtdx, dtdy
 
-     dtdx = cf * otemp / (grav * dz) * (vgd(5) - vgd(1))
-     dtdy = -cf * otemp / (grav * dz) * (ugd(5) - ugd(1))
-     advect = (-(ugd(3) * dtdx + vgd(3) * dtdy))/2
+      dtdx = cf * otemp / (grav * dz) * (vgd(5) - vgd(1))
+      dtdy = -cf * otemp / (grav * dz) * (ugd(5) - ugd(1))
+      advect = (-(ugd(3) * dtdx + vgd(3) * dtdy))/2
 
-   end function advect
+    end function advect
 
 !
 ! cond function replaces COND subroutine
-   real pure function cond ()
-     implicit none
+!
 
-     !  program units are in m/s
-     !  Use Field Capacity water content 75% that of THMAX.
+    real pure function cond ()
+      implicit none
 
-     cond = (6.9E-6) * RKS * (THV / (THMAX*0.75)) ** (2*COSBYB +2)
+      !  program units are in m/s
+      !  Use Field Capacity water content 75% that of THMAX.
 
-   end function cond
+      cond = (6.9E-6) * RKS * (THV / (THMAX*0.75)) ** (2*COSBYB +2)
+
+    end function cond
+
+!
+! stomfs function replaces STOMFS subroutine
+!
+
+    real pure function stomfs ()
+      implicit none
+     
+      ! The exponential function for solar radiation -- Albert Olioso
+
+      stomfs = 1 / (1 - exp(-1 / sc * sol))
+    end function stomfs
 
 end module simsphere_mod

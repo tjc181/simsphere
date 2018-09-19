@@ -265,8 +265,8 @@ program test_simsphere
 !
   if (stomfs_test) then
     call stomfs_init
-    call stomfs
-    stomfs_test_output = fs
+!    call stomfs
+    stomfs_test_output = stomfs()
     if (stomfs_test_output /= stomfs_test_expected) then
       write(*,*) 'stomfs_test: actual /= expected: ',stomfs_test_output,stomfs_test_expected
     else
