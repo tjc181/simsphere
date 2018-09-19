@@ -1,7 +1,7 @@
 subroutine  PSLCAL (SGMA, PES)
   use simsphere_mod
 
-  real :: SGMA
+  real :: SGMA, RKW
   integer(kind=1) :: init
 
 !      INCLUDE 'modvars.h'
