@@ -246,8 +246,8 @@ program test_simsphere
 !
   if (cond_test) then
     call cond_init
-    call cond
-    cond_test_output = RKW
+!    call cond
+    cond_test_output = cond()
     if (cond_test_output /= cond_test_expected) then
       write(*,*) 'cond_test: actual /= expected: ', RKW, cond_test_expected
     else

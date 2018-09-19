@@ -41,7 +41,8 @@ subroutine  PSLCAL (SGMA, PES)
 ! **  zeff is the effective rooting depth taken as 1/2 h
 
   ZEFF = .5 * VEGHEIGHT
-  CALL COND
+  RKW = cond()
+
   ZG = ( 0.0013 / ( ZEFF * RKW ) ) * UNITS2
   ZTOT = ZP + ZG
 

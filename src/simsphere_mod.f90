@@ -137,4 +137,16 @@ module simsphere_mod
 
    end function advect
 
+!
+! cond function replaces COND subroutine
+   real pure function cond ()
+     implicit none
+
+     !  program units are in m/s
+     !  Use Field Capacity water content 75% that of THMAX.
+
+     cond = (6.9E-6) * RKS * (THV / (THMAX*0.75)) ** (2*COSBYB +2)
+
+   end function cond
+
 end module simsphere_mod
