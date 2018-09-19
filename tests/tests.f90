@@ -15,6 +15,7 @@ program test_simsphere
 !  logical :: air_test
   logical :: cond_test
   logical :: stomfs_test
+  logical :: stomrs_test_hi_temp, stomrs_test_lo_temp, stomrs_test_hi_psi, stomrs_test_lo_psi
 
 ! splint_test variables
   integer, parameter :: splint_max_array = 50
@@ -65,6 +66,13 @@ program test_simsphere
   real, parameter :: stomfs_test_expected = 1.58197677
   real :: stomfs_test_output
 
+! stomrs_test variables
+  real, parameter :: stomrs_test_hi_temp_expected = 5000.0
+  real, parameter :: stomrs_test_lo_temp_expected = 5000.0
+  real, parameter :: stomrs_test_hi_psi_expected = 3.16395354
+  real, parameter :: stomrs_test_lo_psi_expected = 7.90988398
+  real :: stomrs_test_output
+
 ! Set logical to control test execution
   start_test = .false.
   splint_test = .true.
@@ -78,6 +86,10 @@ program test_simsphere
   advect_func_test = .true.
   cond_test = .true.
   stomfs_test = .true.
+  stomrs_test_hi_temp = .true.
+  stomrs_test_lo_temp = .true.
+  stomrs_test_hi_psi = .true.
+  stomrs_test_lo_psi = .true.
 
 
 ! Initialize some test values
@@ -254,7 +266,7 @@ program test_simsphere
     call cond_init
     cond_test_output = cond()
     if (cond_test_output /= cond_test_expected) then
-      write(*,*) 'cond_test: actual /= expected: ', RKW, cond_test_expected
+      write(*,*) 'cond_test: actual /= expected: ', cond_test_output, cond_test_expected
     else
       write(*,*) 'cond_test: OK'
     end if
@@ -271,6 +283,68 @@ program test_simsphere
       write(*,*) 'stomfs_test: actual /= expected: ',stomfs_test_output,stomfs_test_expected
     else
       write(*,*) 'stomfs_test: OK'
+    end if
+  end if
+
+!
+! stomrs_test_hi_temp
+!
+  if (stomrs_test_hi_temp) then
+    call stomrs_init
+    TF = MAXTEMP + 1.0
+    call stomrs
+    stomrs_test_output = RS
+    if (stomrs_test_output /= stomrs_test_hi_temp_expected) then
+      write(*,*) 'stomrs_test_hi_temp_expected: actual /= expected: ',stomrs_test_output,stomrs_test_hi_temp_expected
+    else
+      write(*,*) 'stomrs_test_hi_temp: OK'
+    end if
+  end if
+
+!
+! stomrs_test_lo_temp
+!
+  if (stomrs_test_lo_temp) then
+    call stomrs_init
+    TF = MINTEMP - 1.0
+    call stomrs
+    stomrs_test_output = RS
+    if (stomrs_test_output /= stomrs_test_lo_temp_expected) then
+      write(*,*) 'stomrs_test_lo_temp_expected: actual /= expected: ',stomrs_test_output,stomrs_test_lo_temp_expected
+    else
+      write(*,*) 'stomrs_test_lo_temp: OK'
+    end if
+  end if
+
+!
+! stomrs_test_hi_psi
+!
+  if (stomrs_test_hi_psi) then
+    call stomrs_init
+    TF = (MINTEMP + MAXTEMP)/2
+    PSISUP = PSIWC + 1.0
+    call stomrs
+    stomrs_test_output = RS
+    if (stomrs_test_output /= stomrs_test_hi_psi_expected) then
+      write(*,*) 'stomrs_test_hi_psi: actual /= expected: ', stomrs_test_output,stomrs_test_hi_psi_expected
+    else
+      write(*,*) 'stomrs_test_hi_psi: OK'
+    end if
+  end if
+
+!
+! stomrs_test_lo_psi
+!
+  if (stomrs_test_lo_psi) then
+    call stomrs_init
+    TF = (MINTEMP + MAXTEMP)/2
+    PSISUP = PSIWC - 1.0
+    call stomrs
+    stomrs_test_output = RS
+    if (stomrs_test_output /= stomrs_test_lo_psi_expected) then
+      write(*,*) 'stomrs_test_lo_psi: actual /= expected: ', stomrs_test_output,stomrs_test_lo_psi_expected
+    else
+      write(*,*) 'stomrs_test_lo_psi: OK'
     end if
   end if
 
@@ -321,5 +395,37 @@ contains
     sc = 1.0
     sol = 1.0
   end subroutine stomfs_init
+
+  subroutine stomrs_init
+    RMIN = 1.0
+    MINTEMP = 1.0
+    MAXTEMP = 100.0
+    PSIWC = 1.0
+    PSIE = 1.0
+    PSICE = 2.0
+    B1 = 1.0
+    B2 = 2.0
+    call stomfs_init
+    FS = stomfs()
+! Attempted implementation of more flexible setting variables to test all
+! 4 cases in STOMRS.  Will set in individual tests, for now.
+!    if (stomrs_test_lo_temp) then
+!      TF = MINTEMP - 1.0
+!    else if (stomrs_test_hi_temp) then
+!      TF = MAXTEMP + 1.0
+!    end if
+!
+!    if (stomrs_test_hi_psi .or. stomrs_test_lo_psi) then
+!      ! Set TF between MINTEMP and MAXTEMP
+!      TF = (MINTEMP + MAXTEMP)/2
+!    end if
+!
+!    if (stomrs_test_lo_psi) then
+!      PSISUP = PSIWC - 1.0
+!    else if (stomrs_test_hi_psi) then
+!      PSISUP = PSIWC + 1.0
+!    end if
+
+  end subroutine stomrs_init
 
 end program
