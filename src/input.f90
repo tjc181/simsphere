@@ -130,8 +130,8 @@ subroutine INPUT
     TSCAT = ftscatT(RLPATH)
     BSCAT = fbscatT(RLPATH)
   else
-    write(*,*) 'RLPATH is NaN'
-    continue
+    write(*,*) 'RLPATH is NaN, input.f90:128'
+    stop
   end if
 
 !TJC End
@@ -164,7 +164,13 @@ subroutine INPUT
   XSER  = BSCATD * ALBDOE * ( 1 - TSCATD ) * TABSD * SIN( SOLEL )
   HI = ( SHEAT * TABS * TSCAT ) + ( SKONST / S* TABS * ( 1 - TSCAT )    &
 &       * ( 1 - BSCAT ) ) * SIN( SOLEL )
-  SWAVE = ( HI * ( 1 - ALBDOE ) ) / ( 1 - XSER )
+  if (XSER /= 1.0) then
+    SWAVE = ( HI * ( 1 - ALBDOE ) ) / ( 1.0 - XSER )
+  else
+    write(*,*) 'Attempted divide by zero: input.f90:168'
+    stop
+  end if
+  
 
   IF(CLOUD_FLAG) SWAVE = SWAVE*(1-(0.7*(0.1*CLD_FRACT)))
        ! impose cloud fraction; reduce swave according to cloud amount

@@ -57,6 +57,7 @@ subroutine  NETRAD (Time,BareRadioTemp,VegnRadioTemp,BareNetRadn,VegnNetRadn,Mix
     call Uplong (Lwup,BareRadioTemp)
     BareNetRadn = Lwdn*epsi + Swave - Lwup
     Rnet = BareNetRadn
+!TJC -- BareNetRadn is NaN and Swave is Infinity here
 
 ! Mixed
 

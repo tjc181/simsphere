@@ -13,8 +13,6 @@ subroutine  AIR (ZLS, YCOUNT)
 
 !      INCLUDE 'modvars.h'
 
-  write(*,*) CHGT
-
   IFIRST = 1.0
   
 
@@ -25,8 +23,8 @@ subroutine  AIR (ZLS, YCOUNT)
   do J = 2 , 9
     IF ( HGT .GT. ZLS(J - 1) ) GAM = GM(J)
   end do
-  write(*,*) 'GAM: ',GAM
-  write(*,*) 'CHGT (initial): ',CHGT
+!  write(*,*) 'GAM: ',GAM
+!  write(*,*) 'CHGT (initial): ',CHGT
 
 ! **  CHGT is calculated here once only, based initially on a parameter-
 ! **  isation of Tennekes, before passing onto the ELSE statement.  Now
@@ -38,7 +36,7 @@ subroutine  AIR (ZLS, YCOUNT)
     CHGT=(0.35*SQRT(0.3))*(((GRAV/OTEMP)**(1./3.))*(HGT**(1./3.)) *(HET**(1./3.)))
     CDELT = ( GAM * HGT * CHGT - HET ) / HGT
     CTHETA = ( HET / HGT ) - RAD + ADVGT
-    write(*,*) 'HET: ', HET, ' CHGT: ',CHGT,' CDELT: ',CDELT,' CTHETA: ',CTHETA
+!    write(*,*) 'HET: ', HET, ' CHGT: ',CHGT,' CDELT: ',CDELT,' CTHETA: ',CTHETA
   ELSE
     DELTX = DELTA / 10
     do I = 1 , 10
@@ -54,9 +52,9 @@ subroutine  AIR (ZLS, YCOUNT)
       CTHETA = ( ( HET - DHET ) / HGT ) - RAD + ADVGT
       CDELT = ((GAM*HGT*CHGT)-(HET)-(DELT*CHGT))/HGT
     end do
-    write(*,*) 'HET: ', HET, ' CHGT: ',CHGT,' CDELT: ',CDELT,' CTHETA: ',CTHETA
-    write(*,*) 'DELTX: ', DELTX, ' APTEMP: ',APTEMP,' ATEMP: ',ATEMP,' DELT: ',DELT
-    write(*,*) 'DHET: ',DHET,' HGT: ',HGT
+!    write(*,*) 'HET: ', HET, ' CHGT: ',CHGT,' CDELT: ',CDELT,' CTHETA: ',CTHETA
+!    write(*,*) 'DELTX: ', DELTX, ' APTEMP: ',APTEMP,' ATEMP: ',ATEMP,' DELT: ',DELT
+!    write(*,*) 'DHET: ',DHET,' HGT: ',HGT
   END IF
 
 !** 12/3/91 Sounding Profile for course
@@ -69,7 +67,7 @@ subroutine  AIR (ZLS, YCOUNT)
       td(l) = aptemp
     endif
   end do
-  write(*,*) 'td(1): ',td(1), ' zmix: ',zmix
+!  write(*,*) 'td(1): ',td(1), ' zmix: ',zmix
 
 ! ** tdel is at the height just above the mixing layer
 ! ** ttop is at the height of the mixing layer
@@ -81,7 +79,7 @@ subroutine  AIR (ZLS, YCOUNT)
 
   YCOUNT = YCOUNT + 1.
 
-  write(*,*) 'YCOUNT: ',YCOUNT,' tdel: ',tdel,' ttop: ',ttop
+!  write(*,*) 'YCOUNT: ',YCOUNT,' tdel: ',tdel,' ttop: ',ttop
 
   RETURN
 END

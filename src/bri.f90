@@ -81,7 +81,8 @@ subroutine  BRI (T1,MONCE,PSIHNEW,YCOUNT,ZTEN)
   if ((OTEMP /=0) .and. (AWIND /= 0)) then
     BULK = ( (T(1) - Pot_S) * GRAV * ZA ) / ( OTEMP * AWIND**2 )
   else
-    write(*,*) 'OTEMP: ', OTEMP, ' AWIND: ',AWIND
+    write(*,*) 'Attempted divide by zero bri.f90:82, OTEMP: ', OTEMP, ' AWIND: ',AWIND
+    stop
   end if
 
 ! **  Now use this to determine the stability criteria and execute the

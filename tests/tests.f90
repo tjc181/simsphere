@@ -8,12 +8,12 @@ program test_simsphere
   logical :: T_dual_regime
   
   logical :: splint_test, spline_test, start_test 
-  logical :: transm_init, transm_test, transm_test2
   logical :: transm_ftabs_test, transm_ftabs_test2
   logical :: transm_ftscatT_test, transm_ftscatT_test2
   logical :: transm_fbscatT_test, transm_fbscatT_test2
-  logical :: advect_test, advect_func_test
-  logical :: air_test
+  logical :: advect_func_test
+!  logical :: air_test
+  logical :: cond_test
 
 ! splint_test variables
   integer, parameter :: splint_max_array = 50
@@ -30,18 +30,6 @@ program test_simsphere
   real :: spline_arg1(spline_max_array), spline_arg2(spline_max_array)
   real :: spline_arg4, spline_arg5
   real, allocatable :: spline_output(:)
-
-! transm_test variables
-  real :: transm_arg1, transm_arg2, transm_arg3, transm_arg4
-  real, parameter :: transm_arg2_expected = 0.722923875
-  real, parameter :: transm_arg3_expected = 0.553545594
-  real, parameter :: transm_arg4_expected = 0.307550341
-
-! transm_test2 variables
-  real :: transm_arg1_2, transm_arg2_2, transm_arg3_2, transm_arg4_2
-  real, parameter :: transm_arg2_expected_2 = 0.437107921
-  real, parameter :: transm_arg3_expected_2 = 0.173223004
-  real, parameter :: transm_arg4_expected_2 = 0.304252803
 
 ! transm_ftabsT variables
   real :: transm_ftabs_arg1, transm_ftabs_output
@@ -66,36 +54,30 @@ program test_simsphere
   real, parameter :: advect_test_expected = 9.41291146E-05
 
 ! air_test variables
-  real, parameter :: air_test_expected = 0.0
+!  real, parameter :: air_test_expected = 0.0
+
+! cond_test variables
+  real, parameter :: cond_test_expected = 1.46884334
+  real :: cond_test_output
 
 ! Set logical to control test execution
   start_test = .false.
   splint_test = .true.
   spline_test = .true.
-  transm_init = .true.
   transm_ftabs_test = .true.
   transm_ftabs_test2 = .true.
-  transm_test = .false.
-  transm_test2 = .false.
   transm_ftscatT_test = .true.
   transm_ftscatT_test2 = .true.
   transm_fbscatT_test = .true.
   transm_fbscatT_test2 = .true.
-  advect_test = .false.
   advect_func_test = .true.
+  cond_test = .true.
 
-! Setup for transm tests
-  if (transm_init) then
-    OMEGA = 3.13
-    call GETTBL
-    PS1 = 967.0
-  end if
 
 ! Initialize some test values
   T_Obst_Hgt = 0.0
   T_zo_patch = 0.0
   T_dual_regime = .false.
-
 
 !
 ! splint_test
@@ -151,44 +133,12 @@ program test_simsphere
   end if
 
 !
-! transm_test
-!
-  if (transm_test) then
-    transm_arg1 = 2.75401473
-    call transm(transm_arg1, transm_arg2, transm_arg3, transm_arg4)
-    if (transm_arg2 /= transm_arg2_expected) then
-      write(*,*) 'transm_test: arg2 actual /= expected: ', transm_arg2, transm_arg2_expected
-    else if (transm_arg3 /= transm_arg3_expected) then
-      write(*,*) 'transm_test: arg3 actual /= expected: ', transm_arg3, transm_arg3_expected
-    else if (transm_arg4 /= transm_arg4_expected) then
-      write(*,*) 'transm_test: arg 4 actual /= expected: ', transm_arg4, transm_arg4_expected
-    else
-      write(*,*) 'transm_test: OK'
-    end if
-  end if
-!
-! transm_test2
-! Test if branch
-!
-  if (transm_test2) then
-    transm_arg1_2 = 11.0
-    call transm(transm_arg1_2, transm_arg2_2, transm_arg3_2, transm_arg4_2)
-    if (transm_arg2_2 /= transm_arg2_expected_2) then
-      write(*,*) 'transm_test2: arg2 actual /= expected: ', transm_arg2_2, transm_arg2_expected_2
-    else if (transm_arg3_2 /= transm_arg3_expected_2) then
-      write(*,*) 'transm_test2: arg3 actual /= expected: ', transm_arg3_2, transm_arg3_expected_2
-    else if (transm_arg4_2 /= transm_arg4_expected_2) then
-      write(*,*) 'transm_test2: arg 4 actual /= expected: ', transm_arg4_2, transm_arg4_expected_2
-    else
-      write(*,*) 'transm_test2: OK'
-    end if
-  end if
-
-!
 ! transm_ftabs_test
 !
+! Test the "else" branch in ftabsT()
 
   if (transm_ftabs_test) then
+    call ftabsT_init
     transm_ftabs_arg1 = 2.75401473
     transm_ftabs_output = ftabst(transm_ftabs_arg1)
     if (transm_ftabs_output /= transm_ftabs_expected) then
@@ -201,8 +151,10 @@ program test_simsphere
 !
 ! transm_ftabs_test2
 !
+! Test the "if" branch in ftabsT()
 
   if (transm_ftabs_test2) then
+    call ftabsT_init
     transm_ftabs_arg1 = 11.0
     transm_ftabs_output = ftabst(transm_ftabs_arg1)
     if (transm_ftabs_output /= transm_ftabs_expected2) then
@@ -215,8 +167,10 @@ program test_simsphere
 !
 ! transm_ftscatT_test
 !
+! Test the "else" branch in ftscatT()
 
   if (transm_ftscatT_test) then
+    call ftscatT_init
     transm_ftscatT_arg1 = 2.75401473
     transm_ftscatT_output = ftscatT(transm_ftscatT_arg1)
     if (transm_ftscatT_output /= transm_ftscatT_expected) then
@@ -229,8 +183,10 @@ program test_simsphere
 !
 ! transm_ftscatT_test2
 !
+! Test the "if" branch in ftscatT()
 
   if (transm_ftscatT_test2) then
+    call ftscatT_init
     transm_ftscatT_arg1 = 11.0
     transm_ftscatT_output = ftscatT(transm_ftscatT_arg1)
     if (transm_ftscatT_output /= transm_ftscatT_expected2) then
@@ -243,8 +199,10 @@ program test_simsphere
 !
 ! transm_fbscatT_test
 !
+! Test the "else" branch in fbscatT()
 
   if (transm_fbscatT_test) then
+    call fbscatT_init
     transm_fbscatT_arg1 = 2.75401473
     transm_fbscatT_output = fbscatT(transm_fbscatT_arg1)
     if (transm_fbscatT_output /= transm_fbscatT_expected) then
@@ -257,8 +215,10 @@ program test_simsphere
 !
 ! transm_fbscatT_test2
 !
+! Test the "if" branch in fbscatT()
 
   if (transm_fbscatT_test2) then
+    call fbscatT_init
     transm_fbscatT_arg1 = 11.0
     transm_fbscatT_output = fbscatT(transm_fbscatT_arg1)
     if (transm_fbscatT_output /= transm_fbscatT_expected2) then
@@ -269,19 +229,11 @@ program test_simsphere
   end if
 
 !
-! advect_test
+! advect_func_test
 !
-  if (advect_test) then
-    ! Initialize some globals used in advect
-    CF = 9.19953891E-05
-    OTEMP = 295.149994
-    VGD(5) = 8.41951942
-    VGD(3) = 8.43165302
-    VGD(1) = 8.44378662
-    UGD(5) = 13.0658665
-    UGD(3) = 9.05783463
-    UGD(1) = 5.04980326
-!    call advect
+  if (advect_func_test) then
+    call advect_init
+    advgt=advect()
     if (advgt /= advect_test_expected) then
       write(*,*) 'advect_test: actual /= expected: ', advgt, advect_test_expected
     else
@@ -290,10 +242,45 @@ program test_simsphere
   end if   
 
 !
-! advect_func_test
+! cond_test
 !
-  if (advect_func_test) then
-    ! Initialize some globals used in advect
+  if (cond_test) then
+    call cond_init
+    call cond
+    cond_test_output = RKW
+    if (cond_test_output /= cond_test_expected) then
+      write(*,*) 'cond_test: actual /= expected: ', RKW, cond_test_expected
+    else
+      write(*,*) 'cond_test: OK'
+    end if
+  end if
+
+contains 
+  subroutine ftabsT_init
+    OMEGA = 3.13
+    ABSTBL(9) = 0.718309104
+    ABSTBL(10) = 0.707092881
+    ABSTBL(46) = 0.437107921
+    PS1 = 967.0
+  end subroutine ftabsT_init
+  
+  subroutine ftscatT_init
+    OMEGA = 3.13
+    SCATBL(9) = 0.548576415
+    SCATBL(10) = 0.527300596
+    SCATBL(46) = 0.173223004
+    PS1 = 967.0
+  end subroutine ftscatT_init
+
+  subroutine fbscatT_init
+    OMEGA = 3.13
+    BSCTBL(9) = 0.307897508
+    BSCTBL(10) = 0.307446688
+    BSCTBL(46) = 0.304252803
+    PS1 = 967.0
+  end subroutine fbscatT_init
+
+  subroutine advect_init
     CF = 9.19953891E-05
     OTEMP = 295.149994
     VGD(5) = 8.41951942
@@ -302,12 +289,13 @@ program test_simsphere
     UGD(5) = 13.0658665
     UGD(3) = 9.05783463
     UGD(1) = 5.04980326
-    advgt=advect()
-    if (advgt /= advect_test_expected) then
-      write(*,*) 'advect_test: actual /= expected: ', advgt, advect_test_expected
-    else
-      write(*,*) 'advect_test: OK'
-    end if
-  end if   
+  end subroutine advect_init
+
+  subroutine cond_init
+    RKS = 6.60699987
+    THV = 1.00000000
+    THMAX = 0.338999987
+    COSBYB = 2.78999996
+  end subroutine cond_init
 
 end program

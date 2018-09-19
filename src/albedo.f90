@@ -1,8 +1,10 @@
 subroutine  ALBEDO (SOLSIN)
   use simsphere_mod
+  implicit none
 
-  logical :: ALGFLG,ALFFLG
-  integer :: ALBFLG
+  real :: SOLSIN
+  logical :: ALGFLG = .false. ,ALFFLG = .false.
+  integer :: ALBFLG = 0
 
 !      INCLUDE 'modvars.h'
 
@@ -12,8 +14,6 @@ subroutine  ALBEDO (SOLSIN)
 ! **  otherwise the albedo of the ground and the foliage input are used
 ! **  to calculate the weighted albedo (ALBDOE).
 ! **  Note: ALBF depends on solar angle (SOLSIN); ALBG on WGG.
-
-  DATA ALBFLG,ALGFLG,ALFFLG / 0, .FALSE., .FALSE./
 
   IF (ALBFLG .EQ. 0) THEN
     IF (ALBG .EQ. 0.0) ALGFLG = .TRUE.
