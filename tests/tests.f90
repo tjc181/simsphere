@@ -16,6 +16,7 @@ program test_simsphere
   logical :: cond_test
   logical :: stomfs_test
   logical :: stomrs_test_hi_temp, stomrs_test_lo_temp, stomrs_test_hi_psi, stomrs_test_lo_psi
+  logical :: stomc_test
 
 ! splint_test variables
   integer, parameter :: splint_max_array = 50
@@ -66,12 +67,16 @@ program test_simsphere
   real, parameter :: stomfs_test_expected = 1.58197677
   real :: stomfs_test_output
 
-! stomrs_test variables
+! stomrs_test_* variables
   real, parameter :: stomrs_test_hi_temp_expected = 5000.0
   real, parameter :: stomrs_test_lo_temp_expected = 5000.0
   real, parameter :: stomrs_test_hi_psi_expected = 3.16395354
   real, parameter :: stomrs_test_lo_psi_expected = 7.90988398
   real :: stomrs_test_output
+
+! stomc_test variables
+  real, parameter :: stomc_test_expected = 4.74593019
+  real :: stomc_test_output
 
 ! Set logical to control test execution
   start_test = .false.
@@ -90,6 +95,7 @@ program test_simsphere
   stomrs_test_lo_temp = .true.
   stomrs_test_hi_psi = .true.
   stomrs_test_lo_psi = .true.
+  stomc_test = .true.
 
 
 ! Initialize some test values
@@ -348,6 +354,21 @@ program test_simsphere
     end if
   end if
 
+!
+! stomc_test
+!
+
+  if (stomc_test) then
+    call stomc_init
+    call stomc
+    stomc_test_output = RSCRIT
+    if (stomc_test_output /= stomc_test_expected) then
+      write(*,*) 'stomc_test_ouptut: actual /= expected: ', stomc_test_output, stomc_test_expected
+    else
+      write(*,*) 'stomc_test: OK'
+    end if
+  end if
+
 contains 
   subroutine ftabsT_init
     OMEGA = 3.13
@@ -427,5 +448,13 @@ contains
 !    end if
 
   end subroutine stomrs_init
+
+  subroutine stomc_init
+    B1 = 1.0
+    PSICE = 2.0
+    RMIN = 1.0
+    call stomfs_init
+    FS = stomfs()
+  end subroutine stomc_init
 
 end program
