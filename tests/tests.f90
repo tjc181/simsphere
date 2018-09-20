@@ -298,8 +298,9 @@ program test_simsphere
   if (stomrs_test_hi_temp) then
     call stomrs_init
     TF = MAXTEMP + 1.0
-    call stomrs
-    stomrs_test_output = RS
+!    call stomrs
+!    stomrs_test_output = RS
+    stomrs_test_output = stomrs()
     if (stomrs_test_output /= stomrs_test_hi_temp_expected) then
       write(*,*) 'stomrs_test_hi_temp_expected: actual /= expected: ',stomrs_test_output,stomrs_test_hi_temp_expected
     else
@@ -313,8 +314,9 @@ program test_simsphere
   if (stomrs_test_lo_temp) then
     call stomrs_init
     TF = MINTEMP - 1.0
-    call stomrs
-    stomrs_test_output = RS
+!    call stomrs
+!    stomrs_test_output = RS
+    stomrs_test_output = stomrs()
     if (stomrs_test_output /= stomrs_test_lo_temp_expected) then
       write(*,*) 'stomrs_test_lo_temp_expected: actual /= expected: ',stomrs_test_output,stomrs_test_lo_temp_expected
     else
@@ -329,8 +331,9 @@ program test_simsphere
     call stomrs_init
     TF = (MINTEMP + MAXTEMP)/2
     PSISUP = PSIWC + 1.0
-    call stomrs
-    stomrs_test_output = RS
+!    call stomrs
+!    stomrs_test_output = RS
+    stomrs_test_output = stomrs()
     if (stomrs_test_output /= stomrs_test_hi_psi_expected) then
       write(*,*) 'stomrs_test_hi_psi: actual /= expected: ', stomrs_test_output,stomrs_test_hi_psi_expected
     else
@@ -345,8 +348,9 @@ program test_simsphere
     call stomrs_init
     TF = (MINTEMP + MAXTEMP)/2
     PSISUP = PSIWC - 1.0
-    call stomrs
-    stomrs_test_output = RS
+!    call stomrs
+!    stomrs_test_output = RS
+    stomrs_test_output = stomrs()
     if (stomrs_test_output /= stomrs_test_lo_psi_expected) then
       write(*,*) 'stomrs_test_lo_psi: actual /= expected: ', stomrs_test_output,stomrs_test_lo_psi_expected
     else
@@ -360,8 +364,9 @@ program test_simsphere
 
   if (stomc_test) then
     call stomc_init
-    call stomc
-    stomc_test_output = RSCRIT
+  !  call stomc
+  !  stomc_test_output = RSCRIT
+    stomc_test_output = stomc()
     if (stomc_test_output /= stomc_test_expected) then
       write(*,*) 'stomc_test_ouptut: actual /= expected: ', stomc_test_output, stomc_test_expected
     else
