@@ -202,7 +202,7 @@ subroutine Capac (Unscaled_RAF,H,B1_P,B2_P,vfl2, sgma)
   ACTSQRT  = BROOT ** 2 - 4 * AROOT * CROOT
   PSIE = ( -BROOT - SQRT ( ACTSQRT ) ) / (2 * AROOT )
 
-  CALL STOMRS
+  RS = stomrs()
 
 
 ! * * STRESS INDICES

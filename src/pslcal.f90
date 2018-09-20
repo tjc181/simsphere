@@ -74,7 +74,7 @@ subroutine  PSLCAL (SGMA, PES)
 
   CALL PSGCAL
 
-  CALL STOMC
+  RSCRIT = stomc()
 
   if (init .eq. 1) then
     vfl2 = vfl
@@ -131,7 +131,7 @@ subroutine  PSLCAL (SGMA, PES)
     PSIE = ( -BROOT - SQRT ( ACTSQRT ) ) / (2 * AROOT )
 
     PSIM = PSIE + BETA * vfl2
-    CALL STOMRS
+    RS = stomrs()
 
   END IF  ! End of STEADY Loop
 
