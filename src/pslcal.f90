@@ -29,7 +29,7 @@ subroutine  PSLCAL (SGMA, PES)
 
   THV = W2G
 
-  FS = stomfs()
+  FS = stomfs(sc,sol)
 
 ! **  following is Choudhury and Idso's adaptation for zg
 ! **  units is a conversion factor from s given in Choudhury to
@@ -74,7 +74,7 @@ subroutine  PSLCAL (SGMA, PES)
 
   CALL PSGCAL
 
-  RSCRIT = stomc()
+  RSCRIT = stomc(ft,tf,rmin,b1,psice,fs)
 
   if (init .eq. 1) then
     vfl2 = vfl
@@ -131,7 +131,7 @@ subroutine  PSLCAL (SGMA, PES)
     PSIE = ( -BROOT - SQRT ( ACTSQRT ) ) / (2 * AROOT )
 
     PSIM = PSIE + BETA * vfl2
-    RS = stomrs()
+    RS = stomrs(ft,tf,rmin,mintemp,maxtemp,psisup,psiwc,b1,b2,psie,psice,fs)
 
   END IF  ! End of STEADY Loop
 

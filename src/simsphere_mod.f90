@@ -2,6 +2,7 @@ module simsphere_mod
   use snding_mod, only: splint, spline
   use transm_mod, only: ftabsT, ftscatT, fbscatT, ABSTBL, SCATBL, BSCTBL, PS1
   use vel_mod, only: You_star, R_ohms, WindF, Stab, StabH, FStabH, FStabM, ResTrn, MOL
+  use stomata_mod, only: stomc, stomfs, stomrs
   implicit none
   public
 
@@ -151,63 +152,63 @@ module simsphere_mod
 
     end function cond
 
+!!
+!! stomfs function replaces STOMFS subroutine
+!!
 !
-! stomfs function replaces STOMFS subroutine
+!    real pure function stomfs ()
+!      implicit none
+!     
+!      ! The exponential function for solar radiation -- Albert Olioso
 !
-
-    real pure function stomfs ()
-      implicit none
-     
-      ! The exponential function for solar radiation -- Albert Olioso
-
-      stomfs = 1 / (1 - exp(-1 / sc * sol))
-    end function stomfs
-
+!      stomfs = 1 / (1 - exp(-1 / sc * sol))
+!    end function stomfs
 !
-! stomrs function replaces the STOMRS subroutine
+!!
+!! stomrs function replaces the STOMRS subroutine
+!!
 !
-
-   real pure function stomrs ()
-     implicit none
-
-     real :: fpsie_local
-
-     ! This program calculates stomatal resistance coefficients are initialized in
-     ! stmcof.for (referenced file does not exist -TJC)
-
-     if ( TF .GT. MINTEMP .AND. TF .LT. MAXTEMP ) then
-       if ( PSISUP.GT. PSIWC ) then
-         fpsie_local = 1 + B1 * PSIE 
-       else
-         fpsie_local = 1 + B1 * PSICE + B2 * ( PSICE - PSIE ) 
-       end if
-     else
-       stomrs = 5000
-!       PRINT*, 'TEMPERATURE IS LESS THAN OR GREATER THAN THE'
-!       PRINT*, 'CRITICAL TEMPERATURE -- STOMATAL RESISTANCE '
-!       PRINT*, 'SET EQUAL TO 5000 S M-1'
-       return
-     end if
-   
-     stomrs = RMIN * FS * fpsie_local * FT
-
-   end function stomrs
-
+!   real pure function stomrs ()
+!     implicit none
 !
-! stomc function replaces the STOMC subroutine
+!     real :: fpsie_local
 !
-
-   real pure function stomc ()
-     implicit none
-     
-     real :: fpsice_local
-
-     ! Calclates the critical stomatal resistance  for the ground water potential
-
-     fpsice_local = 1 + B1 * PSICE
-     stomc = RMIN * FS * fpsice_local * FT
-
-   end function stomc
+!     ! This program calculates stomatal resistance coefficients are initialized in
+!     ! stmcof.for (referenced file does not exist -TJC)
+!
+!     if ( TF .GT. MINTEMP .AND. TF .LT. MAXTEMP ) then
+!       if ( PSISUP.GT. PSIWC ) then
+!         fpsie_local = 1 + B1 * PSIE 
+!       else
+!         fpsie_local = 1 + B1 * PSICE + B2 * ( PSICE - PSIE ) 
+!       end if
+!     else
+!       stomrs = 5000
+!!       PRINT*, 'TEMPERATURE IS LESS THAN OR GREATER THAN THE'
+!!       PRINT*, 'CRITICAL TEMPERATURE -- STOMATAL RESISTANCE '
+!!       PRINT*, 'SET EQUAL TO 5000 S M-1'
+!       return
+!     end if
+!   
+!     stomrs = RMIN * FS * fpsie_local * FT
+!
+!   end function stomrs
+!
+!!
+!! stomc function replaces the STOMC subroutine
+!!
+!
+!   real pure function stomc ()
+!     implicit none
+!     
+!     real :: fpsice_local
+!
+!     ! Calclates the critical stomatal resistance  for the ground water potential
+!
+!     fpsice_local = 1 + B1 * PSICE
+!     stomc = RMIN * FS * fpsice_local * FT
+!
+!   end function stomc
 
 
 end module simsphere_mod

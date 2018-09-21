@@ -283,7 +283,7 @@ program test_simsphere
 !
   if (stomfs_test) then
     call stomfs_init
-    stomfs_test_output = stomfs()
+    stomfs_test_output = stomfs(sc, sol)
     if (stomfs_test_output /= stomfs_test_expected) then
       write(*,*) 'stomfs_test: actual /= expected: ',stomfs_test_output,stomfs_test_expected
     else
@@ -297,7 +297,7 @@ program test_simsphere
   if (stomrs_test_hi_temp) then
     call stomrs_init
     TF = MAXTEMP + 1.0
-    stomrs_test_output = stomrs()
+    stomrs_test_output = stomrs(ft,tf,rmin,mintemp,maxtemp,psisup,psiwc,b1,b2,psie,psice,fs)
     if (stomrs_test_output /= stomrs_test_hi_temp_expected) then
       write(*,*) 'stomrs_test_hi_temp_expected: actual /= expected: ',stomrs_test_output,stomrs_test_hi_temp_expected
     else
@@ -311,7 +311,7 @@ program test_simsphere
   if (stomrs_test_lo_temp) then
     call stomrs_init
     TF = MINTEMP - 1.0
-    stomrs_test_output = stomrs()
+    stomrs_test_output = stomrs(ft,tf,rmin,mintemp,maxtemp,psisup,psiwc,b1,b2,psie,psice,fs)
     if (stomrs_test_output /= stomrs_test_lo_temp_expected) then
       write(*,*) 'stomrs_test_lo_temp_expected: actual /= expected: ',stomrs_test_output,stomrs_test_lo_temp_expected
     else
@@ -326,7 +326,7 @@ program test_simsphere
     call stomrs_init
     TF = (MINTEMP + MAXTEMP)/2
     PSISUP = PSIWC + 1.0
-    stomrs_test_output = stomrs()
+    stomrs_test_output = stomrs(ft,tf,rmin,mintemp,maxtemp,psisup,psiwc,b1,b2,psie,psice,fs)
     if (stomrs_test_output /= stomrs_test_hi_psi_expected) then
       write(*,*) 'stomrs_test_hi_psi: actual /= expected: ', stomrs_test_output,stomrs_test_hi_psi_expected
     else
@@ -341,7 +341,7 @@ program test_simsphere
     call stomrs_init
     TF = (MINTEMP + MAXTEMP)/2
     PSISUP = PSIWC - 1.0
-    stomrs_test_output = stomrs()
+    stomrs_test_output = stomrs(ft,tf,rmin,mintemp,maxtemp,psisup,psiwc,b1,b2,psie,psice,fs)
     if (stomrs_test_output /= stomrs_test_lo_psi_expected) then
       write(*,*) 'stomrs_test_lo_psi: actual /= expected: ', stomrs_test_output,stomrs_test_lo_psi_expected
     else
@@ -355,7 +355,7 @@ program test_simsphere
 
   if (stomc_test) then
     call stomc_init
-    stomc_test_output = stomc()
+    stomc_test_output = stomc(ft,tf,rmin,b1,psice,fs)
     if (stomc_test_output /= stomc_test_expected) then
       write(*,*) 'stomc_test_ouptut: actual /= expected: ', stomc_test_output, stomc_test_expected
     else
@@ -421,7 +421,7 @@ contains
     B1 = 1.0
     B2 = 2.0
     call stomfs_init
-    FS = stomfs()
+    FS = stomfs(sc,sol)
 ! Attempted implementation of more flexible setting variables to test all
 ! 4 cases in STOMRS.  Will set in individual tests, for now.
 !    if (stomrs_test_lo_temp) then
@@ -448,7 +448,7 @@ contains
     PSICE = 2.0
     RMIN = 1.0
     call stomfs_init
-    FS = stomfs()
+    FS = stomfs(sc,sol)
   end subroutine stomc_init
 
 end program
