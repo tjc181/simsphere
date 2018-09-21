@@ -7,14 +7,12 @@ program test_simsphere
 
   logical, dimension(:), allocatable :: tests
   logical :: test_failed
-  integer :: n, norder, ntests
+  integer :: n, ntests
   integer, parameter :: stdout = 6
 
   ! end mod_testing test setup
 
   integer :: i
-  real(kind=4) :: T_Obst_Hgt, T_zo_patch
-  logical :: T_dual_regime
   
   logical :: splint_test, spline_test, start_test 
   logical :: transm_ftabs_test, transm_ftabs_test2
@@ -86,19 +84,19 @@ program test_simsphere
 
 ! you_star_test variables
   real, parameter :: you_star_test_expected = 1.73396431E-02
-  real :: you_star_arg1, you_star_arg2, you_star_arg3, you_star_arg4
+  real :: you_star_arg1, you_star_arg2, you_star_arg3, you_star_arg4, you_star_arg5
 
 ! r_ohms_test variables
   real, parameter :: r_ohms_test_expected = 42.6767731
-  real :: r_ohms_arg1, r_ohms_arg2, r_ohms_arg3, r_ohms_arg4
+  real :: r_ohms_arg1, r_ohms_arg2, r_ohms_arg3, r_ohms_arg4, r_ohms_arg5
 
 ! windf_test variables
   real, parameter :: windf_test_expected = 8.98633766
-  real :: windf_arg1, windf_arg2, windf_arg3, windf_arg4
+  real :: windf_arg1, windf_arg2, windf_arg3, windf_arg4, windf_arg5
 
 ! stab_test variables
   real, parameter :: stab_test_expected = 0.707106769
-  real :: stab_arg1
+  real :: stab_arg1, stab_arg2
 
 ! stabh_test variables
   real, parameter :: stabh_test_expected = 0.741619825
@@ -112,7 +110,7 @@ program test_simsphere
 
 ! restrn_test variables
   real, parameter :: restrn_test_expected = 0.590972006
-  real :: restrn_arg1, restrn_arg2, restrn_arg3
+  real :: restrn_arg1, restrn_arg2, restrn_arg3, restrn_arg4
 
 ! mod_testing variable setup
   n = 1
@@ -148,11 +146,6 @@ program test_simsphere
   fstabm_test = .true.
   restrn_test = .true.
 
-
-! Initialize some test values
-  T_Obst_Hgt = 0.0
-  T_zo_patch = 0.0
-  T_dual_regime = .false.
 
 !
 ! splint_test
@@ -372,7 +365,9 @@ program test_simsphere
 
   if (you_star_test) then
     call you_star_init
-    tests(n) = assert(you_star(you_star_arg1,you_star_arg2,you_star_arg3,you_star_arg4) == you_star_test_expected,'you_star_test')
+    tests(n) = assert( &
+               you_star(you_star_arg1,you_star_arg2,you_star_arg3,you_star_arg4,you_star_arg5) &
+               == you_star_test_expected,'you_star_test')
     n = n + 1
   end if
 
@@ -382,7 +377,9 @@ program test_simsphere
 
   if (r_ohms_test) then
     call r_ohms_init
-    tests(n) = assert(r_ohms(r_ohms_arg1,r_ohms_arg2,r_ohms_arg3,r_ohms_arg4) == r_ohms_test_expected,'r_ohms_test')
+    tests(n) = assert( &
+               r_ohms(r_ohms_arg1,r_ohms_arg2,r_ohms_arg3,r_ohms_arg4,r_ohms_arg5) &
+               == r_ohms_test_expected,'r_ohms_test')
     n = n + 1
   end if
 
@@ -392,7 +389,7 @@ program test_simsphere
 
   if (windf_test) then
     call windf_init
-    tests(n) = assert(windf(windf_arg1,windf_arg2,windf_arg3,windf_arg4) == windf_test_expected,'windf_test')
+    tests(n) = assert(windf(windf_arg1,windf_arg2,windf_arg3,windf_arg4,windf_arg5) == windf_test_expected,'windf_test')
     n = n + 1
   end if
 
@@ -402,7 +399,7 @@ program test_simsphere
 
   if (stab_test) then
     call stab_init
-    tests(n) = assert(stab(stab_arg1) == stab_test_expected,'stab_test')
+    tests(n) = assert(stab(stab_arg1,stab_arg2) == stab_test_expected,'stab_test')
     n = n + 1
   end if
 
@@ -413,7 +410,7 @@ program test_simsphere
   if (stabh_test) then
     ! stabh takes same argument as stab so we'll recycle initialization
     call stab_init
-    tests(n) = assert(stabh(stab_arg1) == stabh_test_expected,'stabh_test')
+    tests(n) = assert(stabh(stab_arg1,stab_arg2) == stabh_test_expected,'stabh_test')
     n = n + 1
   end if
 
@@ -444,7 +441,7 @@ program test_simsphere
 
   if (restrn_test) then
     call restrn_init
-    tests(n) = assert(restrn(restrn_arg1,restrn_arg2,restrn_arg3) == restrn_test_expected,'restrn()')
+    tests(n) = assert(restrn(restrn_arg1,restrn_arg2,restrn_arg3,restrn_arg4) == restrn_test_expected,'restrn()')
     n = n + 1
   end if
 
@@ -535,6 +532,7 @@ contains
     you_star_arg2 = 1.0
     you_star_arg3 = 2.0
     you_star_arg4 = 3.0
+    you_star_arg5 = karman
     return
   end subroutine you_star_init
 
@@ -543,6 +541,7 @@ contains
     r_ohms_arg2 = 1.0
     r_ohms_arg3 = 2.0
     r_ohms_arg4 = 3.0
+    r_ohms_arg5 = karman
     return
   end subroutine r_ohms_init
 
@@ -551,13 +550,14 @@ contains
     windf_arg2 = 2.0
     windf_arg3 = 3.0
     windf_arg4 = 4.0
+    windf_arg5 = karman
     return
   end subroutine windf_init
 
   subroutine stab_init
     ! also used to test stabh
-    MOL = 2.0
     stab_arg1 = 0.1
+    stab_arg2 = 2.0
     return
   end subroutine stab_init
 
@@ -572,6 +572,7 @@ contains
     restrn_arg1 = 1.0
     restrn_arg2 = 2.0
     restrn_arg3 = 3.0
+    restrn_arg4 = karman
     return
   end subroutine
 

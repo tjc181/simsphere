@@ -41,20 +41,20 @@ subroutine VEL (MONCE,IONCE,StabCriteria,YCOUNT,Obst_Hgt,dual_regime,zo_patch)
            
 !         ^ Allow for negative heat flux 
        
-    USTAR = You_Star (AWIND,ZA,ZO,0.0)      ! Friction Velocity
+    USTAR = You_Star (AWIND,ZA,ZO,0.0,KARMAN)      ! Friction Velocity
 
-    USCRN = WindF (USTAR,Reflev,ZO,0.0)      ! Wind Speeds
-    UTEN =  WindF (USTAR,ZTEN,ZO,0.0)
+    USCRN = WindF (USTAR,Reflev,ZO,0.0,KARMAN)      ! Wind Speeds
+    UTEN =  WindF (USTAR,ZTEN,ZO,0.0,KARMAN)
 
-    RZAZO = R_ohms (USTAR,ZA,ZO,0.0)        ! Resistances
-    RZASCR = R_ohms (USTAR,ZA,REFLEV,0.0) 
+    RZAZO = R_ohms (USTAR,ZA,ZO,0.0,KARMAN)        ! Resistances
+    RZASCR = R_ohms (USTAR,ZA,REFLEV,0.0,KARMAN) 
        
   if (dual_regime) then
 
-     U_Patch = WindF (USTAR,Obst_Hgt,ZO,0.0)
-     Ustar_Patch = You_Star (U_Patch,Obst_Hgt,zo_patch,0.0)
-     RZA_Obst = R_ohms (USTAR,ZA,Obst_Hgt,0.0)
-     RObst_Patch = R_ohms (Ustar_Patch,Obst_Hgt,zo_patch,0.0)
+     U_Patch = WindF (USTAR,Obst_Hgt,ZO,0.0,KARMAN)
+     Ustar_Patch = You_Star (U_Patch,Obst_Hgt,zo_patch,0.0,KARMAN)
+     RZA_Obst = R_ohms (USTAR,ZA,Obst_Hgt,0.0,KARMAN)
+     RObst_Patch = R_ohms (Ustar_Patch,Obst_Hgt,zo_patch,0.0,KARMAN)
 
   end if
         
@@ -78,47 +78,47 @@ subroutine VEL (MONCE,IONCE,StabCriteria,YCOUNT,Obst_Hgt,dual_regime,zo_patch)
 
 !  Dimensionless wind shear
 
-    SA = Stab (ZA) 
-    SRFCZO = Stab (ZO)  
-    SO10M = Stab (REFLEV)
-    STEN = Stab (ZTEN)
+    SA = Stab (ZA,MOL) 
+    SRFCZO = Stab (ZO,MOL)  
+    SO10M = Stab (REFLEV,MOL)
+    STEN = Stab (ZTEN,MOL)
        
 !  Stability Correction for momentum. Benoit solution.
 
     FM = FstabM (SRFCZO, SA)
     FTEN = FstabM (SRFCZO, STEN)
 
-    USTAR1 = You_Star (AWIND,ZA,ZO,FM) ! Friction Velocity
+    USTAR1 = You_Star (AWIND,ZA,ZO,FM,KARMAN) ! Friction Velocity
     USTAR = ( USTAR + USTAR1 ) / 2 ! Smooth
 
 ! Dimensionless temperature gradient again using the integrated form.
 
-    CHIO = StabH (ZO)
-    CHIA = StabH (ZA)
-    CHI20 = StabH (REFLEV)
+    CHIO = StabH (ZO,MOL)
+    CHIA = StabH (ZA,MOL)
+    CHI20 = StabH (REFLEV,MOL)
        
 !  Stability Correction for heat. Benoit solution.
 
     T_ft = FstabH (CHIO,CHIA)
     FT20 = FstabH (CHI20,CHIA)
        
-    UTEN = WindF (USTAR,ZTEN,ZO,FTEN)       ! Surface Winds at 
-    USCRN = WindF (USTAR,REFLEV,ZO,0.0)     ! Screen Level & 10 metres
+    UTEN = WindF (USTAR,ZTEN,ZO,FTEN,KARMAN)       ! Surface Winds at 
+    USCRN = WindF (USTAR,REFLEV,ZO,0.0,KARMAN)     ! Screen Level & 10 metres
 
-    RZASCR = R_ohms (USTAR,ZA,REFLEV,FT20) ! Resistances in 
-    RZAZO = R_ohms (USTAR,ZA,ZO,T_ft)  ! Surface Layer
+    RZASCR = R_ohms (USTAR,ZA,REFLEV,FT20,KARMAN) ! Resistances in 
+    RZAZO = R_ohms (USTAR,ZA,ZO,T_ft,KARMAN)  ! Surface Layer
        
     if (dual_regime) then                   ! As above
 
-      Sobst_Hgt = Stab (Obst_Hgt)
+      Sobst_Hgt = Stab (Obst_Hgt,MOL)
       Fobst_Hgt = FstabM (SRFCZO, Sobst_Hgt)
-      U_Patch = WindF (USTAR,Obst_Hgt,ZO,0.0)
-      Ustar_Patch = You_Star(U_Patch,Obst_Hgt,zo_patch,Fobst_Hgt)
+      U_Patch = WindF (USTAR,Obst_Hgt,ZO,0.0,KARMAN)
+      Ustar_Patch = You_Star(U_Patch,Obst_Hgt,zo_patch,Fobst_Hgt,KARMAN)
 
-      CH_Obst_Hgt = StabH (Obst_Hgt) 
+      CH_Obst_Hgt = StabH (Obst_Hgt,MOL) 
       FT_Obst_Hgt = FstabH (CH_Obst_Hgt,CHIA)  
-      RZA_Obst_Hgt = R_ohms (USTAR,ZA,Obst_Hgt,FT_Obst_Hgt) 
-      RObst_Patch = R_ohms (Ustar_Patch,Obst_Hgt,zo_patch,0.0)  
+      RZA_Obst_Hgt = R_ohms (USTAR,ZA,Obst_Hgt,FT_Obst_Hgt,KARMAN) 
+      RObst_Patch = R_ohms (Ustar_Patch,Obst_Hgt,zo_patch,0.0,KARMAN)  
         
     end if
 
@@ -166,9 +166,9 @@ subroutine VEL (MONCE,IONCE,StabCriteria,YCOUNT,Obst_Hgt,dual_regime,zo_patch)
     KX =  CMW * KW / ( DENS * CP )
   END IF
        
-  RTRANS = ResTrn (USTAR,ZO,KMM) ! Resistance Transition Layer
-  RTRANW = ResTrn (USTAR,ZO,KX)
-  RTRANO3 = ResTrn (USTAR,ZO,KX/1.32)
+  RTRANS = ResTrn (USTAR,ZO,KMM,KARMAN) ! Resistance Transition Layer
+  RTRANW = ResTrn (USTAR,ZO,KX,KARMAN)
+  RTRANO3 = ResTrn (USTAR,ZO,KX/1.32,KARMAN)
 
 !  Finally compute the total series resistance over both layers.
 
@@ -177,8 +177,8 @@ subroutine VEL (MONCE,IONCE,StabCriteria,YCOUNT,Obst_Hgt,dual_regime,zo_patch)
   sumo3 = rzazo + rtrano3
 
   If( dual_regime) then 
-    Rtrans_Patch = ResTrn (ustar_patch,ZO,KMM)
-    RtransW_Patch = ResTrn (ustar_patch,ZO,KX)
+    Rtrans_Patch = ResTrn (ustar_patch,ZO,KMM,KARMAN)
+    RtransW_Patch = ResTrn (ustar_patch,ZO,KX,KARMAN)
 
     GBL_sum = RZA_Obst_Hgt + RObst_Patch + Rtrans_Patch
     SUMW = RZA_Obst_Hgt + RObst_Patch + RtransW_Patch
