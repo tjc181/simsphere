@@ -1,7 +1,16 @@
 program test_simsphere
   use simsphere_mod
+  use mod_testing, only: assert,initialize_tests,report_tests
   implicit none
 
+  ! mod_testing test setup
+
+  logical, dimension(:), allocatable :: tests
+  logical :: test_failed
+  integer :: n, norder, ntests
+  integer, parameter :: stdout = 6
+
+  ! end mod_testing test setup
 
   integer :: i
   real(kind=4) :: T_Obst_Hgt, T_zo_patch
@@ -17,6 +26,7 @@ program test_simsphere
   logical :: stomfs_test
   logical :: stomrs_test_hi_temp, stomrs_test_lo_temp, stomrs_test_hi_psi, stomrs_test_lo_psi
   logical :: stomc_test
+  logical :: you_star_test, r_ohms_test, windf_test, stab_test, stabh_test, fstabh_test, fstabm_test, restrn_test
 
 ! splint_test variables
   integer, parameter :: splint_max_array = 50
@@ -35,17 +45,17 @@ program test_simsphere
   real, allocatable :: spline_output(:)
 
 ! transm_ftabsT variables
-  real :: transm_ftabs_arg1, transm_ftabs_output
+  real :: transm_ftabs_arg1
   real, parameter :: transm_ftabs_expected = 0.722923875
   real, parameter :: transm_ftabs_expected2 = 0.437107921
 
 ! transm_ftscatT variables
-  real :: transm_ftscatT_arg1, transm_ftscatT_output
+  real :: transm_ftscatT_arg1
   real, parameter :: transm_ftscatT_expected = 0.553545594
   real, parameter :: transm_ftscatT_expected2 = 0.173223004 
 
 ! transm_fbscatT variables
-  real :: transm_fbscatT_arg1, transm_fbscatT_output
+  real :: transm_fbscatT_arg1
   real, parameter :: transm_fbscatT_expected = 0.307550341
   real, parameter :: transm_fbscatT_expected2 = 0.304252803
 
@@ -61,22 +71,55 @@ program test_simsphere
 
 ! cond_test variables
   real, parameter :: cond_test_expected = 1.46884334
-  real :: cond_test_output
 
 ! stomfs_test variables
   real, parameter :: stomfs_test_expected = 1.58197677
-  real :: stomfs_test_output
 
 ! stomrs_test_* variables
   real, parameter :: stomrs_test_hi_temp_expected = 5000.0
   real, parameter :: stomrs_test_lo_temp_expected = 5000.0
   real, parameter :: stomrs_test_hi_psi_expected = 3.16395354
   real, parameter :: stomrs_test_lo_psi_expected = 7.90988398
-  real :: stomrs_test_output
 
 ! stomc_test variables
   real, parameter :: stomc_test_expected = 4.74593019
-  real :: stomc_test_output
+
+! you_star_test variables
+  real, parameter :: you_star_test_expected = 1.73396431E-02
+  real :: you_star_arg1, you_star_arg2, you_star_arg3, you_star_arg4
+
+! r_ohms_test variables
+  real, parameter :: r_ohms_test_expected = 42.6767731
+  real :: r_ohms_arg1, r_ohms_arg2, r_ohms_arg3, r_ohms_arg4
+
+! windf_test variables
+  real, parameter :: windf_test_expected = 8.98633766
+  real :: windf_arg1, windf_arg2, windf_arg3, windf_arg4
+
+! stab_test variables
+  real, parameter :: stab_test_expected = 0.707106769
+  real :: stab_arg1
+
+! stabh_test variables
+  real, parameter :: stabh_test_expected = 0.741619825
+
+! fstabh_test variables
+  real, parameter :: fstabh_test_expected = -0.810930133
+  real :: fstabh_arg1, fstabh_arg2
+
+! fstabm_test variables
+  real, parameter :: fstabm_test_expected = -0.572894096
+
+! restrn_test variables
+  real, parameter :: restrn_test_expected = 0.590972006
+  real :: restrn_arg1, restrn_arg2, restrn_arg3
+
+! mod_testing variable setup
+  n = 1
+  ntests = 22
+  call initialize_tests(tests,ntests)
+! end  mod_testing variable setup
+
 
 ! Set logical to control test execution
   start_test = .false.
@@ -96,6 +139,14 @@ program test_simsphere
   stomrs_test_hi_psi = .true.
   stomrs_test_lo_psi = .true.
   stomc_test = .true.
+  you_star_test = .true.
+  r_ohms_test = .true.
+  windf_test = .true.
+  stab_test = .true.
+  stabh_test = .true.
+  fstabh_test = .true.
+  fstabm_test = .true.
+  restrn_test = .true.
 
 
 ! Initialize some test values
@@ -164,12 +215,8 @@ program test_simsphere
   if (transm_ftabs_test) then
     call ftabsT_init
     transm_ftabs_arg1 = 2.75401473
-    transm_ftabs_output = ftabst(transm_ftabs_arg1)
-    if (transm_ftabs_output /= transm_ftabs_expected) then
-      write(*,*) 'transm_ftabs: arg2 actual /= expected: ', transm_ftabs_output, transm_ftabs_expected
-    else
-      write(*,*) 'transm_ftabs: OK'
-    end if
+    tests(n) = assert(ftabst(transm_ftabs_arg1) == transm_ftabs_expected, 'ftabs() else')
+    n = n + 1
   end if
 
 !
@@ -180,12 +227,8 @@ program test_simsphere
   if (transm_ftabs_test2) then
     call ftabsT_init
     transm_ftabs_arg1 = 11.0
-    transm_ftabs_output = ftabst(transm_ftabs_arg1)
-    if (transm_ftabs_output /= transm_ftabs_expected2) then
-      write(*,*) 'transm_ftabs2: arg2 actual /= expected: ', transm_ftabs_output, transm_ftabs_expected2
-    else
-      write(*,*) 'transm_ftabs2: OK'
-    end if
+    tests(n) = assert(ftabst(transm_ftabs_arg1) == transm_ftabs_expected2, 'ftabs() if')
+    n = n + 1 
   end if
 
 !
@@ -196,12 +239,8 @@ program test_simsphere
   if (transm_ftscatT_test) then
     call ftscatT_init
     transm_ftscatT_arg1 = 2.75401473
-    transm_ftscatT_output = ftscatT(transm_ftscatT_arg1)
-    if (transm_ftscatT_output /= transm_ftscatT_expected) then
-      write(*,*) 'transm_ftscatT: actual /= expected: ', transm_ftscatT_output, transm_ftscatT_expected
-    else
-      write(*,*) 'transm_ftscatT: OK'
-    end if
+    tests(n) = assert(ftscatT(transm_ftscatT_arg1) == transm_ftscatT_expected, 'ftscatT() else')
+    n = n + 1
   end if
 
 !
@@ -212,12 +251,8 @@ program test_simsphere
   if (transm_ftscatT_test2) then
     call ftscatT_init
     transm_ftscatT_arg1 = 11.0
-    transm_ftscatT_output = ftscatT(transm_ftscatT_arg1)
-    if (transm_ftscatT_output /= transm_ftscatT_expected2) then
-      write(*,*) 'transm_ftscatT2: actual /= expected: ', transm_ftscatT_output, transm_ftscatT_expected2
-    else
-      write(*,*) 'transm_ftscatT2: OK'
-    end if
+    tests(n) = assert(ftscatT(transm_ftscatT_arg1) == transm_ftscatT_expected2, 'ftscatT() if')
+    n = n + 1
   end if
 
 !
@@ -228,12 +263,8 @@ program test_simsphere
   if (transm_fbscatT_test) then
     call fbscatT_init
     transm_fbscatT_arg1 = 2.75401473
-    transm_fbscatT_output = fbscatT(transm_fbscatT_arg1)
-    if (transm_fbscatT_output /= transm_fbscatT_expected) then
-      write(*,*) 'transm_fbscatT: actual /= expected: ', transm_fbscatT_output, transm_fbscatT_expected
-    else
-      write(*,*) 'transm_fbscatT: OK'
-    end if
+    tests(n) = assert(fbscatT(transm_fbscatT_arg1) == transm_fbscatT_expected, 'fbscatT() else')
+    n = n + 1
   end if
 
 !
@@ -244,12 +275,8 @@ program test_simsphere
   if (transm_fbscatT_test2) then
     call fbscatT_init
     transm_fbscatT_arg1 = 11.0
-    transm_fbscatT_output = fbscatT(transm_fbscatT_arg1)
-    if (transm_fbscatT_output /= transm_fbscatT_expected2) then
-      write(*,*) 'transm_fbscatT2: actual /= expected: ', transm_fbscatT_output, transm_fbscatT_expected2
-    else
-      write(*,*) 'transm_fbscatT2: OK'
-    end if
+    tests(n) = assert(fbscatT(transm_fbscatT_arg1) == transm_fbscatT_expected2, 'fbscatT() if')
+    n = n + 1
   end if
 
 !
@@ -257,12 +284,8 @@ program test_simsphere
 !
   if (advect_func_test) then
     call advect_init
-    advgt=advect()
-    if (advgt /= advect_test_expected) then
-      write(*,*) 'advect_test: actual /= expected: ', advgt, advect_test_expected
-    else
-      write(*,*) 'advect_test: OK'
-    end if
+    tests(n) = assert(advect() == advect_test_expected, 'advect()')
+    n = n + 1
   end if   
 
 !
@@ -270,12 +293,8 @@ program test_simsphere
 !
   if (cond_test) then
     call cond_init
-    cond_test_output = cond()
-    if (cond_test_output /= cond_test_expected) then
-      write(*,*) 'cond_test: actual /= expected: ', cond_test_output, cond_test_expected
-    else
-      write(*,*) 'cond_test: OK'
-    end if
+    tests(n) = assert(cond() == cond_test_expected,'cond()')
+    n = n + 1
   end if
 
 !
@@ -283,12 +302,8 @@ program test_simsphere
 !
   if (stomfs_test) then
     call stomfs_init
-    stomfs_test_output = stomfs(sc, sol)
-    if (stomfs_test_output /= stomfs_test_expected) then
-      write(*,*) 'stomfs_test: actual /= expected: ',stomfs_test_output,stomfs_test_expected
-    else
-      write(*,*) 'stomfs_test: OK'
-    end if
+    tests(n) = assert(stomfs(sc, sol) == stomfs_test_expected, 'stomfs()')
+    n = n + 1
   end if
 
 !
@@ -297,12 +312,10 @@ program test_simsphere
   if (stomrs_test_hi_temp) then
     call stomrs_init
     TF = MAXTEMP + 1.0
-    stomrs_test_output = stomrs(ft,tf,rmin,mintemp,maxtemp,psisup,psiwc,b1,b2,psie,psice,fs)
-    if (stomrs_test_output /= stomrs_test_hi_temp_expected) then
-      write(*,*) 'stomrs_test_hi_temp_expected: actual /= expected: ',stomrs_test_output,stomrs_test_hi_temp_expected
-    else
-      write(*,*) 'stomrs_test_hi_temp: OK'
-    end if
+    tests(n) = assert( &
+               stomrs(ft,tf,rmin,mintemp,maxtemp,psisup,psiwc,b1,b2,psie,psice,fs) &
+               == stomrs_test_hi_temp_expected, 'stomrs_test_hi_temp_expected')
+    n = n + 1
   end if
 
 !
@@ -311,12 +324,10 @@ program test_simsphere
   if (stomrs_test_lo_temp) then
     call stomrs_init
     TF = MINTEMP - 1.0
-    stomrs_test_output = stomrs(ft,tf,rmin,mintemp,maxtemp,psisup,psiwc,b1,b2,psie,psice,fs)
-    if (stomrs_test_output /= stomrs_test_lo_temp_expected) then
-      write(*,*) 'stomrs_test_lo_temp_expected: actual /= expected: ',stomrs_test_output,stomrs_test_lo_temp_expected
-    else
-      write(*,*) 'stomrs_test_lo_temp: OK'
-    end if
+    tests(n) = assert( &
+               stomrs(ft,tf,rmin,mintemp,maxtemp,psisup,psiwc,b1,b2,psie,psice,fs) &
+               == stomrs_test_lo_temp_expected, 'stomrs_test_lo_temp_expected')
+    n = n + 1
   end if
 
 !
@@ -326,12 +337,10 @@ program test_simsphere
     call stomrs_init
     TF = (MINTEMP + MAXTEMP)/2
     PSISUP = PSIWC + 1.0
-    stomrs_test_output = stomrs(ft,tf,rmin,mintemp,maxtemp,psisup,psiwc,b1,b2,psie,psice,fs)
-    if (stomrs_test_output /= stomrs_test_hi_psi_expected) then
-      write(*,*) 'stomrs_test_hi_psi: actual /= expected: ', stomrs_test_output,stomrs_test_hi_psi_expected
-    else
-      write(*,*) 'stomrs_test_hi_psi: OK'
-    end if
+    tests(n) = assert( &
+               stomrs(ft,tf,rmin,mintemp,maxtemp,psisup,psiwc,b1,b2,psie,psice,fs) &
+               == stomrs_test_hi_psi_expected, 'stomrs_test_hi_psi')
+    n = n + 1
   end if
 
 !
@@ -341,12 +350,10 @@ program test_simsphere
     call stomrs_init
     TF = (MINTEMP + MAXTEMP)/2
     PSISUP = PSIWC - 1.0
-    stomrs_test_output = stomrs(ft,tf,rmin,mintemp,maxtemp,psisup,psiwc,b1,b2,psie,psice,fs)
-    if (stomrs_test_output /= stomrs_test_lo_psi_expected) then
-      write(*,*) 'stomrs_test_lo_psi: actual /= expected: ', stomrs_test_output,stomrs_test_lo_psi_expected
-    else
-      write(*,*) 'stomrs_test_lo_psi: OK'
-    end if
+    tests(n) = assert( &
+               stomrs(ft,tf,rmin,mintemp,maxtemp,psisup,psiwc,b1,b2,psie,psice,fs) &
+               == stomrs_test_lo_psi_expected, 'stomrs_test_lo_psi')
+    n = n + 1
   end if
 
 !
@@ -355,13 +362,96 @@ program test_simsphere
 
   if (stomc_test) then
     call stomc_init
-    stomc_test_output = stomc(ft,tf,rmin,b1,psice,fs)
-    if (stomc_test_output /= stomc_test_expected) then
-      write(*,*) 'stomc_test_ouptut: actual /= expected: ', stomc_test_output, stomc_test_expected
-    else
-      write(*,*) 'stomc_test: OK'
-    end if
+    tests(n) = assert(stomc(ft,tf,rmin,b1,psice,fs) == stomc_test_expected,'stomc_test')
+    n = n + 1
   end if
+
+!
+! you_start_test
+!
+
+  if (you_star_test) then
+    call you_star_init
+    tests(n) = assert(you_star(you_star_arg1,you_star_arg2,you_star_arg3,you_star_arg4) == you_star_test_expected,'you_star_test')
+    n = n + 1
+  end if
+
+!
+! r_ohms_test
+!
+
+  if (r_ohms_test) then
+    call r_ohms_init
+    tests(n) = assert(r_ohms(r_ohms_arg1,r_ohms_arg2,r_ohms_arg3,r_ohms_arg4) == r_ohms_test_expected,'r_ohms_test')
+    n = n + 1
+  end if
+
+!
+! windf_test
+!
+
+  if (windf_test) then
+    call windf_init
+    tests(n) = assert(windf(windf_arg1,windf_arg2,windf_arg3,windf_arg4) == windf_test_expected,'windf_test')
+    n = n + 1
+  end if
+
+!
+! stab_test
+!
+
+  if (stab_test) then
+    call stab_init
+    tests(n) = assert(stab(stab_arg1) == stab_test_expected,'stab_test')
+    n = n + 1
+  end if
+
+!
+! stabh_test
+!
+
+  if (stabh_test) then
+    ! stabh takes same argument as stab so we'll recycle initialization
+    call stab_init
+    tests(n) = assert(stabh(stab_arg1) == stabh_test_expected,'stabh_test')
+    n = n + 1
+  end if
+
+!
+! fstabh_test
+!
+
+  if (fstabh_test) then
+    call fstabh_init
+    tests(n) = assert(fstabh(fstabh_arg1,fstabh_arg2) == fstabh_test_expected,'fstabh_test')
+    n = n + 1
+  end if
+
+!
+! fstabm_test
+!
+
+  if (fstabm_test) then
+    ! fstabm takes the same arguments as fstabh so we'll recycle the initialization
+    call fstabh_init
+    tests(n) = assert(fstabm(fstabh_arg1,fstabh_arg2) == fstabm_test_expected,'fstabm_test')
+    n = n + 1
+  end if
+
+!
+! restrn_test
+!
+
+  if (restrn_test) then
+    call restrn_init
+    tests(n) = assert(restrn(restrn_arg1,restrn_arg2,restrn_arg3) == restrn_test_expected,'restrn()')
+    n = n + 1
+  end if
+
+! Report test summary
+  test_failed = .false.
+  call report_tests(tests,test_failed)
+  if (test_failed) stop 1
 
 contains 
   subroutine ftabsT_init
@@ -370,6 +460,7 @@ contains
     ABSTBL(10) = 0.707092881
     ABSTBL(46) = 0.437107921
     PS1 = 967.0
+    return
   end subroutine ftabsT_init
   
   subroutine ftscatT_init
@@ -378,6 +469,7 @@ contains
     SCATBL(10) = 0.527300596
     SCATBL(46) = 0.173223004
     PS1 = 967.0
+    return
   end subroutine ftscatT_init
 
   subroutine fbscatT_init
@@ -386,6 +478,7 @@ contains
     BSCTBL(10) = 0.307446688
     BSCTBL(46) = 0.304252803
     PS1 = 967.0
+    return
   end subroutine fbscatT_init
 
   subroutine advect_init
@@ -397,6 +490,7 @@ contains
     UGD(5) = 13.0658665
     UGD(3) = 9.05783463
     UGD(1) = 5.04980326
+    return
   end subroutine advect_init
 
   subroutine cond_init
@@ -404,11 +498,13 @@ contains
     THV = 1.00000000
     THMAX = 0.338999987
     COSBYB = 2.78999996
+    return
   end subroutine cond_init
 
   subroutine stomfs_init
     sc = 1.0
     sol = 1.0
+    return
   end subroutine stomfs_init
 
   subroutine stomrs_init
@@ -422,25 +518,7 @@ contains
     B2 = 2.0
     call stomfs_init
     FS = stomfs(sc,sol)
-! Attempted implementation of more flexible setting variables to test all
-! 4 cases in STOMRS.  Will set in individual tests, for now.
-!    if (stomrs_test_lo_temp) then
-!      TF = MINTEMP - 1.0
-!    else if (stomrs_test_hi_temp) then
-!      TF = MAXTEMP + 1.0
-!    end if
-!
-!    if (stomrs_test_hi_psi .or. stomrs_test_lo_psi) then
-!      ! Set TF between MINTEMP and MAXTEMP
-!      TF = (MINTEMP + MAXTEMP)/2
-!    end if
-!
-!    if (stomrs_test_lo_psi) then
-!      PSISUP = PSIWC - 1.0
-!    else if (stomrs_test_hi_psi) then
-!      PSISUP = PSIWC + 1.0
-!    end if
-
+    return
   end subroutine stomrs_init
 
   subroutine stomc_init
@@ -449,6 +527,52 @@ contains
     RMIN = 1.0
     call stomfs_init
     FS = stomfs(sc,sol)
+    return
   end subroutine stomc_init
+
+  subroutine you_star_init
+    you_star_arg1 = 0.1
+    you_star_arg2 = 1.0
+    you_star_arg3 = 2.0
+    you_star_arg4 = 3.0
+    return
+  end subroutine you_star_init
+
+  subroutine r_ohms_init
+    r_ohms_arg1 = 0.1
+    r_ohms_arg2 = 1.0
+    r_ohms_arg3 = 2.0
+    r_ohms_arg4 = 3.0
+    return
+  end subroutine r_ohms_init
+
+  subroutine windf_init
+    windf_arg1 = 1.0
+    windf_arg2 = 2.0
+    windf_arg3 = 3.0
+    windf_arg4 = 4.0
+    return
+  end subroutine windf_init
+
+  subroutine stab_init
+    ! also used to test stabh
+    MOL = 2.0
+    stab_arg1 = 0.1
+    return
+  end subroutine stab_init
+
+  subroutine fstabh_init
+    ! also used to test fstabm
+    fstabh_arg1 = 1.0
+    fstabh_arg2 = 2.0
+    return
+  end subroutine fstabh_init
+
+  subroutine restrn_init
+    restrn_arg1 = 1.0
+    restrn_arg2 = 2.0
+    restrn_arg3 = 3.0
+    return
+  end subroutine
 
 end program

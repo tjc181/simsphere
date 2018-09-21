@@ -14,7 +14,6 @@ module vel_mod
     
       You_star = R_Karman * Wind / ((ALOG(Height / Roughness) + Stability))  
     
-      return
     end function You_star
     
 
@@ -25,7 +24,6 @@ module vel_mod
              
       R_ohms = Konst * (ALOG(Height/Roughness) + Stability)/(Karman * Friction)
        
-      return
     end function R_ohms
     
 
@@ -35,7 +33,6 @@ module vel_mod
     
       WindF = (Star / R_Karman)*(ALOG(Height/Roughness) + Stability)
     
-      return
     end function WindF
     
 
@@ -45,7 +42,6 @@ module vel_mod
     
       Stab = (1 - 15 * Height / MOL)**0.25
     
-      return
     end function Stab
     
     
@@ -55,7 +51,6 @@ module vel_mod
     
       StabH = (1 - 9 * Height / MOL)**0.5
            
-      return
     end function StabH
     
 
@@ -64,7 +59,6 @@ module vel_mod
     
       FstabH = 2 * ALOG(( Par1 + 1) / (Par2 + 1))
            
-      return
     end function FstabH
     
 
@@ -75,7 +69,6 @@ module vel_mod
                     ((Par2 + 1 ) * (Par2 + 1 )**2 )) + 2 *                  &
                     ( ATAN(Par2) - ATAN(Par1))
            
-      return
     end function FstabM
     
     
@@ -86,7 +79,6 @@ module vel_mod
     
       RESTRN = (ALOG(R_KARMAN* Star*Roughness+Par3) - ALOG(Par3)) / (R_KARMAN  * Star)
     
-      return
     end function ResTrn
 
 end module vel_mod

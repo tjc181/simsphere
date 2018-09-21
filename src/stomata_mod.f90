@@ -3,7 +3,6 @@ module stomata_mod
   private
   public :: stomfs, stomrs, stomc
 
-
 contains
 
   !
