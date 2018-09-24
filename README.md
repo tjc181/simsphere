@@ -1,4 +1,4 @@
-###Simsphere
+# Simsphere
 
 Welcome to the model Simsphere, a state-of-the art
 Soil-Vegetation-Atmosphere Transfer (SVAT) model for use by the general
@@ -11,7 +11,7 @@ over a 24 hour day.
 Extensive information about the model is available at
 https://simsphere.ems.psu.edu .
 
-##Fortran implementation
+## Fortran implementation
 
 This is an updated version of the original Fortran implementation.  The goals for this update include:
 
@@ -21,12 +21,12 @@ This is an updated version of the original Fortran implementation.  The goals fo
 * Reduce (or eliminate!) use of GO TO and DATA statements.
 * Aspire to replace many subroutines with pure function calls and to reduce the number of global variables to a minimum.
 
-##Other implementations
+## Other implementations
 
 A C implementation also exists.  This implementation is not yet published,
 but may be in the future.  The implementation dates to the late 1990s.
 
-#Building the code
+## Building the code
 
 You will need a Fortran 2003 compiler.  The code is currently being
 developed using gfortran 7.3.0.  You will need GNU make.
