@@ -41,11 +41,11 @@ module simsphere_mod
   real, parameter :: Celsius_To_Kelvin = 273.15  ! Celsius to Kelvin
 
 ! Data file names
-  character(len=12), parameter :: f_control = 'i_model.dat'
-  character(len=12), parameter :: f_soil_lut = 'soils.dat'
-  character(len=12), parameter :: f_veg_lut = 'veglut.dat'
-  character(len=12), parameter :: f_precip_lut = 'LUT.DAT'
-  character(len=12), parameter :: f_output = 'o_model.dat'
+  character(len=1024), parameter :: f_control = 'data/i_model.dat'
+  character(len=1024), parameter :: f_soil_lut = 'data/soils.dat'
+  character(len=1024), parameter :: f_veg_lut = 'data/veglut.dat'
+  character(len=1024), parameter :: f_precip_lut = 'data/lut.dat'
+  character(len=1024), parameter :: f_output = 'o_model.dat'
 
 !    COMMON blocks to initialize various things (formerly modvars.h)
 ! **  This file contains the declaration of the common blocks for the
