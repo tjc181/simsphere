@@ -25,6 +25,7 @@ program test_simsphere
   logical :: stomrs_test_hi_temp, stomrs_test_lo_temp, stomrs_test_hi_psi, stomrs_test_lo_psi
   logical :: stomc_test
   logical :: you_star_test, r_ohms_test, windf_test, stab_test, stabh_test, fstabh_test, fstabm_test, restrn_test
+  logical :: psgcal_test
 
 ! splint_test variables
   integer, parameter :: splint_max_array = 50
@@ -112,9 +113,12 @@ program test_simsphere
   real, parameter :: restrn_test_expected = 0.590972006
   real :: restrn_arg1, restrn_arg2, restrn_arg3, restrn_arg4
 
+! psgcal_test variables
+  real, parameter :: psgcal_test_expected = -2.14821539E-05
+
 ! mod_testing variable setup
   n = 1
-  ntests = 22
+  ntests = 23
   call initialize_tests(tests,ntests)
 ! end  mod_testing variable setup
 
@@ -145,6 +149,7 @@ program test_simsphere
   fstabh_test = .true.
   fstabm_test = .true.
   restrn_test = .true.
+  psgcal_test = .true.
 
 
 !
@@ -445,6 +450,17 @@ program test_simsphere
     n = n + 1
   end if
 
+!
+! psgcal_test
+!
+
+  if (psgcal_test) then
+    call psgcal_init
+    call psgcal
+    tests(n) = assert(PSIG == psgcal_test_expected, 'psgcal_test')
+    n = n + 1
+  end if
+
 ! Report test summary
   test_failed = .false.
   call report_tests(tests,test_failed)
@@ -575,5 +591,15 @@ contains
     restrn_arg4 = karman
     return
   end subroutine
+
+  subroutine psgcal_init
+    THMAX = 0.338999987
+    THV = 1.0
+    COSBYB = 2.78999996
+    PSIS = 1.0
+    return
+  end subroutine psgcal_init
+
+    
 
 end program
