@@ -26,6 +26,7 @@ program test_simsphere
   logical :: stomc_test
   logical :: you_star_test, r_ohms_test, windf_test, stab_test, stabh_test, fstabh_test, fstabm_test, restrn_test
   logical :: psgcal_test
+  logical :: vegflx_test
 
 ! splint_test variables
   integer, parameter :: splint_max_array = 50
@@ -116,9 +117,13 @@ program test_simsphere
 ! psgcal_test variables
   real, parameter :: psgcal_test_expected = -2.14821539E-05
 
+! vegflx_test variables
+  real, parameter :: vegflx_test_expected = 0.986029029
+  real :: vegflx_arg1
+
 ! mod_testing variable setup
   n = 1
-  ntests = 23
+  ntests = 24
   call initialize_tests(tests,ntests)
 ! end  mod_testing variable setup
 
@@ -150,6 +155,7 @@ program test_simsphere
   fstabm_test = .true.
   restrn_test = .true.
   psgcal_test = .true.
+  vegflx_test = .true.
 
 
 !
@@ -461,6 +467,17 @@ program test_simsphere
     n = n + 1
   end if
 
+! 
+! vegflx_test
+!
+
+  if (vegflx_test) then
+    call vegflx_init
+    call vegflx(vegflx_arg1)
+    tests(n) = assert(QAF == vegflx_test_expected, 'vegflx_test')
+    n = n + 1
+  end if
+
 ! Report test summary
   test_failed = .false.
   call report_tests(tests,test_failed)
@@ -599,6 +616,26 @@ contains
     PSIS = 1.0
     return
   end subroutine psgcal_init
+
+  subroutine vegflx_init
+    vegflx_arg1 = 0.3
+    TAF = 10.0
+    CHF = 10.0
+    F = 100.0
+    CHG = 0.1
+    QAF = 0.5
+    HG = 1.0
+    CHG = 100.5
+    XLEF = 1.2
+    CHA = 100.0
+    TA = 0.4
+    CHF = 10.0
+    TF = 1.0
+    RST = 1.0
+    QA = 100.0
+    QSTF = 10.0
+    return
+  end subroutine vegflx_init
 
     
 
