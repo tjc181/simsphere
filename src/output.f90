@@ -1,10 +1,15 @@
 subroutine  OUTPUT(No_Rows)
   use simsphere_mod
+  implicit none
 
 ! Here we finally get around to printing out the variables.
 
   integer(kind=1) :: I_Header, I_Columns
   integer :: No_Rows
+
+  real, parameter :: Undefined = 0.0
+  real :: G_Flux, Bowen, air_leaf_T
+  real :: PES, Stom_R, co2_flux, ccan_concn, Water_Use_Eff
 
 
 !      INCLUDE 'modvars.h'
@@ -12,7 +17,7 @@ subroutine  OUTPUT(No_Rows)
 
 ! Write the Header Information
 
-  Data I_Header, Undefined / 1, 0.0 /
+!  Data I_Header, Undefined / 1, 0.0 /
 
   G_Flux = Rnet - Heat - Evap
   Bowen = Heat/Evap

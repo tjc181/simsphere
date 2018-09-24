@@ -1,11 +1,19 @@
 subroutine  INTPOL
   use simsphere_mod
+  implicit none
+
+
+  real, parameter :: ZZ = 50 
+  real, parameter :: ZZDAY = 250
+  real :: FIX, VTDZ, UTDZ, TIX
+
+  integer :: I, J
 
 !      CHARACTER*1 CHOICE
 
 !      INCLUDE 'modvars.h'
 
-  DATA ZZ,ZZDAY /50,250/
+!  DATA ZZ,ZZDAY /50,250/
 
   VGD(1) = VGS
   UGD(1) = UGS

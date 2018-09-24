@@ -1,5 +1,16 @@
 subroutine  WATER (TIME,BareEvapFlux)
   use simsphere_mod
+  implicit none
+
+  real, parameter :: CONST1 = 1
+  real, parameter :: CONST2 = 0.5
+  real, parameter :: D1P = 0.1
+  real, parameter :: DINT = 0.5
+  real, parameter :: D2P = 0.5
+  real, parameter :: OMG = 24
+  real :: TIME, BareEvapFlux
+  real :: WIN, PER, C11, C22, C33, C44, EVAX, EVAS, EVAI
+  real :: WW1, WW2, WW3
 
 ! **  WATER is based on the technique of Deardroff (1978). It uses the
 ! **  evaporative flux value obtained in FLUX and updates two internal
@@ -21,7 +32,7 @@ subroutine  WATER (TIME,BareEvapFlux)
 
 ! **  Constants for the water budget equation.
 
-  DATA CONST1 , CONST2, D1P,DINT, D2P/1, 0.5, 0.1, 2*0.5/ OMG / 24 /
+!  DATA CONST1 , CONST2, D1P,DINT, D2P/1, 0.5, 0.1, 2*0.5/ OMG / 24 /
 
   IF ( TIME .EQ. 0 ) THEN
     WIN = ( WGG + W2G ) / 2

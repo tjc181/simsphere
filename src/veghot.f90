@@ -1,5 +1,8 @@
 subroutine  VEGHOT (B,Heatv)
   use simsphere_mod
+  implicit none
+
+  real :: B, Heatv, HFN, AVEG
 
 !      INCLUDE 'modvars.h'
 

@@ -1,5 +1,9 @@
 subroutine  PRFILE
   use simsphere_mod
+  implicit none
+
+  integer :: incr, i, j
+  real :: rlinear
 
 ! This routine generates the daytime and night-time vertical wind
 ! profiles of the geostrophic wind components at intervals of 250m

@@ -1,5 +1,6 @@
 subroutine  BELOW (TIME,BareRadioTemp,BareEvapFlux)
   use simsphere_mod
+  implicit none
 
 
 ! **  Below is called every time step (N+1) to update the sub-surface
@@ -9,7 +10,10 @@ subroutine  BELOW (TIME,BareRadioTemp,BareEvapFlux)
 ! **  step from those at the current and the previous time step. BELOW
 ! **  also calls WATER to update the sub-surface soil moisture status.
 
-      REAL TE(9) , TTT(9) , DTDT(8)
+      real :: TE(9) , TTT(9) , DTDT(8)
+      real :: TIME, BareRadioTemp, BareEvapFlux
+      real :: TERM1, TERM2, TERM3
+      integer :: NLVL1, I, K, dummy
 
 !      INCLUDE 'modvars.h'
 

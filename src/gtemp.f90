@@ -1,5 +1,6 @@
 subroutine GTEMP
   use simsphere_mod
+  implicit none
 
 ! **  GTEMP determines the surface temperature in the absence of
 ! **  turbulence. It sets up an energy balance equation as a fourth-
@@ -8,6 +9,9 @@ subroutine GTEMP
 ! **  radiative balance.
 
   real :: A(5)
+  real :: ENGBAL, A1, B, C, DELTAX, XDIF, X
+
+  integer :: I, J, K
 
 !      INCLUDE 'modvars.h'
 

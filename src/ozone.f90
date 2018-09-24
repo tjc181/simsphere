@@ -1,6 +1,10 @@
 subroutine  OZONE
   use simsphere_mod
+  implicit none
 
+  real :: CHAX, PES, RAIR, rag, RROz, the_time, rtot
+  real :: fleaf, fmeso, fg, fbare
+ 
 !       INCLUDE 'modvars.h'
 
 !      created 4/5/96; MODIFIED 

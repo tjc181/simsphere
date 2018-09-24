@@ -1,5 +1,8 @@
 subroutine  CO2FLX
   use simsphere_mod
+  implicit none
+
+  real :: CHAX, PEX, RAIR, RROE, RAFCANOPY, RRTOT
 
 !       INCLUDE 'modvars.h'
 

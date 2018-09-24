@@ -1,5 +1,8 @@
 subroutine  PSGCAL
   use simsphere_mod
+  implicit none
+
+  real :: perwmax, perw2g, rlogpsig, rnpsig
 
 !	REAL RLOGPSIL
 

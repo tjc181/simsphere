@@ -1,5 +1,6 @@
 subroutine BALL (PES, RHA)
   use simsphere_mod
+  implicit none
 
 !        INCLUDE 'modvars.h'
 
@@ -42,6 +43,11 @@ subroutine BALL (PES, RHA)
 !
   character(len=7) :: LIMIT
 
+  real :: PES, RHA, PAR, RAIR, RRTOT, AKC, TAU, AKO, VCMAX, RESP, CCOMP
+  real :: AKC0, AKO0, OXY, VCMAX0, ALPI, RESP0, TAU0, AJPAR, AJMAX, AMPAR
+  real :: CII, WE, AJ, WR, WS, VC, PARQ
+  real :: AAA, BBB, CCC, GS, QBND, RHL, CSS
+
   RST = RST * XLAI / PES
   RAF = RAF * XLAI / PES  ! Unscaled
   FCO2 = FCO2 * PES / XLAI / FRVEG  ! Unscaled
@@ -49,8 +55,8 @@ subroutine BALL (PES, RHA)
 !
 !       PAR IN MOL UNITS
 !
-
   PAR = ((SOL/2)*4.57)*1E-6      ! IN MOL UNITS
+
 
   RAIR = RHA + RZASCR
   RRTOT = 1.32 * RAF + 1.66*RST + RAIR

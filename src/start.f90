@@ -3,6 +3,7 @@
 ! file suggests planned data read checks, not currently implemented.
 subroutine  START (Obst_Hgt)
   use simsphere_mod
+  implicit none
 
 !  real(kind=4) :: Obst_Hgt, zo_patch
   real(kind=4) :: Obst_Hgt
@@ -14,6 +15,7 @@ subroutine  START (Obst_Hgt)
   character(len=15) :: soiltype
   character(len=30) :: planttype
   integer(kind=1) :: num_soils, num_of_veggies, index_soils, index_veggies
+  integer :: i
 
 !        INCLUDE 'modvars.h'
 

@@ -1,7 +1,11 @@
 subroutine  PSLCAL (SGMA, PES)
   use simsphere_mod
+  implicit none
 
-  real :: SGMA, RKW
+  real :: SGMA, RKW, PES
+  real :: UNITS1, UNITS2, ZEFF, ZTOT, b1_p, b2_p, HBAR, H, Unscaled_RAF
+  real :: RSTDIV, AROOT, BROOT, CROOT, Q_Boundary, ActSqrt, vfl2
+  
   integer(kind=1) :: init
 
 !      INCLUDE 'modvars.h'

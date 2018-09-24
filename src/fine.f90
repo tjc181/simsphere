@@ -1,5 +1,9 @@
 subroutine  FINE
   use simsphere_mod
+  implicit none
+
+  integer :: incr, i, j, height
+  real :: rlinear
 
 !      INCLUDE 'modvars.h'
 

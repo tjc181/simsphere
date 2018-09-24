@@ -1,6 +1,8 @@
 subroutine  sslope(sinsolelslope,solelslope,effdec,slb,hrangl)
   use simsphere_mod
+  implicit none
 
+  real :: effdec, slb, hrangl
   real :: sinsolelslope,solelslope,dipan,dipaz
 
 !      INCLUDE 'modvars.h'

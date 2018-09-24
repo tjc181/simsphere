@@ -1,5 +1,8 @@
 subroutine  VEGFLX (EVAPV)
   use simsphere_mod
+  implicit none
+
+  real :: EVAPV, rprime
 
 !      INCLUDE 'modvars.h'
 

@@ -1,5 +1,9 @@
 subroutine  PSOIL
   use simsphere_mod
+  implicit none
+
+  real :: OMA, SFFK, ZETA, XINCR, CORR
+  integer :: NLVL1, I, II
 
 !      INCLUDE 'modvars.h'
 

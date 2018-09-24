@@ -1,5 +1,9 @@
 subroutine  VEGRAD (TIME,RNETV,SWAVEV,TZERO)
   use simsphere_mod
+  implicit none
+
+  real :: TIME, RNETV, SWAVEV, TZERO
+  real :: t1, TZERO5, TZERO4
 
 !      INCLUDE 'modvars.h'
 

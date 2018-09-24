@@ -1,5 +1,6 @@
 subroutine  MOMDAY
   use simsphere_mod
+  implicit none
 
 ! **  This daytime routine updates the daytime winds UD, VD and specific
 ! **  humidity QD using the eddy diff's obtained in DAYKM, assuming
@@ -8,14 +9,21 @@ subroutine  MOMDAY
 ! **  stability during periods when KM values are large.
 
   real :: DUDT(50) , DVDT(50) , DU(50) , DV(50)
+  real :: THICK
+  real :: SMF, XXX, DELTZI, DUDT50, DVDT50, DU50, DV50, OVER
+
+  integer :: I, J
+
+  integer, parameter :: SMFH = 60
+  integer, parameter :: UIF = 1
 ! MAG(50), DIRCT(50)
 ! CHARACTER *12 MENUCH
 
 !      INCLUDE 'modvars.h'
 
-  COMMON /MXDLYR/ THICK
+!  COMMON /MXDLYR/ THICK
 
-  DATA SMFH , UIF / 60 , 1 /
+!  DATA SMFH , UIF / 60 , 1 /
 
 ! **  SMF AND THICK is to deal with the eddy equations when the
 ! **  mixing layer is below 60m.
