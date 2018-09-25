@@ -4,12 +4,12 @@ subroutine  OUTPUT(No_Rows)
 
 ! Here we finally get around to printing out the variables.
 
-  integer(kind=1) :: I_Header, I_Columns
+  integer(kind=1) :: I_Header = 0, I_Columns = 0
   integer :: No_Rows
 
   real, parameter :: Undefined = 0.0
-  real :: G_Flux, Bowen, air_leaf_T
-  real :: PES, Stom_R, co2_flux, ccan_concn, Water_Use_Eff
+  real :: G_Flux=0.0, Bowen=0.0, air_leaf_T=0.0
+  real :: PES=0.0, Stom_R=0.0, co2_flux=0.0, ccan_concn=0.0, Water_Use_Eff=0.0
 
 
 !      INCLUDE 'modvars.h'

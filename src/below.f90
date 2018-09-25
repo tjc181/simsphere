@@ -10,10 +10,10 @@ subroutine  BELOW (TIME,BareRadioTemp,BareEvapFlux)
 ! **  step from those at the current and the previous time step. BELOW
 ! **  also calls WATER to update the sub-surface soil moisture status.
 
-      real :: TE(9) , TTT(9) , DTDT(8)
+      real :: TE(9)=0.0 , TTT(9)=0.0 , DTDT(8)=0.0
       real :: TIME, BareRadioTemp, BareEvapFlux
-      real :: TERM1, TERM2, TERM3
-      integer :: NLVL1, I, K, dummy
+      real :: TERM1=0.0, TERM2=0.0, TERM3=0.0
+      integer :: NLVL1=0, I=0, K=0, dummy=0
 
 !      INCLUDE 'modvars.h'
 

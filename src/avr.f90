@@ -1,10 +1,10 @@
 subroutine average(T_Unsmoothed, T_smoothed)
   implicit none
 
-  real :: av_array(4), sum_array, T_Unsmoothed, T_smoothed
-  integer :: init, i, j, k
+  real :: av_array(4)=0.0, sum_array=0.0, T_Unsmoothed, T_smoothed
+  integer :: init=1, i=0, j=0, k=0
 
-  data init /1/
+!  data init /1/
 
   if (init .eq. 1) then ! fill all 4 elements with initial value of otemp
 

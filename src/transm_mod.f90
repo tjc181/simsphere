@@ -4,7 +4,7 @@ module transm_mod
   public :: ftabsT, ftscatT, fbscatT, ABSTBL, BSCTBL, SCATBL, PS1
 
   integer, parameter :: TRANSM_MAX_PATH = 10
-  real :: ABSTBL(46),BSCTBL(46),SCATBL(46), PS1
+  real :: ABSTBL(46)=0.0,BSCTBL(46)=0.0,SCATBL(46)=0.0, PS1=0.0
 
 contains
 ! Functions from former subroutine transm

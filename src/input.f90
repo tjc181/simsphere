@@ -8,18 +8,18 @@ subroutine INPUT
 ! **  day, season, atmospheric attenuation, and albedo.
 
 !  real(kind=8) :: EFFDEC, SOLSIN
-  real :: EFFDEC, SOLSIN
+  real :: EFFDEC=0.0, SOLSIN=0.0
   real :: SS(12)
   integer :: MD(12)
 
 ! Don't need to declare FTABS, FBSCAT, FTSCAT -- subroutine rewritten as function
 !  real :: FTABS, FBSCAT, FTSCAT,  RM, S, N
-  real :: RM, S, N, RLPATH, PATH
-  real :: TABS, BSCAT, TSCAT, TABSD, BSCATD, TSCATD
-  real :: DF, DE, SIG, EQT, HRANGL, SLB, SHEAT, HI, XSER, SOLEL
-  real :: sinsolelslope, solelslope, GMT
+  real :: RM=0.0, S=0.0, N=0.0, RLPATH=0.0, PATH=0.0
+  real :: TABS=0.0, BSCAT=0.0, TSCAT=0.0, TABSD=0.0, BSCATD=0.0, TSCATD=0.0
+  real :: DF=0.0, DE=0.0, SIG=0.0, EQT=0.0, HRANGL=0.0, SLB=0.0, SHEAT=0.0, HI=0.0, XSER=0.0, SOLEL=0.0
+  real :: sinsolelslope=0.0, solelslope=0.0, GMT=0.0
   real, parameter :: skonst = 1.94*4.1868e4/60
-  integer :: IMO1, JMO, I, K, DAD
+  integer :: IMO1=0, JMO=0, I=0, K=0, DAD=0
 
 !      INCLUDE 'modvars.h'
 

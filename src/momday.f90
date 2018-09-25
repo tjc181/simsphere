@@ -8,11 +8,12 @@ subroutine  MOMDAY
 ! **  Note that the time step is 120 sec ..this ensures computational
 ! **  stability during periods when KM values are large.
 
-  real :: DUDT(50) , DVDT(50) , DU(50) , DV(50)
-  real :: THICK
-  real :: SMF, XXX, DELTZI, DUDT50, DVDT50, DU50, DV50, OVER
+  real :: DUDT(50)=0.0, DVDT(50)=0.0, DU(50)=0.0, DV(50)=0.0
+  real :: THICK=0.0
+  real :: SMF=0.0, XXX=0.0, DELTZI=0.0, DUDT50=0.0, DVDT50=0.0
+  real :: DU50=0.0, DV50=0.0, OVER=0.0
 
-  integer :: I, J
+  integer :: I=0, J=0
 
   integer, parameter :: SMFH = 60
   integer, parameter :: UIF = 1
