@@ -160,9 +160,9 @@ subroutine INPUT
 ! **  HI    >>> Direct SW Radiation reaching the ground.
 ! **  SWAVE >>> Diffuse + Direct = 'Global'
 
-  SHEAT = SKONST * sinsolelslope / S
+  if (S /= 0) SHEAT = SKONST * sinsolelslope / S
   XSER  = BSCATD * ALBDOE * ( 1 - TSCATD ) * TABSD * SIN( SOLEL )
-  HI = ( SHEAT * TABS * TSCAT ) + ( SKONST / S* TABS * ( 1 - TSCAT )    &
+  if (S /= 0) HI = ( SHEAT * TABS * TSCAT ) + ( SKONST / S* TABS * ( 1 - TSCAT )    &
 &       * ( 1 - BSCAT ) ) * SIN( SOLEL )
   if (XSER /= 1.0) then
     SWAVE = ( HI * ( 1 - ALBDOE ) ) / ( 1.0 - XSER )
