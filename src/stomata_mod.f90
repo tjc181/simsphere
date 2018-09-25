@@ -54,10 +54,10 @@ contains
   ! stomc function replaces the STOMC subroutine
   !
   
-     real pure function stomc (ft,tf,rmin,b1,psice,fs)
+     real pure function stomc (ft,rmin,b1,psice,fs)
        implicit none
        
-       real, intent(in) :: ft, tf, rmin, b1, psice, fs
+       real, intent(in) :: ft, rmin, b1, psice, fs
        real :: fpsice
   
        ! Calclates the critical stomatal resistance  for the ground water potential

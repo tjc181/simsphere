@@ -78,7 +78,7 @@ subroutine  PSLCAL (SGMA, PES)
 
   CALL PSGCAL
 
-  RSCRIT = stomc(ft,tf,rmin,b1,psice,fs)
+  RSCRIT = stomc(ft,rmin,b1,psice,fs)
 
   if (init .eq. 1) then
     vfl2 = vfl

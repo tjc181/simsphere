@@ -27,6 +27,7 @@ program test_simsphere
   logical :: you_star_test, r_ohms_test, windf_test, stab_test, stabh_test, fstabh_test, fstabm_test, restrn_test
   logical :: psgcal_test
   logical :: vegflx_test
+  logical :: avr_test_init1, avr_test_init_not1
 
 ! splint_test variables
   integer, parameter :: splint_max_array = 50
@@ -121,9 +122,14 @@ program test_simsphere
   real, parameter :: vegflx_test_expected = 0.986029029
   real :: vegflx_arg1
 
+! avr_test_* variables
+  real, parameter :: avr_test_init1_expected = 20.0
+  real, parameter :: avr_test_init_not1_expected = 20.0
+  real :: avr_arg1, avr_arg2
+
 ! mod_testing variable setup
   n = 1
-  ntests = 24
+  ntests = 26
   call initialize_tests(tests,ntests)
 ! end  mod_testing variable setup
 
@@ -156,6 +162,8 @@ program test_simsphere
   restrn_test = .true.
   psgcal_test = .true.
   vegflx_test = .true.
+  avr_test_init1 = .true.
+  avr_test_init_not1 = .true.
 
 
 !
@@ -478,6 +486,28 @@ program test_simsphere
     n = n + 1
   end if
 
+!
+! avr_test_init1
+!
+
+  if (avr_test_init1) then
+    call avr_init
+    call average(avr_arg1, avr_arg2)
+    tests(n) = assert(avr_arg2 == avr_test_init1_expected, 'avr_test_init1')
+    n = n + 1
+  end if
+
+!
+! avr_test_init_not1
+!
+
+  if (avr_test_init_not1) then
+    call avr_init
+    call average(avr_arg1, avr_arg2)
+    tests(n) = assert(avr_arg2 == avr_test_init_not1_expected, 'avr_test_init_not1')
+    n = n + 1
+  end if
+
 ! Report test summary
   test_failed = .false.
   call report_tests(tests,test_failed)
@@ -637,6 +667,9 @@ contains
     return
   end subroutine vegflx_init
 
-    
+  subroutine avr_init
+    avr_arg1 = 20.0
+    avr_arg2 = 0.0
+  end subroutine avr_init
 
 end program
