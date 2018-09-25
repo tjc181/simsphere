@@ -374,7 +374,7 @@ program test_simsphere
 
   if (stomc_test) then
     call stomc_init
-    tests(n) = assert(stomc(ft,tf,rmin,b1,psice,fs) == stomc_test_expected,'stomc_test')
+    tests(n) = assert(stomc(ft,rmin,b1,psice,fs) == stomc_test_expected,'stomc_test')
     n = n + 1
   end if
 
