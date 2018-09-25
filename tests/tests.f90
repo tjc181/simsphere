@@ -14,7 +14,7 @@ program test_simsphere
 
   integer :: i
   
-  logical :: splint_test, spline_test, start_test 
+  logical :: splint_test, spline_test
   logical :: transm_ftabs_test, transm_ftabs_test2
   logical :: transm_ftscatT_test, transm_ftscatT_test2
   logical :: transm_fbscatT_test, transm_fbscatT_test2
@@ -28,6 +28,7 @@ program test_simsphere
   logical :: psgcal_test
   logical :: vegflx_test
   logical :: avr_test_init1, avr_test_init_not1
+  logical :: f_control_test
 
 ! splint_test variables
   integer, parameter :: splint_max_array = 50
@@ -40,7 +41,23 @@ program test_simsphere
 ! spline_test variables
   integer, parameter :: spline_max_array = 50
   integer :: spline_arg3
-  real, parameter :: spline_expected = 2.59807634
+  real, parameter :: spline_expected(62) =                            &
+    (/-8.84081032E-07,1.76816206E-06,-6.18856711E-06,2.29861053E-05,  &  
+      -8.57558480E-05,3.20037303E-04,-1.19439338E-03,4.45753615E-03,  &
+      -1.66357514E-02,6.20854683E-02,-6.20854646E-02,1.66357514E-02,  &
+      -4.45753615E-03,1.19439315E-03,-3.20036663E-04,8.57535633E-05,  &
+      -2.29775978E-05,6.15682848E-06,-1.64971721E-06,4.42040374E-07,  &
+      -1.18444362E-07,3.17370699E-08,-8.50392201E-09,2.27861907E-09,  &
+      -6.10554107E-10,1.63597469E-10,-4.38358100E-11,1.17457693E-11,  &
+      -3.14726977E-12,8.43309526E-13,-2.25968590E-13,6.05648480E-14,  &
+      -1.62907932E-14,4.59832376E-15,-2.10250179E-15,3.81168384E-15,  &
+      -1.31442336E-14,4.87652521E-14,-1.81916778E-13,6.78901867E-13,  &
+      -2.53369049E-12,9.45585971E-12,-3.52897503E-11,1.31703135E-10,  &
+      -4.91522767E-10,1.83438786E-09,-6.84602863E-09,2.55497259E-08,  &
+      -9.53528740E-08,3.55861772E-07,-1.32809419E-06,4.95651511E-06,  &
+      -1.84979654E-05,6.90353481E-05,-2.57643434E-04,9.61538346E-04,  &
+      -3.58850998E-03,1.33925015E-02,-4.99814972E-02,0.186533481,     &
+      -0.696152449,2.59807634/)
   real :: spline_arg1(spline_max_array), spline_arg2(spline_max_array)
   real :: spline_arg4, spline_arg5
   real, allocatable :: spline_output(:)
@@ -127,15 +144,74 @@ program test_simsphere
   real, parameter :: avr_test_init_not1_expected = 20.0
   real :: avr_arg1, avr_arg2
 
+! f_control variables
+  integer, parameter :: iyr_expected = 89
+  integer, parameter :: imo_expected = 8
+  integer, parameter :: iday_expected = 4
+  real, parameter :: tz_expected = 6
+  real, parameter :: xlat_expected = 39.25
+  real, parameter :: xlong_expected = 96.34
+  real, parameter :: strtim_expected = 0530
+  real, parameter :: timend_expected = 2330
+  real, parameter :: outtt_expected = 30
+  real, parameter :: slope_expected = 0
+  real, parameter :: aspect_expected = 0
+  real, parameter :: f_expected = 0.5
+  real, parameter :: fsub_expected = 0.75
+  real, parameter :: wmax_expected = 0.34
+  real, parameter :: btemp_expected = 24.63
+  real, parameter :: tp_expected = 13
+  character, parameter :: dual_ti_expected = 'Y'
+  real, parameter :: ti_a_expected = 12.0
+  real, parameter :: ti_b_expected = 12.0
+  character, parameter :: albedo_gflag_expected = 'F'
+  real, parameter :: albg_expected = 0.1
+  real, parameter :: epsi_expected = 0.96
+  integer, parameter :: index_soils_expected = 5
+  real, parameter :: omega_expected = 3.13
+  real, parameter :: zo_expected = 0.05
+  real, parameter :: obst_hgt_expected = 1
+  logical, parameter :: cloud_flag_expected = .true.
+  real, parameter :: cld_fract_expected = 14
+  real, parameter :: frveg_expected = 1
+  real, parameter :: xlai_expected = 0
+  real, parameter :: epsf_expected = 0.96
+  character, parameter :: albedo_fflag_expected = 'N'
+  real, parameter :: albf_expected = 0.1
+  character, parameter :: stmtype_expected =  'L'
+  integer, parameter :: index_veggies_expected = 4
+  real, parameter :: volrel_expected = 10
+  real, parameter :: rmin_expected = 150
+  real, parameter :: rcut_expected = 1000
+  real, parameter :: wilt_expected = 0.08
+  real, parameter :: vegheight_expected = 0.5
+  real, parameter :: width_expected = 0.12
+  character, parameter :: steady_expected = 'Y'
+  real, parameter :: ci_expected = 300
+  real, parameter :: co_expected = 330
+  real, parameter :: coz_sfc_expected = 0
+  real, parameter :: coz_air_expected = 0.08
+  real, parameter :: NOBS_pTq_expected = 12
+  real, parameter :: NOBS_wind_expected = 11
+  real, parameter :: station_height_expected = 0.886
+  real, parameter :: ugs_expected = 4.649
+  real, parameter :: vgs_expected = 8.445
+  real, parameter :: ps_expected(12) = (/967,24,5,949,24,5,900,23,3,850,24,8 /)
+  real, parameter :: ts_expected(12) = (/700,11,7,677,9,11,628,4,6,612,2,7/)
+  real, parameter :: dep_expected(12) = (/606,2,15,530,-7,17,460,-10,30,250,-40,30/)
+  real, parameter :: dd0_expected(11) = (/180,7,0,185,10,1,225,35,3,240,25/)
+  real, parameter :: ff0_expected(11) = (/5,225,15,7,215,15,9,230,30,14,240/)
+  real, parameter :: zh_expected(11) = (/25,20,245,44,30,255,43,41,195,14,54/)
+
+
 ! mod_testing variable setup
   n = 1
-  ntests = 26
+  ntests = 28
   call initialize_tests(tests,ntests)
 ! end  mod_testing variable setup
 
 
 ! Set logical to control test execution
-  start_test = .false.
   splint_test = .true.
   spline_test = .true.
   transm_ftabs_test = .true.
@@ -164,6 +240,7 @@ program test_simsphere
   vegflx_test = .true.
   avr_test_init1 = .true.
   avr_test_init_not1 = .true.
+  f_control_test = .false.
 
 
 !
@@ -182,13 +259,9 @@ program test_simsphere
       end do
     end if
     splint_arg5 = 3
-
     splint_output=splint(splint_arg1, splint_arg2, splint_arg3, splint_arg4, splint_arg5)
-    if (splint_output .ne. splint_expected) then
-      write(*,*) 'splint_test: actual /= expected: ', splint_output, splint_expected
-    else
-      write(*,*) 'splint_test: OK'
-    end if
+    tests(n) = assert(splint_output == splint_expected, 'SPLINT')
+    n = n + 1
     if (allocated(splint_arg3)) then
       deallocate(splint_arg3)
     end if
@@ -198,22 +271,19 @@ program test_simsphere
 ! spline_test
 !
   if (spline_test) then
-    do i = 1,spline_max_array
+    do i = 1,62
       spline_arg1(i) = 2*i
       spline_arg2(i) = 2*i
     end do
-    spline_arg3 = spline_max_array
+    spline_arg3 = 62
     spline_arg4 = 1.0
     spline_arg5 = 2.5
     if (.not. allocated(spline_output)) then
       allocate(spline_output(spline_arg3))
     end if
     spline_output=spline(spline_arg1, spline_arg2, spline_arg3, spline_arg4, spline_arg5)
-    if (spline_output(size(spline_output)) .ne. spline_expected) then
-      write(*,*) 'spline_test: actual /= expected: ', spline_output, spline_expected
-    else
-      write(*,*) 'spline_test: OK'
-    end if
+    tests(n) = assert(all(spline_output == spline_expected), 'SPLINE')
+    n = n + 1
     if (allocated(spline_output)) then
       deallocate(spline_output)
     end if
@@ -379,7 +449,7 @@ program test_simsphere
   end if
 
 !
-! you_start_test
+! you_star_test
 !
 
   if (you_star_test) then
@@ -506,6 +576,129 @@ program test_simsphere
     call average(avr_arg1, avr_arg2)
     tests(n) = assert(avr_arg2 == avr_test_init_not1_expected, 'avr_test_init_not1')
     n = n + 1
+  end if
+
+!
+! f_control_test
+!
+
+  if (f_control_test) then
+!    call start
+    tests(n) = assert(iyr == iyr_expected, 'iyr')
+    n = n + 1
+    tests(n) = assert(imo == imo_expected, 'imo')
+    n = n + 1
+    tests(n) = assert(iday == iday_expected, 'iday')
+    n = n + 1
+    tests(n) = assert(tz == tz_expected, 'tz')
+    n = n + 1
+    tests(n) = assert(xlat == xlat_expected, 'xlat')
+    n = n + 1
+    tests(n) = assert(xlong == xlong_expected, 'xlong')
+    n = n + 1
+    tests(n) = assert(strtim == strtim_expected, 'strtim')
+    n = n + 1
+    tests(n) = assert(timend == timend_expected, 'timend')
+    n = n + 1
+    tests(n) = assert(outtt == outtt_expected, 'outtt')
+    n = n + 1
+    tests(n) = assert(slope == slope_expected, 'slope')
+    n = n + 1
+    tests(n) = assert(aspect == aspect_expected, 'aspect')
+    n = n + 1
+    tests(n) = assert(f == f_expected, 'f')
+    n = n + 1
+    tests(n) = assert(fsub == fsub_expected, 'f_sub')
+    n = n + 1
+    tests(n) = assert(wmax == wmax_expected, 'wmax')
+    n = n + 1
+    tests(n) = assert(btemp == btemp_expected, 'btemp')
+    n = n + 1
+    tests(n) = assert(tp == tp_expected, 'tp')
+    n = n + 1
+    tests(n) = assert(dual_ti == dual_ti_expected, 'dual_ti')
+    n = n + 1
+    tests(n) = assert(ti_a == ti_a_expected, 'ti_a')
+    n = n + 1
+    tests(n) = assert(ti_b == ti_b_expected, 'ti_b')
+    n = n + 1
+!    tests(n) = assert(albedo_gflag == albedo_gflag_expected, 'albedo_gflag')
+!    n = n + 1
+    tests(n) = assert(albg == albg_expected, 'albg')
+    n = n + 1
+    tests(n) = assert(epsi == epsi_expected, 'epsi')
+    n = n + 1
+!    tests(n) = assert(index_soils == index_soils_expected, 'index_soils')
+!    n = n + 1
+    tests(n) = assert(omega == omega_expected, 'omega')
+    n = n + 1
+    tests(n) = assert(zo == zo_expected, 'zo')
+    n = n + 1
+!    tests(n) = assert(obst_hgt == obst_hgt_expected, 'obst_hgt')
+!    n = n + 1
+!    tests(n) = assert(cloud_flag == cloud_flag_expected, 'cloud_flag')
+!    n = n + 1
+    tests(n) = assert(cld_fract == cld_fract_expected, 'cld_fract')
+    n = n + 1
+    tests(n) = assert(frveg == frveg_expected, 'frveg')
+    n = n + 1
+    tests(n) = assert(xlai == xlai_expected, 'xlai')
+    n = n + 1
+    tests(n) = assert(epsf == epsf_expected, 'epsf')
+    n = n + 1
+!    tests(n) = assert(albedo_fflag == albedo_fflag_expected, 'albedo_flag')
+!    n = n + 1
+    tests(n) = assert(albf == albf_expected, 'albf')
+    n = n + 1
+    tests(n) = assert(stmtype == stmtype_expected, 'stmtype')
+    n = n + 1
+!    tests(n) = assert(index_veggies == index_veggies_expected, 'index_veggies')
+!    n = n + 1
+    tests(n) = assert(volrel == volrel_expected, 'volrel')
+    n = n + 1
+    tests(n) = assert(rmin == rmin_expected, 'rmin')
+    n = n + 1
+    tests(n) = assert(rcut == rcut_expected, 'rcut')
+    n = n + 1
+    tests(n) = assert(wilt == wilt_expected, 'wilt')
+    n = n + 1
+    tests(n) = assert(vegheight == vegheight_expected, 'vegheight')
+    n = n + 1
+    tests(n) = assert(width == width_expected, 'width')
+    n = n + 1
+    tests(n) = assert(steady == steady_expected, 'steady')
+    n = n + 1
+    tests(n) = assert(ci == ci_expected, 'ci')
+    n = n + 1
+    tests(n) = assert(co == co_expected, 'co')
+    n = n + 1
+    tests(n) = assert(coz_sfc == coz_sfc_expected, 'coz_sfc')
+    n = n + 1
+    tests(n) = assert(coz_air == coz_air_expected, 'coz_air')
+    n = n + 1
+!    call snding
+!    tests(n) = assert(NOBS_pTq == NOBS_pTq_expected, 'NOBS_pTq')
+!    n = n + 1
+!    tests(n) = assert(NOBS_wind == NOBS_wind_expected, 'NOBS_wind')
+!    n = n + 1
+!    tests(n) = assert(station_height == station_height_expected, 'station_height')
+!    n = n + 1
+!    tests(n) = assert(ugs == ugs_expected, 'ugs')
+!    n = n + 1
+!    tests(n) = assert(vgs == vgs_expected, 'vgs')
+!    n = n + 1
+!    tests(n) = assert(ps == ps_expected, 'ps')
+!    n = n + 1
+!    tests(n) = assert(ts == ts_expected, 'ts')
+!    n = n + 1
+!    tests(n) = assert(dep == dep_expected, 'dep')
+!    n = n + 1
+!    tests(n) = assert(dd0 == dd0_expected, 'dd0')
+!    n = n + 1
+!    tests(n) = assert(ff0 == ff0_expected, 'ff0')
+!    n = n + 1
+!    tests(n) = assert(zh == zh_expected, 'zh')
+!    n = n + 1
   end if
 
 ! Report test summary
