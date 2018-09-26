@@ -49,10 +49,10 @@ subroutine  START (Obst_Hgt)
 ! Include the vegetation and soils databases in the calculations.
 !
 
-  if(xlai .eq. 0.0) xlai = 1.0
+  if(eq(xlai,0.0)) xlai = 1.0
   xlef = 1
 
-  If (FRVEG .gt. 0.0 .and. stmtype .eq. 'L') then
+  If (gt(FRVEG,0.0) .and. stmtype == 'L') then
     open (1, file = f_soil_lut) ! Begin with opening the file
 
     Read (1, *) num_soils             ! Required for Interface
@@ -91,12 +91,12 @@ subroutine  START (Obst_Hgt)
 
 ! The relevant data for rough.for  08/04/92
 
-  If (frveg .eq. 0.0) Class = 'B'
-  If (frveg .eq. 100) Class = 'V'
-  If (frveg .lt. 100 .or. frveg .gt. 0.0) Class = 'P'
+  If (eq(frveg,0.0)) Class = 'B'
+  If (eq(frveg,100.0)) Class = 'V'
+  If (lt(frveg,100.0) .or. gt(frveg,0.0)) Class = 'P'
      
-  If (ZO .ne. 0) zo_flag = .true.
-  If (Obst_Hgt .ne. 0) ob_flag = .true.
+  If (.not. eq(ZO,0.0)) zo_flag = .true.
+  If (.not. eq(Obst_Hgt,0.0)) ob_flag = .true.
 
 ! End data
 

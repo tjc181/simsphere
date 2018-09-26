@@ -8,7 +8,6 @@ program test_simsphere
   logical, dimension(:), allocatable :: tests
   logical :: test_failed
   integer :: n, ntests
-  integer, parameter :: stdout = 6
 
   ! end mod_testing test setup
 
@@ -78,8 +77,8 @@ program test_simsphere
   real, parameter :: transm_fbscatT_expected2 = 0.304252803
 
 ! netrad_init_test variables
-  real, parameter :: aepsi_expected = 0.804384410
-  real, parameter :: aepsi_cloud_flag_expected = 1.02347386
+!  real, parameter :: aepsi_expected = 0.804384410
+!  real, parameter :: aepsi_cloud_flag_expected = 1.02347386
 
 ! advect_test variables
   real, parameter :: advect_test_expected = 9.41291146E-05
@@ -164,22 +163,22 @@ program test_simsphere
   character, parameter :: dual_ti_expected = 'Y'
   real, parameter :: ti_a_expected = 12.0
   real, parameter :: ti_b_expected = 12.0
-  character, parameter :: albedo_gflag_expected = 'F'
+!  character, parameter :: albedo_gflag_expected = 'F'
   real, parameter :: albg_expected = 0.1
   real, parameter :: epsi_expected = 0.96
-  integer, parameter :: index_soils_expected = 5
+!  integer, parameter :: index_soils_expected = 5
   real, parameter :: omega_expected = 3.13
   real, parameter :: zo_expected = 0.05
-  real, parameter :: obst_hgt_expected = 1
-  logical, parameter :: cloud_flag_expected = .true.
-  real, parameter :: cld_fract_expected = 14
+!  real, parameter :: obst_hgt_expected = 1
+!  logical, parameter :: cloud_flag_expected = .true.
+  integer, parameter :: cld_fract_expected = 14
   real, parameter :: frveg_expected = 1
   real, parameter :: xlai_expected = 0
   real, parameter :: epsf_expected = 0.96
-  character, parameter :: albedo_fflag_expected = 'N'
+!  character, parameter :: albedo_fflag_expected = 'N'
   real, parameter :: albf_expected = 0.1
   character, parameter :: stmtype_expected =  'L'
-  integer, parameter :: index_veggies_expected = 4
+!  integer, parameter :: index_veggies_expected = 4
   real, parameter :: volrel_expected = 10
   real, parameter :: rmin_expected = 150
   real, parameter :: rcut_expected = 1000
@@ -191,17 +190,17 @@ program test_simsphere
   real, parameter :: co_expected = 330
   real, parameter :: coz_sfc_expected = 0
   real, parameter :: coz_air_expected = 0.08
-  real, parameter :: NOBS_pTq_expected = 12
-  real, parameter :: NOBS_wind_expected = 11
-  real, parameter :: station_height_expected = 0.886
-  real, parameter :: ugs_expected = 4.649
-  real, parameter :: vgs_expected = 8.445
-  real, parameter :: ps_expected(12) = (/967,24,5,949,24,5,900,23,3,850,24,8 /)
-  real, parameter :: ts_expected(12) = (/700,11,7,677,9,11,628,4,6,612,2,7/)
-  real, parameter :: dep_expected(12) = (/606,2,15,530,-7,17,460,-10,30,250,-40,30/)
-  real, parameter :: dd0_expected(11) = (/180,7,0,185,10,1,225,35,3,240,25/)
-  real, parameter :: ff0_expected(11) = (/5,225,15,7,215,15,9,230,30,14,240/)
-  real, parameter :: zh_expected(11) = (/25,20,245,44,30,255,43,41,195,14,54/)
+!  real, parameter :: NOBS_pTq_expected = 12
+!  real, parameter :: NOBS_wind_expected = 11
+!  real, parameter :: station_height_expected = 0.886
+!  real, parameter :: ugs_expected = 4.649
+!  real, parameter :: vgs_expected = 8.445
+!  real, parameter :: ps_expected(12) = (/967,24,5,949,24,5,900,23,3,850,24,8 /)
+!  real, parameter :: ts_expected(12) = (/700,11,7,677,9,11,628,4,6,612,2,7/)
+!  real, parameter :: dep_expected(12) = (/606,2,15,530,-7,17,460,-10,30,250,-40,30/)
+!  real, parameter :: dd0_expected(11) = (/180,7,0,185,10,1,225,35,3,240,25/)
+!  real, parameter :: ff0_expected(11) = (/5,225,15,7,215,15,9,230,30,14,240/)
+!  real, parameter :: zh_expected(11) = (/25,20,245,44,30,255,43,41,195,14,54/)
 
 
 ! mod_testing variable setup
@@ -260,7 +259,7 @@ program test_simsphere
     end if
     splint_arg5 = 3
     splint_output=splint(splint_arg1, splint_arg2, splint_arg3, splint_arg4, splint_arg5)
-    tests(n) = assert(splint_output == splint_expected, 'SPLINT')
+    tests(n) = assert(eq(splint_output,splint_expected), 'SPLINT')
     n = n + 1
     if (allocated(splint_arg3)) then
       deallocate(splint_arg3)
@@ -297,7 +296,7 @@ program test_simsphere
   if (transm_ftabs_test) then
     call ftabsT_init
     transm_ftabs_arg1 = 2.75401473
-    tests(n) = assert(ftabst(transm_ftabs_arg1) == transm_ftabs_expected, 'ftabs() else')
+    tests(n) = assert(eq(ftabst(transm_ftabs_arg1),transm_ftabs_expected), 'ftabs() else')
     n = n + 1
   end if
 
@@ -309,7 +308,7 @@ program test_simsphere
   if (transm_ftabs_test2) then
     call ftabsT_init
     transm_ftabs_arg1 = 11.0
-    tests(n) = assert(ftabst(transm_ftabs_arg1) == transm_ftabs_expected2, 'ftabs() if')
+    tests(n) = assert(eq(ftabst(transm_ftabs_arg1),transm_ftabs_expected2), 'ftabs() if')
     n = n + 1 
   end if
 
@@ -321,7 +320,7 @@ program test_simsphere
   if (transm_ftscatT_test) then
     call ftscatT_init
     transm_ftscatT_arg1 = 2.75401473
-    tests(n) = assert(ftscatT(transm_ftscatT_arg1) == transm_ftscatT_expected, 'ftscatT() else')
+    tests(n) = assert(eq(ftscatT(transm_ftscatT_arg1),transm_ftscatT_expected), 'ftscatT() else')
     n = n + 1
   end if
 
@@ -333,7 +332,7 @@ program test_simsphere
   if (transm_ftscatT_test2) then
     call ftscatT_init
     transm_ftscatT_arg1 = 11.0
-    tests(n) = assert(ftscatT(transm_ftscatT_arg1) == transm_ftscatT_expected2, 'ftscatT() if')
+    tests(n) = assert(eq(ftscatT(transm_ftscatT_arg1),transm_ftscatT_expected2), 'ftscatT() if')
     n = n + 1
   end if
 
@@ -345,7 +344,7 @@ program test_simsphere
   if (transm_fbscatT_test) then
     call fbscatT_init
     transm_fbscatT_arg1 = 2.75401473
-    tests(n) = assert(fbscatT(transm_fbscatT_arg1) == transm_fbscatT_expected, 'fbscatT() else')
+    tests(n) = assert(eq(fbscatT(transm_fbscatT_arg1),transm_fbscatT_expected), 'fbscatT() else')
     n = n + 1
   end if
 
@@ -357,7 +356,7 @@ program test_simsphere
   if (transm_fbscatT_test2) then
     call fbscatT_init
     transm_fbscatT_arg1 = 11.0
-    tests(n) = assert(fbscatT(transm_fbscatT_arg1) == transm_fbscatT_expected2, 'fbscatT() if')
+    tests(n) = assert(eq(fbscatT(transm_fbscatT_arg1),transm_fbscatT_expected2), 'fbscatT() if')
     n = n + 1
   end if
 
@@ -366,7 +365,7 @@ program test_simsphere
 !
   if (advect_func_test) then
     call advect_init
-    tests(n) = assert(advect() == advect_test_expected, 'advect()')
+    tests(n) = assert(eq(advect(),advect_test_expected), 'advect()')
     n = n + 1
   end if   
 
@@ -375,7 +374,7 @@ program test_simsphere
 !
   if (cond_test) then
     call cond_init
-    tests(n) = assert(cond() == cond_test_expected,'cond()')
+    tests(n) = assert(eq(cond(),cond_test_expected),'cond()')
     n = n + 1
   end if
 
@@ -384,7 +383,7 @@ program test_simsphere
 !
   if (stomfs_test) then
     call stomfs_init
-    tests(n) = assert(stomfs(sc, sol) == stomfs_test_expected, 'stomfs()')
+    tests(n) = assert(eq(stomfs(sc, sol),stomfs_test_expected), 'stomfs()')
     n = n + 1
   end if
 
@@ -394,9 +393,9 @@ program test_simsphere
   if (stomrs_test_hi_temp) then
     call stomrs_init
     TF = MAXTEMP + 1.0
-    tests(n) = assert( &
-               stomrs(ft,tf,rmin,mintemp,maxtemp,psisup,psiwc,b1,b2,psie,psice,fs) &
-               == stomrs_test_hi_temp_expected, 'stomrs_test_hi_temp_expected')
+    tests(n) = assert(eq( &
+               stomrs(ft,tf,rmin,mintemp,maxtemp,psisup,psiwc,b1,b2,psie,psice,fs), &
+               stomrs_test_hi_temp_expected), 'stomrs_test_hi_temp_expected')
     n = n + 1
   end if
 
@@ -406,9 +405,9 @@ program test_simsphere
   if (stomrs_test_lo_temp) then
     call stomrs_init
     TF = MINTEMP - 1.0
-    tests(n) = assert( &
-               stomrs(ft,tf,rmin,mintemp,maxtemp,psisup,psiwc,b1,b2,psie,psice,fs) &
-               == stomrs_test_lo_temp_expected, 'stomrs_test_lo_temp_expected')
+    tests(n) = assert(eq( &
+               stomrs(ft,tf,rmin,mintemp,maxtemp,psisup,psiwc,b1,b2,psie,psice,fs), &
+               stomrs_test_lo_temp_expected), 'stomrs_test_lo_temp_expected')
     n = n + 1
   end if
 
@@ -419,9 +418,9 @@ program test_simsphere
     call stomrs_init
     TF = (MINTEMP + MAXTEMP)/2
     PSISUP = PSIWC + 1.0
-    tests(n) = assert( &
-               stomrs(ft,tf,rmin,mintemp,maxtemp,psisup,psiwc,b1,b2,psie,psice,fs) &
-               == stomrs_test_hi_psi_expected, 'stomrs_test_hi_psi')
+    tests(n) = assert(eq( &
+               stomrs(ft,tf,rmin,mintemp,maxtemp,psisup,psiwc,b1,b2,psie,psice,fs), &
+               stomrs_test_hi_psi_expected), 'stomrs_test_hi_psi')
     n = n + 1
   end if
 
@@ -432,9 +431,9 @@ program test_simsphere
     call stomrs_init
     TF = (MINTEMP + MAXTEMP)/2
     PSISUP = PSIWC - 1.0
-    tests(n) = assert( &
-               stomrs(ft,tf,rmin,mintemp,maxtemp,psisup,psiwc,b1,b2,psie,psice,fs) &
-               == stomrs_test_lo_psi_expected, 'stomrs_test_lo_psi')
+    tests(n) = assert(eq( &
+               stomrs(ft,tf,rmin,mintemp,maxtemp,psisup,psiwc,b1,b2,psie,psice,fs), &
+               stomrs_test_lo_psi_expected), 'stomrs_test_lo_psi')
     n = n + 1
   end if
 
@@ -444,7 +443,7 @@ program test_simsphere
 
   if (stomc_test) then
     call stomc_init
-    tests(n) = assert(stomc(ft,rmin,b1,psice,fs) == stomc_test_expected,'stomc_test')
+    tests(n) = assert(eq(stomc(ft,rmin,b1,psice,fs),stomc_test_expected),'stomc_test')
     n = n + 1
   end if
 
@@ -454,9 +453,9 @@ program test_simsphere
 
   if (you_star_test) then
     call you_star_init
-    tests(n) = assert( &
-               you_star(you_star_arg1,you_star_arg2,you_star_arg3,you_star_arg4,you_star_arg5) &
-               == you_star_test_expected,'you_star_test')
+    tests(n) = assert(eq( &
+               you_star(you_star_arg1,you_star_arg2,you_star_arg3,you_star_arg4,you_star_arg5), &
+               you_star_test_expected),'you_star_test')
     n = n + 1
   end if
 
@@ -466,9 +465,9 @@ program test_simsphere
 
   if (r_ohms_test) then
     call r_ohms_init
-    tests(n) = assert( &
-               r_ohms(r_ohms_arg1,r_ohms_arg2,r_ohms_arg3,r_ohms_arg4,r_ohms_arg5) &
-               == r_ohms_test_expected,'r_ohms_test')
+    tests(n) = assert(eq( &
+               r_ohms(r_ohms_arg1,r_ohms_arg2,r_ohms_arg3,r_ohms_arg4,r_ohms_arg5), &
+               r_ohms_test_expected),'r_ohms_test')
     n = n + 1
   end if
 
@@ -478,7 +477,7 @@ program test_simsphere
 
   if (windf_test) then
     call windf_init
-    tests(n) = assert(windf(windf_arg1,windf_arg2,windf_arg3,windf_arg4,windf_arg5) == windf_test_expected,'windf_test')
+    tests(n) = assert(eq(windf(windf_arg1,windf_arg2,windf_arg3,windf_arg4,windf_arg5),windf_test_expected),'windf_test')
     n = n + 1
   end if
 
@@ -488,7 +487,7 @@ program test_simsphere
 
   if (stab_test) then
     call stab_init
-    tests(n) = assert(stab(stab_arg1,stab_arg2) == stab_test_expected,'stab_test')
+    tests(n) = assert(eq(stab(stab_arg1,stab_arg2),stab_test_expected),'stab_test')
     n = n + 1
   end if
 
@@ -499,7 +498,7 @@ program test_simsphere
   if (stabh_test) then
     ! stabh takes same argument as stab so we'll recycle initialization
     call stab_init
-    tests(n) = assert(stabh(stab_arg1,stab_arg2) == stabh_test_expected,'stabh_test')
+    tests(n) = assert(eq(stabh(stab_arg1,stab_arg2),stabh_test_expected),'stabh_test')
     n = n + 1
   end if
 
@@ -509,7 +508,7 @@ program test_simsphere
 
   if (fstabh_test) then
     call fstabh_init
-    tests(n) = assert(fstabh(fstabh_arg1,fstabh_arg2) == fstabh_test_expected,'fstabh_test')
+    tests(n) = assert(eq(fstabh(fstabh_arg1,fstabh_arg2),fstabh_test_expected),'fstabh_test')
     n = n + 1
   end if
 
@@ -520,7 +519,7 @@ program test_simsphere
   if (fstabm_test) then
     ! fstabm takes the same arguments as fstabh so we'll recycle the initialization
     call fstabh_init
-    tests(n) = assert(fstabm(fstabh_arg1,fstabh_arg2) == fstabm_test_expected,'fstabm_test')
+    tests(n) = assert(eq(fstabm(fstabh_arg1,fstabh_arg2),fstabm_test_expected),'fstabm_test')
     n = n + 1
   end if
 
@@ -530,7 +529,7 @@ program test_simsphere
 
   if (restrn_test) then
     call restrn_init
-    tests(n) = assert(restrn(restrn_arg1,restrn_arg2,restrn_arg3,restrn_arg4) == restrn_test_expected,'restrn()')
+    tests(n) = assert(eq(restrn(restrn_arg1,restrn_arg2,restrn_arg3,restrn_arg4),restrn_test_expected),'restrn()')
     n = n + 1
   end if
 
@@ -541,7 +540,7 @@ program test_simsphere
   if (psgcal_test) then
     call psgcal_init
     call psgcal
-    tests(n) = assert(PSIG == psgcal_test_expected, 'psgcal_test')
+    tests(n) = assert(eq(PSIG,psgcal_test_expected), 'psgcal_test')
     n = n + 1
   end if
 
@@ -552,7 +551,7 @@ program test_simsphere
   if (vegflx_test) then
     call vegflx_init
     call vegflx(vegflx_arg1)
-    tests(n) = assert(QAF == vegflx_test_expected, 'vegflx_test')
+    tests(n) = assert(eq(QAF,vegflx_test_expected), 'vegflx_test')
     n = n + 1
   end if
 
@@ -563,7 +562,7 @@ program test_simsphere
   if (avr_test_init1) then
     call avr_init
     call average(avr_arg1, avr_arg2)
-    tests(n) = assert(avr_arg2 == avr_test_init1_expected, 'avr_test_init1')
+    tests(n) = assert(eq(avr_arg2,avr_test_init1_expected), 'avr_test_init1')
     n = n + 1
   end if
 
@@ -574,7 +573,7 @@ program test_simsphere
   if (avr_test_init_not1) then
     call avr_init
     call average(avr_arg1, avr_arg2)
-    tests(n) = assert(avr_arg2 == avr_test_init_not1_expected, 'avr_test_init_not1')
+    tests(n) = assert(eq(avr_arg2,avr_test_init_not1_expected), 'avr_test_init_not1')
     n = n + 1
   end if
 
@@ -590,49 +589,49 @@ program test_simsphere
     n = n + 1
     tests(n) = assert(iday == iday_expected, 'iday')
     n = n + 1
-    tests(n) = assert(tz == tz_expected, 'tz')
+    tests(n) = assert(eq(tz,tz_expected), 'tz')
     n = n + 1
-    tests(n) = assert(xlat == xlat_expected, 'xlat')
+    tests(n) = assert(eq(xlat,xlat_expected), 'xlat')
     n = n + 1
-    tests(n) = assert(xlong == xlong_expected, 'xlong')
+    tests(n) = assert(eq(xlong,xlong_expected), 'xlong')
     n = n + 1
-    tests(n) = assert(strtim == strtim_expected, 'strtim')
+    tests(n) = assert(eq(strtim,strtim_expected), 'strtim')
     n = n + 1
-    tests(n) = assert(timend == timend_expected, 'timend')
+    tests(n) = assert(eq(timend,timend_expected), 'timend')
     n = n + 1
-    tests(n) = assert(outtt == outtt_expected, 'outtt')
+    tests(n) = assert(eq(outtt,outtt_expected), 'outtt')
     n = n + 1
-    tests(n) = assert(slope == slope_expected, 'slope')
+    tests(n) = assert(eq(slope,slope_expected), 'slope')
     n = n + 1
-    tests(n) = assert(aspect == aspect_expected, 'aspect')
+    tests(n) = assert(eq(aspect,aspect_expected), 'aspect')
     n = n + 1
-    tests(n) = assert(f == f_expected, 'f')
+    tests(n) = assert(eq(f,f_expected), 'f')
     n = n + 1
-    tests(n) = assert(fsub == fsub_expected, 'f_sub')
+    tests(n) = assert(eq(fsub,fsub_expected), 'f_sub')
     n = n + 1
-    tests(n) = assert(wmax == wmax_expected, 'wmax')
+    tests(n) = assert(eq(wmax,wmax_expected), 'wmax')
     n = n + 1
-    tests(n) = assert(btemp == btemp_expected, 'btemp')
+    tests(n) = assert(eq(btemp,btemp_expected), 'btemp')
     n = n + 1
-    tests(n) = assert(tp == tp_expected, 'tp')
+    tests(n) = assert(eq(tp,tp_expected), 'tp')
     n = n + 1
     tests(n) = assert(dual_ti == dual_ti_expected, 'dual_ti')
     n = n + 1
-    tests(n) = assert(ti_a == ti_a_expected, 'ti_a')
+    tests(n) = assert(eq(ti_a,ti_a_expected), 'ti_a')
     n = n + 1
-    tests(n) = assert(ti_b == ti_b_expected, 'ti_b')
+    tests(n) = assert(eq(ti_b,ti_b_expected), 'ti_b')
     n = n + 1
 !    tests(n) = assert(albedo_gflag == albedo_gflag_expected, 'albedo_gflag')
 !    n = n + 1
-    tests(n) = assert(albg == albg_expected, 'albg')
+    tests(n) = assert(eq(albg,albg_expected), 'albg')
     n = n + 1
-    tests(n) = assert(epsi == epsi_expected, 'epsi')
+    tests(n) = assert(eq(epsi,epsi_expected), 'epsi')
     n = n + 1
 !    tests(n) = assert(index_soils == index_soils_expected, 'index_soils')
 !    n = n + 1
-    tests(n) = assert(omega == omega_expected, 'omega')
+    tests(n) = assert(eq(omega,omega_expected), 'omega')
     n = n + 1
-    tests(n) = assert(zo == zo_expected, 'zo')
+    tests(n) = assert(eq(zo,zo_expected), 'zo')
     n = n + 1
 !    tests(n) = assert(obst_hgt == obst_hgt_expected, 'obst_hgt')
 !    n = n + 1
@@ -640,41 +639,41 @@ program test_simsphere
 !    n = n + 1
     tests(n) = assert(cld_fract == cld_fract_expected, 'cld_fract')
     n = n + 1
-    tests(n) = assert(frveg == frveg_expected, 'frveg')
+    tests(n) = assert(eq(frveg,frveg_expected), 'frveg')
     n = n + 1
-    tests(n) = assert(xlai == xlai_expected, 'xlai')
+    tests(n) = assert(eq(xlai,xlai_expected), 'xlai')
     n = n + 1
-    tests(n) = assert(epsf == epsf_expected, 'epsf')
+    tests(n) = assert(eq(epsf,epsf_expected), 'epsf')
     n = n + 1
 !    tests(n) = assert(albedo_fflag == albedo_fflag_expected, 'albedo_flag')
 !    n = n + 1
-    tests(n) = assert(albf == albf_expected, 'albf')
+    tests(n) = assert(eq(albf,albf_expected), 'albf')
     n = n + 1
     tests(n) = assert(stmtype == stmtype_expected, 'stmtype')
     n = n + 1
 !    tests(n) = assert(index_veggies == index_veggies_expected, 'index_veggies')
 !    n = n + 1
-    tests(n) = assert(volrel == volrel_expected, 'volrel')
+    tests(n) = assert(eq(volrel,volrel_expected), 'volrel')
     n = n + 1
-    tests(n) = assert(rmin == rmin_expected, 'rmin')
+    tests(n) = assert(eq(rmin,rmin_expected), 'rmin')
     n = n + 1
-    tests(n) = assert(rcut == rcut_expected, 'rcut')
+    tests(n) = assert(eq(rcut,rcut_expected), 'rcut')
     n = n + 1
-    tests(n) = assert(wilt == wilt_expected, 'wilt')
+    tests(n) = assert(eq(wilt,wilt_expected), 'wilt')
     n = n + 1
-    tests(n) = assert(vegheight == vegheight_expected, 'vegheight')
+    tests(n) = assert(eq(vegheight,vegheight_expected), 'vegheight')
     n = n + 1
-    tests(n) = assert(width == width_expected, 'width')
+    tests(n) = assert(eq(width,width_expected), 'width')
     n = n + 1
     tests(n) = assert(steady == steady_expected, 'steady')
     n = n + 1
-    tests(n) = assert(ci == ci_expected, 'ci')
+    tests(n) = assert(eq(ci,ci_expected), 'ci')
     n = n + 1
-    tests(n) = assert(co == co_expected, 'co')
+    tests(n) = assert(eq(co,co_expected), 'co')
     n = n + 1
-    tests(n) = assert(coz_sfc == coz_sfc_expected, 'coz_sfc')
+    tests(n) = assert(eq(coz_sfc,coz_sfc_expected), 'coz_sfc')
     n = n + 1
-    tests(n) = assert(coz_air == coz_air_expected, 'coz_air')
+    tests(n) = assert(eq(coz_air,coz_air_expected), 'coz_air')
     n = n + 1
 !    call snding
 !    tests(n) = assert(NOBS_pTq == NOBS_pTq_expected, 'NOBS_pTq')
