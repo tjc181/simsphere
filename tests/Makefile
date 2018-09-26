@@ -1,7 +1,7 @@
 FC=gfortran
 FILES= ../src/snding.f90 ../src/start.f90 ../src/avr.f90 ../src/vegflx.f90 ../src/psgcal.f90 mod_testing.f90 ../src/snding_mod.f90 ../src/transm_mod.f90 ../src/vel_mod.f90 ../src/stomata_mod.f90 ../src/simsphere_mod.f90 tests.f90
 #FCFLAGS= -I. -Wall -pedantic -std=f2003 -ggdb -fbacktrace -ffpe-trap=zero,overflow,underflow
-FCFLAGS= -I. -Wall -pedantic -std=f2003 -ggdb -fbacktrace
+FCFLAGS= -I. -Wall -Wintrinsic-shadow -Wextra -pedantic -std=f2003 -ggdb -fbacktrace
 
 test: 
 	$(FC) $(FCFLAGS) -o ../bin/test $(FILES)
