@@ -281,7 +281,7 @@ program test_simsphere
       allocate(spline_output(spline_arg3))
     end if
     spline_output=spline(spline_arg1, spline_arg2, spline_arg3, spline_arg4, spline_arg5)
-    tests(n) = assert(all(spline_output == spline_expected), 'SPLINE')
+    tests(n) = assert(check_spline_output(spline_output,spline_expected,spline_arg3,spline_arg3) .eqv. .true., 'SPLINE')
     n = n + 1
     if (allocated(spline_output)) then
       deallocate(spline_output)
@@ -863,5 +863,22 @@ contains
     avr_arg1 = 20.0
     avr_arg2 = 0.0
   end subroutine avr_init
+
+  logical pure function check_spline_output(output, expected, x, y)
+    integer, intent(in) :: x, y
+    real, intent(in) :: output(x), expected(y)
+    integer :: i
+
+    check_spline_output = .false.
+
+    do i = 1,size(output)
+      if(eq(output(i),expected(i))) then
+        check_spline_output = .true.
+      else
+        check_spline_output = .false.
+        return
+      end if
+    end do
+  end function check_spline_output
 
 end program
