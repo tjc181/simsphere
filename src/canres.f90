@@ -1,5 +1,9 @@
 subroutine  CANRES
   use simsphere_mod
+  implicit none
+
+  real :: RCBS=0.0, CELL1=0.0, CELL2=0.0, CELL3=0.0, QSTVEG=0.0
+  real :: EPOTV=0.0, EMP=0.0, RCP=0.0
 
 !      INCLUDE 'modvars.h'
 

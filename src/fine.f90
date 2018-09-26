@@ -37,8 +37,9 @@ subroutine  FINE
   return
 end
 
-function rlinear (top,bot,index)
+real function rlinear (top,bot,n)
+  real :: top, bot
+  integer :: n
 
-  rlinear = bot + (top - bot) * index /  5
-  return
+  rlinear = bot + (top - bot) * n /  5
 end

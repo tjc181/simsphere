@@ -13,8 +13,8 @@ subroutine VEL (MONCE,IONCE,StabCriteria,YCOUNT,Obst_Hgt,dual_regime,zo_patch)
   real(kind=4) :: Obst_Hgt,zo_patch
   integer(kind=1) :: StabCriteria
   logical :: dual_regime
-  integer :: MONCE, IONCE, YCOUNT
-  real :: REFLEV, ZTEN, CMH, CMW
+  integer :: MONCE, IONCE
+  real :: REFLEV, ZTEN, CMH, CMW, YCOUNT
   real :: USCRN, RZAZO, U_Patch, Ustar_Patch, RZA_Obst, RObst_Patch
   real :: PTMP20, BOWEN, RTRANS, RTRANO3
   real :: SA, SRFCZO, SO10M, STEN, FM, FTEN, USTAR1

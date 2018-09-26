@@ -5,8 +5,8 @@ subroutine Capac (Unscaled_RAF,H,B1_P,B2_P,vfl2, sgma)
 !       INCLUDE 'modvars.h'
 
   real :: IXCAP
-  integer :: NCAP, IDEL, JDEL, H, CAPRAT, ITRAP=0
-  real :: capini, ZADD, FPM, ZUH, Unscaled_RAF, B1_P, B2_P, vfl2 
+  integer :: NCAP, IDEL, JDEL, CAPRAT, ITRAP=0
+  real :: capini, ZADD, FPM, ZUH, Unscaled_RAF, B1_P, B2_P, vfl2 , H
   real :: VOLISO, RSTDIV, ADDIT, AROOT, BROOT, CROOT, ACTSQRT
   real :: PES, VOLRMO, SGMA
 
