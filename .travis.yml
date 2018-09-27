@@ -1,4 +1,5 @@
 language: generic
+dist: buster
 addons:
   apt:
     sources:
@@ -6,10 +7,9 @@ addons:
     packages:
       - gfortran-7
 before_script:
-  - FC=gfortran-7 cmake .
-  - make
+  - make -f old-Makefile
+  - make -f old-Makefile test
 script:
-  - bin/simsphere_test
-  - ctest
+  - bin/test
 notifications:
 email: false
