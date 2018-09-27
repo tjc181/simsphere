@@ -1,4 +1,4 @@
-FC=gfortran
+FC=gfortran-7
 SRC= src
 TESTS= tests
 PROG=simsphere
