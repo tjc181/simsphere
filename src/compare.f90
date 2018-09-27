@@ -1,4 +1,4 @@
-module cmp_mod
+module compare
   implicit none
   private
   public :: eq, gt, lt, ge, le
@@ -13,19 +13,19 @@ module cmp_mod
   end interface eq
 
   interface gt
-    module procedure r_gt
+    module procedure r_gt, z_gt
   end interface gt
 
   interface lt
-    module procedure r_lt
+    module procedure r_lt, z_lt
   end interface lt
 
   interface ge
-    module procedure r_ge
+    module procedure r_ge, z_ge
   end interface ge
 
   interface le
-    module procedure r_le
+    module procedure r_le, z_le
   end interface le
 
 contains
@@ -60,6 +60,16 @@ contains
     end if
   end function r_gt
 
+  logical pure function z_gt (z1, z2)
+    complex, intent(in) :: z1, z2
+
+    if ((real(z1) - real(z2)) > tolerance) then
+      z_gt = .true.
+    else
+      z_gt = .false.
+    end if
+  end function z_gt
+
   logical pure function r_lt (r1, r2)
     real, intent(in) :: r1, r2
 
@@ -69,6 +79,16 @@ contains
       r_lt = .false.
     end if
   end function r_lt
+
+  logical pure function z_lt (z1, z2)
+    complex, intent(in) :: z1, z2
+
+    if ((real(z2) - real(z1)) > tolerance) then
+      z_lt = .true.
+    else
+      z_lt = .false.
+    end if
+  end function z_lt
 
   logical pure function r_ge (r1, r2)
     real, intent(in) :: r1, r2
@@ -80,6 +100,16 @@ contains
     end if
   end function r_ge
 
+  logical pure function z_ge (z1, z2)
+    complex, intent(in) :: z1, z2
+
+    if (z_eq(z1,z2) .or. z_gt(z1,z2)) then
+      z_ge = .true.
+    else
+      z_ge = .false.
+    end if
+  end function z_ge
+
   logical pure function r_le (r1, r2)
     real, intent(in) :: r1, r2
     
@@ -90,6 +120,16 @@ contains
     end if
   end function r_le
 
-end module cmp_mod
+  logical pure function z_le (z1, z2)
+    complex, intent(in) :: z1, z2
+    
+    if (z_eq(z1, z2) .or. z_lt(z1,z2)) then
+      z_le = .true.
+    else
+      z_le = .false.
+    end if
+  end function z_le
+
+end module compare
 
  

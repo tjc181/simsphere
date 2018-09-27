@@ -76,14 +76,7 @@ subroutine  BRI (T1,MONCE,PSIHNEW,YCOUNT,ZTEN)
 !      TDIF = ABS( T(1) - T1 )
   TSURF = T1 - TSTAR * ALOG( Z1 / ZO )
 
-!TJC Seeing BULK set to NaN intermittently.  Check for divide by zero and print some
-!TJC diagnostic if detected.
-  if ((OTEMP /=0) .and. (AWIND /= 0)) then
-    BULK = ( (T(1) - Pot_S) * GRAV * ZA ) / ( OTEMP * AWIND**2 )
-  else
-    write(*,*) 'Attempted divide by zero bri.f90:82, OTEMP: ', OTEMP, ' AWIND: ',AWIND
-    stop
-  end if
+  BULK = ( (T(1) - Pot_S) * GRAV * ZA ) / ( OTEMP * AWIND**2 )
 
 ! **  Now use this to determine the stability criteria and execute the
 ! **  the appropriate physics.

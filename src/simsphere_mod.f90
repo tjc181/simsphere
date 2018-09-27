@@ -3,7 +3,7 @@ module simsphere_mod
   use transm_mod, only: ftabsT, ftscatT, fbscatT, ABSTBL, SCATBL, BSCTBL, PS1
   use vel_mod, only: You_star, R_ohms, WindF, Stab, StabH, FStabH, FStabM, ResTrn, MOL
   use stomata_mod, only: stomc, stomfs, stomrs
-  use cmp_mod, only: eq, gt, lt
+  use compare, only: eq, gt, lt
   implicit none
   public
 
