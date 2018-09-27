@@ -1,0 +1,39 @@
+# cmake version, project name, language
+cmake_minimum_required(VERSION 2.8 FATAL_ERROR)
+project(simsphere)
+enable_language(Fortran)
+
+# set output paths for modules, archives, and executables
+set(CMAKE_Fortran_MODULE_DIRECTORY ${PROJECT_BINARY_DIR}/include)
+set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
+set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
+
+# if build type not specified, default to release
+if(NOT CMAKE_BUILD_TYPE)
+  set(CMAKE_BUILD_TYPE "release")
+endif()
+
+# compiler flags for gfortran
+if(CMAKE_Fortran_COMPILER_ID MATCHES GNU)
+  set(CMAKE_Fortran_FLAGS_DEBUG "-O0 -g -C -fbacktrace")
+  set(CMAKE_Fortran_FLAGS_RELEASE "-O3")
+endif()
+
+# compiler flags for ifort
+if(CMAKE_Fortran_COMPILER_ID MATCHES Intel)
+  set(CMAKE_Fortran_FLAGS "${CMAKE_Fortran_FLAGS} -assume realloc_lhs -heap-arrays")
+  set(CMAKE_Fortran_FLAGS_DEBUG "-O0 -g -C -traceback")
+  set(CMAKE_Fortran_FLAGS_RELEASE "-O3")
+endif()
+
+# library to archive (libsimsphere_mod.a)
+add_library(simsphere_mod src/simsphere_mod.f90 src/snding_mod.f90 src/stomata_mod.f90 src/transm_mod.f90 src/vel_mod.f90)
+
+# tests
+enable_testing()
+add_executable(simsphere src/compare.f90 src/snding_mod.f90 src/transm_mod.f90 src/vel_mod.f90 src/stomata_mod.f90 src/simsphere_mod.f90 src/air.f90 src/albedo.f90 src/avr.f90 src/ball.f90 src/below.f90 src/bri.f90 src/calc.f90 src/canres.f90 src/capac.f90 src/co2flx.f90 src/daykm.f90 src/fine.f90 src/flux.f90 src/gettbl.f90 src/gtemp.f90 src/hot.f90 src/input.f90 src/intpol.f90 src/main.f90 src/momday.f90 src/mom.f90 src/netrad.f90 src/output.f90 src/ozone.f90 src/prfile.f90 src/psgcal.f90 src/pslcal.f90 src/psoil.f90 src/slope.f90 src/snding.f90 src/start.f90 src/vegflx.f90 src/veghot.f90 src/vegrad.f90 src/vegvel.f90 src/vel.f90 src/water.f90)
+add_executable(simsphere_test src/compare.f90 src/snding.f90 src/start.f90 src/avr.f90 src/vegflx.f90 src/psgcal.f90 src/simsphere_mod.f90 src/snding_mod.f90 src/stomata_mod.f90 src/transm_mod.f90 src/vel_mod.f90 tests/mod_testing.f90 tests/tests.f90)
+target_link_libraries(simsphere_test simsphere_mod)
+target_link_libraries(simsphere simsphere_mod)
+add_test(simsphere_test bin/simsphere_test)

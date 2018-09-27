@@ -1,7 +1,16 @@
 /*.o
 /*.gch
 /*.mod
+/bin
 /bin/*
+/ignore
+/ignore/*
+/lib
+/lib/*
 /src/*.mod
 /tests/*.mod
+/CMakeFiles
+/cmake_install.cmake
+/CTestTestfile.cmake
+/Makefile
 
