@@ -3,8 +3,8 @@
 /*.mod
 /bin
 /bin/*
-/ignore
-/ignore/*
+/include
+/include/*
 /lib
 /lib/*
 /src/*.mod
