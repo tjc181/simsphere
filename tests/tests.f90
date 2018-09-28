@@ -27,6 +27,10 @@ program test_simsphere
   logical :: psgcal_test
   logical :: vegflx_test
   logical :: avr_test_init1, avr_test_init_not1
+  logical :: ozone_test
+  logical :: co2flx_test
+  logical :: veghot_test
+  logical :: hot_test
   logical :: f_control_test
 
 ! splint_test variables
@@ -143,6 +147,20 @@ program test_simsphere
   real, parameter :: avr_test_init_not1_expected = 20.0
   real :: avr_arg1, avr_arg2
 
+! co2flx_test variables
+  real, parameter :: co2flx_ccan_expected = 1.77409637
+  real, parameter :: co2flx_fco2_expected = 3.13184571
+
+! veghot_test variables
+  real, parameter :: veghot_heatv_expected = 1.5
+  real :: veghot_arg1, veghot_arg2
+
+! hot_test variables
+  real, parameter :: hot_caseI_expected = 2.49819231
+  real, parameter :: hot_caseII_expected = 1.62364423
+  real, parameter :: hot_caseIII_expected = 0.999096155
+  real :: hot_arg1, hot_arg2, hot_arg3, hot_arg4
+
 ! f_control variables
   integer, parameter :: iyr_expected = 89
   integer, parameter :: imo_expected = 8
@@ -201,11 +219,13 @@ program test_simsphere
 !  real, parameter :: dd0_expected(11) = (/180,7,0,185,10,1,225,35,3,240,25/)
 !  real, parameter :: ff0_expected(11) = (/5,225,15,7,215,15,9,230,30,14,240/)
 !  real, parameter :: zh_expected(11) = (/25,20,245,44,30,255,43,41,195,14,54/)
+  real, parameter :: ozone_flux_plant_expected = 581.332764
+  real, parameter :: ozone_fglobal_expected = 10028.6299
 
 
 ! mod_testing variable setup
   n = 1
-  ntests = 28
+  ntests = 34
   call initialize_tests(tests,ntests)
 ! end  mod_testing variable setup
 
@@ -239,6 +259,10 @@ program test_simsphere
   vegflx_test = .true.
   avr_test_init1 = .true.
   avr_test_init_not1 = .true.
+  ozone_test = .true.
+  co2flx_test = .true.
+  veghot_test = .true.
+  hot_test = .true.
   f_control_test = .false.
 
 
@@ -579,6 +603,69 @@ program test_simsphere
   end if
 
 !
+! ozone_test
+!
+
+  if (ozone_test) then
+    call ozone_init
+    call ozone
+    tests(n) = assert(eq(flux_plant,ozone_flux_plant_expected), 'ozone flux_plant')
+    n = n + 1
+    tests(n) = assert(eq(fglobal,ozone_fglobal_expected), 'ozone fglobal')
+    n = n + 1
+  end if
+
+!
+! co2flx_test
+!
+
+  if (co2flx_test) then
+    call co2flx_init
+    call co2flx
+    tests(n) = assert(eq(ccan,co2flx_ccan_expected), 'co2flx ccan')
+    n = n + 1
+    tests(n) = assert(eq(fco2,co2flx_fco2_expected), 'co2flx fco2')
+    n = n + 1
+  end if
+
+!
+! veghot_test
+!
+
+  if (veghot_test) then
+    call veghot_init
+    call veghot(veghot_arg1, veghot_arg2)
+    tests(n) = assert(eq(veghot_arg2,veghot_heatv_expected), 'veghot heatv')
+    n = n + 1
+  end if
+
+!
+! hot_test
+!
+
+  if (hot_test) then
+    call hot_init
+    ! Case I: FRVEG == 1 AND RNET > 0
+    FRVEG = 1.0
+    RNET = 1.0
+    call hot(hot_arg1,hot_arg2,hot_arg3,hot_arg4)
+    tests(n) = assert(eq(heat, hot_caseI_expected), 'hot case I')
+    n = n + 1
+    ! Case II: 1 > FRVEG > 0 AND RNET > 0
+    FRVEG = 0.5
+    RNET = 1.0
+    call hot(hot_arg1,hot_arg2,hot_arg3,hot_arg4)
+    tests(n) = assert(eq(heat, hot_caseII_expected), 'hot case II')
+    n = n + 1
+    ! Case III: All others
+    FRVEG = 1.5
+    RNET = 1.0
+    call hot(hot_arg1,hot_arg2,hot_arg3,hot_arg4)
+    tests(n) = assert(eq(heat, hot_caseIII_expected), 'hot case III')
+    n = n + 1
+  end if
+    
+!
 ! f_control_test
 !
 
@@ -881,5 +968,69 @@ contains
       end if
     end do
   end function check_spline_output
+
+  subroutine ozone_init
+    USTAR = 1.0
+    UTEN = 1.0
+    UAF = 0.5
+    XLAI = 2.0
+    RAF = 1.0
+    RCUT = 1.0
+    RST = 1.0
+    CHG = 2.0
+    RZASCR = 1.0
+    COZ_AIR = 1.0
+    frveg = 0.5
+    sumo3 = 0.1
+    return
+  end subroutine ozone_init
+
+  subroutine co2flx_init
+    USTAR = 1.0
+    UTEN = 2.0
+    UAF = 1.0
+    XLAI = 1.0
+    RZASCR = 2.0
+    RAF = 1.0
+    RST = 1.0
+    CO = 2.0
+    CI = 1.0
+    FRVEG = 0.5
+    return
+  end subroutine co2flx_init
+
+  subroutine veghot_init
+    TF = 1.0
+    TAF = 1.0
+    CHF = 1.0
+    CHG = 1.0
+    HF = 1.0
+    TT(2) = 1.0
+    Z(2) = 1.0
+    LAMBDA = 1.0
+    RNETG = 3.0
+    XLEG = 1.0
+    veghot_arg1 = 1.0
+    veghot_arg2 = 1.0
+  end subroutine veghot_init
+
+  subroutine hot_init
+    hot_arg2 = 4.0
+    hot_arg3 = 2.0
+    hot_arg4 = 1.0
+    LAMBDA = 1.0
+    ATEMP = 2.0
+    TT(2) = 1.0
+    Z(2) = 1.0
+    TF = 1.0
+    TAF = 1.0
+    CHF = 1.0
+    CHG = 1.0
+    HF = 1.0
+    RNETG = 3.0
+    XLEG = 1.0
+    GBL_sum = 1.0
+    return
+  end subroutine hot_init
 
 end program
