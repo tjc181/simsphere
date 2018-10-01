@@ -31,6 +31,7 @@ program test_simsphere
   logical :: co2flx_test
   logical :: veghot_test
   logical :: hot_test
+  logical :: albedo_test
   logical :: f_control_test
 
 ! splint_test variables
@@ -161,6 +162,13 @@ program test_simsphere
   real, parameter :: hot_caseIII_expected = 0.999096155
   real :: hot_arg1, hot_arg2, hot_arg3, hot_arg4
 
+! albedo_test variables
+  real, parameter :: albedo_caseI_expected = 0.396643847
+  real, parameter :: albedo_caseII_expected = 0.396643847
+  real, parameter :: albedo_caseIII_expected = 0.396643847
+  real, parameter :: albedo_caseIV_expected = 0.396643847
+  real :: albedo_test_arg1
+
 ! f_control variables
   integer, parameter :: iyr_expected = 89
   integer, parameter :: imo_expected = 8
@@ -225,7 +233,7 @@ program test_simsphere
 
 ! mod_testing variable setup
   n = 1
-  ntests = 34
+  ntests = 40
   call initialize_tests(tests,ntests)
 ! end  mod_testing variable setup
 
@@ -263,6 +271,7 @@ program test_simsphere
   co2flx_test = .true.
   veghot_test = .true.
   hot_test = .true.
+  albedo_test = .true.
   f_control_test = .false.
 
 
@@ -664,7 +673,43 @@ program test_simsphere
     tests(n) = assert(eq(heat, hot_caseIII_expected), 'hot case III')
     n = n + 1
   end if
+
+!
+! albedo_test (4 cases)
+!
+
+  if (albedo_test) then
+    call albedo_init
+
+!  Case I
+    ALBG = 0.0
+    ALBF = 0.0
+    call albedo(albedo_test_arg1)
+    tests(n) = assert(eq(ALBDOE,albedo_caseI_expected), 'albedo case I')
+    n = n + 1
+
+!  Case II
+    ALBG = 20.0
+    ALBF = 0.0
+    call albedo(albedo_test_arg1)
+    tests(n) = assert(eq(ALBDOE,albedo_caseII_expected), 'albedo case II')
+    n = n + 1
     
+!  Case III
+    ALBG = 0.0
+    ALBF = 20.0
+    call albedo(albedo_test_arg1)
+    tests(n) = assert(eq(ALBDOE,albedo_caseIII_expected), 'albedo case III')
+    n = n + 1
+
+!  Case IV
+    ALBG = 46.0
+    ALBF = 71.0
+    call albedo(albedo_test_arg1)
+    tests(n) = assert(eq(ALBDOE,albedo_caseIV_expected), 'albedo case IV')
+    n = n + 1
+  end if
+
 !
 ! f_control_test
 !
@@ -950,6 +995,7 @@ contains
   subroutine avr_init
     avr_arg1 = 20.0
     avr_arg2 = 0.0
+    return
   end subroutine avr_init
 
   logical pure function check_spline_output(output, expected, x, y)
@@ -1032,5 +1078,15 @@ contains
     GBL_sum = 1.0
     return
   end subroutine hot_init
+
+  subroutine albedo_init
+    albedo_test_arg1 = -0.510662317
+    XLAI = 1.0
+    FRVEG = 1.0
+    WGG = 100.0
+    WMAX = 1230.0
+    return
+  end subroutine albedo_init
+
 
 end program
