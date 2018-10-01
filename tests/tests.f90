@@ -13,26 +13,43 @@ program test_simsphere
 
   integer :: i
   
-  logical :: splint_test, spline_test
-  logical :: transm_ftabs_test, transm_ftabs_test2
-  logical :: transm_ftscatT_test, transm_ftscatT_test2
-  logical :: transm_fbscatT_test, transm_fbscatT_test2
-  logical :: advect_func_test
+  logical, parameter :: splint_test = .true.
+  logical, parameter :: spline_test = .true.
+  logical, parameter :: transm_ftabs_test = .true.
+  logical, parameter :: transm_ftabs_test2 = .true.
+  logical, parameter :: transm_ftscatT_test = .true.
+  logical, parameter :: transm_ftscatT_test2 = .true.
+  logical, parameter :: transm_fbscatT_test = .true.
+  logical, parameter :: transm_fbscatT_test2 = .true.
+  logical, parameter :: advect_func_test = .true.
 !  logical :: air_test
-  logical :: cond_test
-  logical :: stomfs_test
-  logical :: stomrs_test_hi_temp, stomrs_test_lo_temp, stomrs_test_hi_psi, stomrs_test_lo_psi
-  logical :: stomc_test
-  logical :: you_star_test, r_ohms_test, windf_test, stab_test, stabh_test, fstabh_test, fstabm_test, restrn_test
-  logical :: psgcal_test
-  logical :: vegflx_test
-  logical :: avr_test_init1, avr_test_init_not1
-  logical :: ozone_test
-  logical :: co2flx_test
-  logical :: veghot_test
-  logical :: hot_test
-  logical :: albedo_test
-  logical :: f_control_test
+  logical, parameter :: cond_test = .true.
+  logical, parameter :: stomfs_test = .true.
+  logical, parameter :: stomrs_test_hi_temp = .true.
+  logical, parameter :: stomrs_test_lo_temp = .true.
+  logical, parameter :: stomrs_test_hi_psi = .true.
+  logical, parameter :: stomrs_test_lo_psi = .true.
+  logical, parameter :: stomc_test = .true.
+  logical, parameter :: you_star_test = .true.
+  logical, parameter :: r_ohms_test = .true.
+  logical, parameter :: windf_test = .true.
+  logical, parameter :: stab_test = .true.
+  logical, parameter :: stabh_test = .true.
+  logical, parameter :: fstabh_test = .true.
+  logical, parameter :: fstabm_test = .true.
+  logical, parameter :: restrn_test = .true.
+  logical, parameter :: psgcal_test = .true.
+  logical, parameter :: vegflx_test = .true.
+  logical, parameter :: avr_test_init1 = .true.
+  logical, parameter :: avr_test_init_not1 = .true.
+  logical, parameter :: ozone_test = .true.
+  logical, parameter :: co2flx_test = .true.
+  logical, parameter :: veghot_test = .true.
+  logical, parameter :: hot_test = .true.
+  logical, parameter :: albedo_test = .true.
+  logical, parameter :: intpol_test = .true.
+  logical, parameter :: prfile_test = .true.
+  logical, parameter :: f_control_test = .false.
 
 ! splint_test variables
   integer, parameter :: splint_max_array = 50
@@ -169,6 +186,98 @@ program test_simsphere
   real, parameter :: albedo_caseIV_expected = 0.396643847
   real :: albedo_test_arg1
 
+! intpol_test variables
+  real, dimension(50), parameter :: intpol_ug_exp =  &
+           (/9.18181801,8.36363602,7.54545498,6.72727299,5.90909100, &
+             5.09090948,4.27272749,3.45454597,2.63636398,1.81818199, &
+             1.00000000,0.181818962,-0.636363029,-1.45454502,-2.27272701, &
+             -3.09090805,-3.90909004,-4.72727203,-5.54545403,-6.36363602, &
+             0.00000000,0.00000000,0.00000000,0.00000000,0.00000000, &
+             0.00000000,0.00000000,0.00000000,0.00000000,0.00000000, &
+             0.00000000,0.00000000,0.00000000,0.00000000,0.00000000, &
+             0.00000000,0.00000000,0.00000000,0.00000000,0.00000000, &
+             0.00000000,0.00000000,0.00000000,0.00000000,0.00000000, &
+             0.00000000,0.00000000,0.00000000,0.00000000,0.00000000/)
+  real, dimension(50), parameter :: intpol_vg_exp =  &
+           (/9.18181801,8.36363602,7.54545498,6.72727299,5.90909100, &
+             5.09090948,4.27272749,3.45454597,2.63636398,1.81818199, &
+             1.00000000,0.181818962,-0.636363029,-1.45454502,-2.27272701, &
+             -3.09090805,-3.90909004,-4.72727203,-5.54545403,-6.36363602, &
+             0.00000000,0.00000000,0.00000000,0.00000000,0.00000000, &
+             0.00000000,0.00000000,0.00000000,0.00000000,0.00000000, &
+             0.00000000,0.00000000,0.00000000,0.00000000,0.00000000, &
+             0.00000000,0.00000000,0.00000000,0.00000000,0.00000000, &
+             0.00000000,0.00000000,0.00000000,0.00000000,0.00000000, &
+             0.00000000,0.00000000,0.00000000,0.00000000,0.00000000/)
+  real, dimension(50), parameter :: intpol_ugd_exp =  &
+            (/9.57142830,7.42857170,5.28571463,3.14285755,1.00000000, &
+              1.00000000,1.00000000,1.00000000,1.00000000,1.00000000, &
+              1.00000000,1.00000000,1.00000000,1.00000000,1.00000000, &
+              1.00000000,1.00000000,1.00000000,1.00000000,1.00000000, &
+              0.00000000,0.00000000,0.00000000,0.00000000,0.00000000, &
+              0.00000000,0.00000000,0.00000000,0.00000000,0.00000000, &
+              0.00000000,0.00000000,0.00000000,0.00000000,0.00000000, &
+              0.00000000,0.00000000,0.00000000,0.00000000,0.00000000, &
+              0.00000000,0.00000000,0.00000000,0.00000000,0.00000000, &
+              0.00000000,0.00000000,0.00000000,0.00000000,0.00000000/)
+  real, dimension(50), parameter :: intpol_vgd_exp =  &
+            (/9.57142830,7.42857170,5.28571463,3.14285755,1.00000000, &
+              1.00000000,1.00000000,1.00000000,1.00000000,1.00000000, &
+              1.00000000,1.00000000,1.00000000,1.00000000,1.00000000, &
+              1.00000000,1.00000000,1.00000000,1.00000000,1.00000000, &
+              0.00000000,0.00000000,0.00000000,0.00000000,0.00000000, &
+              0.00000000,0.00000000,0.00000000,0.00000000,0.00000000, &
+              0.00000000,0.00000000,0.00000000,0.00000000,0.00000000, &
+              0.00000000,0.00000000,0.00000000,0.00000000,0.00000000, &
+              0.00000000,0.00000000,0.00000000,0.00000000,0.00000000, &
+              0.00000000,0.00000000,0.00000000,0.00000000,0.00000000/)
+
+! prfile_test variables
+  real, dimension(51), parameter :: prfile_uf_exp = (/1.00000000,         &
+              0.800000012,0.600000024,0.399999976,0.199999988,0.00000000, &
+              0.200000003,0.400000006,0.600000024,0.800000012,1.00000000, &
+              0.800000012,0.600000024,0.399999976,0.199999988,0.00000000, &
+              0.200000003,0.400000006,0.600000024,0.800000012,1.00000000, &
+              1.00000000,1.00000000,1.00000000,1.00000000,1.00000000,     &
+              1.00000000,1.00000000,1.00000000,1.00000000,1.00000000,     &
+              1.00000000,1.00000000,1.00000000,1.00000000,1.00000000,     &
+              1.00000000,1.00000000,1.00000000,1.00000000,1.00000000,     &
+              1.00000000,1.00000000,1.00000000,1.00000000,1.00000000,     &
+              0.800000012,0.600000024,0.399999976,0.199999988,0.00000000/)
+  real, dimension(51), parameter :: prfile_vf_exp = (/1.00000000,         &
+              0.800000012,0.600000024,0.399999976,0.199999988,0.00000000, &
+              0.200000003,0.400000006,0.600000024,0.800000012,1.00000000, &
+              0.800000012,0.600000024,0.399999976,0.199999988,0.00000000, &
+              0.200000003,0.400000006,0.600000024,0.800000012,1.00000000, &
+              1.00000000,1.00000000,1.00000000,1.00000000,1.00000000,     &
+              1.00000000,1.00000000,1.00000000,1.00000000,1.00000000,     &
+              1.00000000,1.00000000,1.00000000,1.00000000,1.00000000,     &
+              1.00000000,1.00000000,1.00000000,1.00000000,1.00000000,     &
+              1.00000000,1.00000000,1.00000000,1.00000000,1.00000000,     &
+              0.800000012,0.600000024,0.399999976,0.199999988,0.00000000/)
+  real, dimension(51), parameter :: prfile_tf_exp = (/1.00000000,0.800000012, &
+        0.600000024,0.399999976,0.199999988,0.00000000,0.00000000,0.00000000, &
+        0.00000000,0.00000000,0.00000000,0.00000000,0.00000000,0.00000000,    &
+        0.00000000,0.00000000,0.00000000,0.00000000,0.00000000,0.00000000,    &
+        0.00000000,0.00000000,0.00000000,0.00000000,0.00000000,0.00000000,    &
+        0.00000000,0.00000000,0.00000000,0.00000000,0.00000000,0.00000000,    &
+        0.00000000,0.00000000,0.00000000,0.00000000,0.00000000,0.00000000,    &
+        0.00000000,0.00000000,0.00000000,0.00000000,0.00000000,0.00000000,    &
+        0.00000000,0.00000000,0.00000000,0.00000000,0.00000000,0.00000000,    &
+        0.00000000/)
+  real, dimension(51), parameter :: prfile_qf_exp = (/1.00000000,0.800000012, &
+        0.600000024,0.399999976,0.199999988,0.00000000,0.00000000,0.00000000, &
+        0.00000000,0.00000000,0.00000000,0.00000000,0.00000000,0.00000000,    &
+        0.00000000,0.00000000,0.00000000,0.00000000,0.00000000,0.00000000,    &
+        0.00000000,0.00000000,0.00000000,0.00000000,0.00000000,0.00000000,    &
+        0.00000000,0.00000000,0.00000000,0.00000000,0.00000000,0.00000000,    &
+        0.00000000,0.00000000,0.00000000,0.00000000,0.00000000,0.00000000,    &
+        0.00000000,0.00000000,0.00000000,0.00000000,0.00000000,0.00000000,    &
+        0.00000000,0.00000000,0.00000000,0.00000000,0.00000000,0.00000000,    &
+        0.00000000/)
+  real, parameter :: prfile_awind_exp = 1.41421354
+
+
 ! f_control variables
   integer, parameter :: iyr_expected = 89
   integer, parameter :: imo_expected = 8
@@ -233,46 +342,9 @@ program test_simsphere
 
 ! mod_testing variable setup
   n = 1
-  ntests = 40
+  ntests = 49
   call initialize_tests(tests,ntests)
 ! end  mod_testing variable setup
-
-
-! Set logical to control test execution
-  splint_test = .true.
-  spline_test = .true.
-  transm_ftabs_test = .true.
-  transm_ftabs_test2 = .true.
-  transm_ftscatT_test = .true.
-  transm_ftscatT_test2 = .true.
-  transm_fbscatT_test = .true.
-  transm_fbscatT_test2 = .true.
-  advect_func_test = .true.
-  cond_test = .true.
-  stomfs_test = .true.
-  stomrs_test_hi_temp = .true.
-  stomrs_test_lo_temp = .true.
-  stomrs_test_hi_psi = .true.
-  stomrs_test_lo_psi = .true.
-  stomc_test = .true.
-  you_star_test = .true.
-  r_ohms_test = .true.
-  windf_test = .true.
-  stab_test = .true.
-  stabh_test = .true.
-  fstabh_test = .true.
-  fstabm_test = .true.
-  restrn_test = .true.
-  psgcal_test = .true.
-  vegflx_test = .true.
-  avr_test_init1 = .true.
-  avr_test_init_not1 = .true.
-  ozone_test = .true.
-  co2flx_test = .true.
-  veghot_test = .true.
-  hot_test = .true.
-  albedo_test = .true.
-  f_control_test = .false.
 
 
 !
@@ -314,7 +386,7 @@ program test_simsphere
       allocate(spline_output(spline_arg3))
     end if
     spline_output=spline(spline_arg1, spline_arg2, spline_arg3, spline_arg4, spline_arg5)
-    tests(n) = assert(check_spline_output(spline_output,spline_expected,spline_arg3,spline_arg3) .eqv. .true., 'SPLINE')
+    tests(n) = assert(check_array_output(spline_output,spline_expected,spline_arg3,spline_arg3) .eqv. .true., 'SPLINE')
     n = n + 1
     if (allocated(spline_output)) then
       deallocate(spline_output)
@@ -711,6 +783,41 @@ program test_simsphere
   end if
 
 !
+! intpol_test (4 array variables)
+!
+  if (intpol_test) then
+    call intpol_init
+    call intpol
+    tests(n) = assert(check_array_output(ug,intpol_ug_exp,size(ug),size(intpol_ug_exp)) .eqv. .true., 'Intpol UG(50)')
+    n = n + 1
+    tests(n) = assert(check_array_output(vg,intpol_vg_exp,size(vg),size(intpol_vg_exp)) .eqv. .true., 'Intpol VG(50)')
+    n = n + 1
+    tests(n) = assert(check_array_output(ugd,intpol_ugd_exp,size(ugd),size(intpol_ugd_exp)) .eqv. .true., 'Intpol UGD(50)')
+    n = n + 1
+    tests(n) = assert(check_array_output(vgd,intpol_vgd_exp,size(vgd),size(intpol_vgd_exp)) .eqv. .true., 'Intpol VGD(50)')
+    n = n + 1
+  end if
+
+!
+! prfile_test (4 array variables and scalar variable)
+!
+
+  if (prfile_test) then
+    call prfile_init
+    call prfile
+    tests(n) = assert(check_array_output(u_fine,prfile_uf_exp,size(u_fine),size(prfile_uf_exp)) .eqv. .true., 'PRFILE u_fine')
+    n = n + 1
+    tests(n) = assert(check_array_output(v_fine,prfile_vf_exp,size(v_fine),size(prfile_vf_exp)) .eqv. .true., 'PRFILE v_fine')
+    n = n + 1
+    tests(n) = assert(check_array_output(t_fine,prfile_tf_exp,size(t_fine),size(prfile_tf_exp)) .eqv. .true., 'PRFILE t_fine')
+    n = n + 1
+    tests(n) = assert(check_array_output(q_fine,prfile_qf_exp,size(q_fine),size(prfile_qf_exp)) .eqv. .true., 'PRFILE q_fine')
+    n = n + 1
+    tests(n) = assert(eq(awind,prfile_awind_exp), 'PRFILE awind')
+    n = n + 1
+  end if
+
+!
 ! f_control_test
 !
 
@@ -998,22 +1105,23 @@ contains
     return
   end subroutine avr_init
 
-  logical pure function check_spline_output(output, expected, x, y)
+! Verify that all elements of two arrays size x and y are equal
+  logical pure function check_array_output(output, expected, x, y)
     integer, intent(in) :: x, y
     real, intent(in) :: output(x), expected(y)
     integer :: i
 
-    check_spline_output = .false.
+    check_array_output = .false.
 
     do i = 1,size(output)
       if(eq(output(i),expected(i))) then
-        check_spline_output = .true.
+        check_array_output = .true.
       else
-        check_spline_output = .false.
+        check_array_output = .false.
         return
       end if
     end do
-  end function check_spline_output
+  end function check_array_output
 
   subroutine ozone_init
     USTAR = 1.0
@@ -1088,5 +1196,36 @@ contains
     return
   end subroutine albedo_init
 
+  subroutine intpol_init
+    NTRP = 10
+    VGS = 10.0
+    UGS = 10.0
+    VD = 1.0
+    UD = 1.0
+    VGD(NTRP) = 1.0
+    UGD(NTRP) = 1.0
+    return
+  end subroutine intpol_init
 
-end program
+  subroutine prfile_init
+    integer :: i
+
+    call advect_init
+    call intpol_init
+
+    ud = 0.0
+    vd = 0.0
+    ud(1) = 1.0
+    vd(1) = 1.0
+    ud(3) = 1.0
+    vd(3) = 1.0
+    do i = 5, NTRP
+      ud(i) = 1.0
+      vd(i) = 1.0
+    end do
+    td(1) = 1.0
+    qd(1) = 1.0
+    return
+  end subroutine prfile_init
+
+end program test_simsphere
