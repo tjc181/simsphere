@@ -31,17 +31,10 @@ endif()
 add_library(simsphere_mod SHARED src/simsphere_mod.f90 src/constants_mod.f90 src/compare.f90 src/snding_mod.f90 src/stomata_mod.f90 src/transm_mod.f90 src/vel_mod.f90)
 set_target_properties(simsphere_mod PROPERTIES INTERFACE_POSITION_INDEPENDENT_CODE ON)
 
-# libcompare
-add_library(compare SHARED IMPORTED)
-find_library(LIBCOMPARE NAME compare)
-find_library(LIBCOMPARE NAMES compare compare_dll
-            PATHS   /lib
-                    /lib64
-                    /usr/lib
-                    /usr/lib64
-                    /usr/local/lib
-                    /usr/local/lib64
-             )
+# libcompare is provided via git submodule from git://github.com/tcanich/compare
+if(NOT LIBCOMPARE)
+  add_subdirectory(externals/compare)
+endif()
 
 # tests
 enable_testing()
