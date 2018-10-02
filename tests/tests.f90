@@ -1,4 +1,5 @@
 program test_simsphere
+  use, intrinsic :: ieee_arithmetic
   use simsphere_mod
   use mod_testing, only: assert,initialize_tests,report_tests
   implicit none
@@ -338,6 +339,11 @@ program test_simsphere
 !  real, parameter :: zh_expected(11) = (/25,20,245,44,30,255,43,41,195,14,54/)
   real, parameter :: ozone_flux_plant_expected = 581.332764
   real, parameter :: ozone_fglobal_expected = 10028.6299
+
+! ieee_arithmetic setup -- choices: up, down, nearest, to zero
+  if (ieee_support_rounding(IEEE_NEAREST)) then
+    call ieee_set_rounding_mode(IEEE_NEAREST)
+  end if
 
 
 ! mod_testing variable setup
