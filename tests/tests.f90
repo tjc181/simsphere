@@ -148,7 +148,7 @@ program test_simsphere
   real :: fstabh_arg1, fstabh_arg2
 
 ! fstabm_test variables
-  real, parameter :: fstabm_test_expected = -0.572894096
+ real, parameter :: fstabm_test_expected = -0.572894096
 
 ! restrn_test variables
   real, parameter :: restrn_test_expected = 0.590972006
