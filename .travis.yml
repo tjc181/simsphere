@@ -6,9 +6,10 @@ addons:
     packages:
       - gfortran-7
 before_script:
-  - FC=gfortran-7 cmake .
-  - make 
-  - make
+  - git submodule update --init --recursive
+  - cd build
+  - FC=gfortran-7 cmake ..
+  - cmake --build .
 script:
   - bin/simsphere_test
   - ctest
