@@ -1,5 +1,6 @@
 subroutine  VEGHOT (B,Heatv)
-  use simsphere_mod
+  use simsphere_mod, only: dens, cp, chf, tf, taf, lambda, tt, z, hg, rnetg, &
+                           xleg, chg, hf
   implicit none
 
   real :: B, Heatv, HFN, AVEG

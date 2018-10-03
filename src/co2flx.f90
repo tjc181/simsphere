@@ -1,5 +1,6 @@
 subroutine  CO2FLX
-  use simsphere_mod
+  use simsphere_mod, only: ustar, uten, uaf, xlai, rzascr, rst, fco2, co, ci, &
+                           frveg, ccan, raf
   implicit none
 
   real :: CHAX, PEX, RAIR, RROE, RAFCANOPY, RRTOT

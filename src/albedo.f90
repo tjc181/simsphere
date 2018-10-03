@@ -1,5 +1,5 @@
 subroutine  ALBEDO (SOLSIN)
-  use simsphere_mod
+  use simsphere_mod, only: albg, albf, wgg, wmax, frveg, xlai, albdoe, sigf
   implicit none
 
   real :: SOLSIN

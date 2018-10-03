@@ -1,5 +1,6 @@
 subroutine  INTPOL
-  use simsphere_mod
+  use simsphere_mod, only: vgs, ugs, vgd, ugd, vd, ud, u_fine, v_fine, &
+                           ug, vg, ntrp
   implicit none
 
 

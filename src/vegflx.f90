@@ -1,5 +1,6 @@
 subroutine  VEGFLX (EVAPV)
-  use simsphere_mod
+  use simsphere_mod, only: qstg, tg, xleg, f, chg, dens, le, qaf, taf, hg, &
+                           xlef, ta, chf, tf, cha, rst, qa, qstf, cp
   implicit none
 
   real :: EVAPV, rprime

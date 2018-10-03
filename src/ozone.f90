@@ -1,5 +1,7 @@
 subroutine  OZONE
-  use simsphere_mod
+  use simsphere_mod, only: ustar, uten, uaf, xlai, rzascr, chg, ptime, raf, &
+                           rcut, rst, caf, coz_air, flux_plant, fglobal,    &
+                           sumo3, frveg
   implicit none
 
   real :: CHAX, PES, RAIR, rag, RROz, the_time, rtot

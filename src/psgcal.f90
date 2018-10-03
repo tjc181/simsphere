@@ -1,5 +1,5 @@
 subroutine  PSGCAL
-  use simsphere_mod
+  use simsphere_mod, only: thmax, thv, psis, cosbyb, psig
   implicit none
 
   real :: perwmax, perw2g, rlogpsig, rnpsig

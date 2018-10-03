@@ -1,5 +1,6 @@
 subroutine  PRFILE
-  use simsphere_mod
+  use simsphere_mod, only: awind, advgt, advect, u_fine, v_fine, t_fine, &
+                           q_fine, ud, vd, td, qd
   implicit none
 
   integer :: incr, i, j
