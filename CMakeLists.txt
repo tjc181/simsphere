@@ -4,7 +4,7 @@ project(simsphere)
 enable_language(Fortran)
 
 # set output paths for modules, archives, and executables
-set(CMAKE_Fortran_MODULE_DIRECTORY ${PROJECT_BINARY_DIR}/include)
+set(CMAKE_Fortran_MODULE_DIRECTORY ${PROJECT_BINARY_DIR}/include ${PROJECT_BINARY_DIR}/externals/compare/include)
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
@@ -27,14 +27,14 @@ if(CMAKE_Fortran_COMPILER_ID MATCHES Intel)
   set(CMAKE_Fortran_FLAGS_RELEASE "-O3")
 endif()
 
+# libcompare is provided via git submodule from git://github.com/tcanich/compare
+add_subdirectory(externals/compare)
+
 # library to archive (libsimsphere)
-add_library(simsphere_mod SHARED src/simsphere_mod.f90 src/constants_mod.f90 src/compare.f90 src/snding_mod.f90 src/stomata_mod.f90 src/transm_mod.f90 src/vel_mod.f90)
+add_library(simsphere_mod SHARED src/simsphere_mod.f90 src/constants_mod.f90 src/snding_mod.f90 src/stomata_mod.f90 src/transm_mod.f90 src/vel_mod.f90)
+target_link_libraries(simsphere_mod compare)
 set_target_properties(simsphere_mod PROPERTIES INTERFACE_POSITION_INDEPENDENT_CODE ON)
 
-# libcompare is provided via git submodule from git://github.com/tcanich/compare
-if(NOT LIBCOMPARE)
-  add_subdirectory(externals/compare)
-endif()
 
 # tests
 enable_testing()

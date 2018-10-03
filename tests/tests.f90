@@ -52,6 +52,9 @@ program test_simsphere
   logical, parameter :: prfile_test = .true.
   logical, parameter :: f_control_test = .false.
 
+! Tolerance for comparisons
+  real, parameter :: eq_tol = 1e-6
+
 ! splint_test variables
   integer, parameter :: splint_max_array = 50
   real, parameter :: splint_expected = 1.5
@@ -631,7 +634,7 @@ program test_simsphere
     ! fstabm takes the same arguments as fstabh so we'll recycle the initialization
     call fstabh_init
     write(*,*) fstabm(fstabh_arg1,fstabh_arg2), fstabm_test_expected
-    tests(n) = assert(eq(fstabm(fstabh_arg1,fstabh_arg2),fstabm_test_expected),'fstabm_test')
+    tests(n) = assert(eq(fstabm(fstabh_arg1,fstabh_arg2),fstabm_test_expected,eq_tol),'fstabm_test')
     n = n + 1
   end if
 
