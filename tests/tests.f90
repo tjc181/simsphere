@@ -633,7 +633,6 @@ program test_simsphere
   if (fstabm_test) then
     ! fstabm takes the same arguments as fstabh so we'll recycle the initialization
     call fstabh_init
-    write(*,*) fstabm(fstabh_arg1,fstabh_arg2), fstabm_test_expected
     tests(n) = assert(eq(fstabm(fstabh_arg1,fstabh_arg2),fstabm_test_expected,eq_tol),'fstabm_test')
     n = n + 1
   end if
