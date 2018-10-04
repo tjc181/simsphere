@@ -1,14 +1,25 @@
 subroutine  VEGFLX (EVAPV)
-  use simsphere_mod, only: qstg, tg, xleg, f, chg, dens, le, qaf, taf, hg, &
-                           xlef, ta, chf, tf, cha, rst, qa, qstf, cp
+  use simsphere_mod, only: tg, xleg, f, chg, dens, le, qaf, taf, hg, &
+                           xlef, ta, chf, tf, cha, rst, qa, qstf, cp, &
+                           eq
   implicit none
 
-  real :: EVAPV, rprime
+  real :: EVAPV, rprime, qstg
 
 
 !      INCLUDE 'modvars.h'
 
-  QSTG = 10**( 6.1989 - 2353 / TG)
+! TG is set in VEGRAD from NETRAD only when FRVEG /= 0  .  We calculate a value 
+! for TG below, however it may not be the correct value for calculating QSTG.  
+! In VEGFLX TG is set to equal otemp (again, only when FRVEG /= 0).  Will wrap 
+! this calculation in a conditional to avoid divide by zero.  -tjc 2018-10-04
+  
+  if ( .not. eq(TG,0.0) ) then
+    QSTG = 10**( 6.1989 - 2353 / TG)
+  else
+    QSTG = 0.0
+  end if
+
   XLEG = F * CHG * DENS * LE * (QSTG - QAF)
 !      XLEG = (xleg + xlegn) / 2 ! Smooth
   if ( XLEG .LT. 0 ) XLEG = 0

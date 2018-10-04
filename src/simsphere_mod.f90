@@ -29,7 +29,7 @@ module simsphere_mod
   real :: UD(50)=0.0,VD(50)=0.0,UGD(50)=0.0,VGD(50)=0.0
   real :: XTDIF=0.0,YTDIF=0.0,XPDIF=0.0,YPDIF=0.0
   real :: GM(50)=0.0,TS(50)=0.0,TD(50)=0.0,Tdif_50=0.0,Tdif_s=0.0,O_Pot_Tmp=0.0
-  real :: TA=0.0,TAF=0.0,TG=0.0,QAF=0.0,QSTF=0.0,QSTG=0.0
+  real :: TA=0.0,TAF=0.0,TG=0.0,QAF=0.0,QSTF=0.0
   real :: HF=0.0,XLEF=0.0,XLEG=0.0,TF=0.0,QA=0.0,WIDTH=0.0
   real :: RST=0.0,UAF=0.0,RSF=0.0,RSG=0.0,RLF=0.0,RLG=0.0,UTEN=0.0
   real :: CHA=0.0, CHG=0.0, CHF=0.0, RTRANW=0.0

@@ -16,7 +16,7 @@ endif()
 
 # compiler flags for gfortran
 if(CMAKE_Fortran_COMPILER_ID MATCHES GNU)
-  set(CMAKE_Fortran_FLAGS_DEBUG "-std=f2008 -Wall -Wintrinsic-shadow -Wextra -pedantic -ggdb -fbacktrace -ffpe-trap=zero,overflow,underflow")
+  set(CMAKE_Fortran_FLAGS_DEBUG "-std=f2008 -Wall -Wintrinsic-shadow -Wextra -pedantic -ggdb -fbacktrace -ffpe-trap=zero,overflow,underflow -fprofile-arcs -ftest-coverage")
   set(CMAKE_Fortran_FLAGS_RELEASE "-std=f2008")
 endif()
 
