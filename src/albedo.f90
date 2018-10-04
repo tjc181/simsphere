@@ -1,5 +1,5 @@
 subroutine  ALBEDO (SOLSIN)
-  use simsphere_mod, only: albg, albf, wgg, wmax, frveg, xlai, albdoe, sigf
+  use simsphere_mod, only: albg, albf, wgg, wmax, frveg, xlai, albdoe, sigf, eq
   implicit none
 
   real :: SOLSIN
@@ -15,9 +15,9 @@ subroutine  ALBEDO (SOLSIN)
 ! **  to calculate the weighted albedo (ALBDOE).
 ! **  Note: ALBF depends on solar angle (SOLSIN); ALBG on WGG.
 
-  IF (ALBFLG .EQ. 0) THEN
-    IF (ALBG .EQ. 0.0) ALGFLG = .TRUE.
-    IF (ALBF .EQ. 0.0) ALFFLG = .TRUE.
+  IF (ALBFLG == 0) THEN
+    IF (eq(ALBG,0.0)) ALGFLG = .TRUE.
+    IF (eq(ALBF,0.0)) ALFFLG = .TRUE.
     ALBFLG = 1
   ENDIF
 

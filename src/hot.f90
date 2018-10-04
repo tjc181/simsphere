@@ -1,6 +1,6 @@
 subroutine  HOT (B,BareNetRadn,BareEvapFlux,BareHeatFlux)
   use simsphere_mod, only: lambda, atemp, tt, z, dens, cp, frveg, rnet, heat, &
-                           gbl_sum
+                           gbl_sum, eq
   implicit none
 
 
@@ -16,7 +16,7 @@ subroutine  HOT (B,BareNetRadn,BareEvapFlux,BareHeatFlux)
   A = ( Lambda * ( Atemp - TT(2) ) ) / Z(2)
   B = Lambda / ( Z(2) * Dens * Cp )
 
-  if (Frveg .eq. 1 .and. Rnet .gt. 0) then
+  if (eq(frveg,1.0,1e-4) .and. Rnet > 0.0) then
 
 ! Vegetation
 
