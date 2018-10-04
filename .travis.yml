@@ -9,6 +9,6 @@ before_script:
   - FC=gfortran-7 cmake .
   - cmake --build .
 script:
-  - bin/simsphere_test
+  - ctest
 notifications:
 email: false

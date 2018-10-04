@@ -394,8 +394,9 @@ program test_simsphere
     if (.not. allocated(spline_output)) then
       allocate(spline_output(spline_arg3))
     end if
-    spline_output=spline(spline_arg1, spline_arg2, spline_arg3, spline_arg4, spline_arg5)
-    tests(n) = assert(check_array_output(spline_output,spline_expected,spline_arg3,spline_arg3) .eqv. .true., 'SPLINE')
+    tests(n) = assert(eq(                                                   &
+       spline(spline_arg1,spline_arg2,spline_arg3,spline_arg4,spline_arg5), &
+       spline_expected) .eqv. .true., 'SPLINE')
     n = n + 1
     if (allocated(spline_output)) then
       deallocate(spline_output)
@@ -796,13 +797,13 @@ program test_simsphere
   if (intpol_test) then
     call intpol_init
     call intpol
-    tests(n) = assert(check_array_output(ug,intpol_ug_exp,size(ug),size(intpol_ug_exp)) .eqv. .true., 'Intpol UG(50)')
+    tests(n) = assert(eq(ug,intpol_ug_exp) .eqv. .true., 'Intpol UG(50)')
     n = n + 1
-    tests(n) = assert(check_array_output(vg,intpol_vg_exp,size(vg),size(intpol_vg_exp)) .eqv. .true., 'Intpol VG(50)')
+    tests(n) = assert(eq(vg,intpol_vg_exp) .eqv. .true., 'Intpol VG(50)')
     n = n + 1
-    tests(n) = assert(check_array_output(ugd,intpol_ugd_exp,size(ugd),size(intpol_ugd_exp)) .eqv. .true., 'Intpol UGD(50)')
+    tests(n) = assert(eq(ugd,intpol_ugd_exp) .eqv. .true., 'Intpol UGD(50)')
     n = n + 1
-    tests(n) = assert(check_array_output(vgd,intpol_vgd_exp,size(vgd),size(intpol_vgd_exp)) .eqv. .true., 'Intpol VGD(50)')
+    tests(n) = assert(eq(vgd,intpol_vgd_exp) .eqv. .true., 'Intpol VGD(50)')
     n = n + 1
   end if
 
@@ -813,13 +814,13 @@ program test_simsphere
   if (prfile_test) then
     call prfile_init
     call prfile
-    tests(n) = assert(check_array_output(u_fine,prfile_uf_exp,size(u_fine),size(prfile_uf_exp)) .eqv. .true., 'PRFILE u_fine')
+    tests(n) = assert(eq(u_fine,prfile_uf_exp) .eqv. .true., 'PRFILE u_fine')
     n = n + 1
-    tests(n) = assert(check_array_output(v_fine,prfile_vf_exp,size(v_fine),size(prfile_vf_exp)) .eqv. .true., 'PRFILE v_fine')
+    tests(n) = assert(eq(v_fine,prfile_vf_exp) .eqv. .true., 'PRFILE v_fine')
     n = n + 1
-    tests(n) = assert(check_array_output(t_fine,prfile_tf_exp,size(t_fine),size(prfile_tf_exp)) .eqv. .true., 'PRFILE t_fine')
+    tests(n) = assert(eq(t_fine,prfile_tf_exp) .eqv. .true., 'PRFILE t_fine')
     n = n + 1
-    tests(n) = assert(check_array_output(q_fine,prfile_qf_exp,size(q_fine),size(prfile_qf_exp)) .eqv. .true., 'PRFILE q_fine')
+    tests(n) = assert(eq(q_fine,prfile_qf_exp) .eqv. .true., 'PRFILE q_fine')
     n = n + 1
     tests(n) = assert(eq(awind,prfile_awind_exp), 'PRFILE awind')
     n = n + 1
@@ -1112,24 +1113,6 @@ contains
     avr_arg2 = 0.0
     return
   end subroutine avr_init
-
-! Verify that all elements of two arrays size x and y are equal
-  logical pure function check_array_output(output, expected, x, y)
-    integer, intent(in) :: x, y
-    real, intent(in) :: output(x), expected(y)
-    integer :: i
-
-    check_array_output = .false.
-
-    do i = 1,size(output)
-      if(eq(output(i),expected(i))) then
-        check_array_output = .true.
-      else
-        check_array_output = .false.
-        return
-      end if
-    end do
-  end function check_array_output
 
   subroutine ozone_init
     USTAR = 1.0
