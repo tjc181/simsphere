@@ -1,14 +1,13 @@
 SUBROUTINE  CALC (OLDTMP, No_Rows)
-  use simsphere_mod
+  use simsphere_mod, only: xlat, xlong, degs_to_radians, rot_rate_earth, &
+                           timend, strtim, outtt, atemp, otemp, tscren,  &
+                           t, frveg, cf
   implicit none
 
   integer :: No_Rows
   real :: Lat_in_radians, K
 
   real :: OLDTMP, DECTIM, out_time_intv
-! Apparently only used in this subroutine to generate SATAM, SATPM globals,
-! which are unuse in rest of program
-! real :: CLKTAM, CLKTPM
 
   K = XLAT
   XLAT= (XLAT-K) / 0.6 + K
@@ -25,14 +24,11 @@ SUBROUTINE  CALC (OLDTMP, No_Rows)
   TIMEND = DECTIM(TIMEND) ! Convert to Decimal time
   STRTIM = DECTIM(STRTIM)
 
-!  out_time_intv = outtt / 60
+!TJC  out_time_intv = outtt / 60
   out_time_intv = outtt
   out_time_intv = dectim(out_time_intv)
   No_Rows = INT(((Timend - strtim)) / out_time_intv) + 1 
 
-! Apparently unused in entire program...
-!  SATAM = DECTIM(CLKTAM)
-!  SATPM = DECTIM(CLKTPM)
 
 
 
@@ -49,17 +45,6 @@ SUBROUTINE  CALC (OLDTMP, No_Rows)
   return
 end
  
-real function DECTIM_RM(TIMIN)
-! Converts time (Hr.Min Format) to decimal
-  real :: INTIM, RINTIM, TIMIN
- 
-  INTIM = TIMIN / 100
-  RINTIM = INTIM * 100.
-  DECTIM = ((TIMIN - RINTIM) / 60. + INTIM) * 3600.
-
-  return
-end
-
 real pure function dectim(t)
 ! Converts time (HrMinSec Format) to decimal
   real, intent(in) :: t
