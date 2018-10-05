@@ -30,11 +30,15 @@ but may be in the future.  The implementation dates to the late 1990s.
 
 ## Building the code
 
-You will need a Fortran 2003 compiler.  The code is currently being
-developed using gfortran 7.3.0.  You will need GNU make.
+You will need a Fortran 2008 compiler and CMake.  The code is currently being
+developed using gfortran 7.3.0.
 
-Run the command _make_ in the top directory.  This will produce the model binary _bin/simsphere_ .
-
-Tests are available by running _make test_ in the top directory.  Tests are automatically executed by this make targe.
+```
+mkdir build
+cd build
+cmake ..
+cmake --build .
+ctest
+```
 
 
