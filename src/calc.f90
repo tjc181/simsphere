@@ -5,7 +5,10 @@ SUBROUTINE  CALC (OLDTMP, No_Rows)
   integer :: No_Rows
   real :: Lat_in_radians, K
 
-  real :: OLDTMP, DECTIM, out_time_intv, CLKTAM, CLKTPM
+  real :: OLDTMP, DECTIM, out_time_intv
+! Apparently only used in this subroutine to generate SATAM, SATPM globals,
+! which are unuse in rest of program
+! real :: CLKTAM, CLKTPM
 
   K = XLAT
   XLAT= (XLAT-K) / 0.6 + K
@@ -22,12 +25,14 @@ SUBROUTINE  CALC (OLDTMP, No_Rows)
   TIMEND = DECTIM(TIMEND) ! Convert to Decimal time
   STRTIM = DECTIM(STRTIM)
 
-  out_time_intv = outtt / 60
+!  out_time_intv = outtt / 60
+  out_time_intv = outtt
   out_time_intv = dectim(out_time_intv)
-  No_Rows = ((INT(Timend) - INT(strtim)) / INT(out_time_intv)) + 1 
+  No_Rows = INT(((Timend - strtim)) / out_time_intv) + 1 
 
-  SATAM = DECTIM(CLKTAM)
-  SATPM = DECTIM(CLKTPM)
+! Apparently unused in entire program...
+!  SATAM = DECTIM(CLKTAM)
+!  SATPM = DECTIM(CLKTPM)
 
 
 
@@ -44,7 +49,7 @@ SUBROUTINE  CALC (OLDTMP, No_Rows)
   return
 end
  
-real function DECTIM(TIMIN)
+real function DECTIM_RM(TIMIN)
 ! Converts time (Hr.Min Format) to decimal
   real :: INTIM, RINTIM, TIMIN
  
@@ -54,3 +59,15 @@ real function DECTIM(TIMIN)
 
   return
 end
+
+real pure function dectim(t)
+! Converts time (HrMinSec Format) to decimal
+  real, intent(in) :: t
+  real :: hour, minute
+
+  minute = mod(t,100.0)
+  second = mod(minute,60.0)
+  hour = (t - minute)/100.0
+
+  dectim = hour + (minute/60.0)
+end function dectim

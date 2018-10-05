@@ -1,7 +1,7 @@
 program test_calc
   use simsphere_mod, only: xlat, xlong, degs_to_radians, rot_rate_earth, &
-                           timend, strtim, outtt, satam, satpm, atemp,   &
-                           otemp, tscren, t, frveg, cf, eq
+                           timend, strtim, outtt, atemp, otemp, tscren,  &
+                           t, frveg, cf, eq
   use mod_testing, only: assert, initialize_tests, report_tests
   use, intrinsic :: ieee_arithmetic
   implicit none
@@ -15,22 +15,28 @@ program test_calc
   real :: arg1
   integer :: arg2
 
+  ! DECTIM function interface
+  interface
+    real function dectim (t)
+      real, intent(in) :: t
+    end function dectim
+  end interface
+
   ! Expected results
   real, parameter :: otemp_exp = 8.0
   real, parameter :: frveg_exp = 4.99999989E-03
   real, parameter :: xlat_exp = 39.25
   real, parameter :: xlong_exp = 53.0
   real, parameter :: cf_exp = 9.19953891E-05
-  real, parameter :: timend_exp = 83880.0
-  real, parameter :: strtim_exp = 19080.0
-  real, parameter :: satam_exp = 4.03573958E-40
-  real, parameter :: satpm_exp = 2.70247098E-35
+  real, parameter :: timend_exp = 23.5
+  real, parameter :: strtim_exp = 5.5
   real, parameter :: arg1_exp = 20.0
   real, parameter :: t_1_exp = 20.5
-  integer, parameter :: arg2_exp = 3601
+  real, parameter :: dectim_exp = 22.75 ! 22:45
+  integer, parameter :: arg2_exp = 37
 
   n = 1
-  ntests = 12
+  ntests = 11
   call initialize_tests(tests,ntests)
 
   if (ieee_support_rounding(IEEE_NEAREST)) then
@@ -46,8 +52,6 @@ program test_calc
   outtt = 30.0
   strtim = 0530
   timend = 2330
-  satam = 0.0
-  satpm = 0.0
   atemp = 20.0
   tscren = 10
   frveg = 0.5
@@ -72,11 +76,9 @@ program test_calc
   n = n + 1
   tests(n) = assert(eq(timend,timend_exp), 'CALC timend')
   n = n + 1
-  tests(n) = assert(eq(satam,satam_exp), 'CALC satam')
-  n = n + 1
-  tests(n) = assert(eq(satpm,satpm_exp), 'CALC satpm')
-  n = n + 1
   tests(n) = assert(eq(t(1),t_1_exp), 'CALC t(1)')
+  n = n + 1
+  tests(n) = assert(eq(dectim(2245.0),dectim_exp), 'CALC dectim()')
   n = n + 1
 
   test_failed = .false.
