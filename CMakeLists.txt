@@ -33,7 +33,7 @@ add_subdirectory(externals/compare)
 # library to archive (libsimsphere)
 add_library(simsphere_mod SHARED src/simsphere_mod.f90 src/constants_mod.f90 src/snding_mod.f90 src/stomata_mod.f90 src/transm_mod.f90 src/vel_mod.f90 src/globals.f90)
 add_dependencies(simsphere_mod compare)
-target_include_directories(simsphere_mod PRIVATE externals/compare/include)
+target_include_directories(simsphere_mod PRIVATE ${compare_BINARY_DIR}/include)
 target_link_libraries(simsphere_mod compare)
 set_target_properties(simsphere_mod PROPERTIES INTERFACE_POSITION_INDEPENDENT_CODE ON)
 
