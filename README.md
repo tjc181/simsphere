@@ -34,9 +34,9 @@ You will need a Fortran 2008 compiler and CMake.  The code is currently being
 developed using gfortran 7.3.0.
 
 ```
-mkdir build
-cd build
-cmake ..
+mkdir ../simsphere-build
+cd ../simsphere-build
+cmake ../simsphere
 cmake --build .
 ctest
 ```

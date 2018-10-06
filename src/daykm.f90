@@ -29,11 +29,11 @@ subroutine  DAYKM
 ! **  using the standard flux profile law.  Calculate the derivative
 ! **  of KMA and define K at the top of the mixing layer to be zero.
 
-  KMA = KARMAN * USTAR * ZA * ( 1 - ( 15 * ZA / MOL ) )**0.25
+  KMA = KARMAN * USTAR * ZA * ( 1.0 - ( 15.0 * ZA / MOL )**0.25)
   KM(1) = KMA
   KMW(1) = KMA
-  KMAPRI = KMA * (1 / ZA - ( 15 / MOL ) / (1 - 15 * ZA / MOL))
-  KTOP = 0
+  KMAPRI = KMA * (1.0 / ZA - ( 15.0 / MOL ) / (1.0 - 15.0 * ZA / MOL))
+  KTOP = 0.0
 
 ! **  Calc heights between the 250 metre intervals (ZI system) as passed
 ! **  from SPLINE, and call ZK system (Interval 50,175,425 etc).
