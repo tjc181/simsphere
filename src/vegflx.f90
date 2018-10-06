@@ -22,7 +22,7 @@ subroutine  VEGFLX (EVAPV)
 
   XLEG = F * CHG * DENS * LE * (QSTG - QAF)
 !      XLEG = (xleg + xlegn) / 2 ! Smooth
-  if ( XLEG .LT. 0 ) XLEG = 0
+  if ( XLEG < 0 ) XLEG = 0
 
   TG = TAF + (HG / CHG) / (DENS * CP) 
   EVAPV = XLEG + XLEF
