@@ -23,7 +23,7 @@ subroutine  HOT (B,BareNetRadn,BareEvapFlux,BareHeatFlux)
     call Veghot(B,VegnHeatFlux)
     Heat = VegnHeatFlux
 
-  else if (Frveg .gt. 0 .and. Frveg .lt. 1 .and. Rnet .gt. 0) then
+  else if (Frveg > 0 .and. Frveg < 1 .and. Rnet > 0) then
 
 ! Mixed
     BareHeatFlux = (BareNetRadn - BareEvapFlux - A) / (1+B*GBL_sum)
