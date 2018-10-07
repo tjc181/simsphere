@@ -6,7 +6,7 @@ subroutine average(T_Unsmoothed, T_smoothed)
 
 !  data init /1/
 
-  if (init .eq. 1) then ! fill all 4 elements with initial value of otemp
+  if (init == 1) then ! fill all 4 elements with initial value of otemp
 
     do i = 1,4
       av_array(i) = T_Unsmoothed

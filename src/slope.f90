@@ -58,7 +58,7 @@ subroutine  sslope(sinsolelslope,solelslope,effdec,slb,hrangl)
 
   solelslope = asin(sinsolelslope)
 
-  if ( solelslope .LE. 0.01) then
+  if ( solelslope <= 0.01) then
     solelslope = 0.01
   end if
 

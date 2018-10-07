@@ -20,7 +20,7 @@ subroutine  AIR (ZLS, YCOUNT)
 ! **  Select the correct Pot. Temp lapse rate.
 
   do J = 2 , 9
-    IF ( HGT .GT. ZLS(J - 1) ) GAM = GM(J)
+    IF ( HGT > ZLS(J - 1) ) GAM = GM(J)
   end do
 
 ! **  CHGT is calculated here once only, based initially on a parameter-
@@ -39,7 +39,7 @@ subroutine  AIR (ZLS, YCOUNT)
       APTEMP = ( CTHETA * DELTX ) + APTEMP
       ATEMP = APTEMP - Tdif_50
       DELT = ( CDELT * DELTX ) + DELT
-      IF ( DELT .LT. 0.01 ) DELT = 0.01
+      IF ( DELT < 0.01 ) DELT = 0.01
       HGT = ( CHGT * DELTX ) + HGT
       HET = HEAT / ( DENS * CP )
       DHET = -0.5*HET/((1.+(2.6*(HET**(2./3.))/((GRAV*HGT/OTEMP)**(1./3.)*DELT))))
@@ -56,7 +56,7 @@ subroutine  AIR (ZLS, YCOUNT)
   zmix = ZA
   do l = 2, ntrp
     zmix = zmix + DELTAZ
-    if (zmix .lt. hgt) then
+    if (zmix < hgt) then
       td(l) = aptemp
     endif
   end do

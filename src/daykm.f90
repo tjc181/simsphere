@@ -23,7 +23,7 @@ subroutine  DAYKM
 ! allowing for negative comparison (THICK .NE. 0) with the false case
 ! branching to the same position as label 520 (eliminate the GOTO).
 
-  IF ( THICK .EQ. 0 ) GO TO 520
+  IF ( THICK == 0 ) GO TO 520
 
 ! **  Define or calc eddy diff's (K's) at the top of the surface layer
 ! **  using the standard flux profile law.  Calculate the derivative
@@ -49,7 +49,7 @@ subroutine  DAYKM
 ! **  HGT fill with zeros.
 
   do L = 2 , NTRP
-    IF ( ZK(L) .LT. HGT ) THEN
+    IF ( ZK(L) < HGT ) THEN
       KM(L) = KTOP + ( ( ZK(L) - HGT)**2 / THICK**2 ) * ( KMA - KTOP +  &
               ( ZK(L) - ZA ) * ( KMAPRI + 2 * ( KMA - KTOP ) / THICK ) )
       KMW(L) = KTOP + ( ( ZI(L) - HGT )**2 / THICK**2 ) * ( KMA - KTOP  &
