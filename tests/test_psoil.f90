@@ -79,6 +79,7 @@ program test_psoil
   n = n + 1
   tests(n) = assert(eq(z,z_exp), 'psoil z')
   n = n + 1
+  write(*,*) tp
 
   ! Case II: dual_ti = 'N'
   call psoil_init
@@ -102,6 +103,7 @@ program test_psoil
   n = n + 1
   tests(n) = assert(eq(z,z_N_exp), 'psoil not dual z')
   n = n + 1
+  write(*,*) tp
 
   test_failed = .false.
   call report_tests(tests,test_failed)
