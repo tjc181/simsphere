@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.com/tjc181/simsphere.svg?branch=master)](https://travis-ci.com/tjc181/simsphere)
+[![Build Status](https://travis-ci.com/tjc181/simsphere.svg?branch=master)](https://travis-ci.com/tjc181/simsphere) [![codecov](https://codecov.io/gh/tjc181/simsphere/branch/master/graph/badge.svg)](https://codecov.io/gh/tjc181/simsphere)
 
 # Simsphere
 
