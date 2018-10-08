@@ -9,7 +9,7 @@ before_script:
   - FC=gfortran-7 cmake .
   - cmake --build .
 script:
-  - bin/test_water
+  - bin/test_psoil
   - ctest
 notifications:
 email: false
