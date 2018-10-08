@@ -93,6 +93,10 @@ program test_water
   n = n + 1
   tests(n) = assert(eq(w2g,w2g_frveg_exp), 'water frveg == 0 w2g')
   n = n + 1
+  write(*,*) f,f_frveg_exp
+  write(*,*) fsub,fsub_frveg_exp
+  write(*,*) wgg,wgg_frveg_exp
+  write(*,*) w2g,w2g_frveg_exp
 
   test_failed = .false.
   call report_tests(tests,test_failed)
