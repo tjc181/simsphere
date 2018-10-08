@@ -58,7 +58,6 @@ subroutine  VEGRAD (TIME,RNETV,SWAVEV,TZERO)
 
 ! **  Set temperature and humidity variables.
 
-
   if (rnetf .le. 0.0) then ! Set value since TA set to T1 (Vel)
     TAF = ta ! Set in Vel
     TF =  otemp
@@ -72,7 +71,6 @@ subroutine  VEGRAD (TIME,RNETV,SWAVEV,TZERO)
 !
   SWAVEV = (RSG + RSF)
 
-!  write(*,*) 'TZERO: ', TZERO,' RNETV: ',RNETV,' SWAVEV: ',SWAVEV
 
  return
 end
