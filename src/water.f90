@@ -62,6 +62,8 @@ subroutine  WATER (TIME,BareEvapFlux)
   WW2 = ( C44 * EVAI - C22 * ( WGG + W2G - 2 * WIN ) ) * DELTA
   WW3 = EVAI * C33 * DELTA
 
+  write(*,*) wgg, ww1
+
   WGG = WGG - WW1
   WIN = WIN - WW2
   W2G = W2G - WW3
