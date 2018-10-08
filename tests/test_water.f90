@@ -9,27 +9,20 @@ program test_water
   logical :: test_failed
   integer :: n, ntests
 
-  ! Initialization case: time == 0
-  ! win = (wgg + w2g ) /2  ! Win is defined locally, how to test this?
-
-  ! 6 cases (we can only test 4: wgg, w2g as win is defined locally)
-  ! if wgg <= 0 -> wgg = 0.001
-  ! if w2g <= 0 -> w2g = 0.001
-  ! Check results of f, fsub, wgg, w2g
-
+  ! Check values of f, fsub, wgg, w2g
   ! Expected results
   real, parameter :: f_exp = 0.999999821
   real, parameter :: fsub_exp = 1.0
   real, parameter :: wgg_exp = 0.999999821
   real, parameter :: w2g_exp = 1.0
-  real, parameter :: f_time_exp = 0.999999821
+  real, parameter :: f_time_exp = 0.999479532
   real, parameter :: fsub_time_exp = 1.0
-  real, parameter :: wgg_time_exp = 0.999999821
+  real, parameter :: wgg_time_exp = 0.999479532
   real, parameter :: w2g_time_exp = 1.0
-  real, parameter :: f_frveg_exp = 0.999999881
-  real, parameter :: fsub_frveg_exp = 1.0
-  real, parameter :: wgg_frveg_exp = 0.999999881
-  real, parameter :: w2g_frveg_exp = 1.0
+  real, parameter :: f_rnet_exp = 0.999479592
+  real, parameter :: fsub_rnet_exp = 1.0
+  real, parameter :: wgg_rnet_exp = 0.999479592
+  real, parameter :: w2g_rnet_exp = 1.0
 
 
   ! arg1 is time, arg2 is BareEvapFlux
@@ -39,7 +32,6 @@ program test_water
   ntests = 12
   call initialize_tests(tests,ntests)
 
-  
 
   ! Case I
   call water_init
@@ -68,8 +60,6 @@ program test_water
   n = n + 1
   tests(n) = assert(eq(w2g,w2g_time_exp), 'water time > 0 w2g')
   n = n + 1
-  write(*,*) f, f_time_exp 
-  write(*,*)wgg, wgg_time_exp
 
   ! Case III (time /= 0 and rnetf < 0)
   call water_init
@@ -77,16 +67,14 @@ program test_water
   arg2 = 0.5
   rnet = 0.0
   call water(arg1,arg2)
-  tests(n) = assert(eq(f,f_frveg_exp), 'water frveg == 0 f')
+  tests(n) = assert(eq(f,f_rnet_exp), 'water rnet == 0 f')
   n = n + 1
-  tests(n) = assert(eq(fsub,fsub_frveg_exp), 'water frveg == 0 fsub')
+  tests(n) = assert(eq(fsub,fsub_rnet_exp), 'water rnet == 0 fsub')
   n = n + 1
-  tests(n) = assert(eq(wgg,wgg_frveg_exp), 'water frveg == 0 wgg')
+  tests(n) = assert(eq(wgg,wgg_rnet_exp), 'water rnet == 0 wgg')
   n = n + 1
-  tests(n) = assert(eq(w2g,w2g_frveg_exp), 'water frveg == 0 w2g')
+  tests(n) = assert(eq(w2g,w2g_rnet_exp), 'water rnet == 0 w2g')
   n = n + 1
-  write(*,*) f, f_frveg_exp
-  write(*,*) wgg, wgg_frveg_exp
 
   test_failed = .false.
   call report_tests(tests,test_failed)

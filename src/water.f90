@@ -36,6 +36,8 @@ subroutine  WATER (TIME,BareEvapFlux)
 
   IF ( TIME == 0 ) THEN
     WIN = ( WGG + W2G ) / 2
+  ELSE
+    WIN = 0.001
   END IF
 
   PER = OMG * 3600
@@ -61,8 +63,6 @@ subroutine  WATER (TIME,BareEvapFlux)
   WW1 = ( C11 * EVAS + C22 * ( WGG - WIN ) ) * DELTA
   WW2 = ( C44 * EVAI - C22 * ( WGG + W2G - 2 * WIN ) ) * DELTA
   WW3 = EVAI * C33 * DELTA
-
-  write(*,*) wgg, ww1
 
   WGG = WGG - WW1
   WIN = WIN - WW2
