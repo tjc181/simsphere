@@ -46,7 +46,6 @@ program test_water
   f = 0.0
   fsub = 0.0
   wmax = 0.34
-  arg2 = 0.5
 
 
   n = 1
@@ -57,6 +56,7 @@ program test_water
 
   ! Case I
   arg1 = 0.0
+  arg2 = 0.5
   call water(arg1,arg2)
   tests(n) = assert(eq(f,f_exp), 'water f')
   n = n + 1
@@ -69,6 +69,7 @@ program test_water
 
   ! Case II (time /= 0 and rnetf < 0)
   arg1 = 1.0 ! time
+  arg2 = 0.5
   call water(arg1,arg2)
   tests(n) = assert(eq(f,f_time_exp), 'water time > 0 f')
   n = n + 1
@@ -81,6 +82,7 @@ program test_water
 
   ! Case III (time /= 0 and rnetf < 0)
   arg1 = 1.0 ! time
+  arg2 = 0.5
   frveg = 0.0
   call water(arg1,arg2)
   tests(n) = assert(eq(f,f_frveg_exp), 'water frveg == 0 f')
