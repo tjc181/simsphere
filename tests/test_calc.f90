@@ -1,7 +1,6 @@
 program test_calc
-  use simsphere_mod, only: xlat, xlong, degs_to_radians, rot_rate_earth, &
-                           timend, strtim, outtt, atemp, otemp, tscren,  &
-                           t, frveg, cf, eq
+  use simsphere_mod, only: xlat, xlong, timend, strtim, outtt, atemp, otemp, &
+                           tscren, t, frveg, cf, eq
   use mod_testing, only: assert, initialize_tests, report_tests
   use, intrinsic :: ieee_arithmetic
   implicit none

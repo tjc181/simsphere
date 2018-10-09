@@ -1,8 +1,6 @@
 program test_air
-  use simsphere_mod, only: HGT, GAM, GM, HET, HEAT, OTEMP, ADVGT, DENS, CP,  &
-                           APTEMP, ATEMP, TDIF_50, DELT, DHET, TD, NTRP, RAD,&
-                           GRAV, DELTA, ZA, deltaz, eq
-  use, intrinsic :: ieee_arithmetic
+  use simsphere_mod, only: HGT, GAM, GM, HET, HEAT, OTEMP, ADVGT, APTEMP,   &
+                           ATEMP, TDIF_50, DELT, DHET, TD, NTRP, deltaz, eq 
   use mod_testing, only: assert, initialize_tests, report_tests
   implicit none
 

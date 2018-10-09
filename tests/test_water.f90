@@ -1,6 +1,6 @@
 program test_water
-  use simsphere_mod, only: wgg, w2g, rhow, evap, le, frveg, rnet, xleg, xlef, &
-                           delta, f, fsub, wmax, eq
+  use simsphere_mod, only: wgg, w2g, evap, frveg, rnet, xleg, xlef, f, fsub,  &
+                           wmax, eq
   use mod_testing, only: assert, initialize_tests, report_tests
   implicit none
 

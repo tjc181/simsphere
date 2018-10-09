@@ -1,9 +1,8 @@
 program test_flux
-  use simsphere_mod, only: oshum, le, dens, qd, sumw, f, rnet, otemp, aptemp, &
-                           gbl_sum, tdif_s, frveg, ahum, evap, aepsi, sigma,  &
-                           t_fine, swave, heat, z, lambda, tt, epsi, taf, chf,&
-                           chg, qaf, hg, chg, xlef, cha, ta, chf, tf, rst, qa,&
-                           qstf, tg, eq
+  use simsphere_mod, only: oshum, qd, sumw, f, rnet, otemp, aptemp, tg, qstf, & 
+                           gbl_sum, tdif_s, frveg, ahum, evap, aepsi, qa, rst,&
+                           t_fine, swave, heat, z, epsi, taf, chf, chg, qaf,  &
+                           hg, xlef, cha, ta, tf, rst, eq
   use mod_testing, only: assert, initialize_tests, report_tests
   implicit none
 
@@ -23,7 +22,6 @@ program test_flux
   real, parameter :: arg2_night_exp = -8961.73926
   real, parameter :: arg3_night_exp = 0.001
   real, parameter :: arg4_night_exp = 2.49819231
-  real, parameter :: otemp_exp = 295.0
   real, parameter :: ahum_exp = 1.0
 
 

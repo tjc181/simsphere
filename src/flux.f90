@@ -55,7 +55,7 @@ subroutine FLUX (BareRadioTemp,VegnRadioTemp,BareEvapFlux,BareHeatFlux)
 
 ! Vegetation
 
-      if (Frveg .eq. 1 ) then
+      if (eq(frveg,1.0) ) then
         call Vegflx (VegnEvapFlux)
         Evap = VegnEvapFlux
         Otemp = VegnRadioTemp

@@ -10,7 +10,6 @@ before_script:
   - cmake --build .
 script:
   - ctest
-  - bin/simsphere
 notifications:
 email: false
 after_success:
