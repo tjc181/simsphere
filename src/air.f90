@@ -1,5 +1,7 @@
 subroutine  AIR (ZLS, YCOUNT)
-  use simsphere_mod
+  use simsphere_mod, only: hgt, gam, gm, het, heat, otemp, advgt, dens, cp, &
+                           aptemp, atemp, tdif_50, delt, dhet, td, ntrp,    &
+                           rad, grav, delta, za, ifirst, deltaz, eq
   implicit none
 
 ! **  Subroutine air computes the daytime height of the mixing layer and
@@ -64,11 +66,8 @@ subroutine  AIR (ZLS, YCOUNT)
 ! ** tdel is at the height just above the mixing layer
 ! ** ttop is at the height of the mixing layer
 
-  write(*,*) aptemp, cdelt
   tdel = aptemp + cdelt
   ttop = aptemp
-
-  write(*,*) tdel, ttop
 
 ! **  YCOUNT advanced to set the mode definitely for the daytime.
 
