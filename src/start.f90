@@ -84,7 +84,8 @@ subroutine  START (Obst_Hgt)
 ! Make conversions
 
   Btemp = btemp + Celsius_to_Kelvin
-  Outtt = outtt * 60
+! Removing this, suspect a repair for broken dectim() -TJC
+!  Outtt = outtt * 60
   CO = CO*1E-6
   CI = CI*1E-6
 

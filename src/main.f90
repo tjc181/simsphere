@@ -53,7 +53,9 @@ program simsphere
 ! TIME is incremented each step.
 
   REALTM = TIME + STRTIM
-  PTIME = REALTM / 3600.
+! TJC Removed conversion following rework of dectim()
+!  PTIME = REALTM / 3600.
+  ptime = realtm
   if ( OUTTT /= 0.0 ) then
     TMOD = MOD (TIME,OUTTT)
   end if
@@ -111,13 +113,11 @@ program simsphere
 
 !  Output is written every OUTTT seconds.
 
-
   IF (TMOD.EQ.0.) CALL output(No_Rows)
 
 ! Increment Time.
 
-  TIME = TIME + DELTA
-
+  TIME = TIME + (DELTA/60)
 
   IF (REALTM .LT. timend) GO TO 5
 

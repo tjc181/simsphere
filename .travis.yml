@@ -10,6 +10,7 @@ before_script:
   - cmake --build .
 script:
   - ctest
+  - bin/test_water
 notifications:
 email: false
 after_success:

@@ -4,7 +4,7 @@ subroutine  OUTPUT(No_Rows)
 
 ! Here we finally get around to printing out the variables.
 
-  integer(kind=1) :: I_Header = 0, I_Columns = 0
+  integer(kind=1) :: I_Header = 1, I_Columns = 0
   integer :: No_Rows
 
   real, parameter :: Undefined = 0.0

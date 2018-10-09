@@ -24,9 +24,11 @@ SUBROUTINE  CALC (OLDTMP, No_Rows)
   TIMEND = DECTIM(TIMEND) ! Convert to Decimal time
   STRTIM = DECTIM(STRTIM)
 
-!TJC  out_time_intv = outtt / 60
+!  out_time_intv = outtt / 60
+  outtt = dectim(outtt)
   out_time_intv = outtt
-  out_time_intv = dectim(out_time_intv)
+! Not needed with dectim(outtt) call -TJC
+!  out_time_intv = dectim(out_time_intv)
   No_Rows = INT(((Timend - strtim)) / out_time_intv) + 1 
 
 
@@ -46,12 +48,12 @@ SUBROUTINE  CALC (OLDTMP, No_Rows)
 end
  
 real pure function dectim(t)
+  implicit none
 ! Converts time (HrMinSec Format) to decimal
   real, intent(in) :: t
   real :: hour, minute
 
-  minute = mod(t,100.0)
-  second = mod(minute,60.0)
+  minute = modulo(t,100.0)
   hour = (t - minute)/100.0
 
   dectim = hour + (minute/60.0)

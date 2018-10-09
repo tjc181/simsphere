@@ -15,13 +15,13 @@ program test_water
   real, parameter :: fsub_exp = 0.749999881
   real, parameter :: wgg_exp = 0.170021951
   real, parameter :: w2g_exp = 0.254999965
-  real, parameter :: f_time_exp = 0.499739051
+  real, parameter :: f_time_exp = 0.500064552
   real, parameter :: fsub_time_exp = 0.749999881
-  real, parameter :: wgg_time_exp = 0.169911280
+  real, parameter :: wgg_time_exp = 0.170021951
   real, parameter :: w2g_time_exp = 0.254999965
-  real, parameter :: f_rnet_exp = 0.499739259
+  real, parameter :: f_rnet_exp = 0.500064790
   real, parameter :: fsub_rnet_exp = 0.75
-  real, parameter :: wgg_rnet_exp = 0.169911355
+  real, parameter :: wgg_rnet_exp = 0.170022026
   real, parameter :: w2g_rnet_exp = 0.254999995
 
 
@@ -60,6 +60,7 @@ program test_water
   n = n + 1
   tests(n) = assert(eq(w2g,w2g_time_exp), 'water time > 0 w2g')
   n = n + 1
+  write(*,*) f, wgg
 
   ! Case III (time /= 0 and rnetf < 0)
   call water_init
@@ -75,6 +76,7 @@ program test_water
   n = n + 1
   tests(n) = assert(eq(w2g,w2g_rnet_exp), 'water rnet == 0 w2g')
   n = n + 1
+  write(*,*) f, wgg
 
   test_failed = .false.
   call report_tests(tests,test_failed)
