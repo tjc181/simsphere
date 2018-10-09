@@ -15,40 +15,36 @@ program test_psoil
   real, parameter :: lambda_exp = 2.42532587
   real, parameter :: kappa_exp = 1.18045705e-06
   real, parameter :: cg_exp = 1943522.50
-  real, parameter :: tp_exp = 267.0
+  real, parameter :: tp_exp = 5.04350513e-02
   real, parameter :: w2g_exp = 0.75
   real, parameter :: wgg_exp = 0.5
-  real, parameter, dimension(9) :: tt_exp = (/265.0,265.200012,265.400024,  &
-                                              265.600037,265.800049,        &
-                                              266.000061,266.200073,        &
-                                              266.400085,266.600098/)
+  real, parameter, dimension(9) :: tt_exp = (/265.0,265.399994,265.799988,  &
+                                              266.199982,266.599976,267.0,  &
+                                              0.0,0.0,0.0/)
   real, parameter, dimension(9) :: xfun_exp = (/                            &
                                       1.0,2.71828175,7.38905668,20.0855370, &
-                                      54.5981445,148.413162,403.428802,     &
-                                      1096.63318,2980.95801/)
+                                      54.5981445,148.413162,0.0,0.0,0.0/)
   real, parameter, dimension(9) :: z_exp = (/                               &
                                       0.0,2.06146669e-02,7.66511485e-02,    &
-                                      0.228974074,0.643030703,1.76855350,   &
-                                      4.82804155,13.1445923,35.7513199/)
+                                      0.228974074,0.643030703,1.7685535,    &
+                                      0.0,0.0,0.0/)
 
   real, parameter :: lambda_N_exp = 1.29497826
   real, parameter :: kappa_N_exp = 7.57211808e-07
   real, parameter :: cg_N_exp = 1617762.38
-  real, parameter :: tp_N_exp = 267.0
+  real, parameter :: tp_N_exp = 3.36233675e-02
   real, parameter :: w2g_N_exp = 0.75
   real, parameter :: wgg_N_exp = 0.5
-  real, parameter, dimension(9) :: tt_N_exp = (/265.0,265.200012,265.400024, &
-                                              265.600037,265.800049,         &
-                                              266.000061,266.200073,         &
-                                              266.400085,266.600098/)
+  real, parameter, dimension(9) :: tt_N_exp = (/265.0,265.399994,265.799988,&
+                                                266.199982,266.599976,267.0,&
+                                                0.0,0.0,0.0/)
   real, parameter, dimension(9) :: xfun_N_exp = (/                          &
-                                      1.0,2.71828175,7.38905621,20.0855370, &
-                                      54.5981522,148.413162,403.428802,     &
-                                      1096.63318,2980.95801/)
+                                      1.0,2.71828175,7.38905621,20.085537,  &
+                                      54.5981522,148.413162,0.0,0.0,0.0/)
   real, parameter, dimension(9) :: z_N_exp = (/                             &
                                       0.0,1.65104885e-02,6.13906533e-02,    &
                                       0.183387592,0.515009642,1.41645181,   &
-                                      3.86682582,10.5276327,28.6335831/)
+                                      0.0,0.0,0.0/)
 
   ! Check value with dual_ti set to each of 'Y' and 'N'
 
@@ -78,6 +74,7 @@ program test_psoil
   n = n + 1
   tests(n) = assert(eq(z,z_exp), 'psoil z')
   n = n + 1
+  write(*,*) tp
 
   ! Case II: dual_ti = 'N'
   call psoil_init
@@ -101,6 +98,7 @@ program test_psoil
   n = n + 1
   tests(n) = assert(eq(z,z_N_exp), 'psoil not dual z')
   n = n + 1
+  write(*,*) tp
 
   test_failed = .false.
   call report_tests(tests,test_failed)
@@ -115,7 +113,7 @@ contains
     fsub = 0.75
     kappa = 0.0
     lambda = 0.0
-    nlvls = 10
+    nlvls = 5
     otemp = 265.0
     ti_a = 12.0
     ti_b = 12.0
