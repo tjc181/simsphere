@@ -1,5 +1,6 @@
 subroutine  WATER (TIME,BareEvapFlux)
-  use simsphere_mod
+  use simsphere_mod, only: wgg, w2g, rhow, le, frveg, rnet, xleg, xlef, evap, &
+                           delta, f, fsub, wmax, eq
   implicit none
 
   real, parameter :: CONST1 = 1
@@ -34,6 +35,11 @@ subroutine  WATER (TIME,BareEvapFlux)
 ! **  Constants for the water budget equation.
 
 !  DATA CONST1 , CONST2, D1P,D_INT, D2P/1, 0.5, 0.1, 2*0.5/ OMG / 24 /
+
+  if (.not. eq(win,win)) then
+    ! initialize win before use.  Seem to be tickled by test programs.
+    win = (wgg + w2g) / 2
+  end if 
 
   IF ( eq(TIME,0.0) ) THEN
     WIN = ( WGG + W2G ) / 2
