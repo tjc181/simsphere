@@ -7,10 +7,12 @@ subroutine  PSOIL
 
 !      INCLUDE 'modvars.h'
 
-  DATA OMA , SFFK / 0.0000727 , 4 /
+!  DATA OMA , SFFK / 0.0000727 , 4 /
 
-  ZETA = 0
-  DZETA = 1
+  OMA = 0.0000727
+  SFFK = 4.0
+  ZETA = 0.0
+  DZETA = 1.0
 
 ! Calc. LAMBDA, KAPPA & Volumetric Heat Capacity of the ground (CG).
 ! See manual for explanation of Lamda & Kappa.
