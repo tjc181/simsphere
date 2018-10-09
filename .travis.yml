@@ -9,8 +9,9 @@ before_script:
   - FC=gfortran-7 cmake .
   - cmake --build .
 script:
-  - bin/test_psoil
   - ctest
+  - bin/test_water
+  - bin/simsphere
 notifications:
 email: false
 after_success:

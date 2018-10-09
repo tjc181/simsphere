@@ -15,7 +15,7 @@ subroutine  VEGFLX (EVAPV)
 ! this calculation in a conditional to avoid divide by zero.  -tjc 2018-10-04
   
   if ( .not. eq(TG,0.0) ) then
-    QSTG = 10**( 6.1989 - 2353 / TG)
+    QSTG = 10**( 6.1989 - 2353. / TG)
   else
     QSTG = 0.0
   end if

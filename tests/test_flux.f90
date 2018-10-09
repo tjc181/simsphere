@@ -1,7 +1,9 @@
 program test_flux
   use simsphere_mod, only: oshum, le, dens, qd, sumw, f, rnet, otemp, aptemp, &
                            gbl_sum, tdif_s, frveg, ahum, evap, aepsi, sigma,  &
-                           t_fine, swave, heat, z, lambda, tt, epsi, eq
+                           t_fine, swave, heat, z, lambda, tt, epsi, taf, chf,&
+                           chg, qaf, hg, chg, xlef, cha, ta, chf, tf, rst, qa,&
+                           qstf, tg, eq
   use mod_testing, only: assert, initialize_tests, report_tests
   implicit none
 
@@ -17,8 +19,8 @@ program test_flux
   real, parameter :: arg4_exp = 0.0
   real, parameter :: arg3_qd_exp = 0.001
   real, parameter :: ahum_qd_exp = 3.0
-  real, parameter :: arg1_night_exp = 5487.1665
-  real, parameter :: arg2_night_exp = 5487.1665
+  real, parameter :: arg1_night_exp = -8961.73926
+  real, parameter :: arg2_night_exp = -8961.73926
   real, parameter :: arg3_night_exp = 0.001
   real, parameter :: arg4_night_exp = 2.49819231
   real, parameter :: otemp_exp = 295.0
@@ -28,31 +30,12 @@ program test_flux
   ! arg1 is time, arg2 is BareEvapFlux
   real :: arg1, arg2, arg3, arg4
 
-  arg1 = 0.0
+  arg1 = 267.0
   arg2 = 0.0
   arg3 = 0.0
   arg4 = 0.0
 
-  oshum = 2.0
-  qd(1) = 1.0
-  sumw = 1.0
-  f = 2.9
-  rnet = 0.3
-  otemp = 295.0
-  aptemp = 295.0
-  gbl_sum = 0.0
-  tdif_s = 0.5
-  frveg = 0.5
-  ahum = 0.0
-  evap = 0.3
 
-  ! gtemp initialization
-  AEPSI = 1.17
-  t_fine = 1.0
-  swave = 1.0
-  heat = 2.49819231
-  z = 1.0
-  epsi = 0.96
 
 
   n = 1
@@ -60,6 +43,7 @@ program test_flux
   call initialize_tests(tests,ntests)
 
   ! Case I
+  call flux_init
   call flux(arg1,arg2,arg3,arg4)
   tests(n) = assert(eq(arg1,arg1_exp), 'Flux BareRadioTemp')
   n = n + 1
@@ -73,6 +57,7 @@ program test_flux
   n = n + 1
 
   ! Case II, qd(1) >= oshum
+  call flux_init
   qd(1) = 3.0
   oshum = 2.0
   call flux(arg1,arg2,arg3,arg4)
@@ -82,6 +67,7 @@ program test_flux
   n = n + 1
 
   ! Case III, rnet < 0
+  call flux_init
   qd(1) = 1.0
   rnet = -1.0
   call flux(arg1,arg2,arg3,arg4)
@@ -95,9 +81,53 @@ program test_flux
   n = n + 1
   tests(n) = assert(eq(ahum,ahum_exp), 'Flux ahum night')
   n = n + 1
+  write(*,*) arg1, arg2
 
   test_failed = .false.
   call report_tests(tests,test_failed)
   if (test_failed) stop 1
+
+contains
+  subroutine flux_init
+    oshum = 2.0
+    qd(1) = 1.0
+    sumw = 1.0
+    f = 2.9
+    rnet = 0.3
+    otemp = 295.0
+    aptemp = 295.0
+    gbl_sum = 0.0
+    tdif_s = 0.5
+    frveg = 0.5
+    ahum = 0.0
+    evap = 0.3
+  
+    ! gtemp initialization
+    AEPSI = 1.17
+    t_fine = 1.0
+    swave = 1.0
+    heat = 2.49819231
+    z = 1.0
+    epsi = 0.96
+  
+    ! vegflx initialization
+    TAF = 10.0
+    CHF = 10.0
+    CHG = 0.1
+    QAF = 0.5
+    HG = 1.0
+    CHG = 100.5
+    XLEF = 1.2
+    CHA = 100.0
+    TA = 0.4
+    CHF = 10.0
+    TF = 1.0
+    TG = 0.0
+    RST = 1.0
+    QA = 100.0
+    QSTF = 10.0
+
+    return
+  end subroutine flux_init
   
 end program test_flux

@@ -9,8 +9,9 @@ subroutine  WATER (TIME,BareEvapFlux)
   real, parameter :: D2P = 0.5
   real, parameter :: OMG = 24
   real :: TIME, BareEvapFlux
-  real :: WIN, PER, C11, C22, C33, C44, EVAX, EVAS, EVAI
+  real :: PER, C11, C22, C33, C44, EVAX, EVAS, EVAI
   real :: WW1, WW2, WW3
+  real :: WIN
 
 ! **  WATER is based on the technique of Deardroff (1978). It uses the
 ! **  evaporative flux value obtained in FLUX and updates two internal
@@ -34,10 +35,8 @@ subroutine  WATER (TIME,BareEvapFlux)
 
 !  DATA CONST1 , CONST2, D1P,D_INT, D2P/1, 0.5, 0.1, 2*0.5/ OMG / 24 /
 
-  IF ( TIME == 0 ) THEN
+  IF ( eq(TIME,0.0) ) THEN
     WIN = ( WGG + W2G ) / 2
-  ELSE
-    WIN = 0.001
   END IF
 
   PER = OMG * 3600
