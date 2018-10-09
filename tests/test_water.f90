@@ -60,7 +60,6 @@ program test_water
   n = n + 1
   tests(n) = assert(eq(w2g,w2g_time_exp), 'water time > 0 w2g')
   n = n + 1
-  write(*,*) f, wgg
 
   ! Case III (time /= 0 and rnetf < 0)
   call water_init
@@ -76,7 +75,6 @@ program test_water
   n = n + 1
   tests(n) = assert(eq(w2g,w2g_rnet_exp), 'water rnet == 0 w2g')
   n = n + 1
-  write(*,*) f, wgg
 
   test_failed = .false.
   call report_tests(tests,test_failed)
