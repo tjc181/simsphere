@@ -28,7 +28,7 @@ subroutine GTEMP
   A(4) = 0
   A(5) = A1
 
-! **  Reduce the boundaries until the difference is .LT. .0001.
+! **  Reduce the boundaries until the difference is < .0001.
 
   do J = 1 , 20
      B = A(5)
@@ -42,7 +42,7 @@ subroutine GTEMP
     DELTAX = B / C
     X = X - DELTAX
     XDIF = X - OTEMP
-    IF ( ABS(XDIF) .LT. .0001 ) GO TO 31
+    IF ( ABS(XDIF) < .0001 ) GO TO 31
   end do
 
 31 X = ( OTEMP + X ) / 2
