@@ -23,7 +23,7 @@ subroutine FLUX (BareRadioTemp,VegnRadioTemp,BareEvapFlux,BareHeatFlux)
 
   Oshum = 10**( 6.1989 - (2353 / BareRadioTemp) )
   BareEvapFlux = Le * Dens * ( Oshum - Qd(1) ) / Sumw * F
-  if ( qd(1) .ge. oshum ) BareEvapFlux = 0.001
+  if ( qd(1) >= oshum ) BareEvapFlux = 0.001
 
   call average (BareEvapFlux, Evap_Smooth)
   BareEvapFlux = Evap_Smooth
@@ -31,7 +31,7 @@ subroutine FLUX (BareRadioTemp,VegnRadioTemp,BareEvapFlux,BareHeatFlux)
 
 ! Nighttime
 
-  if ( rnet .lt. 0 ) then
+  if ( rnet < 0 ) then
     Call Gtemp
     BareHeatFlux = Heat
     VegnRadioTemp = Otemp
@@ -51,7 +51,7 @@ subroutine FLUX (BareRadioTemp,VegnRadioTemp,BareEvapFlux,BareHeatFlux)
 
 ! Daytime Restraint
 
-    if (Rnet .gt. 0) then
+    if (Rnet > 0) then
 
 ! Vegetation
 
@@ -61,7 +61,7 @@ subroutine FLUX (BareRadioTemp,VegnRadioTemp,BareEvapFlux,BareHeatFlux)
         Otemp = VegnRadioTemp
 
 ! Mixed
-      else if (Frveg.gt. 0 .and. Frveg .lt. 1) then
+      else if (Frveg > 0 .and. Frveg < 1) then
         call Vegflx (VegnEvapFlux)
         MixedEvapFlux = (1-Frveg) * BareEvapFlux + Frveg * VegnEvapFlux
         MixedRadioTemp = (BareRadioTemp**4 * (1-Frveg) + Frveg *        &

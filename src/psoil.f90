@@ -25,7 +25,7 @@ subroutine  PSOIL
 
 !      INITIATE DUAL TI OPTION BY TNC DAJR, 15 MARCH, 1996
 
-  IF(DUAL_TI .EQ. 'Y') THEN
+  IF (DUAL_TI == 'Y') THEN
     TP = TI_A * F + TI_B
   ENDIF
 

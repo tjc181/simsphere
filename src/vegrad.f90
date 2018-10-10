@@ -7,7 +7,7 @@ subroutine  VEGRAD (TIME,RNETV,SWAVEV,TZERO)
 
 !      INCLUDE 'modvars.h'
 
-  if (time .eq. 0.0) then ! Initialize
+  if (time == 0.0) then ! Initialize
     TAF = otemp
     TF =  otemp
     TG =  otemp
@@ -58,7 +58,7 @@ subroutine  VEGRAD (TIME,RNETV,SWAVEV,TZERO)
 
 ! **  Set temperature and humidity variables.
 
-  if (rnetf .le. 0.0) then ! Set value since TA set to T1 (Vel)
+  if (rnetf <= 0.0) then ! Set value since TA set to T1 (Vel)
     TAF = ta ! Set in Vel
     TF =  otemp
     TG =  otemp
