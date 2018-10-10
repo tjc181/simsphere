@@ -56,7 +56,7 @@ subroutine  WATER (TIME,BareEvapFlux)
 
   EVAX = EVAP / LE
 
-  IF ( FRVEG .GT. 0 .AND. RNET .GT. 0 ) THEN
+  IF ( FRVEG > 0 .AND. RNET > 0 ) THEN
 
     EVAS = (XLEG * FRVEG + ( 1 - FRVEG ) * BareEvapFlux) / LE
     EVAI = ( XLEF * FRVEG ) / LE
@@ -76,9 +76,9 @@ subroutine  WATER (TIME,BareEvapFlux)
   WIN = WIN - WW2
   W2G = W2G - WW3
 
-  IF ( WGG .LE. 0 ) WGG = 0.001
-  IF ( WIN .LE. 0 ) WIN = 0.001
-  IF ( W2G .LE. 0 ) W2G = 0.001
+  IF ( WGG <= 0 ) WGG = 0.001
+  IF ( WIN <= 0 ) WIN = 0.001
+  IF ( W2G <= 0 ) W2G = 0.001
 
 ! **  Compute the updated version of moisture availability and substrate
 ! **  moisture availability.
