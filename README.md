@@ -33,6 +33,7 @@ but may be in the future.  The implementation dates to the late 1990s.
 You will need a Fortran 2008 compiler and CMake.  The code is currently being
 developed using gfortran 7.3.0.
 
+# Unix:
 ```
 mkdir ../simsphere-build
 cd ../simsphere-build
@@ -41,4 +42,25 @@ cmake --build .
 ctest
 ```
 
+# Windows:
+1. Install msys64 from https://www.msys2.org to install gfortran and make:
+```
+pacman -Sy mingw-w64-x86_64-gcc-fortran mingw-w64-x86_64-make
+```
+2. Install CMake from https://cmake.org.
+3. Add compiler and cmake to the Path environment variable:
+```
+set %Path%=%Path%;C:\Program Files\CMake\bin;C:\msys64\mingw64\bin
+```
+4. Install Git from https://git-scm.org.
+5. Clone https://github.com/tjc181/simsphere and submodules.
+6. Configure and build the project with CMake (assuming cloned to C:\temp\simsphere):
+```
+cd c:\temp
+mkdir sim-build
+cd sim-build
+cmake -G "MinGW Makefiles" ..\simsphere
+cmake --build .
+ctest
+```
 
