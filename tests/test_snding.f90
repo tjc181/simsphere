@@ -1,5 +1,5 @@
 program test_snding
-  use simsphere_mod, only: deltaz, ts, gm, ntrp, atemp, tdif_s, aptemp,     &
+  use simsphere_mod, only: deltaz, ts, gm, ntrp, atemp, tdif_s, aptemp, zi,  &
                            tscren, oshum, ahum, ps1, o_pot_tmp, tdif_50, eq
   use mod_testing, only: assert, initialize_tests, report_tests
   implicit none
@@ -39,6 +39,7 @@ program test_snding
 
   ! Initialize
   call start
+
   call snding_init
   call snding(arg1,arg2)
 
@@ -73,12 +74,17 @@ program test_snding
 
 contains
   subroutine snding_init
-    ts = 1.0
+    ts = 0.0
     arg1 = 1.0
     arg2 = 0.0
-    ntrp = 10
+    ntrp = 0
     deltaz = 0.0
+    aptemp = 0.0
+    atemp = 0.0
+    zi = 0.0
     gm = 0.0
+    ugs = 0.0
+    vgs = 0.0
     return
   end subroutine snding_init 
 

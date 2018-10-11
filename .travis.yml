@@ -6,7 +6,7 @@ addons:
     packages:
       - gfortran-7
 before_script:
-  - FC=gfortran-7 cmake .
+  - FC=gfortran-7 -DCMAKE_BUILD_TYPE=Debug cmake .
   - cmake --build .
 script:
   - bin/test_snding
