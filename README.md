@@ -35,6 +35,7 @@ developed using gfortran 7.3.0.
 
 # Unix:
 ```
+git submodule update --init --recursive
 mkdir ../simsphere-build
 cd ../simsphere-build
 cmake ../simsphere
