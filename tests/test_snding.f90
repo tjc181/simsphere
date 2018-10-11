@@ -1,6 +1,7 @@
 program test_snding
-  use simsphere_mod, only: deltaz, ts, gm, ntrp, atemp, tdif_s, aptemp, zi,  &
-                           tscren, oshum, ahum, ps1, o_pot_tmp, tdif_50, eq
+  use simsphere_mod, only: deltaz, ts, gm, ntrp, atemp, tdif_s, aptemp, zi,   &
+                           tscren, oshum, ahum, ps1, o_pot_tmp, tdif_50, ugs, &
+                           vgs, eq
   use mod_testing, only: assert, initialize_tests, report_tests
   implicit none
 
