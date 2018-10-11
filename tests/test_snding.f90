@@ -1,6 +1,5 @@
 program test_snding
-  use simsphere_mod, only: vert_spacing, deltaz, ts, Celsius_to_Kelvin, gm,  &
-                           grav, kts_to_metres, ntrp, atemp, tdif_s, aptemp, &
+  use simsphere_mod, only: deltaz, ts, gm, ntrp, atemp, tdif_s, aptemp,     &
                            tscren, oshum, ahum, ps1, o_pot_tmp, tdif_50, eq
   use mod_testing, only: assert, initialize_tests, report_tests
   implicit none
@@ -24,10 +23,18 @@ program test_snding
   real, parameter :: ps1_exp = 967.0
   real, parameter :: tdif_50_exp = 3.35894775
   real, parameter :: tdif_s_exp = 2.85894775
+  real, parameter :: deltaz_exp = 250.0
+  real, parameter,dimension(50) :: gm_exp = (/                              &
+           9.88652930E-03,7.76793063E-03,1.22398427E-02,                    &
+           2.04411335E-03,2.83346325E-03,1.85281364E-03,2.10259561E-04,     &
+           1.12541160E-02,1.51908118E-03,8.60635564E-03,4.06347681E-03,0.0, &
+           0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0, &
+           0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0, &
+           0.0,0.0,0.0,0.0,0.0,0.0/)
 
   ! Initialize mod_testing
   n = 1
-  ntests = 10
+  ntests = 12
   call initialize_tests(tests,ntests)
 
   ! Initialize
@@ -55,6 +62,10 @@ program test_snding
   n = n + 1
   tests(n) = assert(eq(tdif_s,tdif_s_exp), 'tdif_s')
   n = n + 1
+  tests(n) = assert(eq(deltaz,deltaz_exp), 'deltaz')
+  n = n + 1
+  tests(n) = assert(eq(gm,gm_exp), 'gm')
+  n = n + 1
 
   test_failed = .false.
   call report_tests(tests,test_failed)
@@ -65,6 +76,9 @@ contains
     ts = 1.0
     arg1 = 1.0
     arg2 = 0.0
+    ntrp = 10
+    deltaz = 0.0
+    gm = 0.0
     return
   end subroutine snding_init 
 
