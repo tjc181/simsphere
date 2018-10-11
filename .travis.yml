@@ -9,7 +9,7 @@ before_script:
   - FC=gfortran-7 cmake .
   - cmake --build .
 script:
-  - test_snding
+  - bin/test_snding
   - ctest
 notifications:
 email: false
