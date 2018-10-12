@@ -1,17 +1,17 @@
 program test_snding
   use simsphere_mod, only: deltaz, ts, gm, ntrp, atemp, tdif_s, aptemp, zi,   &
                            tscren, oshum, ahum, ps1, o_pot_tmp, tdif_50, ugs, &
-                           vgs, eq
+                           vgs, f_control, eq
   use mod_testing, only: assert, initialize_tests, report_tests
   implicit none
 
 
   logical, dimension(:), allocatable :: tests
   logical :: test_failed
-  integer :: n, ntests
+  integer :: n, ntests, i
 
   real, dimension(50) :: arg1
-  real :: arg2
+  real :: arg2, junk
 
   ! Expected values
   real, parameter :: atemp_exp = 297.149994
@@ -39,7 +39,7 @@ program test_snding
   call initialize_tests(tests,ntests)
 
   ! Initialize
-  call start
+!  call start
 
   call snding_init
   call snding(arg1,arg2)
@@ -75,6 +75,10 @@ program test_snding
 
 contains
   subroutine snding_init
+    open(unit=9,file=f_control)
+    do i = 1,4
+      read(9,*) junk
+    end do
     ts = 0.0
     arg1 = 1.0
     arg2 = 0.0
