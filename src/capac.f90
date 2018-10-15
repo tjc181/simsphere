@@ -126,7 +126,6 @@ subroutine Capac (Unscaled_RAF,H,B1_P,B2_P,vfl2, sgma)
 
 ! **  The following if statement prevents zst from becoming very
 !**   large.
-
   IF ( ZST .GT. 1E3 ) THEN
     ZST = 1E3
   END IF
@@ -201,7 +200,6 @@ subroutine Capac (Unscaled_RAF,H,B1_P,B2_P,vfl2, sgma)
 
   ACTSQRT  = BROOT ** 2 - 4 * AROOT * CROOT
   PSIE = ( -BROOT - SQRT ( ACTSQRT ) ) / (2 * AROOT )
-
   RS = stomrs(ft,tf,rmin,mintemp,maxtemp,psisup,psiwc,b1,b2,psie,psice,fs)
 
 
