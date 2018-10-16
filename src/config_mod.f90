@@ -7,17 +7,19 @@ module config_mod
   public :: init_json, destroy_json, load_config
   public :: t_met, t_veg, t_wind, t_soil, t_temp, t_humid, t_timeloc
 
-! config reads data from the model configuration file and initializes variables
-! to default values.  Data are stored in a JSON file.  The file name is stored
-! in variable config_json.
+! config_mod provides data structures and subroutines to read data from the 
+! model configuration file and initialize variables to default values.  Data 
+! are stored in a JSON file.
 
-! Provides public function: get_var which wraps calls to json%get.  get_var is
-! a generic interface to a group of functions handling different data types:
-! real, integer, character, logical
-
-! Data structures to hold variables in various categories: meteorological (met),
-! vegetation (veg), wind, soil, temperature and humidity soundings (temp_snd, 
-! humid_snd), time and location (timeloc).
+! Data structures are per categories in the sample input document, 
+! https://simsphere.ems.psu.edu/assets/downloads/Part%20IV;%20model%20input%20parameters.xls
+!  t_met: Meteorological 
+!  t_timeloc: Time and Location
+!  t_veg: Vegetation
+!  t_soil: Soil
+!  t_wind: Wind speed and direction
+!  t_temp: Temperature sounding
+!  t_humid: Humidity sounding
 
   type t_met
     real(kind=wp) :: omega, zo, obst_hgt
@@ -62,13 +64,6 @@ module config_mod
     integer :: num_obs
   end type t_humid
   
-!  interface get_var
-!    module procedure get_var_character
-!    module procedure get_var_integer
-!    module procedure get_var_real
-!    module procedure get_var_logical
-!  end interface get_var
-
 contains
 
   subroutine init_json(file, json)
@@ -110,189 +105,150 @@ contains
     type(t_humid) :: humidity
     logical :: found, namelist_style
 
+    character(len=6), parameter :: root = 'inputs'
+    character(len=20) :: path
+
     found = .false.
     namelist_style = .true.
 
     ! Load data structures: met, veg, wind, soil, temp_snd, humid_snd
 
     ! Meteorological
-    call json%get('inputs.meteorological.omega',met%omega,found)
+    path = '.meteorological'
+    call json%get(root//path//'.omega',met%omega,found)
     if (.not. found) stop 1
-    call json%get('inputs.meteorological.zo',met%zo,found)
+    call json%get(root//path//'.zo',met%zo,found)
     if (.not. found) stop 1
-    call json%get('inputs.meteorological.obst_hgt',met%obst_hgt,found)
+    call json%get(root//path//'.obst_hgt',met%obst_hgt,found)
     if (.not. found) stop 1
-    call json%get('inputs.meteorological.cld_fract',met%cld_fract,found)
+    call json%get(root//path//'.cld_fract',met%cld_fract,found)
     if (.not. found) stop 1
-    call json%get('inputs.meteorological.cloud_flag',met%cloud_flag,found)
+    call json%get(root//path//'.cloud_flag',met%cloud_flag,found)
     if (.not. found) stop 1
   
     ! Time and Location
-    call json%get('inputs.time_location.iyr',timeloc%iyr, found)
+    path = '.time_location'
+    call json%get(root//path//'.iyr',timeloc%iyr, found)
     if (.not. found) stop 1
-    call json%get('inputs.time_location.imo',timeloc%imo, found)
+    call json%get(root//path//'.imo',timeloc%imo, found)
     if (.not. found) stop 1
-    call json%get('inputs.time_location.iday',timeloc%iday, found)
+    call json%get(root//path//'.iday',timeloc%iday, found)
     if (.not. found) stop 1
-    call json%get('inputs.time_location.tz',timeloc%tz, found)
+    call json%get(root//path//'.tz',timeloc%tz, found)
     if (.not. found) stop 1
-    call json%get('inputs.time_location.xlat',timeloc%xlat, found)
+    call json%get(root//path//'.xlat',timeloc%xlat, found)
     if (.not. found) stop 1
-    call json%get('inputs.time_location.xlong',timeloc%xlong, found)
+    call json%get(root//path//'.xlong',timeloc%xlong, found)
     if (.not. found) stop 1
-    call json%get('inputs.time_location.strtim',timeloc%strtim, found)
+    call json%get(root//path//'.strtim',timeloc%strtim, found)
     if (.not. found) stop 1
-    call json%get('inputs.time_location.timend',timeloc%timend, found)
+    call json%get(root//path//'.timend',timeloc%timend, found)
     if (.not. found) stop 1
-    call json%get('inputs.time_location.outtt',timeloc%outtt, found)
+    call json%get(root//path//'.outtt',timeloc%outtt, found)
     if (.not. found) stop 1
-    call json%get('inputs.time_location.slope',timeloc%slope, found)
+    call json%get(root//path//'.slope',timeloc%slope, found)
     if (.not. found) stop 1
-    call json%get('inputs.time_location.aspect',timeloc%aspect, found)
+    call json%get(root//path//'.aspect',timeloc%aspect, found)
     if (.not. found) stop 1
-    call json%get('inputs.time_location.station_height',timeloc%station_height, found)
+    call json%get(root//path//'.station_height',timeloc%station_height, found)
     if (.not. found) stop 1
   
     ! Vegetation
-    call json%get('inputs.vegetation.frveg',veg%frveg, found)
+    path = '.vegetation'
+    call json%get(root//path//'.frveg',veg%frveg, found)
     if (.not. found) stop 1
-    call json%get('inputs.vegetation.xlai',veg%xlai, found)
+    call json%get(root//path//'.xlai',veg%xlai, found)
     if (.not. found) stop 1
-    call json%get('inputs.vegetation.epsf',veg%epsf, found)
+    call json%get(root//path//'.epsf',veg%epsf, found)
     if (.not. found) stop 1
-    call json%get('inputs.vegetation.albf',veg%albf, found)
+    call json%get(root//path//'.albf',veg%albf, found)
     if (.not. found) stop 1
-    call json%get('inputs.vegetation.volrel',veg%volrel, found)
+    call json%get(root//path//'.volrel',veg%volrel, found)
     if (.not. found) stop 1
-    call json%get('inputs.vegetation.rmin',veg%rmin, found)
+    call json%get(root//path//'.rmin',veg%rmin, found)
     if (.not. found) stop 1
-    call json%get('inputs.vegetation.rcut',veg%rcut, found)
+    call json%get(root//path//'.rcut',veg%rcut, found)
     if (.not. found) stop 1
-    call json%get('inputs.vegetation.wilt',veg%wilt, found)
+    call json%get(root//path//'.wilt',veg%wilt, found)
     if (.not. found) stop 1
-    call json%get('inputs.vegetation.vegheight',veg%vegheight, found)
+    call json%get(root//path//'.vegheight',veg%vegheight, found)
     if (.not. found) stop 1
-    call json%get('inputs.vegetation.width',veg%width, found)
+    call json%get(root//path//'.width',veg%width, found)
     if (.not. found) stop 1
-    call json%get('inputs.vegetation.ci',veg%ci, found)
+    call json%get(root//path//'.ci',veg%ci, found)
     if (.not. found) stop 1
-    call json%get('inputs.vegetation.co',veg%co, found)
+    call json%get(root//path//'.co',veg%co, found)
     if (.not. found) stop 1
-    call json%get('inputs.vegetation.coz_sfc',veg%coz_sfc, found)
+    call json%get(root//path//'.coz_sfc',veg%coz_sfc, found)
     if (.not. found) stop 1
-    call json%get('inputs.vegetation.coz_air',veg%coz_air, found)
+    call json%get(root//path//'.coz_air',veg%coz_air, found)
     if (.not. found) stop 1
-    call json%get('inputs.vegetation.albedo_fflag',veg%albedo_fflag, found)
+    call json%get(root//path//'.albedo_fflag',veg%albedo_fflag, found)
     if (.not. found) stop 1
-    call json%get('inputs.vegetation.stmtype',veg%stmtype, found)
+    call json%get(root//path//'.stmtype',veg%stmtype, found)
     if (.not. found) stop 1
-    call json%get('inputs.vegetation.steady',veg%steady, found)
+    call json%get(root//path//'.steady',veg%steady, found)
     if (.not. found) stop 1
-    call json%get('inputs.vegetation.index_veggies',veg%index_veggies, found)
+    call json%get(root//path//'.index_veggies',veg%index_veggies, found)
     if (.not. found) stop 1
   
     ! Wind
-    call json%get('inputs.wind.ugs',wind%ugs, found)
+    path = '.wind'
+    call json%get(root//path//'.ugs',wind%ugs, found)
     if (.not. found) stop 1
-    call json%get('inputs.wind.vgs',wind%vgs, found)
+    call json%get(root//path//'.vgs',wind%vgs, found)
     if (.not. found) stop 1
-    call json%get('inputs.nobs_wind',wind%num_obs, found)
+    call json%get(root//'.nobs_wind',wind%num_obs, found)
     if (.not. found) stop 1
   
     ! Soil
-    call json%get('inputs.soil.f',soil%f, found)
+    path = '.soil'
+    call json%get(root//path//'.f',soil%f, found)
     if (.not. found) stop 1
-    call json%get('inputs.soil.fsub',soil%fsub, found)
+    call json%get(root//path//'.fsub',soil%fsub, found)
     if (.not. found) stop 1
-    call json%get('inputs.soil.wmax',soil%wmax, found)
+    call json%get(root//path//'.wmax',soil%wmax, found)
     if (.not. found) stop 1
-    call json%get('inputs.soil.btemp',soil%btemp, found)
+    call json%get(root//path//'.btemp',soil%btemp, found)
     if (.not. found) stop 1
-    call json%get('inputs.soil.tp',soil%tp, found)
+    call json%get(root//path//'.tp',soil%tp, found)
     if (.not. found) stop 1
-    call json%get('inputs.soil.albg',soil%albg, found)
+    call json%get(root//path//'.albg',soil%albg, found)
     if (.not. found) stop 1
-    call json%get('inputs.soil.epsi',soil%epsi, found)
+    call json%get(root//path//'.epsi',soil%epsi, found)
     if (.not. found) stop 1
-    call json%get('inputs.soil.ti_a',soil%ti_a, found)
+    call json%get(root//path//'.ti_a',soil%ti_a, found)
     if (.not. found) stop 1
-    call json%get('inputs.soil.ti_b',soil%ti_b, found)
+    call json%get(root//path//'.ti_b',soil%ti_b, found)
     if (.not. found) stop 1
-    call json%get('inputs.soil.dual_ti',soil%dual_ti, found)
+    call json%get(root//path//'.dual_ti',soil%dual_ti, found)
     if (.not. found) stop 1
-    call json%get('inputs.soil.albedo_gflag',soil%albedo_gflag, found)
+    call json%get(root//path//'.albedo_gflag',soil%albedo_gflag, found)
     if (.not. found) stop 1
-    call json%get('inputs.soil.index_soils',soil%index_soils, found)
+    call json%get(root//path//'.index_soils',soil%index_soils, found)
     if (.not. found) stop 1
   
     ! Temperature
-    call json%get('inputs.temp_sounding.ps',temp%ps, found)
+    path = '.temp_sounding'
+    call json%get(root//path//'.ps',temp%ps, found)
     if (.not. found) stop 1
-    call json%get('inputs.temp_sounding.ts',temp%ts, found)
+    call json%get(root//path//'.ts',temp%ts, found)
     if (.not. found) stop 1
-    call json%get('inputs.temp_sounding.dep',temp%dep, found)
+    call json%get(root//path//'.dep',temp%dep, found)
     if (.not. found) stop 1
   
     ! Humidity
-    call json%get('inputs.humidity_sounding.dd0', humidity%dd0, found)
+    path = '.humidity_sounding'
+    call json%get(root//path//'.dd0', humidity%dd0, found)
     if (.not. found) stop 1
-    call json%get('inputs.humidity_sounding.ff0', humidity%ff0, found)
+    call json%get(root//path//'.ff0', humidity%ff0, found)
     if (.not. found) stop 1
-    call json%get('inputs.humidity_sounding.zh', humidity%zh, found)
+    call json%get(root//path//'.zh', humidity%zh, found)
     if (.not. found) stop 1
-    call json%get('inputs.nobs_ptq', humidity%num_obs, found)
+    call json%get(root//'.nobs_ptq', humidity%num_obs, found)
     if (.not. found) stop 1
 
     return
   end subroutine load_config
-
-
-!  character pure function get_var_character (var)
-!    character(len=:), intent(in) :: var
-!
-!  end function get_var_character
-!
-!  integer pure function get_var_integer (var)
-!    character(len=:), intent(in) :: var
-!
-!  end function get_var_integer
-!
-!  real pure function get_var_real (var)
-!    character(len=:), intent(in) :: var
-!
-!  end function get_var_real
-!
-!  logical pure function get_var_logical (var)
-!    character(len=:), intent(in) :: var
-!
-!  end function get_var_logical
-!
-!  subroutine init_json (fh)
-!    ! config file name
-!    character(len=:) :: fh
-!    type(json_file) :: json
-!    type(json_core) :: core
-!    integer :: error_cnt
-!    logical :: namelist_style
-!    
-!    error_cnt = 0
-!    call json%initialize()
-!    if (json%failed()) then
-!      call json%print_error_message(error_unit)
-!      error_cnt = error_cnt + 1
-!    end if
-!
-!    call json%load_file(filename = fh)
-!    if (json%falide()) then
-!      call json%print_error_message(error_unit)
-!      error_cnt = error_cnt + 1
-!    end if
-!
-!    call core%intialize()
-!
-!  end subroutine init_json
-    
-
-
 
 end module config_mod

@@ -27,5 +27,4 @@ program loadjson
   deallocate(cfg_file)
   call destroy_json(json)
 
-
 end program loadjson
