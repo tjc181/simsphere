@@ -1,6 +1,6 @@
 program loadjson
-  use config_mod, only: t_met, t_timeloc, t_veg, t_wind, t_soil, t_temp, t_humid, &
-                    init_json, destroy_json, load_config
+  use simsphere_mod, only: t_met, t_timeloc, t_veg, t_wind, t_soil, t_temp,  &
+                           t_humid, init_json, destroy_json, load_config
   use json_module
   use, intrinsic :: iso_fortran_env, only: error_unit
 
@@ -26,5 +26,6 @@ program loadjson
   
   deallocate(cfg_file)
   call destroy_json(json)
+
 
 end program loadjson

@@ -1,4 +1,6 @@
 module simsphere_mod
+  use config_mod, only: t_met, t_timeloc, t_veg, t_wind, t_soil, t_temp,    &
+                        t_humid, init_json, destroy_json, load_config
   use constants
   use globals
   use snding_mod, only: splint, spline
