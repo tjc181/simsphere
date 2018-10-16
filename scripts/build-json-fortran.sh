@@ -4,6 +4,6 @@
 
 cd /tmp
 git clone git://github.com/jacobwilliams/json-fortran
-cmake -H./json-fortran -B./json-build
+FC=gfortran-7 cmake -H./json-fortran -B./json-build
 cmake --build ./json-build
 cmake --target install ./json-build
