@@ -17,11 +17,12 @@ https://simsphere.ems.psu.edu .
 
 This is an updated version of the original Fortran implementation.  The goals for this update include:
 
-* Fortran 2003 compliant code with free-form source formatting.
+* Fortran 2008 compliant code with free-form source formatting.
 * Full Implementation of unit tests.
 * Restructuring of code to eliminate COMMON blocks in favor of modules.
 * Reduce (or eliminate!) use of GO TO and DATA statements.
-* Aspire to replace many subroutines with pure function calls and to reduce the number of global variables to a minimum.
+* Implement data structures to simplify passing arguments to routines, reduce global variables.
+* Aspire to rework subroutines with pure function calls.
 
 ## Other implementations
 
@@ -36,11 +37,9 @@ developed using gfortran 7.3.0.
 # Unix:
 ```
 git submodule update --init --recursive
-mkdir ../simsphere-build
-cd ../simsphere-build
-cmake ../simsphere
-cmake --build .
-ctest
+cmake -H. -B../simsphere-build
+cmake --build ../simsphere-build
+(cd ../simsphere-build && ctest)
 ```
 
 # Windows:
