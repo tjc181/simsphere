@@ -23,6 +23,11 @@ program simsphere
   real :: VegnNetRadn, VegnRadioTemp, YCOUNT=0.0
   logical :: dual_regime
 
+  type(t_timeloc) :: timeloc
+  type(t_temp) :: temp
+  type(t_humid) :: humidity
+  type(t_wind) :: wind
+
   
 !      INCLUDE 'modvars.h'
 
@@ -33,9 +38,9 @@ program simsphere
   OPEN ( UNIT=11, FILE = f_output ) ! Open the output file
 
 !  CALL START (Obst_Hgt,dual_regime,zo_patch) ! Read and Check data
-  CALL START (Obst_Hgt)                       ! Read data
+  CALL START (Obst_Hgt, temp, humidity, timeloc, wind)   ! Read data
      
-  CALL SNDING (ZLS, Old_Ahum)                ! Read Sounding - Call Spline to Interpolate
+  CALL SNDING (ZLS, Old_Ahum, temp, humidity, timeloc, wind)  ! Read Sounding - Call Spline to Interpolate
 
   CALL CALC (OLDTMP, No_Rows)        ! Some basic calculations
 

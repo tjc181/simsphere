@@ -1,8 +1,9 @@
 !subroutine  START (Obst_Hgt,dual_regime,zo_patch)
 ! dual_regime and zo_patch are not currently used.  Comment at end of this
 ! file suggests planned data read checks, not currently implemented.
-subroutine  START (Obst_Hgt)
+subroutine  START (Obst_Hgt, temp, humidity, timeloc, wind)
   use simsphere_mod
+  use json_module
   implicit none
 
 !  real(kind=4) :: Obst_Hgt, zo_patch
@@ -17,34 +18,93 @@ subroutine  START (Obst_Hgt)
   integer(kind=1) :: num_soils, num_of_veggies, index_soils, index_veggies
   integer :: i
 
+  type(json_file) :: cfg_json
+  type(t_met) :: met
+  type(t_timeloc) :: timeloc
+  type(t_veg) :: veg
+  type(t_wind) :: wind
+  type(t_soil) :: soil
+  type(t_temp) :: temp
+  type(t_humid) :: humidity
+
+  character(len=:), allocatable :: cfg_file
+
+  if (.not. allocated(cfg_file)) then
+    allocate(character(len=12) :: cfg_file )
+    cfg_file = 'i_model.json'
+  end if
+
+  call init_json(cfg_file, cfg_json)
+
+  call load_config(cfg_json, met, timeloc, veg, wind, soil, temp, humidity)
+
+  deallocate(cfg_file)
+
+  call destroy_json(cfg_json)
+
 !        INCLUDE 'modvars.h'
 
   zo_flag = .false.
   ob_flag = .false.
   Class = 'U'
 
+! ** Take input from JSON file (above), assign existing variables values from 
+! data structures
+
 ! **  This subroutine reads in the control variables from the input
 ! **  file.
 
-  OPEN ( UNIT=9, FILE = f_control ) ! Open file for input
-                                              ! Closed in Snding.for
-!     ^^^^------------------- it should have been, but it wasn't.
-
 ! **  Read stuff for main program.
 
+  iyr = timeloc%iyr
+  imo = timeloc%imo
+  iday = timeloc%iday
+  tz = timeloc%tz
+  xlat = timeloc%xlat
+  xlong = timeloc%xlong
+  strtim = timeloc%strtim
+  timend = timeloc%timend
+  outtt = timeloc%outtt
+  slope = timeloc%slope
+  aspect = timeloc%aspect
 
-  READ (9,*) IYR, IMO, IDAY, TZ, XLAT, XLONG, STRTIM, TIMEND,           &
-             OUTTT, SLOPE, ASPECT
+  f = soil%f
+  fsub = soil%fsub
+  wmax = soil%wmax
+  btemp = soil%btemp
+  tp = soil%tp
+  dual_ti = soil%dual_ti
+  ti_a = soil%ti_a
+  ti_b = soil%ti_b
+  albedo_gflag = soil%albedo_gflag
+  albg = soil%albg
+  epsi = soil%epsi
+  index_soils = soil%index_soils
 
-  READ (9,*) F, FSUB, WMAX, BTEMP, TP, DUAL_TI, TI_A, TI_B,             &
-             ALBEDO_GFLAG, ALBG, EPSI, index_soils
-  cloud_flag=(1.eq.1)
+  omega = met%omega
+  zo = met%zo
+  obst_hgt = met%obst_hgt
+  cloud_flag = met%cloud_flag
+  cld_fract = met%cld_fract
 
-  READ (9,*) OMEGA, ZO, OBST_HGT, cloud_flag, cld_fract
-
-  READ (9,*) FRVEG, XLAI, EPSF, ALBEDO_FFLAG, ALBF, STMTYPE,            &
-             index_veggies, VOLREL, rmin, rcut, WILT, VEGHEIGHT,        &
-             WIDTH, STEADY, CI, CO , coz_sfc, coz_air
+  frveg = veg%frveg
+  xlai = veg%xlai
+  epsf = veg%epsf
+  albedo_fflag = veg%albedo_fflag
+  albf = veg%albf
+  stmtype = veg%stmtype
+  index_veggies = veg%index_veggies
+  volrel = veg%volrel
+  rmin = veg%rmin
+  rcut = veg%rcut
+  wilt = veg%wilt
+  vegheight = veg%vegheight
+  width = veg%width
+  steady = veg%steady
+  ci = veg%ci
+  co = veg%co
+  coz_sfc = veg%coz_sfc
+  coz_air = veg%coz_air
 
 ! Include the vegetation and soils databases in the calculations.
 !
@@ -84,8 +144,6 @@ subroutine  START (Obst_Hgt)
 ! Make conversions
 
   Btemp = btemp + Celsius_to_Kelvin
-! Removing this, suspect a repair for broken dectim() -TJC
-!  Outtt = outtt * 60
   CO = CO*1E-6
   CI = CI*1E-6
 

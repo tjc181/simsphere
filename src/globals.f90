@@ -4,6 +4,7 @@ module globals
 
 !  Global variables (formerly COMMON in modvars.h)
 
+  real, dimension(:), allocatable :: ts
   real :: KM(50)=0.0, LAMBDA=0.0, KAPPA=0.0, LWDN=0.0
   real :: u_fine(51)=0.0,v_fine(51)=0.0,t_fine(51)=0.0,q_fine(51)=0.0
   real :: UGS=0.0,VGS=0.0,ANGL=0.0,DTX=0.0,DTY=0.0,CF=0.0
@@ -11,7 +12,8 @@ module globals
   real :: ZI(50)=0.0,ZK(50)=0.0
   real :: UD(50)=0.0,VD(50)=0.0,UGD(50)=0.0,VGD(50)=0.0
   real :: XTDIF=0.0,YTDIF=0.0,XPDIF=0.0,YPDIF=0.0
-  real :: GM(50)=0.0,TS(50)=0.0,TD(50)=0.0,Tdif_50=0.0,Tdif_s=0.0,O_Pot_Tmp=0.0
+!  real :: GM(50)=0.0,TS(50)=0.0,TD(50)=0.0,Tdif_50=0.0,Tdif_s=0.0,O_Pot_Tmp=0.0
+  real :: GM(50)=0.0,TD(50)=0.0,Tdif_50=0.0,Tdif_s=0.0,O_Pot_Tmp=0.0
   real :: TA=0.0,TAF=0.0,TG=0.0,QAF=0.0,QSTF=0.0
   real :: HF=0.0,XLEF=0.0,XLEG=0.0,TF=0.0,QA=0.0,WIDTH=0.0
   real :: RST=0.0,UAF=0.0,RSF=0.0,RSG=0.0,RLF=0.0,RLG=0.0,UTEN=0.0

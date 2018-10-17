@@ -50,8 +50,7 @@ module config_mod
   type t_soil
     real(kind=wp) :: f, fsub, wmax, btemp, tp, albg, epsi
     real(kind=wp) :: ti_a, ti_b
-    character(len=:), allocatable :: dual_ti
-    logical :: albedo_gflag
+    character(len=:), allocatable :: dual_ti, albedo_gflag
     integer :: index_soils
   end type t_soil
 

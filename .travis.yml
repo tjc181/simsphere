@@ -10,6 +10,7 @@ before_script:
   - FC=gfortran-7 cmake .
   - cmake --build .
 script:
+  - ./bin/config
   - ctest
 notifications:
 email: false
