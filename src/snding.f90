@@ -1,12 +1,17 @@
-SUBROUTINE SNDING (ZLS, Old_Ahum)
+SUBROUTINE SNDING (ZLS, Old_Ahum, temp, humidity, timeloc, wind)
   use simsphere_mod
   implicit none
 
 !TJC  real(kind=4),allocatable :: derivs(:)
   real,allocatable :: derivs(:)
 
-  real :: PS(50), EW(50),QS(50), DEP(50), DD0(50), FF0(50), ZLS(50)
-  real :: ZH(50),UCOMP(50), VCOMP(50), GMQ(50), Pot_Temp (50)
+  type(t_timeloc) :: timeloc
+  type(t_temp) :: temp
+  type(t_humid) :: humidity
+  type(t_wind) :: wind
+  real :: EW(50),QS(50), ZLS(50)
+  real :: UCOMP(50), VCOMP(50), GMQ(50), Pot_Temp (50)
+  real, dimension(:), allocatable :: ps, dep, dd0, ff0, zh
 
 ! Actual and decomposed values
 
@@ -21,19 +26,21 @@ SUBROUTINE SNDING (ZLS, Old_Ahum)
   real :: precip_H2O, sum_precip_H2O, dydx, dydxn, Pres_50, Pot_50
   real :: Height_at_NTRP
       
-!TJC  Moved to simsphere_mod.f90
-!  data Vert_Spacing /250/ ! 250 metre intervals
   deltaz = vert_spacing
 
-  read(9,*) NOBS_pTq, NOBS_wind, Station_Height, UGS, VGS
+! Get data from data structures instead of input file unit 9
+! Temporary until subroutine calls, globals reworked
+  station_height = timeloc%station_height
+  nobs_wind = wind%num_obs
+  nobs_ptq = humidity%num_obs
+  dd0 = humidity%dd0
+  ff0 = humidity%ff0
+  zh = humidity%zh
+  ps = temp%ps
+  ts = temp%ts
+  dep = temp%dep
+  
 
-  do I = 1, NOBS_pTq
-    read(9,*) PS(I),TS(I),DEP(I) ! Read P/T/q Obs
-  end do
-
-  do J=1, NOBS_wind
-       read(9,*) DD0(J),FF0(J),ZH(J) ! Read Wind Obs
-  end do
 
 ! P/T/q first
 
@@ -225,13 +232,6 @@ SUBROUTINE SNDING (ZLS, Old_Ahum)
 
 !        rhoa = ps(j)*100./(287.*tbar) ! Kell's Precip water calc
 !        asum = asum + (qs(i) + qs(i+1))/2.*.001*rhoa*thick*100
-
-
-
-! Input file wasn't being close explicitly, now it is. (It's opened 
-! in subroutine START.
-
-  close(UNIT=9)
 
   return
 end

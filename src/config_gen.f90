@@ -8,7 +8,7 @@ program sim_input_gen
   type(json_value), pointer :: temp_snd, humid_snd
 
   ! initialize the class
-  call json%initialize(compact_reals=.true.)
+  call json%initialize(compact_reals=.true., real_format='*')
 
   ! initialize the structure:
   call json%create_object(p,'')

@@ -38,18 +38,16 @@ find_package(jsonfortran NAMES jsonfortran-gnu HINTS /tmp/json-build REQUIRED)
 # library to archive (libsimsphere)
 add_library(simsphere_mod SHARED src/simsphere_mod.f90 src/config_mod.f90 src/constants_mod.f90 src/snding_mod.f90 src/stomata_mod.f90 src/transm_mod.f90 src/vel_mod.f90 src/globals.f90)
 add_dependencies(simsphere_mod compare)
-target_include_directories(simsphere_mod PRIVATE ${compare_BINARY_DIR}/include PRIVATE ${jsonfortran_INCLUDE_DIRS})
 target_link_libraries(simsphere_mod compare jsonfortran)
 set_target_properties(simsphere_mod PROPERTIES INTERFACE_POSITION_INDEPENDENT_CODE ON)
+
 
 
 # tests
 enable_testing()
 add_executable(simsphere src/air.f90 src/albedo.f90 src/avr.f90 src/ball.f90 src/below.f90 src/bri.f90 src/calc.f90 src/canres.f90 src/capac.f90 src/co2flx.f90 src/daykm.f90 src/fine.f90 src/flux.f90 src/gettbl.f90 src/gtemp.f90 src/hot.f90 src/input.f90 src/intpol.f90 src/main.f90 src/momday.f90 src/mom.f90 src/netrad.f90 src/output.f90 src/ozone.f90 src/prfile.f90 src/psgcal.f90 src/pslcal.f90 src/psoil.f90 src/slope.f90 src/snding.f90 src/start.f90 src/vegflx.f90 src/veghot.f90 src/vegrad.f90 src/vegvel.f90 src/vel.f90 src/water.f90)
 add_executable(config src/config_gen.f90)
-target_include_directories(config PRIVATE ${jsonfortran_INCLUDE_DIRS})
 add_executable(loadjson src/loadjson.f90)
-target_include_directories(loadjson PRIVATE ${jsonfortran_INCLUDE_DIRS})
 add_executable(simsphere_test src/fine.f90 src/prfile.f90 src/intpol.f90 src/albedo.f90 src/avr.f90 src/hot.f90 src/veghot.f90 src/co2flx.f90 src/ozone.f90 src/snding.f90 src/start.f90 src/avr.f90 src/vegflx.f90 src/psgcal.f90 tests/mod_testing.f90 tests/tests.f90)
 add_executable(test_air src/air.f90 tests/mod_testing.f90 tests/test_air.f90)
 add_executable(test_albedo src/albedo.f90 tests/mod_testing.f90 tests/test_albedo.f90)
@@ -74,6 +72,7 @@ add_executable(test_veghot src/ozone.f90 src/co2flx.f90 src/veghot.f90 tests/tes
 add_executable(test_vegrad src/vegrad.f90 tests/mod_testing.f90 tests/test_vegrad.f90)
 add_executable(test_vegvel src/vegvel.f90 src/ball.f90 src/pslcal.f90 src/psgcal.f90 src/capac.f90 tests/mod_testing.f90 tests/test_vegvel.f90)
 add_executable(test_water src/water.f90 tests/mod_testing.f90 tests/test_water.f90)
+
 target_link_libraries(simsphere simsphere_mod compare)
 target_link_libraries(config jsonfortran)
 target_link_libraries(loadjson simsphere_mod)
@@ -101,6 +100,15 @@ target_link_libraries(test_veghot simsphere_mod)
 target_link_libraries(test_vegrad simsphere_mod)
 target_link_libraries(test_vegvel simsphere_mod)
 target_link_libraries(test_water simsphere_mod)
+
+target_include_directories(simsphere_mod PRIVATE ${compare_BINARY_DIR}/include PRIVATE ${jsonfortran_INCLUDE_DIRS})
+target_include_directories(simsphere PRIVATE ${jsonfortran_INCLUDE_DIRS})
+target_include_directories(config PRIVATE ${jsonfortran_INCLUDE_DIRS})
+target_include_directories(loadjson PRIVATE ${jsonfortran_INCLUDE_DIRS})
+target_include_directories(simsphere_test PRIVATE ${jsonfortran_INCLUDE_DIRS})
+target_include_directories(test_snding PRIVATE ${jsonfortran_INCLUDE_DIRS})
+
+
 add_test(simsphere_test ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/simsphere_test)
 add_test(test_air ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/test_air)
 add_test(test_albedo ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/test_albedo)

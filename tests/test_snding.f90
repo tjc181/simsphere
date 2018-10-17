@@ -1,17 +1,29 @@
 program test_snding
   use simsphere_mod, only: deltaz, ts, gm, ntrp, atemp, tdif_s, aptemp, zi,   &
                            tscren, oshum, ahum, ps1, o_pot_tmp, tdif_50, ugs, &
-                           vgs, f_control, eq
+                           vgs, f_control, t_met, t_wind, t_soil, t_veg,      &
+                           t_temp, t_humid, t_timeloc, init_json, load_config,&
+                           destroy_json, eq
   use mod_testing, only: assert, initialize_tests, report_tests
+  use json_module
   implicit none
 
+  type(t_met) :: met
+  type(t_timeloc) :: timeloc
+  type(t_wind) :: wind
+  type(t_soil) :: soil
+  type(t_veg) :: veg
+  type(t_temp) :: temp
+  type(t_humid) :: humidity
+  type(json_file) :: cfg_json
+  character(len=:), allocatable :: cfg_file
 
   logical, dimension(:), allocatable :: tests
   logical :: test_failed
   integer :: n, ntests, i
 
   real, dimension(50) :: arg1
-  real :: arg2, junk
+  real :: arg2
 
   ! Expected values
   real, parameter :: atemp_exp = 297.149994
@@ -38,11 +50,18 @@ program test_snding
   ntests = 12
   call initialize_tests(tests,ntests)
 
+  ! Initialize JSON, data structures
+  cfg_file = 'i_model.json'
+
+  call init_json(cfg_file, cfg_json)
+  call load_config(cfg_json, met, timeloc, veg, wind, soil, temp, humidity)
+  call destroy_json(cfg_json)
+
   ! Initialize
 !  call start
 
   call snding_init
-  call snding(arg1,arg2)
+  call snding(arg1,arg2, temp, humidity, timeloc, wind)
 
   tests(n) = assert(eq(atemp,atemp_exp), 'atemp')
   n = n + 1
@@ -69,17 +88,13 @@ program test_snding
   tests(n) = assert(eq(gm,gm_exp), 'gm')
   n = n + 1
 
+
   test_failed = .false.
   call report_tests(tests,test_failed)
   if (test_failed) stop 1
 
 contains
   subroutine snding_init
-    open(unit=9,file=f_control)
-    do i = 1,4
-      read(9,*) junk
-    end do
-    ts = 0.0
     arg1 = 1.0
     arg2 = 0.0
     ntrp = 0
