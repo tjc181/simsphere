@@ -49,9 +49,9 @@ program sim_input_gen
   ! Time and location inputs
   call json%create_object(time, 'time_location')
   call json%add(inp, time)
-  call json%add(time, 'iyr', 89)
-  call json%add(time, 'imo', 8)
-  call json%add(time, 'iday', 4)
+  call json%add(time, 'year', 89)
+  call json%add(time, 'month', 8)
+  call json%add(time, 'day', 4)
   call json%add(time, 'tz', 6)
   call json%add(time, 'xlat', 39.25_wp)
   call json%add(time, 'xlong', 96.34_wp)

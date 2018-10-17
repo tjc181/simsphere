@@ -2,6 +2,7 @@ program test_load_data
   use simsphere_mod, only: t_met, t_wind, t_soil, t_veg, t_temp, t_humid,   &
                            t_timeloc, init_json, load_config, destroy_json, eq
   use mod_testing, only: assert, initialize_tests, report_tests
+  use iso_fortran_env, only: real32, real64
   use json_module
   implicit none
 
@@ -19,15 +20,11 @@ program test_load_data
   logical :: test_failed
   integer :: n, ntests, i
 
-  ! eq() doesn't support derived types, we'll use 'junk' as a temporary
-  ! for comparisons
-  real :: junk
-
   ! Expected values
 
   ! Initialize mod_testing
   n = 1
-  ntests = 7
+  ntests = 16
   call initialize_tests(tests,ntests)
 
   ! Initialize JSON, data structures
@@ -42,19 +39,35 @@ program test_load_data
   n = n + 1
   tests(n) = assert(humidity%num_obs == 12, 'nobs_ptq == 12')
   n = n + 1
-  junk = met%omega
-  tests(n) = assert(eq(junk,3.13), 'omega == 3.13')
+  tests(n) = assert(eq(met%omega,3.13_real64), 'omega == 3.13')
   n = n + 1
-  junk = met%zo
-  tests(n) = assert(eq(junk,0.05), 'zo == 0.05')
+  tests(n) = assert(eq(met%zo,0.05_real64), 'zo == 0.05')
   n = n + 1
-  junk = met%obst_hgt
-  tests(n) = assert(eq(junk,1.0), 'obst_height == 1.0')
+  tests(n) = assert(eq(met%obst_hgt,1.0_real64), 'obst_height == 1.0')
   n = n + 1
   tests(n) = assert(met%cloud_flag .eqv. .true., 'cloud_flag eqv true')
   n = n + 1
-  junk = met%cld_fract
-  tests(n) = assert(eq(junk,14.0), 'cld_fract == 14.0')
+  tests(n) = assert(met%cld_fract == 14, 'cld_fract == 14')
+  n = n + 1
+  tests(n) = assert(eq(soil%f,0.5_real64), 'f == 0.5')
+  n = n + 1
+  tests(n) = assert(eq(soil%fsub,0.75_real64), 'fsub == 0.75')
+  n = n + 1
+  tests(n) = assert(eq(soil%wmax,0.34_real64), 'wmax == 0.34')
+  n = n + 1
+  tests(n) = assert(eq(soil%btemp,24.63_real64), 'btemp == 24.63')
+  n = n + 1
+
+  tests(n) = assert(timeloc%year == 89, 'year == 89')
+  n = n + 1
+  tests(n) = assert(timeloc%strtim == 530, 'strtim == 530')
+  n = n + 1
+
+  tests(n) = assert(veg%frveg == 0, 'frveg == 0')
+  n = n + 1
+  tests(n) = assert(veg%steady == 'Y', 'steady == Y')
+  n = n + 1
+  tests(n) = assert(eq(wind%ugs,4.649_real64), 'ugs = 4.649')
   n = n + 1
 
 

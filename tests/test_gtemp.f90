@@ -1,6 +1,6 @@
 program test_gtemp
-  use simsphere_mod, only: eq, aepsi, sigma, t_fine, tdif_s, swave, heat,    &
-                           otemp, evap, z, lambda, tt, z, epsi
+  use simsphere_mod, only: eq, aepsi, t_fine, tdif_s, swave, heat, otemp,   &
+                           evap, z, epsi
   use mod_testing, only: assert, initialize_tests, report_tests
   use, intrinsic :: ieee_arithmetic
   implicit none

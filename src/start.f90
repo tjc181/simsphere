@@ -56,9 +56,9 @@ subroutine  START (Obst_Hgt, temp, humidity, timeloc, wind)
 
 ! **  Read stuff for main program.
 
-  iyr = timeloc%iyr
-  imo = timeloc%imo
-  iday = timeloc%iday
+  iyr = timeloc%year
+  imo = timeloc%month
+  iday = timeloc%day
   tz = timeloc%tz
   xlat = timeloc%xlat
   xlong = timeloc%xlong

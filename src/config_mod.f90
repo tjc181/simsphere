@@ -28,7 +28,7 @@ module config_mod
   end type t_met
 
   type t_timeloc
-    integer :: iyr, imo, iday, tz
+    integer :: year, month, day, tz
     real(kind=wp) :: xlat, xlong
     real(kind=wp) :: strtim, timend, outtt
     real(kind=wp) :: slope, aspect, station_height
@@ -127,11 +127,11 @@ contains
   
     ! Time and Location
     path = '.time_location'
-    call json%get(root//path//'.iyr',timeloc%iyr, found)
+    call json%get(root//path//'.year',timeloc%year, found)
     if (.not. found) stop 1
-    call json%get(root//path//'.imo',timeloc%imo, found)
+    call json%get(root//path//'.month',timeloc%month, found)
     if (.not. found) stop 1
-    call json%get(root//path//'.iday',timeloc%iday, found)
+    call json%get(root//path//'.day',timeloc%day, found)
     if (.not. found) stop 1
     call json%get(root//path//'.tz',timeloc%tz, found)
     if (.not. found) stop 1
