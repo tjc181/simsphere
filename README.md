@@ -37,9 +37,10 @@ developed using gfortran 7.3.0.
 # Unix:
 ```
 git submodule update --init --recursive
+scripts/build-json-fortran.sh
 cmake -H. -B../simsphere-build
 cmake --build ../simsphere-build
-(cd ../simsphere-build && ctest)
+(cd ../simsphere-build && bin/config && ctest)
 ```
 
 # Windows:
