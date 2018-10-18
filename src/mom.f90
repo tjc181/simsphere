@@ -20,8 +20,8 @@ subroutine  MOM (Pot_S,DT,MONCE)
   KRAD = 0.75
 
 
-  OKMAX = 1
-  X1 = 0
+  OKMAX = 1.0
+  X1 = 0.0
 
   IF ( MONCE .EQ. 0 ) THEN
 
