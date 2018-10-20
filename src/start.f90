@@ -3,7 +3,6 @@
 ! file suggests planned data read checks, not currently implemented.
 subroutine  START (Obst_Hgt, temp, humidity, timeloc, wind)
   use simsphere_mod
-  use json_module
   implicit none
 
 !  real(kind=4) :: Obst_Hgt, zo_patch
@@ -18,7 +17,6 @@ subroutine  START (Obst_Hgt, temp, humidity, timeloc, wind)
   integer(kind=1) :: num_soils, num_of_veggies, index_soils, index_veggies
   integer :: i
 
-  type(json_file) :: cfg_json
   type(t_met) :: met
   type(t_timeloc) :: timeloc
   type(t_veg) :: veg
@@ -30,17 +28,13 @@ subroutine  START (Obst_Hgt, temp, humidity, timeloc, wind)
   character(len=:), allocatable :: cfg_file
 
   if (.not. allocated(cfg_file)) then
-    allocate(character(len=12) :: cfg_file )
+    allocate(character(len=12) :: cfg_file)
     cfg_file = 'i_model.json'
   end if
 
-  call init_json(cfg_file, cfg_json)
-
-  call load_config(cfg_json, met, timeloc, veg, wind, soil, temp, humidity)
+  call load_config(cfg_file, met, timeloc, veg, wind, soil, temp, humidity)
 
   deallocate(cfg_file)
-
-  call destroy_json(cfg_json)
 
 !        INCLUDE 'modvars.h'
 

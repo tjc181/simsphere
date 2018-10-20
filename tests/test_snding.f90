@@ -5,7 +5,6 @@ program test_snding
                            t_temp, t_humid, t_timeloc, init_json, load_config,&
                            destroy_json, eq
   use mod_testing, only: assert, initialize_tests, report_tests
-  use json_module
   implicit none
 
   type(t_met) :: met
@@ -15,7 +14,6 @@ program test_snding
   type(t_veg) :: veg
   type(t_temp) :: temp
   type(t_humid) :: humidity
-  type(json_file) :: cfg_json
   character(len=:), allocatable :: cfg_file
 
   logical, dimension(:), allocatable :: tests
@@ -53,9 +51,7 @@ program test_snding
   ! Initialize JSON, data structures
   cfg_file = 'i_model.json'
 
-  call init_json(cfg_file, cfg_json)
-  call load_config(cfg_json, met, timeloc, veg, wind, soil, temp, humidity)
-  call destroy_json(cfg_json)
+  call load_config(cfg_file, met, timeloc, veg, wind, soil, temp, humidity)
 
   ! Initialize
 !  call start

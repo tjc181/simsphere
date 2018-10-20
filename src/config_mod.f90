@@ -65,8 +65,7 @@ module config_mod
   
 contains
 
-  subroutine init_json(file, json)
-    character(len=:),allocatable :: file
+  subroutine init_json(json)
     integer :: error_cnt
     type(json_file) :: json
 
@@ -77,11 +76,6 @@ contains
       error_cnt = error_cnt + 1
     end if
   
-    call json%load_file(filename = file)
-    if (json%failed()) then
-      call json%print_error_message(error_unit)
-      error_cnt = error_cnt + 1
-    end if
     return
   end subroutine init_json
 
@@ -93,7 +87,7 @@ contains
     return
   end subroutine destroy_json 
 
-  subroutine load_config(json, met, timeloc, veg, wind, soil, temp, humidity)
+  subroutine load_config(file, met, timeloc, veg, wind, soil, temp, humidity)
     type(json_file) :: json
     type(t_met) :: met
     type(t_timeloc) :: timeloc
@@ -103,9 +97,19 @@ contains
     type(t_temp) :: temp
     type(t_humid) :: humidity
     logical :: found, namelist_style
+    integer :: error_cnt
 
+    character(len=:),allocatable :: file
     character(len=6), parameter :: root = 'inputs'
     character(len=20) :: path
+
+    call init_json(json)
+
+    call json%load_file(filename = file)
+    if (json%failed()) then
+      call json%print_error_message(error_unit)
+      error_cnt = error_cnt + 1
+    end if
 
     found = .false.
     namelist_style = .true.
@@ -247,6 +251,8 @@ contains
     call json%get(root//'.nobs_ptq', humidity%num_obs, found)
     if (.not. found) stop 1
 
+    ! Clean up
+    call destroy_json(json)
     return
   end subroutine load_config
 
