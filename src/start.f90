@@ -1,14 +1,10 @@
-!subroutine  START (Obst_Hgt,dual_regime,zo_patch)
-! dual_regime and zo_patch are not currently used.  Comment at end of this
-! file suggests planned data read checks, not currently implemented.
-subroutine  START (Obst_Hgt, temp, humidity, timeloc, wind)
+subroutine  START (Obst_Hgt, dual_regime, zo_patch, temp, humidity, timeloc, wind)
   use simsphere_mod
   implicit none
 
-!  real(kind=4) :: Obst_Hgt, zo_patch
-  real(kind=4) :: Obst_Hgt
-! logical :: zo_flag, ob_flag, dual_regime
-  logical :: zo_flag, ob_flag
+  real(kind=4) :: Obst_Hgt, zo_patch
+  logical :: zo_flag, ob_flag, dual_regime
+!  logical :: zo_flag, ob_flag
 
   character :: Class
   character(len=1) :: ALBEDO_GFLAG, ALBEDO_FFLAG ! For Interface
@@ -157,6 +153,9 @@ subroutine  START (Obst_Hgt, temp, humidity, timeloc, wind)
 
 !        Call RoughCk (class, zo_flag, ob_flag, dual_regime,
 !     /                      zo_patch, Obst_Hgt)
+
+! Test a problem with zo_patch being passed to you_start() unitialized
+  zo_patch = zo
 
   return
 end

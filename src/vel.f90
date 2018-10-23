@@ -134,8 +134,6 @@ subroutine VEL (MONCE,IONCE,StabCriteria,YCOUNT,Obst_Hgt,dual_regime,zo_patch)
 
     CALL BRI (T1,MONCE,PSIHNEW,YCOUNT,ZTEN) ! Stable
 
-!    write(*,*) HEAT
-
     REKUST = 1 / (KARMAN * USTAR)
     RZAZO =  REKUST * ( ALOG( ZA / ZO ) + psihnew )
 
@@ -155,6 +153,9 @@ subroutine VEL (MONCE,IONCE,StabCriteria,YCOUNT,Obst_Hgt,dual_regime,zo_patch)
 !  Set USTAR equal to some non-zero value if small.
 
   IF ( USTAR .LT. 0.01 ) USTAR = 0.01
+! TJC Work around a problem with this being unitialized.
+! TJC Related to dual_regime and zo_patch
+  ustar_patch = ustar
 
 !  Calc the diffusivities and resistances to heat and water for
 !  the transition layer.  KS & KW are the molecular conductivities

@@ -32,7 +32,7 @@ program simsphere
   real :: B, BareEvapFlux, BareHeatFlux, BareNetRadn, BareRadioTemp
   real :: MixedNetRadn, OLDTMP, TIME=0.0, TMOD
   real :: VegnNetRadn, VegnRadioTemp, YCOUNT=0.0
-  logical :: dual_regime
+  logical :: dual_regime = .false.
 
   type(t_timeloc) :: timeloc
   type(t_temp) :: temp
@@ -57,7 +57,7 @@ program simsphere
   OPEN ( UNIT=11, FILE = f_output ) ! Open the output file
 
 !  CALL START (Obst_Hgt,dual_regime,zo_patch) ! Read and Check data
-  CALL START (Obst_Hgt, temp, humidity, timeloc, wind)   ! Read data
+  CALL START (Obst_Hgt, dual_regime, zo_patch, temp, humidity, timeloc, wind)   ! Read data
      
   CALL SNDING (ZLS, Old_Ahum, temp, humidity, timeloc, wind)  ! Read Sounding - Call Spline to Interpolate
 

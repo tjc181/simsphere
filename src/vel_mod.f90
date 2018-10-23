@@ -8,10 +8,10 @@ module vel_mod
   contains
 !  Function Definitions for Vel
     
-    real pure function You_star (Wind,Height,Roughness,Stability,R_Karman)
-      real, intent(in) :: Wind, Height, Roughness, Stability, R_Karman
-    
-      You_star = R_Karman * Wind / ((ALOG(Height / Roughness) + Stability))  
+    real pure function You_star (w,Height,Roughness,Stability,R_Karman)
+      real, intent(in) :: w, Height, Roughness, Stability, R_Karman
+
+      You_star = R_Karman * w / ((ALOG(Height / Roughness) + Stability))  
     
     end function You_star
     
