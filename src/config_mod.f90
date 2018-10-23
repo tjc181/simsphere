@@ -1,10 +1,10 @@
 module config_mod
-  use, intrinsic :: iso_fortran_env, only: wp => real64, error_unit
+  use, intrinsic :: iso_fortran_env, only: real64, error_unit
   use json_module
   implicit none
 
   private
-  public :: init_json, destroy_json, load_config
+  public :: load_config
   public :: t_met, t_veg, t_wind, t_soil, t_temp, t_humid, t_timeloc
 
 ! config_mod provides data structures and subroutines to read data from the 
@@ -22,47 +22,47 @@ module config_mod
 !  t_humid: Humidity sounding
 
   type t_met
-    real(kind=wp) :: omega, zo, obst_hgt
+    real(kind=real64) :: omega, zo, obst_hgt
     integer :: cld_fract
     logical :: cloud_flag
   end type t_met
 
   type t_timeloc
     integer :: year, month, day, tz
-    real(kind=wp) :: xlat, xlong
-    real(kind=wp) :: strtim, timend, outtt
-    real(kind=wp) :: slope, aspect, station_height
+    real(kind=real64) :: xlat, xlong
+    real(kind=real64) :: strtim, timend, outtt
+    real(kind=real64) :: slope, aspect, station_height
   end type t_timeloc
 
   type t_veg
-    real(kind=wp) :: frveg, xlai, epsf, albf, volrel
-    real(kind=wp) :: rmin, rcut, wilt, vegheight, width
-    real(kind=wp) :: ci, co, coz_sfc, coz_air
+    real(kind=real64) :: frveg, xlai, epsf, albf, volrel
+    real(kind=real64) :: rmin, rcut, wilt, vegheight, width
+    real(kind=real64) :: ci, co, coz_sfc, coz_air
     character(len=:), allocatable :: albedo_fflag, stmtype, steady
     integer :: index_veggies
   end type t_veg
 
   type t_wind
-    real(kind=wp) :: ugs, vgs
+    real(kind=real64) :: ugs, vgs
     integer :: num_obs
   end type t_wind
 
   type t_soil
-    real(kind=wp) :: f, fsub, wmax, btemp, tp, albg, epsi
-    real(kind=wp) :: ti_a, ti_b
+    real(kind=real64) :: f, fsub, wmax, btemp, tp, albg, epsi
+    real(kind=real64) :: ti_a, ti_b
     character(len=:), allocatable :: dual_ti, albedo_gflag
     integer :: index_soils
   end type t_soil
 
   type t_temp
-    real(kind=wp), dimension(:), allocatable :: ps, ts, dep
+    real(kind=real64), dimension(:), allocatable :: ps, ts, dep
   end type t_temp
 
   type t_humid
-    real(kind=wp), dimension(:), allocatable :: dd0, ff0, zh
+    real(kind=real64), dimension(:), allocatable :: dd0, ff0, zh
     integer :: num_obs
   end type t_humid
-  
+
 contains
 
   subroutine init_json(json)

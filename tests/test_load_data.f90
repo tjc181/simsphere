@@ -1,6 +1,6 @@
 program test_load_data
   use simsphere_mod, only: t_met, t_wind, t_soil, t_veg, t_temp, t_humid,   &
-                           t_timeloc, init_json, load_config, destroy_json, eq
+                           t_timeloc, load_config, eq
   use mod_testing, only: assert, initialize_tests, report_tests
   use iso_fortran_env, only: real32, real64
   implicit none

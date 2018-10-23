@@ -1,11 +1,22 @@
 program simsphere
   use simsphere_mod
+  use json_module
+  use iso_fortran_env, only: real64
   implicit none
 
 ! Main program lists and defines model symbols, coordinates model
 ! subroutines, and establishes iteration sequence.
 
 ! Type declaration of variables.
+
+  interface
+    subroutine output(n, j, o)
+      use json_module
+      integer :: n
+      type(json_core) :: j
+      type(json_value), pointer :: o
+    end subroutine output
+  end interface
 
 !** Compiler identifies FRACTN as unused
 !**   character(len=5) FRACTN
@@ -31,6 +42,11 @@ program simsphere
   type(t_veg) :: veg
   type(t_soil) :: soil
 
+  type(json_core) :: json
+  type(json_value), pointer :: p, out
+
+  character(len=:), allocatable :: out_file
+
   
 !      INCLUDE 'modvars.h'
 
@@ -55,9 +71,12 @@ program simsphere
 
   CALL PSOIL                        ! Set up for the soil
 
+! Initialize JSON output
+  call json % initialize(compact_reals=.true., real_format='*')
+  call json % create_object(p,'')
   
   do while (realtm < timend)
-  !5 CONTINUE                          ! Loop back here every 180 seconds
+!  5 CONTINUE                          ! Loop back here every 180 seconds
   
   ! Initially TIME = 0, so REALTME = STRTIM but remember
   ! TIME is incremented each step.
@@ -124,16 +143,28 @@ program simsphere
   !  Output is written every OUTTT seconds.
   
     IF (TMOD.EQ.0.) then
-      CALL output(No_Rows)
+      call json % create_object(out,'output')
+      call json % add(p,out)
+      CALL output(No_Rows, json, out)
     end if
   
   ! Increment Time.
   
     TIME = TIME + (DELTA/60)
   
-  !  IF (REALTM .LT. timend) GO TO 5
+!    IF (REALTM .LT. timend) GO TO 5
   
   end do
+
+  if (.not. allocated(out_file)) then
+    allocate(character(len=12) :: out_file)
+    out_file = 'o_model.json'
+  end if
+
+  call json % print(p,'o_model.json')
+  deallocate(out_file)
+  call json % destroy(p)
+  if (json % failed()) stop 1
 
 
   ENDFILE (UNIT = 11)  ! Close the output file

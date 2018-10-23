@@ -2,8 +2,7 @@ program test_snding
   use simsphere_mod, only: deltaz, ts, gm, ntrp, atemp, tdif_s, aptemp, zi,   &
                            tscren, oshum, ahum, ps1, o_pot_tmp, tdif_50, ugs, &
                            vgs, f_control, t_met, t_wind, t_soil, t_veg,      &
-                           t_temp, t_humid, t_timeloc, init_json, load_config,&
-                           destroy_json, eq
+                           t_temp, t_humid, t_timeloc, load_config, eq 
   use mod_testing, only: assert, initialize_tests, report_tests
   implicit none
 

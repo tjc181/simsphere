@@ -1,6 +1,6 @@
 program loadjson
   use simsphere_mod, only: t_met, t_timeloc, t_veg, t_wind, t_soil, t_temp,  &
-                           t_humid, init_json, destroy_json, load_config
+                           t_humid, load_config
   use, intrinsic :: iso_fortran_env, only: error_unit
 
   type(t_met) :: met
