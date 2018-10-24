@@ -9,13 +9,13 @@ program simsphere
 
 ! Type declaration of variables.
 
-  interface
-    subroutine output(j, o)
-      use json_module
-      type(json_core) :: j
-      type(json_value), pointer :: o
-    end subroutine output
-  end interface
+!  interface
+!    subroutine output(j, o)
+!      use json_module
+!      type(json_core) :: j
+!      type(json_value), pointer :: o
+!    end subroutine output
+!  end interface
 
 !** Compiler identifies FRACTN as unused
 !**   character(len=5) FRACTN

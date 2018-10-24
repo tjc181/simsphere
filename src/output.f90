@@ -1,5 +1,14 @@
+module out_mod
+  implicit none
+
+  private
+  public :: output
+
+contains 
+
 subroutine  OUTPUT(json, out)
-  use simsphere_mod
+  use globals
+  use constants
   use json_module
   use iso_fortran_env, only: real64
   implicit none
@@ -160,3 +169,5 @@ subroutine  OUTPUT(json, out)
 
   return
 end subroutine output
+
+end module out_mod
