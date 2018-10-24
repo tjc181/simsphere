@@ -17,7 +17,7 @@ program test_snding
 
   logical, dimension(:), allocatable :: tests
   logical :: test_failed
-  integer :: n, ntests, i
+  integer :: n, ntests
 
   real, dimension(50) :: arg1
   real :: arg2

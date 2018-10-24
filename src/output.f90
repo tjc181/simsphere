@@ -1,12 +1,10 @@
-subroutine  OUTPUT(No_Rows, json, out)
+subroutine  OUTPUT(json, out)
   use simsphere_mod
   use json_module
   use iso_fortran_env, only: real64
   implicit none
 
 ! Here we finally get around to printing out the variables.
-
-  integer :: No_Rows, n
 
   real, parameter :: Undefined = 0.0
   real :: G_Flux=0.0, Bowen=0.0, air_leaf_T=0.0

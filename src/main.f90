@@ -10,9 +10,8 @@ program simsphere
 ! Type declaration of variables.
 
   interface
-    subroutine output(n, j, o)
+    subroutine output(j, o)
       use json_module
-      integer :: n
       type(json_core) :: j
       type(json_value), pointer :: o
     end subroutine output
@@ -144,7 +143,7 @@ program simsphere
     IF (TMOD.EQ.0.) then
       call json % create_object(out,'output')
       call json % add(p,out)
-      CALL output(No_Rows, json, out)
+      CALL output(json, out)
     end if
   
   ! Increment Time.
