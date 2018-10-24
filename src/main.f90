@@ -54,7 +54,6 @@ program simsphere
 ! going and Snding reads in the sounding file.
 
 
-  OPEN ( UNIT=11, FILE = f_output ) ! Open the output file
 
 !  CALL START (Obst_Hgt,dual_regime,zo_patch) ! Read and Check data
   CALL START (Obst_Hgt, dual_regime, zo_patch, temp, humidity, timeloc, wind)   ! Read data
@@ -166,8 +165,5 @@ program simsphere
   call json % destroy(p)
   if (json % failed()) stop 1
 
-
-  ENDFILE (UNIT = 11)  ! Close the output file
-  CLOSE (UNIT = 11)
 
 end

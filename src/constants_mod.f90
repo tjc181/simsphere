@@ -4,7 +4,7 @@ module constants
   public :: vert_spacing, rhow, DELTA, rot_rate_earth, siga, dens, ft, ZA, SIGMA
   public :: LE, KARMAN, GRAV, R, RAD, CP, radian, sdec, Kts_To_Metres
   public :: Ft_To_Metres, Degs_To_Radians, Celsius_To_Kelvin
-  public :: f_control, f_soil_lut, f_veg_lut, f_precip_lut, f_output
+  public :: f_soil_lut, f_veg_lut, f_precip_lut
 
   integer, parameter :: vert_spacing = 250
   integer, parameter :: rhow=1000                ! Density of Water
@@ -33,10 +33,8 @@ module constants
   real, parameter :: Celsius_To_Kelvin = 273.15  ! Celsius to Kelvin
 
 ! Data file names
-  character(len=1024), parameter :: f_control = 'data/i_model.dat'
   character(len=1024), parameter :: f_soil_lut = 'data/soils.dat'
   character(len=1024), parameter :: f_veg_lut = 'data/veglut.dat'
   character(len=1024), parameter :: f_precip_lut = 'data/lut.dat'
-  character(len=1024), parameter :: f_output = 'o_model.dat'
 
 end module constants

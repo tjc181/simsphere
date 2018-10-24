@@ -6,7 +6,6 @@ subroutine  OUTPUT(No_Rows, json, out)
 
 ! Here we finally get around to printing out the variables.
 
-  integer(kind=1) :: I_Header = 1, I_Columns = 0
   integer :: No_Rows, n
 
   real, parameter :: Undefined = 0.0
@@ -43,55 +42,15 @@ subroutine  OUTPUT(No_Rows, json, out)
   Water_Use_Eff = (co2_flux*4.4e-8)/(xlef/le)
 
 
-  if (I_Header .eq. 1) then
-
-    I_Columns = 30
-    write (11, 4) I_Columns, No_Rows
-4   format(4(I4,1X))
-
-    WRITE (11,*) 'Time ','Shortwave_Flux/Wm-2 ','Net_Radiation/Wm-2 '
-    WRITE (11,*) 'Sensible_Heat_Flux/Wm-2 ','Latent_Heat_Flux/Wm-2 '
-    WRITE (11,*) 'Ground_Flux/Wm-2 ','Air_Temperature_50m/C '
-    WRITE (11,*) 'Air_Temperature_10m/C ','Air_Temperature_Foliage/C '
-    WRITE (11,*) 'Radiometric_Temperature/C ','Wind_50_Meters/Kts '
-    WRITE (11,*) 'Wind_10_Meters/Kts ', 'Wind_In_Foliage/Kts '
-    WRITE (11,*) 'Specific_Humidity_50m/gKg-1 '
-    WRITE (11,*) 'Specific_Humidity_10m/gKg-1 '
-    WRITE (11,*) 'Specific_Humidity_In_Foliage/gKg-1 ','Bowen_Ratio '
-    WRITE (11,*) 'Surface_Moisture_Availability '
-    WRITE (11,*) 'Root_Zone_Moisture_Availability '
-    WRITE (11,*) 'Stomatal_Resistance/sm-1 '
-    WRITE (11,*) 'Vapour_Pressure_Deficit/mbar '
-    WRITE (11,*) 'Leaf_Water_Potential/bars '
-    WRITE (11,*) 'Epidermal_Water_Potential/bars '
-    WRITE (11,*) 'Ground_Water_Potential/bars '
-    WRITE (11,*) 'CO2_Flux/micromolesm-2s-1 '
-    WRITE(11,*) 'CO2_Concentration_Canopy/ppmv ','Water_Use_Efficiency'
-    write(11,*)'O3_conc_canopy/ppmv ','Global_O3_flux/ugm-2s-1'
-    write (11,*) 'O3_flux_plant/ugm-2s-1 '
-
-    I_Header = 2
-
-  end if
-
-! Default data file (Primy.dat)
-
 !TJC  There doesn't seem to be any difference between these three output
 !TJC  cases.  They're intended to serve different purposes, but the same
 !TJC  calculations are done to the same variables during the write().
 
-  IF (RNET .LE. 0 .OR. SWAVE .LE. 0) THEN
+  if (RNET .LE. 0 .OR. SWAVE .LE. 0) THEN
 
 ! Night
 ! No Vegetation Response
 
-    WRITE (11,10) PTIME,SWAVE,RNET,HEAT,EVAP,G_Flux,                    &
-                  atemp-273.23,ta-273.23,air_leaf_T,OTEMP-273.23,       &
-                  awind*1.98, uten*1.98, uaf*1.98,                      &
-                  Q_Fine(1)*1000, QA*1000, QAF*1000,                    &
-                  Bowen, F, FSUB, Stom_R, vfl, psim, psie, psig,        &
-                  co2_flux, ccan_concn, Water_Use_Eff,caf,fglobal,      &
-                  flux_plant
     ! Convert outputs to real64 to be compatible with JSON library.  Min/Max
     ! values are 2**-53..2**53 in JSON so the library only supports kind=real64
         call json%add(out,'Time',real(ptime,real64))
@@ -130,13 +89,6 @@ subroutine  OUTPUT(No_Rows, json, out)
 ! Day
 
     If (heat .gt. 0) then
-      WRITE (11,10) PTIME,SWAVE,RNET,HEAT,EVAP,G_Flux,                  &
-                    atemp-273.23,ta-273.23,air_leaf_T,OTEMP-273.23,     &
-                    awind*1.98, uten*1.98, uaf*1.98,                    &
-                    Q_Fine(1)*1000, QA*1000, QAF*1000,                  &
-                    Bowen, F, FSUB, Stom_R, vfl, psim, psie, psig,      &
-                    co2_flux, ccan_concn, Water_Use_Eff,caf,fglobal,    &
-                    flux_plant
     ! Convert outputs to real64 to be compatible with JSON library.  Min/Max
     ! values are 2**-53..2**53 in JSON so the library only supports kind=real64
         call json%add(out,'Time',real(ptime,real64))
@@ -171,13 +123,6 @@ subroutine  OUTPUT(No_Rows, json, out)
         call json%add(out,'O3_flux_plant/ugm-2s-1',real(flux_plant,real64))
     else
 
-      WRITE (11,10) PTIME,SWAVE,RNET,HEAT,EVAP,G_Flux,                  &
-                    atemp-273.23,ta-273.23,air_leaf_T,OTEMP-273.23,     &
-                    awind*1.98, uten*1.98, uaf*1.98,                    &
-                    Q_Fine(1)*1000, QA*1000, QAF*1000,                  &
-                    Bowen, F, FSUB, Stom_R, vfl, psim, psie, psig,      &
-                    co2_flux, ccan_concn, Water_Use_Eff,caf,fglobal,    &
-                    flux_plant
     ! Convert outputs to real64 to be compatible with JSON library.  Min/Max
     ! values are 2**-53..2**53 in JSON so the library only supports kind=real64
         call json%add(out,'Time',real(ptime,real64))
