@@ -1,6 +1,7 @@
 program test_ozone
-  use simsphere_mod, only: ustar, uten, uaf, xlai, raf, rcut, rst, chg, eq, &
-                           rzascr, coz_air, frveg, sumo3, fglobal, flux_plant
+  use simsphere_mod, only: ustar, uten, uaf, xlai, raf, rcut, rst, chg, eq,  &
+                           rzascr, coz_air, frveg, sumo3, fglobal,           &
+                           flux_plant, ozone
   use mod_testing, only: assert, initialize_tests, report_tests
   implicit none
 

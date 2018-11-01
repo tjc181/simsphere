@@ -654,7 +654,7 @@ program test_simsphere
 
   if (psgcal_test) then
     call psgcal_init
-    call psgcal
+    psig = psgcal(thmax,thv,cosbyb,psis)
     tests(n) = assert(eq(PSIG,psgcal_test_expected), 'psgcal_test')
     n = n + 1
   end if

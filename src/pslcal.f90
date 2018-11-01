@@ -76,7 +76,8 @@ subroutine  PSLCAL (SGMA, PES)
   H = RHOW * GRAV * HBAR * UNITS1
   Unscaled_RAF = RAF * XLAI / PES ! Per Leaf Area
 
-  CALL PSGCAL
+!  CALL PSGCAL
+  psig = psgcal(thmax,thv,cosbyb,psis)
 
   RSCRIT = stomc(ft,rmin,b1,psice,fs)
 

@@ -1,11 +1,11 @@
 program test_output
-  use simsphere_mod, only: output, rnet, heat, evap, frveg, taf, xlai, rs, &
-                           fco2, ccan, xlef, swave, ptime, atemp, ta, &
-                           otemp, uten, uaf, q_fine, qa, qaf, f, fsub, psim,    &
-                           psie, psig, caf, fglobal, flux_plant, eq
-  use json_module
+  use simsphere_mod, only: output, rnet, heat, evap, frveg, taf, xlai, rs,   &
+                           fco2, ccan, xlef, swave, ptime, atemp, ta, otemp, &
+                           uten, uaf, q_fine, qa, qaf, f, fsub, psim, psie,  &
+                           psig, caf, fglobal, flux_plant, eq, json_core,    &
+                           json_file, json_value, real64, error_unit
   use mod_testing, only: assert, initialize_tests, report_tests
-  use iso_fortran_env, only: real64, error_unit
+!  use iso_fortran_env, only: real64, error_unit
   implicit none
 
   type(json_core) :: json

@@ -1,6 +1,6 @@
 subroutine  HOT (B,BareNetRadn,BareEvapFlux,BareHeatFlux)
   use simsphere_mod, only: lambda, atemp, tt, z, dens, cp, frveg, rnet, heat, &
-                           gbl_sum, eq
+                           gbl_sum, veghot, eq
   implicit none
 
 

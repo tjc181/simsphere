@@ -1,5 +1,5 @@
 program test_average
-  use simsphere_mod, only: eq
+  use simsphere_mod, only: average, eq
   use mod_testing, only: assert, initialize_tests, report_tests
   implicit none
 
