@@ -4,7 +4,7 @@
 
 Welcome to the model Simsphere, a state-of-the art
 Soil-Vegetation-Atmosphere Transfer (SVAT) model for use by the general
-scientific community. Simsphere is product of 30 years of continuous
+scientific community. Simsphere is the product of 30 years of continuous
 experience and utilization by Toby Carlson and his students at Penn
 State. Simsphere is a one-dimensional model that allows one to simulate
 the transfer of heat and moisture between plants, soil and atmosphere
@@ -26,8 +26,7 @@ This is an updated version of the original Fortran implementation.  The goals fo
 
 ## Other implementations
 
-A C implementation also exists.  This implementation is not yet published,
-but may be in the future.  The implementation dates to the late 1990s.
+A C implementation also exists.  This is available for download at https://simsphere.ems.psu.edu.  The C implementation dates to the late 1990s.
 
 ## Building the code
 
