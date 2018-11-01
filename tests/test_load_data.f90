@@ -16,7 +16,7 @@ program test_load_data
 
   logical, dimension(:), allocatable :: tests
   logical :: test_failed
-  integer :: n, ntests, i
+  integer :: n, ntests
 
   ! Expected values
 
@@ -56,10 +56,10 @@ program test_load_data
 
   tests(n) = assert(timeloc%year == 89, 'year == 89')
   n = n + 1
-  tests(n) = assert(timeloc%strtim == 530, 'strtim == 530')
+  tests(n) = assert(eq(timeloc%strtim,530.0_real64), 'strtim == 530')
   n = n + 1
 
-  tests(n) = assert(veg%frveg == 0, 'frveg == 0')
+  tests(n) = assert(eq(veg%frveg,0.0_real64), 'frveg == 0')
   n = n + 1
   tests(n) = assert(veg%steady == 'Y', 'steady == Y')
   n = n + 1

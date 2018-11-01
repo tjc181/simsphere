@@ -9,6 +9,7 @@ contains
   subroutine  OUTPUT(json, out)
     use globals
     use constants
+    use compare, only: eq
     use json_module
     use iso_fortran_env, only: real64
     implicit none
@@ -32,7 +33,7 @@ contains
     Bowen = Heat/Evap
     If (Bowen .lt. 0.0) Bowen = undefined
   
-    If (FRVEG .ne. 0.0) then
+    If (.not. eq(FRVEG,0.0)) then
       air_leaf_T = TAF - 273.23
   !ground_T = TG - 273.23
     else

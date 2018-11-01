@@ -41,7 +41,6 @@ program test_output
   ntests = 7
   call initialize_tests(tests,ntests)
 
-
   ! Case I: rnet <= 0
   call output_init
   test_file = 'test_caseI.json'

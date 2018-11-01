@@ -1,7 +1,7 @@
 program test_vegrad
-  use simsphere_mod, only: otemp, atemp, taf, tg, rlf, ta, qaf, albdoe, tf, &
-                           sol, rsg, sigf, albg, albf, rsf, rlg, epsi, qd,  &
-                           lwdn, sigma, epsf, rnetg, rnetf, swave, eq
+  use simsphere_mod, only: otemp, atemp, taf, tg, rlf, qaf, albdoe, tf, sol, &
+                           rsg, sigf, albg, albf, rsf, rlg, epsi, qd, lwdn,  &
+                           epsf, rnetg, rnetf, swave, eq
   use mod_testing, only: assert, initialize_tests, report_tests
   implicit none
 

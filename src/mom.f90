@@ -136,7 +136,7 @@ subroutine  MOM (Pot_S,DT,MONCE)
 
   X1 = X1 + 1
   XMOD = MOD ( X1 , 2.0 )
-  IF ( XMOD .NE. 0 ) GO TO 100
+  IF ( .not. eq(XMOD,0.0) ) GO TO 100
 
   AWIND =  ( SQRT(U(1)**2 + V(1)**2) )
 

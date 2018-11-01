@@ -105,6 +105,7 @@ contains
 
     call init_json(json)
 
+    error_cnt = 0
     call json%load_file(filename = file)
     if (json%failed()) then
       call json%print_error_message(error_unit)

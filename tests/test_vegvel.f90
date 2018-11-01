@@ -1,8 +1,6 @@
 program test_vegvel
-  use simsphere_mod, only: xlai, ps1, taf, uaf, chf, width, raf, ta,       &
-                           rtranw, cha, ustar, uten, qstf, tf, vfl, rs,    &
-                           rmin, sol, wilt, w2g, wgg, stmtype, rst, rcut,  &
-                           xlef, vegheight, chg, eq
+  use simsphere_mod, only: xlai, ps1, taf, uaf, chf, width, raf, ta, rtranw, &
+                           ustar, tf, stmtype, rst, xlef, vegheight, chg, eq
   use mod_testing, only: assert, initialize_tests, report_tests
   implicit none
 

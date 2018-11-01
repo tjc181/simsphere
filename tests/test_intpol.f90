@@ -74,13 +74,13 @@ program test_intpol
 
   call intpol
 
-  tests(n) = assert(all(ug_exp == ug), 'array ug')
+  tests(n) = assert(eq(ug_exp,ug), 'array ug')
   n = n + 1
-  tests(n) = assert(all(vg_exp == vg), 'array vg')
+  tests(n) = assert(eq(vg_exp,vg), 'array vg')
   n = n + 1
-  tests(n) = assert(all(ugd_exp == ugd), 'array ugd')
+  tests(n) = assert(eq(ugd_exp,ugd), 'array ugd')
   n = n + 1
-  tests(n) = assert(all(vgd_exp == vgd), 'array vgd')
+  tests(n) = assert(eq(vgd_exp,vgd), 'array vgd')
   n = n + 1
 
   test_failed = .false.

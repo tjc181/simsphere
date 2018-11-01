@@ -7,7 +7,7 @@ subroutine  VEGRAD (TIME,RNETV,SWAVEV,TZERO)
 
 !      INCLUDE 'modvars.h'
 
-  if (time == 0.0) then ! Initialize
+  if (eq(time,0.0)) then ! Initialize
     TAF = otemp
     TF =  otemp
     TG =  otemp
