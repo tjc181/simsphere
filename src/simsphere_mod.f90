@@ -13,12 +13,12 @@ module simsphere_mod
   implicit none
 !  private
   public :: advect 
-  public :: average
   public :: co2flx
   public :: cond
   public :: output 
   public :: ozone
   public :: psgcal
+  public :: smooth
   public :: veghot 
 
 !
@@ -260,41 +260,74 @@ module simsphere_mod
 
 ! AVERAGE -- this appears to do nothing
 
-    subroutine average(T_Unsmoothed, T_smoothed)
-      implicit none
-    
-      real :: av_array(4)=0.0, sum_array=0.0, T_Unsmoothed, T_smoothed
-      integer :: init=1, i=0, j=0, k=0
-    
-    !  data init /1/
-    
+!    subroutine average(T_Unsmoothed, T_smoothed)
+!      implicit none
+!    
+!      real :: av_array(4)=0.0, sum_array=0.0, T_Unsmoothed, T_smoothed
+!      integer :: init=1, i=0, j=0, k=0
+!    
+!    !  data init /1/
+!    
+!      if (init == 1) then ! fill all 4 elements with initial value of otemp
+!    
+!        do i = 1,4
+!          av_array(i) = T_Unsmoothed
+!        end do
+!      
+!        init = 2
+!    
+!      else
+!    
+!        do j = 2,4
+!          av_array(j-1) = av_array(j)
+!        end do
+!    
+!        av_array(4) = T_Unsmoothed
+!    
+!      endif
+!    
+!      sum_array = 0
+!      do k = 1,4
+!        sum_array = av_array(k) + sum_array
+!      end do
+!    
+!      T_smoothed = sum_array / 4
+!    
+!      return
+!    end subroutine average
+
+! smooth() is a replacement function for AVERAGE.
+
+    real pure function smooth(unsmooth)
+      real, intent(in) :: unsmooth
+      real :: av_array(4), sum_array
+      integer :: init, i, j, k
+
+      init = 1
+      av_array(4) = 0.0
+      sum_array = 0.0
+
+      !TJC When will init not be 1?  Never...
       if (init == 1) then ! fill all 4 elements with initial value of otemp
-    
         do i = 1,4
-          av_array(i) = T_Unsmoothed
+          av_array(i) = unsmooth
         end do
-      
         init = 2
-    
+
       else
-    
         do j = 2,4
           av_array(j-1) = av_array(j)
         end do
-    
-        av_array(4) = T_Unsmoothed
-    
-      endif
-    
+        av_array(4) = unsmooth
+      end if
+
       sum_array = 0
       do k = 1,4
         sum_array = av_array(k) + sum_array
       end do
-    
-      T_smoothed = sum_array / 4
-    
-      return
-    end subroutine average
+      smooth = sum_array/4
+
+    end function smooth
 
 ! psgcal() is a function to replace subroutine PSGCAL
 
@@ -302,11 +335,22 @@ module simsphere_mod
       real, intent(in) :: thmax, thv, cosbyb, psis
       real :: perwmax, perw2g, rlogpsig, rnpsig
 
+    ! **  Calculates the conductivity of the soil
+    ! **  Cosby curves and coefficients (1984)
+    
+    !  Field Capacity(75% of THMAX) used instead of THMAX.  Lower value
+    !  felt to fit local measurements better than the fit with tabulated
+    !  values.
+    
+    ! **  convert ground water contents to percents
+
       perwmax = thmax * 100 * 0.75
       perw2g = thv * 100
       rlogpsig = alog10(psis) + cosbyb * alog10(perwmax) - cosbyb * alog10(perw2g)
+    ! * * psig is positive in this program
       rnpsig = 10**(rlogpsig)
 
+    ! * * convert cm to bars
       psgcal = -rnpsig / 1020
 
     end function psgcal

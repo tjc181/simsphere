@@ -79,7 +79,6 @@ program test_flux
   n = n + 1
   tests(n) = assert(eq(ahum,ahum_exp), 'Flux ahum night')
   n = n + 1
-  write(*,*) arg1, arg2
 
   test_failed = .false.
   call report_tests(tests,test_failed)

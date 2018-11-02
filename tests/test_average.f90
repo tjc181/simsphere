@@ -1,5 +1,5 @@
 program test_average
-  use simsphere_mod, only: average, eq
+  use simsphere_mod, only: smooth, eq
   use mod_testing, only: assert, initialize_tests, report_tests
   implicit none
 
@@ -20,12 +20,12 @@ program test_average
   call initialize_tests(tests,ntests)
 
   call avr_init
-  call average(avr_arg1, avr_arg2)
+  avr_arg2 = smooth(avr_arg1)
   tests(n) = assert(eq(avr_arg2,avr_test_init1_exp), 'avr_test_init1')
   n = n + 1
 
   call avr_init
-  call average(avr_arg1, avr_arg2)
+  avr_arg2 = smooth(avr_arg1)
   tests(n) = assert(eq(avr_arg2,avr_test_init_not1_exp), 'avr_test_init_not1')
   n = n + 1
 

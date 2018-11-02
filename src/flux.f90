@@ -25,7 +25,7 @@ subroutine FLUX (BareRadioTemp,VegnRadioTemp,BareEvapFlux,BareHeatFlux)
   BareEvapFlux = Le * Dens * ( Oshum - Qd(1) ) / Sumw * F
   if ( qd(1) >= oshum ) BareEvapFlux = 0.001
 
-  call average (BareEvapFlux, Evap_Smooth)
+  Evap_Smooth = smooth(BareEvapFlux)
   BareEvapFlux = Evap_Smooth
   Evap = BareEvapFlux
 

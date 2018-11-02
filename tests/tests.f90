@@ -676,7 +676,7 @@ program test_simsphere
 
   if (avr_test_init1) then
     call avr_init
-    call average(avr_arg1, avr_arg2)
+    avr_arg2 = smooth(avr_arg1)
     tests(n) = assert(eq(avr_arg2,avr_test_init1_expected), 'avr_test_init1')
     n = n + 1
   end if
@@ -687,7 +687,7 @@ program test_simsphere
 
   if (avr_test_init_not1) then
     call avr_init
-    call average(avr_arg1, avr_arg2)
+    avr_arg2 = smooth(avr_arg1)
     tests(n) = assert(eq(avr_arg2,avr_test_init_not1_expected), 'avr_test_init_not1')
     n = n + 1
   end if
