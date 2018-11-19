@@ -43,6 +43,7 @@ subroutine  BRI (T1,MONCE,PSIHNEW,YCOUNT,ZTEN)
        
 ! Start the surface temp at some nominal value.
        
+    write(*,*) 'in the second branch'
     otemp = atemp
     T1 = ATEMP - 1
     TSTAR = 0
@@ -53,6 +54,7 @@ subroutine  BRI (T1,MONCE,PSIHNEW,YCOUNT,ZTEN)
       QN(I) = q_fine(i)
     end do
     IFIRST = 2
+    write(*,*) otemp, t1, tstar, t, u, v, qn
 
   end if
 

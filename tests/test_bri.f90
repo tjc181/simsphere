@@ -17,9 +17,10 @@ program test_bri
 
   ! Expected values
   real, parameter :: awind_exp = 1.0
-  real, parameter :: awind_monce1_exp = 65583752.0
+  real, parameter :: awind_ycount1_exp = 65583752.0
+!  real, parameter :: awind_ycif_exp = 1.0
   real, dimension(50), parameter :: qd_exp = 1.0
-  real, dimension(51), parameter :: u_fine_monce1_exp = (/-728752.312,-728819.0,&
+  real, dimension(51), parameter :: u_fine_ycount1_exp = (/-728752.312,-728819.0,&
        -728819.0,-728819.0,-728819.0,-728819.0,-728819.0,-728819.0,-728819.0,&
        -728819.0,-728819.0,-728819.0,-728819.0,-728819.0,-728819.0,-728819.0,&
        -728819.0,-728819.0,-728819.0,-728819.0,-728819.0,-728819.0,-728819.0,&
@@ -27,7 +28,7 @@ program test_bri
        -728819.0,-728819.0,-728819.0,-728819.0,-728819.0,-728819.0,-728819.0,&
        -728819.0,-728819.0,-728819.0,-728819.0,-728819.0,-728819.0,-728819.0,&
        -728819.0,-728819.0,0.0,0.0,0.0,0.0,0.0/)
-  real, dimension(51), parameter :: v_fine_monce1_exp = (/65579704.0,        &
+  real, dimension(51), parameter :: v_fine_ycount1_exp = (/65579704.0,        &
        65585704.0,65585704.0,65585704.0,65585704.0,65585704.0,65585704.0,    &
        65585704.0,65585704.0,65585704.0,65585704.0,65585704.0,65585704.0,    &
        65585704.0,65585704.0,65585704.0,65585704.0,65585704.0,65585704.0,    &
@@ -36,7 +37,7 @@ program test_bri
        65585704.0,65585704.0,65585704.0,65585704.0,65585704.0,65585704.0,    &
        65585704.0,65585704.0,65585704.0,65585704.0,65585704.0,65585704.0,    &
        65585704.0,65585704.0,65585704.0,0.0,0.0,0.0,0.0,0.0/)
-  real, dimension(51), parameter :: t_fine_monce1_exp = (/179.05423,         &
+  real, dimension(51), parameter :: t_fine_ycount1_exp = (/179.05423,         &
        182.562531,188.294983,189.484863,190.491669,191.491913,192.491913,    &
        193.491913,194.491913,195.491913,196.491913,197.491913,198.491913,    &
        199.491913,200.491913,201.491913,202.491913,203.491913,204.491913,    &
@@ -45,12 +46,16 @@ program test_bri
        217.491913,218.491913,219.491913,220.491913,221.491913,222.491913,    &
        223.491913,224.491913,225.491913,226.491913,227.491913,228.491913,    &
        229.491547,230.465256,230.964203,0.0,0.0,0.0,0.0,0.0/)
-  real, dimension(51), parameter :: q_fine_monce1_exp = (/1.00000119,       &
+  real, dimension(51), parameter :: q_fine_ycount1_exp = (/1.00000119,       &
                                     1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,&
                                     1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,&
                                     1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,&
                                     1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,&
                                     1.0,1.0,1.0,1.0,1.0,0.0,0.0,0.0,0.0,0.0/)
+!  real, dimension(51), parameter :: u_fine_ycif_exp = 1.0
+!  real, dimension(51), parameter :: v_fine_ycif_exp = 1.0
+!  real, dimension(51), parameter :: t_fine_ycif_exp = 1.0
+!  real, dimension(51), parameter :: q_fine_ycif_exp = 1.0
   real, dimension(51), parameter :: u_fine_exp = 0.0
   real, dimension(51), parameter :: v_fine_exp = 0.0
   real, dimension(51), parameter :: q_fine_exp = 0.0
@@ -83,17 +88,35 @@ program test_bri
   call bri(arg1,arg2,arg3,arg4,arg5)
   tests(n) = assert(eq(qd,qd_exp,1e-5), 'qd monce == 1.0')
   n = n + 1
-  tests(n) = assert(eq(awind,awind_monce1_exp), 'awind monce == 1.0')
+  tests(n) = assert(eq(awind,awind_ycount1_exp), 'awind ycount == 1.0')
   n = n + 1
-  tests(n) = assert(eq(u_fine,u_fine_monce1_exp), 'u_fine monce == 1.0')
+  tests(n) = assert(eq(u_fine,u_fine_ycount1_exp), 'u_fine ycount == 1.0')
   n = n + 1
-  tests(n) = assert(eq(v_fine,v_fine_monce1_exp), 'v_fine monce == 1.0')
+  tests(n) = assert(eq(v_fine,v_fine_ycount1_exp), 'v_fine ycount == 1.0')
   n = n + 1
-  tests(n) = assert(eq(t_fine,t_fine_monce1_exp), 't_fine monce == 1.0')
+  tests(n) = assert(eq(t_fine,t_fine_ycount1_exp), 't_fine ycount == 1.0')
   n = n + 1
-  tests(n) = assert(eq(q_fine,q_fine_monce1_exp), 'q_fine monce == 1.0')
+  tests(n) = assert(eq(q_fine,q_fine_ycount1_exp), 'q_fine ycount == 1.0')
   n = n + 1
-  
+
+!  call bri_init
+!  call mom_init
+!  ifirst = 1
+!  arg4 = 1.0
+!  call bri(arg1,arg2,arg3,arg4,arg5)
+!  tests(n) = assert(eq(qd,qd_exp,1e-5), 'qd ycount, ifirst == 1.0')
+!  n = n + 1
+!  tests(n) = assert(eq(awind,awind_ycif_exp), 'awind ycount, ifirst == 1.0')
+!  n = n + 1
+!  tests(n) = assert(eq(u_fine,u_fine_ycif_exp), 'u_fine ycount, ifirst == 1.0')
+!  n = n + 1
+!  tests(n) = assert(eq(v_fine,v_fine_ycif_exp), 'v_fine ycount, ifirst == 1.0')
+!  n = n + 1
+!  tests(n) = assert(eq(t_fine,t_fine_ycif_exp), 't_fine ycount, ifirst == 1.0')
+!  n = n + 1
+!  tests(n) = assert(eq(q_fine,q_fine_ycif_exp), 'q_fine ycount, ifirst == 1.0')
+!  n = n + 1
+
   test_failed = .false.
   call report_tests(tests,test_failed)
   if (test_failed) stop 1
