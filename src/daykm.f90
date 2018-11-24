@@ -8,7 +8,7 @@ subroutine  DAYKM(thick)
 ! **  the method of O'Brien.  Used in MOMDAY.
 
   real :: KTOP , KMA , KMAPRI , KMW(50)
-  real :: THICK
+  real, intent(inout) :: THICK
 
   integer :: I, J, L, M
 
@@ -23,7 +23,7 @@ subroutine  DAYKM(thick)
 ! allowing for negative comparison (THICK .NE. 0) with the false case
 ! branching to the same position as label 520 (eliminate the GOTO).
 
-  IF ( THICK == 0 ) GO TO 520
+  IF ( eq(THICK,0.0) ) GO TO 520
 
 ! **  Define or calc eddy diff's (K's) at the top of the surface layer
 ! **  using the standard flux profile law.  Calculate the derivative

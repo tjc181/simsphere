@@ -63,7 +63,6 @@ module globals
   real :: EVAP = 0.0
   real :: BULK = 0.0
 
-!  real :: THICK = 0.0
 
 
   integer(kind=1) :: cld_fract = 0

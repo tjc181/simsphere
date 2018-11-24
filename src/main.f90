@@ -108,7 +108,7 @@ program simsphere
   ! Eddy Diffusivities in the Mixed Layer
   
     IF (HEAT.GT.0.00001 .AND. SWAVE .GT. 0 .AND. RNET .GT. 0) THEN
-      CALL DAYKM
+      CALL DAYKM(humidity%thick)
     END IF
   
   ! Momentum Equations - Mixed Layer
