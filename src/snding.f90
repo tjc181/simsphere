@@ -23,6 +23,7 @@ SUBROUTINE SNDING (ZLS, Old_Ahum, temp, humidity, timeloc, wind)
 
   integer :: NOBS_pTq, NOBS_wind, I, J, h
   real :: Station_Height, HEIGHT, TDEW, TBAR, THICK 
+! real :: Station_Height, HEIGHT, TDEW, TBAR
   real :: precip_H2O, sum_precip_H2O, dydx, dydxn, Pres_50, Pot_50
   real :: Height_at_NTRP
       
@@ -60,6 +61,7 @@ SUBROUTINE SNDING (ZLS, Old_Ahum, temp, humidity, timeloc, wind)
 
       TBAR = (( TS(I) + TS(I+1) ) / 2 ) + Celsius_to_Kelvin ! Average Temperature (K)
       THICK = 287 * (TBAR / 9.8) * ALOG(PS(I) / PS(I+1)) ! Thickness (m)
+      humidity%thick = thick
       HEIGHT = HEIGHT + THICK ! Height (above station) of pressure level
       ZLS(I+1) = HEIGHT
       GM(I) = ( Pot_Temp(I+1) - Pot_Temp(I) ) / THICK ! d(Theta)/dZ

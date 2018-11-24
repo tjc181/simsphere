@@ -1,4 +1,4 @@
-subroutine  DAYKM
+subroutine  DAYKM(thick)
   use simsphere_mod
   implicit none
 
@@ -14,7 +14,7 @@ subroutine  DAYKM
 
 !      INCLUDE 'modvars.h'
 
-  COMMON /MXDLYR/ THICK
+!  COMMON /MXDLYR/ THICK
 
   THICK = HGT - ZA
 

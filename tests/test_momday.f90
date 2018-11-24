@@ -1,7 +1,7 @@
 program test_momday
   use simsphere_mod, only: ud, vd, ugd, vgd, ustar, awind, cf, dqdt2, zi,   &
                            hgt, ntrp, km, qd, evap, td, aptemp, q_fine,     &
-                           u_fine, t_fine, v_fine, eq
+                           u_fine, t_fine, v_fine, deltaz, eq
   use mod_testing, only: assert, initialize_tests, report_tests
   implicit none
 
@@ -14,6 +14,7 @@ program test_momday
   ! Expected values
 
   real, parameter :: awind_exp = 1.41421354
+  real, parameter :: awind_thick_exp = 1.40946424
   real, dimension(51), parameter :: v_fine_exp = (/1.0,-16.7999992,          &
       -34.5999985,-52.4000015,-70.1999969,-88.0,-105.800003,-123.599998,     &
       -141.399994,-159.199997,-177.0,-194.800003,-212.600006,-230.399994,    &
@@ -39,21 +40,62 @@ program test_momday
       8.60000038,8.80000019,9.0,9.19999981,9.39999962,9.60000038,9.80000019, &
       10.0,0.0,0.0,0.0,0.0,0.0/)
 
+  real, dimension(51), parameter :: v_fine_thick_exp = (/1.04643059,         &
+      -421.750214,-844.546814,-1267.34351,-1690.14014,-2112.93677,           &
+      -2112.94312,-2112.94946,-2112.95581,-2112.96216,-2112.96851,           &
+      -2112.96851,-2112.96851,-2112.96851,-2112.96851,-2112.96851,           &
+      -2112.96851,-2112.96851,-2112.96851,-2112.96851,-2112.96851,           &
+      -2112.96851,-2112.96851,-2112.96851,-2112.96851,-2112.96851,           &
+      -2112.96851,-2112.96851,-2112.96851,-2112.96851,-2112.96851,           &
+      -2112.96851,-2112.96851,-2112.96851,-2112.96851,-2112.96851,           &
+      -2112.96851,-2112.96851,-2112.96851,-2112.96851,-2112.96851,           &
+      -2112.96851,-2112.96851,-2112.96851,-2112.96851,-2112.96851,0.0,0.0,   &
+      0.0,0.0,0.0/)
+  real, dimension(51), parameter :: t_fine_thick_exp = (/1.0,267.0,267.0,    &
+      267.0,267.0,267.0,267.0,267.0,267.0,267.0,267.0,267.0,267.0,267.0,     &
+      267.0,267.0,267.0,267.0,267.0,267.0,267.0,5.19999981,5.40000010,       &
+      5.59999990,5.80000019,6.0,6.19999981,6.40000010,6.59999990,6.80000019, &
+      7.0,7.19999981,7.40000010,7.59999990,7.80000019,8.0,8.19999981,        &
+      8.39999962,8.60000038,8.80000019,9.0,9.19999981,9.39999962,9.60000038, &
+      9.80000019,10.0,0.0,0.0,0.0,0.0,0.0/)
+  real, dimension(51), parameter :: q_fine_thick_exp = (/1.00239599,         &
+      1.20162904,1.40086222,1.60009527,1.79932833,1.99856138,2.19884920,     &
+      2.39913678,2.59942460,2.79971218,3.0,3.20000005,3.40000010,3.59999990, &
+      3.79999995,4.0,4.19999981,4.40000010,4.59999990,4.80000019,5.0,        &
+      5.19999981,5.40000010,5.59999990,5.80000019,6.0,6.19999981,6.40000010, &
+      6.59999990,6.80000019,7.0,7.19999981,7.40000010,7.59999990,7.80000019, &
+      8.0,8.19999981,8.39999962,8.60000038,8.80000019,9.0,9.19999981,        &
+      9.39999962,9.60000038,9.80000019,10.0000000,0.0,0.0,0.0,0.0,0.0/)
+
 
   n = 1
-  ntests = 4
+  ntests = 8
   call initialize_tests(tests,ntests)
 
+  ! CASE I: thick == 0
   call momday_init
-  call momday
-  tests(n) = assert(eq(awind,awind_exp), 'awind')
+  call momday(0.0)
+  tests(n) = assert(eq(awind,awind_exp), 'awind thick == 0.0')
   n = n + 1
-  tests(n) = assert(eq(v_fine,v_fine_exp), 'v_fine')
+  tests(n) = assert(eq(v_fine,v_fine_exp), 'v_fine thick == 0.0')
   n = n + 1
-  tests(n) = assert(eq(t_fine,t_fine_exp), 't_fine')
+  tests(n) = assert(eq(t_fine,t_fine_exp), 't_fine thick == 0.0')
   n = n + 1
-  tests(n) = assert(eq(q_fine,q_fine_exp), 'q_fine')
+  tests(n) = assert(eq(q_fine,q_fine_exp), 'q_fine thick == 0.0')
   n = n + 1
+
+  ! CASE II: thick > 0
+  call momday_init
+  call momday(1.0)
+  tests(n) = assert(eq(awind,awind_thick_exp), 'awind thick > 0.0')
+  n = n + 1
+  tests(n) = assert(eq(v_fine,v_fine_thick_exp), 'v_fine thick > 0.0')
+  n = n + 1
+  tests(n) = assert(eq(t_fine,t_fine_thick_exp), 't_fine thick > 0.0')
+  n = n + 1
+  tests(n) = assert(eq(q_fine,q_fine_thick_exp), 'q_fine thick > 0.0')
+  n = n + 1
+
 
   test_failed = .false.
   call report_tests(tests,test_failed)
@@ -74,6 +116,7 @@ contains
     km = 1.0
     ntrp = 11
     dqdt2 = 1.0
+    deltaz = 250.0
     zi = 1.0
     do i = 1,50
       u_fine = 0.0

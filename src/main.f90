@@ -114,7 +114,7 @@ program simsphere
   ! Momentum Equations - Mixed Layer
   
     IF (HEAT.GT.0.00001 .AND. SWAVE .GT. 0 .AND. RNET .GT. 0) THEN
-      CALL MOMDAY
+      CALL MOMDAY(humidity%thick)
     END IF
   
   ! Evaporative Flux, Surface Temperature solutions

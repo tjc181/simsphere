@@ -60,6 +60,7 @@ module config_mod
 
   type t_humid
     real(kind=real64), dimension(:), allocatable :: dd0, ff0, zh
+    real(kind=real64) :: thick
     integer :: num_obs
   end type t_humid
 

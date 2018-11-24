@@ -1,4 +1,4 @@
-subroutine  MOMDAY
+subroutine  MOMDAY(thick)
   use simsphere_mod
   implicit none
 
@@ -9,7 +9,7 @@ subroutine  MOMDAY
 ! **  stability during periods when KM values are large.
 
   real :: DUDT(50)=0.0, DVDT(50)=0.0, DU(50)=0.0, DV(50)=0.0
-  real :: THICK=0.0
+  real, intent(in) :: THICK
   real :: SMF=0.0, XXX=0.0, DELTZI=0.0, DUDT50=0.0, DVDT50=0.0
   real :: DU50=0.0, DV50=0.0, OVER=0.0
 
