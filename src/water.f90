@@ -38,11 +38,7 @@ subroutine  WATER (TIME,BareEvapFlux)
 
 ! This fixes tests, but breaks the program
    
-  if (win < 0.001) then
-    win = (wgg + w2g) / 2
-  end if 
-
-  IF ( eq(TIME,0.0) ) THEN
+  IF ( eq(TIME,0.0) .or. (win < 0.001) ) THEN
     WIN = ( WGG + W2G ) / 2
   END IF
 
