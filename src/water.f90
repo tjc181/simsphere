@@ -12,7 +12,7 @@ subroutine  WATER (TIME,BareEvapFlux)
   real :: TIME, BareEvapFlux
   real :: PER, C11, C22, C33, C44, EVAX, EVAS, EVAI
   real :: WW1, WW2, WW3
-  real :: WIN = 0.0
+  real :: WIN
 
 ! **  WATER is based on the technique of Deardroff (1978). It uses the
 ! **  evaporative flux value obtained in FLUX and updates two internal
@@ -38,11 +38,9 @@ subroutine  WATER (TIME,BareEvapFlux)
 
 ! This fixes tests, but breaks the program
    
-!  if (.not. eq(win,win)) then
-!    ! initialize win before use.  Seem to be tickled by test programs.
-!    win = (wgg + w2g) / 2
-!     win = 0.001
-!  end if 
+  if (win < 0.001) then
+    win = (wgg + w2g) / 2
+  end if 
 
   IF ( eq(TIME,0.0) ) THEN
     WIN = ( WGG + W2G ) / 2
