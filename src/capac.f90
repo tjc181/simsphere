@@ -26,98 +26,98 @@ subroutine Capac (Unscaled_RAF,H,B1_P,B2_P,vfl2, sgma)
 ! **  function of psig. If not, it is a function of xcap or
 ! **  relative water content
 
-  IF ( JCAP .EQ. 1 ) THEN
+   if ( JCAP == 1 ) then
+ 
+     NCAP = RCCAP
+     IDEL = 0
+     JDEL = 0
+     PSIX = PSIG - FRHGT * H
+     IXCAP = VOLREL
+     VOLREL = .01 * VOLREL
+     CAPINI = VOLINI / RKOCAP
+     JCAP = 2
+ 
+     if ( eq(IXCAP,0.0) ) then
+ 
+        if ( NCAP == 1 ) then
+          VOLIST = VOLINI * EXP ( CAPINI * (PSIG - FRHGT * H)            &
+                   / VOLINI )
+ 
+          CAPACI = CAPINI * ( VOLIST ) / VOLINI
+ 
+        else if ( NCAP /= 1 ) then
+ 
+          CAPRAT =  (RCCAP - 1)/ RCCAP
+          VOLIST = VOLINI * ( 1 + CAPINI * (PSIG - FRHGT * H)            &
+                   * CAPRAT / VOLINI ) ** ( 1 / CAPRAT )
+ 
+          CAPACI = CAPINI * ( ( VOLIST ) / VOLINI ) **                   &
+                   ( 1 / RCCAP )
 
-    NCAP = RCCAP
-    IDEL = 0
-    JDEL = 0
-    PSIX = PSIG - FRHGT * H
-    IXCAP = VOLREL
-    VOLREL = .01 * VOLREL
-    CAPINI = VOLINI / RKOCAP
-    JCAP = 2
-
-    IF ( IXCAP .EQ. 0 ) THEN
-
-       IF ( NCAP .EQ. 1 ) THEN
-         VOLIST = VOLINI * EXP ( CAPINI * (PSIG - FRHGT * H)            &
-                  / VOLINI )
-
-         CAPACI = CAPINI * ( VOLIST ) / VOLINI
-
-       ELSE IF ( NCAP .NE. 1 ) THEN
-
-         CAPRAT =  (RCCAP - 1)/ RCCAP
-         VOLIST = VOLINI * ( 1 + CAPINI * (PSIG - FRHGT * H)            &
-                  * CAPRAT / VOLINI ) ** ( 1 / CAPRAT )
-
-         CAPACI = CAPINI * ( ( VOLIST ) / VOLINI ) **                   &
-                  ( 1 / RCCAP )
-
-       END IF
+        end if
 
 ! ** It is possible that the volist will be calculated as being
 ! ** less than zero.  This is impossible.  Therefore, we set:
 
-     IF ( VOLIST .LT. 0 ) THEN
+      if ( VOLIST < 0 ) then
 
-       VOLIST = .00001*VOLINI
-       VOLRMV = .99999*VOLINI
+        VOLIST = .00001*VOLINI
+        VOLRMV = .99999*VOLINI
 
+      end if
+
+    else
+
+      VOLIST = VOLREL * VOLINI
+      VOLISO = VOLIST
+
+      if ( NCAP == 1 ) then
+
+        CAPACI = CAPINI * VOLREL
+
+      else if ( NCAP /= 1 ) then
+
+        CAPRAT =  (RCCAP - 1)/ RCCAP
+        CAPACI = CAPINI * ( VOLREL ) ** ( 1 / RCCAP )
+
+      end if
+
+    end if
+
+  end if
+
+  VOLREL = VOLIST / VOLINI
+ 
+  IF ( NCAP .EQ. 1 ) THEN
+ 
+     PSIST = ( VOLINI / CAPINI ) * LOG ( VOLREL )
+     CAPACI = CAPINI * ( VOLIST ) / VOLINI
+ 
+  ELSE
+ 
+     PSIST = (VOLINI/CAPINI) * ( VOLREL ** CAPRAT - 1 ) * (RCCAP /( RCCAP - 1 ) )
+ 
+ ! **  THIS IF STATEMENT IS IN PLACE OF VOLUME CONSTRAINTS
+ 
+     IF ( PSIST .GE. 0 ) THEN
+       PSIST = 0
      END IF
-
-   ELSE
-
-     VOLIST = VOLREL * VOLINI
-     VOLISO = VOLIST
-
-     IF ( NCAP .EQ. 1 ) THEN
-
-       CAPACI = CAPINI * VOLREL
-
-     ELSE IF ( NCAP .NE. 1 ) THEN
-
-       CAPRAT =  (RCCAP - 1)/ RCCAP
-       CAPACI = CAPINI * ( VOLREL ) ** ( 1 / RCCAP )
-
+ 
+ ! **  The following if statement causes psist to fall as volume
+ ! **  approaches zero (the above equation reaches a limit).
+ ! **  (ITRAP is defined below to prevent the loop from being
+ ! **   exercised on the first time step.)
+ ! **   The next statement prevents psist from becoming more
+ ! positive then psig
+ 
+     IF ( ITRAP == 1 .AND. eq(DELTVST,0.0) ) THEN
+       PSIST = PSIX
      END IF
-
+ 
+     CAPACI = CAPINI * ( VOLREL ) ** ( 1 / RCCAP)
+ 
    END IF
-
- END IF
-
- VOLREL = VOLIST / VOLINI
-
- IF ( NCAP .EQ. 1 ) THEN
-
-    PSIST = ( VOLINI / CAPINI ) * LOG ( VOLREL )
-    CAPACI = CAPINI * ( VOLIST ) / VOLINI
-
- ELSE
-
-    PSIST = (VOLINI/CAPINI) * ( VOLREL ** CAPRAT - 1 ) * (RCCAP /( RCCAP - 1 ) )
-
-! **  THIS IF STATEMENT IS IN PLACE OF VOLUME CONSTRAINTS
-
-    IF ( PSIST .GE. 0 ) THEN
-      PSIST = 0
-    END IF
-
-! **  The following if statement causes psist to fall as volume
-! **  approaches zero (the above equation reaches a limit).
-! **  (ITRAP is defined below to prevent the loop from being
-! **   exercised on the first time step.)
-! **   The next statement prevents psist from becoming more
-! positive then psig
-
-    IF ( ITRAP .EQ. 1 .AND. DELTVST .EQ. 0 ) THEN
-      PSIST = PSIX
-    END IF
-
-    CAPACI = CAPINI * ( VOLREL ) ** ( 1 / RCCAP)
-
-  END IF
-
+ 
   IF ( NCAP .EQ. 1 ) THEN
     ZST = ZSTINI / VOLREL
   ELSE IF ( NCAP .NE. 1 ) THEN
