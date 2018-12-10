@@ -175,8 +175,13 @@ subroutine BALL (PES, RHA)
   ELSE
     GS = (-BBB + SQRT(BBB**2 - 4*AAA*CCC))/(2*AAA)
     GS = GS / 40.0    !MKS UNITS
-    IF (GS .NE. 0) RS = 1. / GS  ! Checks
-    IF (GS .EQ. 0) RS = 500.0     ! -"-
+!    IF (.not. eq(GS,0.0)) RS = 1. / GS  ! Checks
+!    IF (eq(GS,0.0)) RS = 500.0     ! -"-
+    if (eq(gs,0.0)) then
+      rs = 500.0
+    else
+      rs = 1.0 / gs
+    end if
     RST = RS * RCUT / ( RS + RCUT )
     RRTOT = 1.32 * RAF + 1.66 * RST + RAIR        
     RRTOT = RRTOT / 40.0      ! Mole units

@@ -42,7 +42,7 @@ subroutine  NETRAD (Time,BareRadioTemp,VegnRadioTemp,BareNetRadn,VegnNetRadn,Mix
 
 ! Vegetation
 
-  If (Frveg .eq. 1) Then
+  if (eq(frveg,1.0)) then
 
     call Lwdown
     call Vegrad (Time,VegnNetRadn,VegnShortWave,VegnRadioTemp)
@@ -51,7 +51,7 @@ subroutine  NETRAD (Time,BareRadioTemp,VegnRadioTemp,BareNetRadn,VegnNetRadn,Mix
 
 ! Bare Soil
 
-  Elseif (Frveg .eq. 0) Then
+  elseif (eq(frveg,0.0)) then
 
     call Lwdown
     call Uplong (Lwup,BareRadioTemp)

@@ -1,6 +1,5 @@
 program test_daykm
-  use simsphere_mod, only: hgt, za, karman, ustar, mol, km, ntrp, &
-                           deltaz, zi, zk, eq
+  use simsphere_mod, only: hgt, ustar, mol, km, ntrp, deltaz, zi, zk, eq
   use mod_testing, only: assert, initialize_tests, report_tests
   use, intrinsic :: ieee_arithmetic
   implicit none
