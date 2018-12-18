@@ -23,7 +23,7 @@ subroutine  MOM (Pot_S,DT,MONCE)
   OKMAX = 1.0
   X1 = 0.0
 
-  IF ( MONCE .EQ. 0 ) THEN
+  IF (MONCE == 0) THEN
 
 ! **  Perform initialisations.
 ! **  UIF,UIF2 are correction factors to account for 1st layer not being
@@ -83,19 +83,19 @@ subroutine  MOM (Pot_S,DT,MONCE)
       DV = V(I) - V(I-1)
       ABDU = ABS(DU)
       ABDV = ABS(DV)
-      IF ( ABDU .LT. 0.001) DU = 0.001
-      IF ( ABDV .LT. 0.001) DV = 0.001
+      IF (ABDU < 0.001) DU = 0.001
+      IF (ABDV < 0.001) DV = 0.001
       RI(I) = RC * ( T(I) - T(I-1) ) / ( (DU**2) + (DV**2) )
       OK(I) = SB * ( ( CR(I) - RI(I) ) / CR(I) ) * ( SQRT(DU**2 + DV**2 ) / DZ )
       OK(I) = OK(I) + 0.05 * OK(I-1)
   
-      IF ( RI(I) .GE. CR(I) ) OK(I) = 0
+      IF (RI(I) >= CR(I)) OK(I) = 0
       B(I) = ( OK(I) * DT ) / ( DZ**2 )
       BX(I) = ( (OK(I) + KRAD) * DT ) / ( DZ**2 )
   
-      IF ( B(I) .GT. 0.25 ) B(I) = 0.25
-      IF ( BX(I) .GT. 0.25 ) BX(I) = 0.25
-      IF ( OK(I) .GT. OKMAX ) OKMAX = OK(I)
+      IF (B(I) > 0.25) B(I) = 0.25
+      IF (BX(I) > 0.25) BX(I) = 0.25
+      IF (OK(I) > OKMAX) OKMAX = OK(I)
   
     end do
   
@@ -104,7 +104,7 @@ subroutine  MOM (Pot_S,DT,MONCE)
   ! **  the thermodynamic equation.
   
     do I = 2 , IMAX1
-      IF ( I .GT. 2) UIF2 = 1
+      IF (I > 2) UIF2 = 1
       DUW(I) = B(I+1) * ( U(I+1) - U(I) ) - B(I) * ( U(I) -U(I-1) ) * UIF2
       DVW(I) = B(I+1) * ( V(I+1) - V(I) ) - B(I) * ( V(I) - V(I-1) ) * UIF2
       DTW(I) = BX(I+1) * ( T(I+1) - T(I) ) - BX(I) * ( T(I) - T(I-1) ) * UIF2
@@ -140,7 +140,7 @@ subroutine  MOM (Pot_S,DT,MONCE)
     X1 = X1 + 1
     XMOD = MOD ( X1 , 2.0 )
 !  end do
-  IF ( .not. eq(XMOD,0.0) ) GO TO 100
+  IF (.not. eq(XMOD,0.0)) GO TO 100
 
   AWIND =  ( SQRT(U(1)**2 + V(1)**2) )
 

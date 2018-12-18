@@ -109,7 +109,7 @@ subroutine BALL (PES, RHA)
   CI = CO - FCO2 * RRTOT
   CII = CO - FCO2 * RRTOT  ! Previous Value
 
-  if (CI .LT. 0) CI = 220*1E-6
+  if (CI < 0) CI = 220*1E-6
 
 !
 !       CALCULATE NEW RUBISCO AND RUBP LIMITED RATES
@@ -124,9 +124,9 @@ subroutine BALL (PES, RHA)
 !       DETERMINE THE FACTOR WHICH IS LIMITIING
 !
 
-  IF (WE .LE. WR .AND. WE .LE. WS) THEN
+  IF (WE <= WR .and. WE <= WS) THEN
     LIMIT = 'RUBISCO'
-  ELSE IF (WR .LT. WE .AND. WR .LT. WS) THEN
+  ELSE IF (WR < WE .and. WR < WS) THEN
     LIMIT = 'E TRANS'
   ELSE
     LIMIT = 'SINK'
@@ -144,7 +144,7 @@ subroutine BALL (PES, RHA)
 !
 
   FCO2 = VC*(1 - CCOMP/CI) - RESP
-  IF (CCOMP .GT. CI) FCO2 = - RESP
+  IF (CCOMP > CI) FCO2 = - RESP
        
 
 !
@@ -170,13 +170,13 @@ subroutine BALL (PES, RHA)
 !	 BBB = CO/(RAF * 1.32 + RAIR)
 !        CCC = - AMPAR * FCO2
          
-  IF (BBB**2 .LT. 4*AAA*CCC) THEN
+  IF (BBB**2 < 4*AAA*CCC) THEN
     RST = RCUT
   ELSE
     GS = (-BBB + SQRT(BBB**2 - 4*AAA*CCC))/(2*AAA)
     GS = GS / 40.0    !MKS UNITS
-    IF (GS .NE. 0) RS = 1. / GS  ! Checks
-    IF (GS .EQ. 0) RS = 500.0     ! -"-
+    IF (GS /= 0) RS = 1. / GS  ! Checks
+    IF (GS == 0) RS = 500.0     ! -"-
     RST = RS * RCUT / ( RS + RCUT )
     RRTOT = 1.32 * RAF + 1.66 * RST + RAIR        
     RRTOT = RRTOT / 40.0      ! Mole units
@@ -187,11 +187,11 @@ subroutine BALL (PES, RHA)
 !	CHECK IF CI IS CONVERGING
 !
 
-    IF (ABS(1 - CI/CII) .GT. 0.05) GOTO 20
+    IF (ABS(1 - CI/CII) > 0.05) GOTO 20
 
   END IF
 
-  IF (FCO2 .LT. 0.0) RST = RCUT
+  IF (FCO2 < 0.0) RST = RCUT
 
 !
 !	SCALE THE RESISTANCE AND CO2 FLUX

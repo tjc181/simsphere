@@ -16,7 +16,7 @@ subroutine  NETRAD (Time,BareRadioTemp,VegnRadioTemp,BareNetRadn,VegnNetRadn,Mix
 
 !    Compute the solar radiation.
 
-  if ( time >= 0.0 ) then
+  if (time >= 0.0) then
     call Input
   else
     write(*,*) 'Error: negative time detected.'
@@ -30,7 +30,7 @@ subroutine  NETRAD (Time,BareRadioTemp,VegnRadioTemp,BareNetRadn,VegnNetRadn,Mix
 !  Initialise and calculate the effective emissivity of the air and
 !  longwave down using a weighted average of surface and air temperature.
 
-  If (Init .eq. 1) Then
+  If (Init == 1) Then
     Aepsi = 0.700 + 0.17 * Alog10(Omega)
     if(cloud_flag) aepsi = aepsi + (1 - aepsi)*0.8*(0.1*cld_fract)
     ! Note: forcing real arithmetic
@@ -42,7 +42,7 @@ subroutine  NETRAD (Time,BareRadioTemp,VegnRadioTemp,BareNetRadn,VegnNetRadn,Mix
 
 ! Vegetation
 
-  If (Frveg .eq. 1) Then
+  If (Frveg == 1) Then
 
     call Lwdown
     call Vegrad (Time,VegnNetRadn,VegnShortWave,VegnRadioTemp)
@@ -51,7 +51,7 @@ subroutine  NETRAD (Time,BareRadioTemp,VegnRadioTemp,BareNetRadn,VegnNetRadn,Mix
 
 ! Bare Soil
 
-  Elseif (Frveg .eq. 0) Then
+  Elseif (Frveg == 0) Then
 
     call Lwdown
     call Uplong (Lwup,BareRadioTemp)
@@ -65,7 +65,7 @@ subroutine  NETRAD (Time,BareRadioTemp,VegnRadioTemp,BareNetRadn,VegnNetRadn,Mix
 
 ! Mixed
 
-  Elseif (Frveg .gt. 0 .and. Frveg .lt. 1) Then
+  Elseif (Frveg > 0 .and. Frveg < 1) Then
 
     call Lwdown
     call Uplong (Lwup,BareRadioTemp)
