@@ -83,7 +83,7 @@ program simsphere
   ! TJC Removed conversion following rework of dectim()
   !  PTIME = REALTM / 3600.
     ptime = realtm
-    if ( OUTTT /= 0.0 ) then
+    if ( .not. eq(OUTTT,0.0) ) then
       TMOD = MOD (TIME,OUTTT)
     end if
                       
@@ -140,7 +140,7 @@ program simsphere
   
   !  Output is written every OUTTT seconds.
   
-    IF (TMOD.EQ.0.) then
+    IF (eq(TMOD,0.0)) then
       call json % create_object(out,'output')
       call json % add(p,out)
       CALL output(json, out)
@@ -148,7 +148,7 @@ program simsphere
   
   ! Increment Time.
   
-    TIME = TIME + (DELTA/60)
+    TIME = TIME + (DELTA/60.0)
   
 !    IF (REALTM .LT. timend) GO TO 5
   
