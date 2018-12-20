@@ -28,7 +28,7 @@ subroutine  BELOW (TIME,BareRadioTemp,BareEvapFlux)
          TT(1) = OTEMP
       ELSE IF (FRVEG > 0 .and. FRVEG < 1) THEN
          TT(1) = (TG**4*FRVEG + BareRadioTemp**4 * (1-Frveg))**0.25
-      ELSE IF (FRVEG < 1) THEN
+      ELSE IF (FRVEG == 1) THEN
          TT(1) = TG
       ELSE
 !   PRINT*, ' Error ... Fraction of vegetation outwith bounds '

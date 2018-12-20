@@ -31,7 +31,7 @@ subroutine  BRI (T1,MONCE,PSIHNEW,YCOUNT,ZTEN)
   PHIH = 0
   X1 = 0
 
-  IF (YCOUNT < 0 .and. IFIRST == 0) THEN
+  IF (YCOUNT <= 0 .and. IFIRST == 0) THEN
 
 !       MOL = 10E5
     TSTAR = 0
