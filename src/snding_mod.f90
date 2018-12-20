@@ -16,7 +16,7 @@ module snding_mod
       khi=n
     
       do 
-        if (khi-klo .le. 1) exit
+        if (khi-klo <= 1) exit
         if (khi-klo .gt. 1) then
           k=(khi+klo)/2
           if (XA(k) .gt. x) then

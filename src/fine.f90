@@ -21,7 +21,7 @@ subroutine  FINE
       u_fine(j) = rlinear(ud(i+1),ud(i),incr) 
       v_fine(j) = rlinear(vd(i+1),vd(i),incr)
       q_fine(j) = rlinear(qd(i+1),qd(i),incr)
-      if (height .le. Hgt) then
+      if (height <= Hgt) then
         t_fine(j) = Aptemp
       else
         t_fine(j) = rlinear(td(i+1),td(i),incr)

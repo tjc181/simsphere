@@ -105,7 +105,7 @@ subroutine INPUT
 !  If the solar altitude is less that or equal to zero it's night so
 !  return, otherwise compute absolute optical air mass (PATH).
 
-  IF ( SOLEL .LE. 0 ) THEN
+  IF ( SOLEL <= 0 ) THEN
     SWAVE = 0
     RETURN
   END IF

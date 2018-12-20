@@ -37,7 +37,7 @@ subroutine VEL (MONCE,IONCE,StabCriteria,YCOUNT,Obst_Hgt,dual_regime,zo_patch)
 !  the surface layer on the basis log wind profile law.
 
   IF (StabCriteria .eq. 0 .or. (StabCriteria .eq. 1 .and.               &
-     Heat .le. 0.0 )) THEN ! Neutral Profile (Rare)
+     Heat <= 0.0 )) THEN ! Neutral Profile (Rare)
            
 !         ^ Allow for negative heat flux 
        
