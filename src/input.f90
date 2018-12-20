@@ -33,7 +33,7 @@ subroutine INPUT
 ! **  Y ...Counter for determining celestial mechanics for long, lat and
 ! **  time of year.
 
-  IF ( Y .NE. 1 ) GO TO 19
+  IF ( Y /= 1 ) GO TO 19
   Y = Y + 1
 
   IMO1 = IMO + 1
@@ -54,7 +54,7 @@ subroutine INPUT
   end do
 12  N = IYR / 4
   N = IYR - N * 4
-  IF (N .NE. 0 .AND. K .GE. 60) K = K - 1
+  IF (N /= 0 .AND. K .GE. 60) K = K - 1
   DAD = K - 1
 
 ! **  Calculate the angular fraction of a year, convert to radians.

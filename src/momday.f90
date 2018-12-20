@@ -157,7 +157,7 @@ subroutine  MOMDAY(thick)
 
 ! **  This code will be used with graphic interface .. leave for now.
 
-!     IF (TMOD .NE. 0) THEN
+!     IF (TMOD /= 0) THEN
 
 ! **  Calculate the magnitude and direction of the wind at each level.
 

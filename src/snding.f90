@@ -98,7 +98,7 @@ SUBROUTINE SNDING (ZLS, Old_Ahum, temp, humidity, timeloc, wind)
 ! 1.  Temperature
 
   allocate (derivs(NOBS_pTq), STAT = error)
-  if (error .ne. 0) stop 'not enough memory'
+  if (error /= 0) stop 'not enough memory'
 
 ! Calculate derivatives at the boundaries
 
@@ -125,7 +125,7 @@ SUBROUTINE SNDING (ZLS, Old_Ahum, temp, humidity, timeloc, wind)
 ! 2. Moisture
 
   allocate (derivs(NOBS_pTq), STAT = error)
-  if (error .ne. 0) stop 'not enough memory'
+  if (error /= 0) stop 'not enough memory'
 
 ! Calculate derivatives at the boundaries
 
@@ -154,7 +154,7 @@ SUBROUTINE SNDING (ZLS, Old_Ahum, temp, humidity, timeloc, wind)
 ! Create an array of REALS (floats) to put the dy/dx values into
 
   allocate (derivs(NOBS_wind), STAT = error)
-  if (error .ne. 0) stop 'not enough memory'
+  if (error /= 0) stop 'not enough memory'
 
 ! Calculate derivatives at the boundaries
 
@@ -182,7 +182,7 @@ SUBROUTINE SNDING (ZLS, Old_Ahum, temp, humidity, timeloc, wind)
 ! Create an array of REALS (floats) to put the dy/dx values into
 
   allocate (derivs(NOBS_wind), STAT = error)
-  if (error .ne. 0) stop 'not enough memory'
+  if (error /= 0) stop 'not enough memory'
 
 ! Calculate derivatives at the boundaries
 
