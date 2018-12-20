@@ -27,7 +27,7 @@ subroutine  GETTBL
 ! For no precipitable water use 1st 46 values, otherwise skip J blocks
 ! of 46 table entries and read appropriate values.
 
-  IF ( J .EQ. 0 ) THEN
+  IF ( J == 0 ) THEN
     do L = 1 , 46
       READ ( 14 , 1000 ) ABSTBL(L) , SCATBL(L) , BSCTBL(L)
     end do
@@ -46,7 +46,7 @@ subroutine  GETTBL
 ! values of OMEGA interpol'n is done using weighting factors FRACT2 &
 ! FRACT.  Values are written to channel 69.
 
-  IF ( I .EQ. 11 ) THEN
+  IF ( I == 11 ) THEN
 !  WRITE ( 19 , 6901 ) OMEGA
 !  DO 25 L = 1 , 46
 !   25   WRITE ( 19 , 1000 ) ABSTBL(L) , SCATBL(L) , BSCTBL(L)

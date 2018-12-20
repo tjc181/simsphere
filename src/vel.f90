@@ -162,7 +162,7 @@ subroutine VEL (MONCE,IONCE,StabCriteria,YCOUNT,Obst_Hgt,dual_regime,zo_patch)
 !  for heat and water.  CMH and CMW are the scaling factors .. see
 !  manual.
 
-  IF (IONCE .EQ. 0) THEN
+  IF (IONCE == 0) THEN
     KMM = CMH * KS / ( DENS * CP )
     KX =  CMW * KW / ( DENS * CP )
   END IF

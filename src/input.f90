@@ -37,7 +37,7 @@ subroutine INPUT
   Y = Y + 1
 
   IMO1 = IMO + 1
-  IF (IMO1 .EQ. 13) IMO1 = 1
+  IF (IMO1 == 13) IMO1 = 1
 
 ! **  Compute the solar distance factor.
 
