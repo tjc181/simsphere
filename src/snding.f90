@@ -57,7 +57,7 @@ SUBROUTINE SNDING (ZLS, Old_Ahum, temp, humidity, timeloc, wind)
     QS(J) = 0.622 * EW(J) / PS(J) ! Specific Humidity (g/Kg)
     Pot_Temp(J) = (TS(J) + Celsius_to_Kelvin) * (1000. / PS(J)) ** 0.286 ! Theta (K)
 
-    if (J .GT. 1) then
+    if (J > 1) then
 
       TBAR = (( TS(I) + TS(I+1) ) / 2 ) + Celsius_to_Kelvin ! Average Temperature (K)
       THICK = 287 * (TBAR / 9.8) * ALOG(PS(I) / PS(I+1)) ! Thickness (m)

@@ -101,19 +101,19 @@ program simsphere
   ! Mixed Layer
   
   !  write(*,*) 'HEAT: ',HEAT,' SWAVE: ',SWAVE,' RNET: ',RNET
-    IF (HEAT.GT.0.00001 .AND. SWAVE .GT. 0 .AND. RNET .GT. 0) THEN
+    IF (HEAT>0.00001 .AND. SWAVE > 0 .AND. RNET > 0) THEN
       CALL AIR (ZLS, YCOUNT)
     END IF
   
   ! Eddy Diffusivities in the Mixed Layer
   
-    IF (HEAT.GT.0.00001 .AND. SWAVE .GT. 0 .AND. RNET .GT. 0) THEN
+    IF (HEAT>0.00001 .AND. SWAVE > 0 .AND. RNET > 0) THEN
       CALL DAYKM(humidity%thick)
     END IF
   
   ! Momentum Equations - Mixed Layer
   
-    IF (HEAT.GT.0.00001 .AND. SWAVE .GT. 0 .AND. RNET .GT. 0) THEN
+    IF (HEAT>0.00001 .AND. SWAVE > 0 .AND. RNET > 0) THEN
       CALL MOMDAY(humidity%thick)
     END IF
   
@@ -123,12 +123,12 @@ program simsphere
   
   ! Heat FLux - Penman Formulation
   
-    IF((HEAT>=0 .or. RNET .GT.0).AND.SWAVE .GT.0) THEN
+    IF((HEAT>=0 .or. RNET >0).AND.SWAVE >0) THEN
       CALL HOT (B,BareNetRadn,BareEvapFlux,BareHeatFlux)
     END IF
     
   !
-    if (rnet .gt. 0)then
+    if (rnet > 0)then
       StabCriteria = 1
     else
       StabCriteria = 2

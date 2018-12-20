@@ -17,9 +17,9 @@ module snding_mod
     
       do 
         if (khi-klo <= 1) exit
-        if (khi-klo .gt. 1) then
+        if (khi-klo > 1) then
           k=(khi+klo)/2
-          if (XA(k) .gt. x) then
+          if (XA(k) > x) then
             khi=k
           else
             klo=k
@@ -44,7 +44,7 @@ module snding_mod
       real, intent(in) :: X(N), Y(N), YP1, YPN
       real :: spline(N)
     
-      IF (YP1.GT..99E30) THEN
+      IF (YP1>.99E30) THEN
         spline(1)=0.
         U(1)=0.
       ELSE
@@ -58,7 +58,7 @@ module snding_mod
         U(I)=(6.*((Y(I+1)-Y(I))/(X(I+1)-X(I))-(Y(I)-Y(I-1))                 &
              /(X(I)-X(I-1)))/(X(I+1)-X(I-1))-SIG*U(I-1))/P
       end do
-      IF (YPN.GT..99E30) THEN
+      IF (YPN>.99E30) THEN
         QN=0.
         UN=0.
       ELSE

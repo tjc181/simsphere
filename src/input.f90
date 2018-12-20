@@ -95,7 +95,7 @@ subroutine INPUT
   SOLSIN = SIN(EFFDEC)*SIN(SLB)+COS(EFFDEC)*COS(SLB)*COS(HRANGL)
   SOLEL = real(ASIN( SOLSIN ) * RADIAN,4)
 
-  if (SLOPE .GT. 0) then
+  if (SLOPE > 0) then
     call sslope (sinsolelslope,solelslope,effdec,slb,hrangl)
   else
     call albedo (solsin)

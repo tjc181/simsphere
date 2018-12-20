@@ -22,7 +22,7 @@ subroutine  GETTBL
 
   I = INT(1 + OMEGA * 2)
   J = I - 1
-  IF ( I .GT. 11 ) I = 11
+  IF ( I > 11 ) I = 11
 
 ! For no precipitable water use 1st 46 values, otherwise skip J blocks
 ! of 46 table entries and read appropriate values.

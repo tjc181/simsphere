@@ -69,10 +69,10 @@ subroutine VEL (MONCE,IONCE,StabCriteria,YCOUNT,Obst_Hgt,dual_regime,zo_patch)
 !  wind profiles for momentum and heat (FM,FT) to determine the
 !  resistance term over the surface layer.
 
-  else if ( StabCriteria .eq. 1 .and. heat .gt. 0) then ! Unstable
+  else if ( StabCriteria .eq. 1 .and. heat > 0) then ! Unstable
     IF (EVAP < 0.000001) EVAP = 0.000001
     BOWEN = HEAT / EVAP
-    IF ( ABS( BOWEN ) .GT. 10 ) BOWEN = 10 * BOWEN / ABS ( BOWEN )
+    IF ( ABS( BOWEN ) > 10 ) BOWEN = 10 * BOWEN / ABS ( BOWEN )
     MOL =  - ( ( USTAR**3 ) * aptemp * CP * DENS ) /                    &     
            ( KARMAN * GRAV * HEAT * ( 1 + 0.07 / ( ABS ( BOWEN ) ) ) )
 
@@ -187,7 +187,7 @@ subroutine VEL (MONCE,IONCE,StabCriteria,YCOUNT,Obst_Hgt,dual_regime,zo_patch)
 
 !  If vegetation included, call vegetation component.
 
-  IF (SWAVE .GT. 0 .AND. RNET .GT. 0 .AND. FRVEG .GT. 0) THEN
+  IF (SWAVE > 0 .AND. RNET > 0 .AND. FRVEG > 0) THEN
     CALL VEGVEL
   END IF
 

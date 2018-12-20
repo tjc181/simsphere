@@ -30,7 +30,7 @@ subroutine  MOMDAY(thick)
 ! **  mixing layer is below 60m.
 
   SMF = THICK / SMFH
-  IF ( SMF .GT. 1 ) SMF = 1
+  IF ( SMF > 1 ) SMF = 1
 
   AWIND = SQRT ( VD(1)**2 + UD(1)**2 )
 
@@ -82,11 +82,11 @@ subroutine  MOMDAY(thick)
       DUDT(I) = CF * ( VD(I) - VGD(I) )
       DVDT(I) = -CF * ( UD(I) - UGD(I) )
 
-! IF ( ZI(I) .GT. HGT ) THEN
+! IF ( ZI(I) > HGT ) THEN
 !  TD(I) = TD(I) - (RAD - ADVGT ) * (DELTA/2)
 ! ENDIF
 
-     IF ( ZI(I) .GT. HGT ) GO TO 40
+     IF ( ZI(I) > HGT ) GO TO 40
 
      IF ( eq(ZI(I),ZI(NTRP)) ) THEN
        KM(I+1) = 0

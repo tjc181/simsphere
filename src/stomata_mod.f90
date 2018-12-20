@@ -32,8 +32,8 @@ contains
        ! This program calculates stomatal resistance coefficients are initialized in
        ! stmcof.for (referenced file does not exist -TJC)
   
-       if ( tf .GT. mintemp .AND. tf < maxtemp ) then
-         if ( psisup.GT. psiwc ) then
+       if ( tf > mintemp .AND. tf < maxtemp ) then
+         if ( psisup> psiwc ) then
            fpsice = 1 + b1 * psie 
          else
            fpsice = 1 + b1 * psice + b2 * ( psice - psie ) 
