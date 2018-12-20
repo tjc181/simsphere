@@ -70,7 +70,7 @@ subroutine VEL (MONCE,IONCE,StabCriteria,YCOUNT,Obst_Hgt,dual_regime,zo_patch)
 !  resistance term over the surface layer.
 
   else if ( StabCriteria .eq. 1 .and. heat .gt. 0) then ! Unstable
-    IF (EVAP .LT. 0.000001) EVAP = 0.000001
+    IF (EVAP < 0.000001) EVAP = 0.000001
     BOWEN = HEAT / EVAP
     IF ( ABS( BOWEN ) .GT. 10 ) BOWEN = 10 * BOWEN / ABS ( BOWEN )
     MOL =  - ( ( USTAR**3 ) * aptemp * CP * DENS ) /                    &     
@@ -152,7 +152,7 @@ subroutine VEL (MONCE,IONCE,StabCriteria,YCOUNT,Obst_Hgt,dual_regime,zo_patch)
 
 !  Set USTAR equal to some non-zero value if small.
 
-  IF ( USTAR .LT. 0.01 ) USTAR = 0.01
+  IF ( USTAR < 0.01 ) USTAR = 0.01
 ! TJC Work around a problem with this being unitialized.
 ! TJC Related to dual_regime and zo_patch
   ustar_patch = ustar

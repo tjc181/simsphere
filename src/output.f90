@@ -31,7 +31,7 @@ contains
   
     G_Flux = Rnet - Heat - Evap
     Bowen = Heat/Evap
-    If (Bowen .lt. 0.0) Bowen = undefined
+    If (Bowen < 0.0) Bowen = undefined
   
     If (.not. eq(FRVEG,0.0)) then
       air_leaf_T = TAF - 273.23

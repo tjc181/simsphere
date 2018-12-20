@@ -150,7 +150,7 @@ program simsphere
   
     TIME = TIME + (DELTA/60.0)
   
-!    IF (REALTM .LT. timend) GO TO 5
+!    IF (REALTM < timend) GO TO 5
   
   end do
 

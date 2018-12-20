@@ -48,7 +48,7 @@ subroutine INPUT
 
   K = IDAY
   JMO = IMO - 1
-  IF ( JMO .LT. 1 ) GO TO 12
+  IF ( JMO < 1 ) GO TO 12
   do I = 1 , JMO
     K = K + MD(I)
   end do
@@ -111,7 +111,7 @@ subroutine INPUT
   END IF
 
   RLPATH = ( SOLSIN + 0.15 * ( SOLEL + 3.885 ) ** (-1.253) ) ** (-1)
-!      if (rlpath .lt. 1.0) rlpath = 1.0 
+!      if (rlpath < 1.0) rlpath = 1.0 
   PATH = 0.001 * PS1 * RLPATH
   SOLEL = real(SOLEL / RADIAN,4)
 
