@@ -102,7 +102,7 @@ subroutine  BRI (T1,MONCE,PSIHNEW,YCOUNT,ZTEN)
   ! **   On entering this routine the MOL will be positive which will
   ! **   result in a domain error.  Hence restrain MOL first time through.
   
-  !       IF ( MOL .GE. 0 ) MOL = -1.E5
+  !       IF ( MOL >= 0 ) MOL = -1.E5
   !       X = ( 1 - 16 * ( ZA / MOL ) )**( -0.25 )
   !       PHIH = 2 * ALOG( ( 1 + X**2 ) / 2 )
   !       PHIM = ( PHIH + 3.1416 ) / 2 + 2 * ALOG( ( 1 + X ) / 2 ) - 2

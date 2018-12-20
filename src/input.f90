@@ -54,7 +54,7 @@ subroutine INPUT
   end do
 12  N = IYR / 4
   N = IYR - N * 4
-  IF (N /= 0 .AND. K .GE. 60) K = K - 1
+  IF (N /= 0 .AND. K >= 60) K = K - 1
   DAD = K - 1
 
 ! **  Calculate the angular fraction of a year, convert to radians.

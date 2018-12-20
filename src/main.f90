@@ -123,7 +123,7 @@ program simsphere
   
   ! Heat FLux - Penman Formulation
   
-    IF((HEAT.GE.0 .or. RNET .GT.0).AND.SWAVE .GT.0) THEN
+    IF((HEAT>=0 .or. RNET .GT.0).AND.SWAVE .GT.0) THEN
       CALL HOT (B,BareNetRadn,BareEvapFlux,BareHeatFlux)
     END IF
     
