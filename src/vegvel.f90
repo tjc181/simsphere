@@ -26,7 +26,7 @@ subroutine  VEGVEL
 
   chf = 0.011 * SQRT(UAF/WIDTH)*(XLAI/PES)
 
-  IF ( CHF .LT. 0.001 ) CHF = 0.001
+  IF (CHF < 0.001) CHF = 0.001
 
   RAF = 1 / ( CHF )
 
@@ -50,32 +50,32 @@ subroutine  VEGVEL
 
   cha = ustar**2 / (uten - uaf )
 
-  IF ( CHA .LE. 0.001 ) CHA = 0.001
+  IF (CHA <= 0.001) CHA = 0.001
 
 ! Convert Q to ELTL and EA.
 
   QSTF = 10**( 6.1989 - ( 2353 / TF ) )
   SGMA = RHOCP / 0.666
   RMRATIODIF = QSTF - QAF
-  IF (RMRATIODIF.LE.0) RMRATIODIF = .0001
+  IF (RMRATIODIF <= 0) RMRATIODIF = .0001
   VFL = (RMRATIODIF) * PS1 / 0.622
 
 ! Call Deardorff (D) or Carlson/Lynn formulation for RST.
 ! Note RST is actually RF because it contains a cuticular resistance (RCUT).
 
-  IF ( STMTYPE .EQ. 'D') THEN  ! Deardorff Formulation
+  IF (STMTYPE == 'D') THEN  ! Deardorff Formulation
     RS = RMIN * (800.0 / (1.0+SOL) + (1.2 * WILT/                       &
          (0.9*W2G+0.1*WGG))**2) ! Stomatal Resistance 
 
     RST = RS * RCUT / (RS + RCUT) * PES / XLAI ! Total Leaf/Canopy Resistance
 
-  ELSE IF ( STMTYPE .EQ. 'L' ) THEN ! Lynn and Carlson
+  ELSE IF (STMTYPE == 'L') THEN ! Lynn and Carlson
     CALL PSLCAL (SGMA, PES)
 
     RL = RS * RCUT / ( RS + RCUT )   ! Leaf Resistance
     RST = RL * PES / XLAI    ! Total Leaf/Canopy Resistance
 
-  ELSE IF ( STMTYPE .EQ. 'B' ) THEN ! Ball-Berry
+  ELSE IF (STMTYPE == 'B') THEN ! Ball-Berry
     CALL BALL (PES, RHA)
 
     RL = RS * RCUT / ( RS + RCUT )   ! Leaf Resistance
@@ -88,7 +88,7 @@ subroutine  VEGVEL
 
 !    Average TF and XLEF after initial time step.
 
-  IF ( init_vel .EQ. 1 ) THEN
+  IF (init_vel == 1) THEN
     TF = TAF + ( RNETF - XLEFN ) / (CHF * DENS * CP)
     XLEF = XLEFN
     init_vel = 2

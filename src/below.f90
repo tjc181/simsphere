@@ -24,11 +24,11 @@ subroutine  BELOW (TIME,BareRadioTemp,BareEvapFlux)
 ! **  Use the fraction of vegetation to set the boundary conditions
 ! **  for the 1st level in the ground (surface).
 
-      IF ( FRVEG .EQ. 0 ) THEN
+      IF ( FRVEG == 0 ) THEN
          TT(1) = OTEMP
-      ELSE IF ( FRVEG .GT. 0 .AND. FRVEG .LT. 1) THEN
+      ELSE IF (FRVEG > 0 .and. FRVEG < 1) THEN
          TT(1) = (TG**4*FRVEG + BareRadioTemp**4 * (1-Frveg))**0.25
-      ELSE IF ( FRVEG .EQ. 1 ) THEN
+      ELSE IF (FRVEG == 1) THEN
          TT(1) = TG
       ELSE
 !   PRINT*, ' Error ... Fraction of vegetation outwith bounds '
@@ -36,13 +36,13 @@ subroutine  BELOW (TIME,BareRadioTemp,BareEvapFlux)
    continue
       END IF
 
-      IF (HEAT .LT. 0.0 .OR. RNET .LT. 0) THEN
+      IF (HEAT < 0.0 .or. RNET < 0) THEN
           TT(1) = OTEMP
       END IF
 
 ! **  K refers to level, K=1 being the surface.
 
-      IF ( TIME .EQ. 0 ) THEN
+      IF (TIME == 0) THEN
 
        DO 5 I = 1 , NLVL1
         TE(I) = TT(I)
@@ -62,7 +62,7 @@ subroutine  BELOW (TIME,BareRadioTemp,BareEvapFlux)
 
        DTDT(K) = TERM1 * ( TERM2 - TERM3 )
 
-        IF ( TIME .EQ. 0 ) THEN
+        IF (TIME == 0) THEN
 
 ! **  Initial computation of TT(K) and redefinition for the future.
 
@@ -82,13 +82,13 @@ subroutine  BELOW (TIME,BareRadioTemp,BareEvapFlux)
 
    10 CONTINUE
 
- if(ptime .eq. 16) then
+ if (ptime == 16) then
  dummy = 1
  endif
 
 ! **  Skip the substrate water component if WMAX > 1.
 
-      IF ( WMAX .GT. 1 ) THEN
+      IF (WMAX > 1) THEN
 
        W2G = 99.99
        WGG = 99.99

@@ -81,7 +81,7 @@ subroutine  PSLCAL (SGMA, PES)
 
   RSCRIT = stomc(ft,rmin,b1,psice,fs)
 
-  if (init .eq. 1) then
+  if (init == 1) then
     vfl2 = vfl
     init = 2
   else
@@ -89,7 +89,7 @@ subroutine  PSLCAL (SGMA, PES)
     vfl2 = (qstf - Q_boundary) * ps1/0.622
   endif
 
-  IF (STEADY .EQ. 'N') THEN ! capacitance solution
+  IF (STEADY == 'N') THEN ! capacitance solution
 
     call capac (Unscaled_RAF,H,B1_P,B2_P,vfl2, sgma)
 
@@ -100,7 +100,7 @@ subroutine  PSLCAL (SGMA, PES)
 
     PSISUP = PSIG
 
-    IF ( PSISUP .GT. PSIWC ) THEN
+    IF (PSISUP > PSIWC) THEN
 
       AROOT = FS * FT * b1_p * (RCUT + Unscaled_RAF) *  (-1)
 
