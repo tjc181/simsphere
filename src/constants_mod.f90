@@ -30,7 +30,7 @@ module constants
   real, parameter :: Kts_To_Metres = 1.944       ! Knots to ms-1
   real, parameter :: Ft_To_Metres = 3.281        ! Feet to meters
   real, parameter :: Degs_To_Radians = 0.0174533 ! Degrees to Radians
-  real, parameter :: Celsius_To_Kelvin = 273.15  ! Celsius to Kelvin
+  real, parameter :: Celsius_to_Kelvin = 273.15  ! Celsius to Kelvin
 
 ! Data file names
   character(len=1024), parameter :: f_soil_lut = 'data/soils.dat'
