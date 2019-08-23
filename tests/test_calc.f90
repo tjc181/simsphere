@@ -27,11 +27,11 @@ program test_calc
   real, parameter :: xlat_exp = 39.25
   real, parameter :: xlong_exp = 53.0
   real, parameter :: cf_exp = 9.19953891E-05
-  real, parameter :: timend_exp = 23.5
-  real, parameter :: strtim_exp = 5.5
+  real, parameter :: timend_exp = 23.5*3600
+  real, parameter :: strtim_exp = 5.5*3600
   real, parameter :: arg1_exp = 20.0
   real, parameter :: t_1_exp = 20.5
-  real, parameter :: dectim_exp = 22.75 ! 22:45
+  real, parameter :: dectim_exp = 22.75*3600 ! 22:45
   integer, parameter :: arg2_exp = 37
 
   n = 1

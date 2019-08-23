@@ -3,7 +3,7 @@ module constants
   private
   public :: vert_spacing, rhow, DELTA, rot_rate_earth, siga, dens, ft, ZA, SIGMA
   public :: LE, KARMAN, GRAV, R, RAD, CP, radian, sdec, Kts_To_Metres
-  public :: Ft_To_Metres, Degs_To_Radians, Celsius_To_Kelvin
+  public :: Ft_To_Metres, Degs_To_Radians, Celsius_to_Kelvin
   public :: f_soil_lut, f_veg_lut, f_precip_lut
 
   integer, parameter :: vert_spacing = 250

@@ -49,7 +49,6 @@ module globals
   real :: Y = 1.0
   real :: ALBG = 0.0
   real :: ALBF = 0.0
-  real :: XMOD = 0.0
   real :: SIGF = 0.0
   real :: HG = 0.0
   real :: AHUM = 0.0

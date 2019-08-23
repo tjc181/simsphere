@@ -35,11 +35,12 @@ program simsphere
 
   type(t_timeloc) :: timeloc
   type(t_temp) :: temp
-  type(t_humid) :: humidity
+  type(t_windsnd) :: windsnd
   type(t_wind) :: wind
-  type(t_met) :: met
-  type(t_veg) :: veg
-  type(t_soil) :: soil
+!AAP Not used in main:
+!  type(t_met) :: met
+!  type(t_veg) :: veg
+!  type(t_soil) :: soil
 
   type(json_core) :: json
   type(json_value), pointer :: p, out
@@ -55,9 +56,9 @@ program simsphere
 
 
 !  CALL START (Obst_Hgt,dual_regime,zo_patch) ! Read and Check data
-  CALL START (Obst_Hgt, dual_regime, zo_patch, temp, humidity, timeloc, wind)   ! Read data
+  CALL START (Obst_Hgt, dual_regime, zo_patch, temp, windsnd, timeloc, wind)   ! Read data
      
-  CALL SNDING (ZLS, Old_Ahum, temp, humidity, timeloc, wind)  ! Read Sounding - Call Spline to Interpolate
+  CALL SNDING (ZLS, Old_Ahum, temp, windsnd, timeloc, wind)  ! Read Sounding - Call Spline to Interpolate
 
   CALL CALC (OLDTMP, No_Rows)        ! Some basic calculations
 
@@ -79,10 +80,14 @@ program simsphere
   ! Initially TIME = 0, so REALTME = STRTIM but remember
   ! TIME is incremented each step.
   
+  ! STRTIM is the local clock time in seconds at which the model starts.
+  ! REALTM is the local clock time in seconds of the current model iteration.
+  ! TIME is the model integration time in seconds with the first iteration starting at TIME=0
+  ! TIMEND is the local clock time in seconds at which the model should stop.
+  ! PTIME is the local clock time in decimal hours of the current model iteration (REALTM/3600).
+  ! OUTTT is the interval in seconds at which to write output.
     REALTM = TIME + STRTIM
-  ! TJC Removed conversion following rework of dectim()
-  !  PTIME = REALTM / 3600.
-    ptime = realtm
+    PTIME = REALTM / 3600.
     if ( .not. eq(OUTTT,0.0) ) then
       TMOD = MOD (TIME,OUTTT)
     end if
@@ -108,13 +113,13 @@ program simsphere
   ! Eddy Diffusivities in the Mixed Layer
   
     IF (HEAT>0.00001 .AND. SWAVE > 0 .AND. RNET > 0) THEN
-      CALL DAYKM(humidity%thick)
+      CALL DAYKM(windsnd%thick)
     END IF
   
   ! Momentum Equations - Mixed Layer
   
     IF (HEAT>0.00001 .AND. SWAVE > 0 .AND. RNET > 0) THEN
-      CALL MOMDAY(humidity%thick)
+      CALL MOMDAY(windsnd%thick)
     END IF
   
   ! Evaporative Flux, Surface Temperature solutions
@@ -148,7 +153,7 @@ program simsphere
   
   ! Increment Time.
   
-    TIME = TIME + (DELTA/60.0)
+    TIME = TIME + DELTA
   
 !    IF (REALTM < timend) GO TO 5
   

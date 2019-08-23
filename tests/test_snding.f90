@@ -2,7 +2,7 @@ program test_snding
   use simsphere_mod, only: deltaz, gm, ntrp, atemp, tdif_s, aptemp, zi,      &
                            tscren, oshum, ahum, ps1, o_pot_tmp, tdif_50, ugs,&
                            vgs, t_met, t_wind, t_soil, t_veg, t_temp,        &
-                           t_humid, t_timeloc, load_config, eq 
+                           t_windsnd, t_timeloc, load_config, eq 
   use mod_testing, only: assert, initialize_tests, report_tests
   implicit none
 
@@ -12,7 +12,7 @@ program test_snding
   type(t_soil) :: soil
   type(t_veg) :: veg
   type(t_temp) :: temp
-  type(t_humid) :: humidity
+  type(t_windsnd) :: windsnd
   character(len=:), allocatable :: cfg_file
 
   logical, dimension(:), allocatable :: tests
@@ -50,13 +50,13 @@ program test_snding
   ! Initialize JSON, data structures
   cfg_file = 'i_model.json'
 
-  call load_config(cfg_file, met, timeloc, veg, wind, soil, temp, humidity)
+  call load_config(cfg_file, met, timeloc, veg, wind, soil, temp, windsnd)
 
   ! Initialize
 !  call start
 
   call snding_init
-  call snding(arg1,arg2, temp, humidity, timeloc, wind)
+  call snding(arg1,arg2, temp, windsnd, timeloc, wind)
 
   tests(n) = assert(eq(atemp,atemp_exp), 'atemp')
   n = n + 1

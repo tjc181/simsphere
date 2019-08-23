@@ -1,6 +1,6 @@
 program loadjson
   use simsphere_mod, only: t_met, t_timeloc, t_veg, t_wind, t_soil, t_temp,  &
-                           t_humid, load_config
+                           t_windsnd, load_config
   use, intrinsic :: iso_fortran_env, only: error_unit
 
   type(t_met) :: met
@@ -9,7 +9,7 @@ program loadjson
   type(t_wind) :: wind
   type(t_soil) :: soil
   type(t_temp) :: temp
-  type(t_humid) :: humidity
+  type(t_windsnd) :: windsnd
 
   character(len=:), allocatable :: cfg_file
 
@@ -18,7 +18,7 @@ program loadjson
     cfg_file = 'i_model.json'
   end if
 
-  call load_config(cfg_file, met, timeloc, veg, wind, soil, temp, humidity)
+  call load_config(cfg_file, met, timeloc, veg, wind, soil, temp, windsnd)
   
   deallocate(cfg_file)
 

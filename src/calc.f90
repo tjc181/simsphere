@@ -49,12 +49,12 @@ end
  
 real pure function dectim(t)
   implicit none
-! Converts time (HrMinSec Format) to decimal
+! Converts time formatted as "HHMM" (2-digit hours and 2-digit minutes) to decimal seconds
   real, intent(in) :: t
   real :: hour, minute
 
   minute = modulo(t,100.0)
   hour = (t - minute)/100.0
 
-  dectim = hour + (minute/60.0)
+  dectim = ( hour + (minute/60.0) ) * 3600
 end function dectim

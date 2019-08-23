@@ -1,7 +1,7 @@
 program test_bri
   use simsphere_mod, only: ifirst, tstar, t, u, v, qn, otemp, atemp, tdif_s, & 
                            ug, vg, tdif_50, zo, awind, ustar, heat, bulk,    &
-                           uten, mol, advgt, xmod, evap, qd, u_fine, v_fine, &
+                           uten, mol, advgt, evap, qd, u_fine, v_fine, &
                            t_fine, q_fine, qd, qn, cf, aptemp, eq
   use mod_testing, only: assert, initialize_tests, report_tests
   implicit none
@@ -136,7 +136,6 @@ contains
     mol = 0.0
     tstar = 1.0
     uten = 1.0
-    xmod = 1.0
     u = 1.0
     v = 2.0
     do i = 1,size(t)
