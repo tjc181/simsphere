@@ -8,12 +8,20 @@ subroutine  MOM (Pot_S,DT,MONCE)
 ! **  surface and mixing layers.
 
 
-  real :: CR(46), OK(46), BX(46), WIND(46), WGEOS(46)
+! ** Arguments passed in
+  real :: Pot_S
+  integer :: DT, MONCE
+
+! ** Local dynamic variables
+  real :: BX(46), WIND(46), WGEOS(46)
   real :: B(46), DUW(46), KRAD, DVW(46), DTW(46), RI(46)
-  real :: DZ, SB, Pot_S, UIF, UIF2, RC, BX1
   real :: DU, DV, ABDU, ABDV, X1, OKMAX
-  integer :: IMAX, IMAX1, DT, MONCE
-  integer :: I
+  integer :: I, icnt
+
+! ** Local static variables saved between calls
+  real, save :: CR(46), OK(46)
+  real, save :: DZ, SB, UIF, UIF2, RC, BX1
+  integer, save :: IMAX, IMAX1
 
 !      INCLUDE 'modvars.h'
 
@@ -62,9 +70,12 @@ subroutine  MOM (Pot_S,DT,MONCE)
 ! **  Calculate bulk parameters .... Windspeed, Geostrophic Windspeed
 ! **  and Critical Richardson number at all levels.
 
-!    do while (.not. eq(xmod,0.0))
-  100 do I = 1 , IMAX
-!      do I = 1 , IMAX
+  ! **  Cycle through twice (120s).
+  icnt = 2
+  do while ( icnt > 0 )
+    icnt = icnt - 1
+
+      do I = 1 , IMAX
         WIND(I) = SQRT( U(I)**2 + V(I)**2 )
         WGEOS(I) = SQRT( UG(I)**2 + VG(I)**2 )
         CR(I) = ( EXP( -0.2129 * WGEOS(I) ) * 0.5542 ) + 0.2
@@ -135,12 +146,7 @@ subroutine  MOM (Pot_S,DT,MONCE)
   
     QD(1) = QN(1)
   
-  ! **  Increment the time control and cycle through twice (120s).
-  
-    X1 = X1 + 1
-    XMOD = MOD ( X1 , 2.0 )
-!  end do
-  IF (.not. eq(XMOD,0.0)) GO TO 100
+  end do
 
   AWIND =  ( SQRT(U(1)**2 + V(1)**2) )
 

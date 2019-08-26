@@ -1,6 +1,6 @@
 module simsphere_mod
   use config_mod, only: t_met, t_timeloc, t_veg, t_wind, t_soil, t_temp,    &
-                        t_humid, load_config
+                        t_windsnd, load_config
   use constants
   use globals
   use snding_mod, only: splint, spline
@@ -93,8 +93,8 @@ module simsphere_mod
       If (Bowen < 0.0) Bowen = undefined
     
       If (.not. eq(FRVEG,0.0)) then
-        air_leaf_T = TAF - 273.23
-    !ground_T = TG - 273.23
+        air_leaf_T = TAF - Celsius_to_Kelvin
+    !ground_T = TG - Celsius_to_Kelvin
       else
         air_leaf_T = undefined
     !ground_T = undefined
@@ -125,10 +125,10 @@ module simsphere_mod
         call json%add(out,'Sensible Heat Flux/Wm-2',real(heat,real64))
         call json%add(out,'Latent Heat Flux/Wm-2',real(evap,real64))
         call json%add(out,'Ground Flux/Wm-2',real(g_flux,real64))
-        call json%add(out,'Air Temperature 50m/C',real(atemp-273.23,real64))
-        call json%add(out,'Air Temperature 10m/C',real(ta-273.23,real64))
+        call json%add(out,'Air Temperature 50m/C',real(atemp-Celsius_to_Kelvin,real64))
+        call json%add(out,'Air Temperature 10m/C',real(ta-Celsius_to_Kelvin,real64))
         call json%add(out,'Air Temperature Foliage/C',real(air_leaf_t,real64))
-        call json%add(out,'Radiometric Temperature/C',real(otemp-273.23,real64))
+        call json%add(out,'Radiometric Temperature/C',real(otemp-Celsius_to_Kelvin,real64))
         call json%add(out,'Wind 50m/kts',real(awind*1.98,real64))
         call json%add(out,'Wind 10m/kts',real(uten*1.98,real64))
         call json%add(out,'Wind in foliage/kts',real(uaf*1.98,real64))
@@ -161,10 +161,10 @@ module simsphere_mod
           call json%add(out,'Sensible Heat Flux/Wm-2',real(heat,real64))
           call json%add(out,'Latent Heat Flux/Wm-2',real(evap,real64))
           call json%add(out,'Ground Flux/Wm-2',real(g_flux,real64))
-          call json%add(out,'Air Temperature 50m/C',real(atemp-273.23,real64))
-          call json%add(out,'Air Temperature 10m/C',real(ta-273.23,real64))
+          call json%add(out,'Air Temperature 50m/C',real(atemp-Celsius_to_Kelvin,real64))
+          call json%add(out,'Air Temperature 10m/C',real(ta-Celsius_to_Kelvin,real64))
           call json%add(out,'Air Temperature Foliage/C',real(air_leaf_t,real64))
-          call json%add(out,'Radiometric Temperature/C',real(otemp-273.23,real64))
+          call json%add(out,'Radiometric Temperature/C',real(otemp-Celsius_to_Kelvin,real64))
           call json%add(out,'Wind 50m/kts',real(awind*1.98,real64))
           call json%add(out,'Wind 10m/kts',real(uten*1.98,real64))
           call json%add(out,'Wind in foliage/kts',real(uaf*1.98,real64))
@@ -194,10 +194,10 @@ module simsphere_mod
           call json%add(out,'Sensible Heat Flux/Wm-2',real(heat,real64))
           call json%add(out,'Latent Heat Flux/Wm-2',real(evap,real64))
           call json%add(out,'Ground Flux/Wm-2',real(g_flux,real64))
-          call json%add(out,'Air Temperature 50m/C',real(atemp-273.23,real64))
-          call json%add(out,'Air Temperature 10m/C',real(ta-273.23,real64))
+          call json%add(out,'Air Temperature 50m/C',real(atemp-Celsius_to_Kelvin,real64))
+          call json%add(out,'Air Temperature 10m/C',real(ta-Celsius_to_Kelvin,real64))
           call json%add(out,'Air Temperature Foliage/C',real(air_leaf_t,real64))
-          call json%add(out,'Radiometric Temperature/C',real(otemp-273.23,real64))
+          call json%add(out,'Radiometric Temperature/C',real(otemp-Celsius_to_Kelvin,real64))
           call json%add(out,'Wind 50m/kts',real(awind*1.98,real64))
           call json%add(out,'Wind 10m/kts',real(uten*1.98,real64))
           call json%add(out,'Wind in foliage/kts',real(uaf*1.98,real64))

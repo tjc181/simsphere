@@ -1,4 +1,4 @@
-SUBROUTINE SNDING (ZLS, Old_Ahum, temp, humidity, timeloc, wind)
+SUBROUTINE SNDING (ZLS, Old_Ahum, temp, windsnd, timeloc, wind)
   use simsphere_mod
   implicit none
 
@@ -7,7 +7,7 @@ SUBROUTINE SNDING (ZLS, Old_Ahum, temp, humidity, timeloc, wind)
 
   type(t_timeloc) :: timeloc
   type(t_temp) :: temp
-  type(t_humid) :: humidity
+  type(t_windsnd) :: windsnd
   type(t_wind) :: wind
   real :: EW(50),QS(50), ZLS(50)
   real :: UCOMP(50), VCOMP(50), GMQ(50), Pot_Temp (50)
@@ -33,10 +33,10 @@ SUBROUTINE SNDING (ZLS, Old_Ahum, temp, humidity, timeloc, wind)
 ! Temporary until subroutine calls, globals reworked
   station_height = timeloc%station_height
   nobs_wind = wind%num_obs
-  nobs_ptq = humidity%num_obs
-  dd0 = humidity%dd0
-  ff0 = humidity%ff0
-  zh = humidity%zh
+  nobs_ptq = windsnd%num_obs
+  dd0 = windsnd%dd0
+  ff0 = windsnd%ff0
+  zh = windsnd%zh
   ps = temp%ps
   ts = temp%ts
   dep = temp%dep
@@ -61,7 +61,9 @@ SUBROUTINE SNDING (ZLS, Old_Ahum, temp, humidity, timeloc, wind)
 
       TBAR = (( TS(I) + TS(I+1) ) / 2 ) + Celsius_to_Kelvin ! Average Temperature (K)
       THICK = 287 * (TBAR / 9.8) * ALOG(PS(I) / PS(I+1)) ! Thickness (m)
-      humidity%thick = thick
+      ! AAP: I don't think THICK needs to be passed on here.  windsnd%thick is
+      ! AAP: used for the mixed layer thickness only.
+      !windsnd%thick = thick
       HEIGHT = HEIGHT + THICK ! Height (above station) of pressure level
       ZLS(I+1) = HEIGHT
       GM(I) = ( Pot_Temp(I+1) - Pot_Temp(I) ) / THICK ! d(Theta)/dZ
@@ -209,9 +211,9 @@ SUBROUTINE SNDING (ZLS, Old_Ahum, temp, humidity, timeloc, wind)
 ! Calc lapse rate of temp in 1st layer and EW at screen level for
 ! use in the calc of screen level sat'n spec humidity.
 
-  ATEMP = 50 * (TS(2) - TS(1)) / ZLS(2) + TS(1) + 273.15
-  TSCREN = TS(1) + 273.15 ! Screen Temperature
-  EW = 6.11 * EXP (( 2.49E6 / 461.51 ) *(1 / 273.15 - 1 / TSCREN))
+  ATEMP = 50 * (TS(2) - TS(1)) / ZLS(2) + TS(1) + Celsius_to_Kelvin
+  TSCREN = TS(1) + Celsius_to_Kelvin ! Screen Temperature
+  EW = 6.11 * EXP (( 2.49E6 / 461.51 ) *(1 / Celsius_to_Kelvin - 1 / TSCREN))
 
   OSHUM = 0.622 * EW(1) / PS(1)
   AHUM = QS(1)
@@ -227,7 +229,7 @@ SUBROUTINE SNDING (ZLS, Old_Ahum, temp, humidity, timeloc, wind)
   Tdif_50 = Pot_50 - Atemp
   Tdif_s = Tdif_50 - 0.5
 
-!        tdeww = tdew-273.15
+!        tdeww = tdew-Celsius_to_Kelvin
 !        expt=7.5*tdeww/(237.3+tdeww)
 !        eww = 6.11*10**expt
 !        ewww = qs(j)*ps(j)/(0.378*qs(j)+0.622)

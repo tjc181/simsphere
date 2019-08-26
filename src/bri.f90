@@ -11,6 +11,7 @@ subroutine  BRI (T1,MONCE,PSIHNEW,YCOUNT,ZTEN)
   real :: ANEW, BNEW, CNEW, DNEW
   real :: Pot_S, WG1, CR1, TDIF, RADCOR, TSURF, USTAR1
   real :: ZtenOVERL, ZOVERL, PSImzten, PSIMNEW, X1
+  integer :: icnt
 
 
 ! Code altered 5th May 1992 ... transfer from Vel.for.
@@ -32,6 +33,7 @@ subroutine  BRI (T1,MONCE,PSIHNEW,YCOUNT,ZTEN)
   X1 = 0
 
   IF (YCOUNT <= 0 .and. IFIRST == 0) THEN
+    ! Nighttime setup (YCOUNT <= 0)
 
 !       MOL = 10E5
     TSTAR = 0
@@ -43,7 +45,7 @@ subroutine  BRI (T1,MONCE,PSIHNEW,YCOUNT,ZTEN)
        
 ! Start the surface temp at some nominal value.
        
-    write(*,*) 'in the second branch'
+    ! Daytime setup (YCOUNT >= 1)
     otemp = atemp
     T1 = ATEMP - 1
     TSTAR = 0
@@ -54,8 +56,6 @@ subroutine  BRI (T1,MONCE,PSIHNEW,YCOUNT,ZTEN)
       QN(I) = q_fine(i)
     end do
     IFIRST = 2
-    write(*,*) otemp, t1, tstar, t, u, v, qn
-
   end if
 
 !     Surface Potential Temperature
@@ -68,7 +68,11 @@ subroutine  BRI (T1,MONCE,PSIHNEW,YCOUNT,ZTEN)
   WG1 = SQRT( UG(1)**2 + VG(1)**2 )
   CR1 = ( EXP( -0.2129 * WG1 ) * 0.5542 ) + 0.2
 
-  do while (.not. (eq(xmod,0.0)))
+
+  ! **  Mitre the night-time loop; cycle through twice (120s).
+  icnt = 2
+  do while ( icnt > 0 )
+    icnt = icnt - 1
     
     TDIF = ABS( T(1) - Pot_S )
   
@@ -176,11 +180,6 @@ subroutine  BRI (T1,MONCE,PSIHNEW,YCOUNT,ZTEN)
     T1 = ( T1 + T2 )/ 2.0
     T1 = T1 - 0.017
   
-  
-  ! **  Mitre the night-time loop; cycle through twice (120s).
-  
-    X1 = X1 + 1
-    XMOD = MOD ( X1 , 2.0 )
   end do
 
 ! **  Call MOM to calculate the night-time vertical profiles of

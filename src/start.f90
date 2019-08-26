@@ -1,4 +1,4 @@
-subroutine  START (Obst_Hgt, dual_regime, zo_patch, temp, humidity, timeloc, wind)
+subroutine  START (Obst_Hgt, dual_regime, zo_patch, temp, windsnd, timeloc, wind)
   use simsphere_mod
   implicit none
 
@@ -19,7 +19,7 @@ subroutine  START (Obst_Hgt, dual_regime, zo_patch, temp, humidity, timeloc, win
   type(t_wind) :: wind
   type(t_soil) :: soil
   type(t_temp) :: temp
-  type(t_humid) :: humidity
+  type(t_windsnd) :: windsnd
 
   character(len=:), allocatable :: cfg_file
 
@@ -28,7 +28,7 @@ subroutine  START (Obst_Hgt, dual_regime, zo_patch, temp, humidity, timeloc, win
     cfg_file = 'i_model.json'
   end if
 
-  call load_config(cfg_file, met, timeloc, veg, wind, soil, temp, humidity)
+  call load_config(cfg_file, met, timeloc, veg, wind, soil, temp, windsnd)
 
   deallocate(cfg_file)
 
@@ -125,8 +125,8 @@ subroutine  START (Obst_Hgt, dual_regime, zo_patch, temp, humidity, timeloc, win
 
     close (unit = 1)
 
-    mintemp = mintemp + 273
-    maxtemp = maxtemp + 273
+    mintemp = mintemp + Celsius_to_Kelvin
+    maxtemp = maxtemp + Celsius_to_Kelvin
 
   end if
 

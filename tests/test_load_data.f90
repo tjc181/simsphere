@@ -1,5 +1,5 @@
 program test_load_data
-  use simsphere_mod, only: t_met, t_wind, t_soil, t_veg, t_temp, t_humid,   &
+  use simsphere_mod, only: t_met, t_wind, t_soil, t_veg, t_temp, t_windsnd,   &
                            t_timeloc, load_config, eq
   use mod_testing, only: assert, initialize_tests, report_tests
   use iso_fortran_env, only: real32, real64
@@ -11,7 +11,7 @@ program test_load_data
   type(t_soil) :: soil
   type(t_veg) :: veg
   type(t_temp) :: temp
-  type(t_humid) :: humidity
+  type(t_windsnd) :: windsnd
   character(len=:), allocatable :: cfg_file
 
   logical, dimension(:), allocatable :: tests
@@ -29,11 +29,11 @@ program test_load_data
   cfg_file = 'i_model.json'
 
   ! Initialize data structures
-  call load_config(cfg_file, met, timeloc, veg, wind, soil, temp, humidity)
+  call load_config(cfg_file, met, timeloc, veg, wind, soil, temp, windsnd)
 
   tests(n) = assert(wind%num_obs == 11, 'nobs_wind == 11')
   n = n + 1
-  tests(n) = assert(humidity%num_obs == 12, 'nobs_ptq == 12')
+  tests(n) = assert(windsnd%num_obs == 12, 'nobs_ptq == 12')
   n = n + 1
   tests(n) = assert(eq(met%omega,3.13_real64), 'omega == 3.13')
   n = n + 1

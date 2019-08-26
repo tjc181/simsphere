@@ -92,11 +92,10 @@ subroutine  NETRAD (Time,BareRadioTemp,VegnRadioTemp,BareNetRadn,VegnNetRadn,Mix
 End
 
 Subroutine  Lwdown
-  use simsphere_mod, only: aepsi, sigma, t_fine, tdif_s
+  use simsphere_mod, only: Lwdn, aepsi, sigma, t_fine, tdif_s
   implicit none
 
 !      INCLUDE 'modvars.h'
-  real :: Lwdn
 
   Lwdn = aepsi*sigma*(T_fine(3) - Tdif_s - 1.5)**4
 

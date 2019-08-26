@@ -5,7 +5,7 @@ module config_mod
 
   private
   public :: load_config
-  public :: t_met, t_veg, t_wind, t_soil, t_temp, t_humid, t_timeloc
+  public :: t_met, t_veg, t_wind, t_soil, t_temp, t_windsnd, t_timeloc
 
 ! config_mod provides data structures and subroutines to read data from the 
 ! model configuration file and initialize variables to default values.  Data 
@@ -17,9 +17,9 @@ module config_mod
 !  t_timeloc: Time and Location
 !  t_veg: Vegetation
 !  t_soil: Soil
-!  t_wind: Wind speed and direction
+!  t_wind: Geostrophic wind components
 !  t_temp: Temperature sounding
-!  t_humid: Humidity sounding
+!  t_windsnd: Wind sounding
 
   type t_met
     real(kind=real64) :: omega, zo, obst_hgt
@@ -58,11 +58,11 @@ module config_mod
     real(kind=real64), dimension(:), allocatable :: ps, ts, dep
   end type t_temp
 
-  type t_humid
+  type t_windsnd
     real(kind=real64), dimension(:), allocatable :: dd0, ff0, zh
     real(kind=real64) :: thick
     integer :: num_obs
-  end type t_humid
+  end type t_windsnd
 
 contains
 
@@ -88,7 +88,7 @@ contains
     return
   end subroutine destroy_json 
 
-  subroutine load_config(file, met, timeloc, veg, wind, soil, temp, humidity)
+  subroutine load_config(file, met, timeloc, veg, wind, soil, temp, windsnd)
     type(json_file) :: json
     type(t_met) :: met
     type(t_timeloc) :: timeloc
@@ -96,7 +96,7 @@ contains
     type(t_wind) :: wind
     type(t_soil) :: soil
     type(t_temp) :: temp
-    type(t_humid) :: humidity
+    type(t_windsnd) :: windsnd
     logical :: found, namelist_style
     integer :: error_cnt
 
@@ -116,7 +116,7 @@ contains
     found = .false.
     namelist_style = .true.
 
-    ! Load data structures: met, veg, wind, soil, temp_snd, humid_snd
+    ! Load data structures: met, veg, wind, soil, temp_snd, wind_snd
 
     ! Meteorological
     path = '.meteorological'
@@ -242,15 +242,15 @@ contains
     call json%get(root//path//'.dep',temp%dep, found)
     if (.not. found) stop 1
   
-    ! Humidity
-    path = '.humidity_sounding'
-    call json%get(root//path//'.dd0', humidity%dd0, found)
+    ! Wind
+    path = '.wind_sounding'
+    call json%get(root//path//'.dd0', windsnd%dd0, found)
     if (.not. found) stop 1
-    call json%get(root//path//'.ff0', humidity%ff0, found)
+    call json%get(root//path//'.ff0', windsnd%ff0, found)
     if (.not. found) stop 1
-    call json%get(root//path//'.zh', humidity%zh, found)
+    call json%get(root//path//'.zh', windsnd%zh, found)
     if (.not. found) stop 1
-    call json%get(root//'.nobs_ptq', humidity%num_obs, found)
+    call json%get(root//'.nobs_ptq', windsnd%num_obs, found)
     if (.not. found) stop 1
 
     ! Clean up

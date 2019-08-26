@@ -5,7 +5,7 @@ program sim_input_gen
 
   type(json_core) :: json
   type(json_value), pointer :: p, inp, met, soil, veg, wind, time
-  type(json_value), pointer :: temp_snd, humid_snd
+  type(json_value), pointer :: temp_snd, wind_snd
 
   ! initialize the class
   call json%initialize(compact_reals=.true., real_format='*')
@@ -97,12 +97,12 @@ program sim_input_gen
   call json%add(temp_snd, 'ts', [24,24,23,24,11,9,4,2,2,-7,-10,-40])
   call json%add(temp_snd, 'dep', [5,5,3,8,7,11,6,7,15,17,30,30])
 
-  ! Humidity sounding
-  call json%create_object(humid_snd, 'humidity_sounding')
-  call json%add(inp, humid_snd)
-  call json%add(humid_snd, 'dd0', [180,225,240,225,215,230,240,245,255,195])
-  call json%add(humid_snd, 'ff0', [7,10,35,25,15,15,30,25,44,43,14])
-  call json%add(humid_snd, 'zh', [0,1,3,5,7,9,14,20,30,41,54])
+  ! Wind sounding
+  call json%create_object(wind_snd, 'wind_sounding')
+  call json%add(inp, wind_snd)
+  call json%add(wind_snd, 'dd0', [180,185,225,240,225,215,230,240,245,255,195])
+  call json%add(wind_snd, 'ff0', [7,10,35,25,15,15,30,25,44,43,14])
+  call json%add(wind_snd, 'zh', [0,1,3,5,7,9,14,20,30,41,54])
   nullify(inp)  !don't need this anymore
 
   ! write the file:
