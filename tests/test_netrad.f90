@@ -4,7 +4,7 @@ program test_netrad
                            iyr, albdoe, albf, albg, atemp, epsf, otemp, qaf,&
                            rlf, rlg, rnetf, rnetg, rsf, rsg, sigf, sol, taf,&
                            tf, tg, qd, aspect, slope, xlai, wgg, wmax,      &
-                           tscren, eq
+                           tscren, eq, Lwdn
   use mod_testing, only: assert, initialize_tests, report_tests
   implicit none
 
@@ -18,8 +18,8 @@ program test_netrad
   integer(kind=1) :: arg7
 
   ! Expected values
-!  real, parameter :: lwdn_exp = 0.0
-!  real, parameter :: lwup_exp = 0.0
+  real, parameter :: lwdn_exp = 2.861374549E-07
+  real, parameter :: lwup_exp = 411.767578
   real, parameter :: arg2_exp = 295.15
   real, parameter :: arg3_exp = 295.15
   real, parameter :: arg4_exp = -411.767578
@@ -48,7 +48,7 @@ program test_netrad
 
 
   n = 1
-  ntests = 21
+  ntests = 23
   call initialize_tests(tests,ntests)
 
   ! Time < 0 produces an error message
@@ -133,15 +133,19 @@ program test_netrad
   tests(n) = assert(eq(arg6,arg6_fv_exp), 'MixedNetRadn full veg')
   n = n + 1
 
-!  ! Test LWDOWN
-!  call lwdown
-!  tests(n) = assert(eq(lwdn,lwdn_exp), 'lwdown')
-!  n = n + 1
-!
-!  ! Test UPLONG(arg1, arg2)
-!  call uplong
-!  tests(n) = assert(eq(lwup,lwup_exp), 'uplong')
-!  n = n + 1
+  ! Test LWDOWN
+!  call lwdown_init
+  call lwdown
+  tests(n) = assert(eq(Lwdn,lwdn_exp), 'lwdown')
+  write(*,*) Lwdn,lwdn_exp
+  n = n + 1
+
+  ! Test UPLONG(arg1, arg2)
+  call netrad_init
+  ! arg2_exp is BareRadioTemp from earlier testing in this program
+  call uplong(arg1, arg2_exp)  
+  tests(n) = assert(eq(arg1,lwup_exp), 'uplong')
+  n = n + 1
 
   test_failed = .false.
   call report_tests(tests,test_failed)
@@ -208,6 +212,15 @@ contains
     WMAX = 1230.0
     return
   end subroutine albedo_init
+
+!  subroutine lwdown_init
+!    lwdn = 0.0
+!    aepsi = 1.0
+!    t_fine(3) = 1.0
+!    tdif_s = 1.0
+!
+!    return
+!  end subroutine lwdown_init
 
 
 end program test_netrad
