@@ -1,4 +1,4 @@
-subroutine  BRI (T1,MONCE,PSIHNEW,YCOUNT,ZTEN)
+subroutine  BRI (MONCE,PSIHNEW,YCOUNT,ZTEN)
   use simsphere_mod
   implicit none
 
@@ -6,7 +6,7 @@ subroutine  BRI (T1,MONCE,PSIHNEW,YCOUNT,ZTEN)
 !  .2 using the Blackadar model.
 
   integer :: MONCE, DT, PHIH, I
-  real :: T1, T2, PSIHNEW, YCOUNT, ZTEN
+  real :: T2, PSIHNEW, YCOUNT, ZTEN
   real :: A, Z1, B
   real :: ANEW, BNEW, CNEW, DNEW
   real :: Pot_S, WG1, CR1, TDIF, RADCOR, TSURF, USTAR1
@@ -169,7 +169,11 @@ subroutine  BRI (T1,MONCE,PSIHNEW,YCOUNT,ZTEN)
   ! .... Soln Sequence Stable Non - Turbulent ....
   
       HEAT = - 0.001
+      ! Avoid underflow
+      IF( USTAR < 1E-4 ) USTAR = 0.0
       USTAR = USTAR / 2
+      ! Avoid underflow
+      IF( UTEN < 1E-4 ) UTEN = 0.0
       UTEN = UTEN / 2
   
     end if

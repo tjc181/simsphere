@@ -8,20 +8,15 @@ subroutine  MOM (Pot_S,DT,MONCE)
 ! **  surface and mixing layers.
 
 
-! ** Arguments passed in
   real :: Pot_S
   integer :: DT, MONCE
 
-! ** Local dynamic variables
   real :: BX(46), WIND(46), WGEOS(46)
   real :: B(46), DUW(46), KRAD, DVW(46), DTW(46), RI(46)
   real :: DU, DV, ABDU, ABDV, X1, OKMAX
   integer :: I, icnt
-
-! ** Local static variables saved between calls
-  real, save :: CR(46), OK(46)
-  real, save :: DZ, SB, UIF, UIF2, RC, BX1
-  integer, save :: IMAX, IMAX1
+  real :: DZ, SB, UIF, UIF2, BX1
+  integer :: IMAX, IMAX1
 
 !      INCLUDE 'modvars.h'
 
@@ -30,26 +25,30 @@ subroutine  MOM (Pot_S,DT,MONCE)
 
   OKMAX = 1.0
   X1 = 0.0
+  DZ = 50.0 
+  SB = 784.0
+!  IMAX = 50
+  IMAX = size(bx)
+  IMAX1 = IMAX - 1
 
-  IF (MONCE == 0) THEN
-
-! **  Perform initialisations.
 ! **  UIF,UIF2 are correction factors to account for 1st layer not being
 ! **  centred when the night SFL depth is below 50 m (ZA).
 ! **  This is not necessary at present as ZA = 50 m.
 
-    DZ = 50.0 
-    SB = 784.0
-!    IMAX = 50
-    IMAX = size(bx)
+  UIF = ( 2 * DZ / ZA ) - 1
+  UIF2 = DZ / ( 2 * DZ - ZA )
 
-    UIF = ( 2 * DZ / ZA ) - 1
-    UIF2 = DZ / ( 2 * DZ - ZA )
+! **  Make the diffusion coefficient (BX1) for radiation unitless.
+
+  BX1 = KRAD * DT / ( DZ**2 )
+
+  IF (MONCE == 0) THEN
+
+! **  Perform initialisations.
 
 ! **  Set up constants for the Richardson number calculation.
 
     RC = ( GRAV * DZ ) / OTEMP
-    IMAX1 = IMAX - 1
 
 ! **  Set values of Critical Richardson # and turbulent diffusivities to
 ! **  a nominal value and smooth the temperature profile.
@@ -60,9 +59,6 @@ subroutine  MOM (Pot_S,DT,MONCE)
       T(I) = ( T(I) + T(I+1) ) / 2
     end do
 
-! **  Make the diffusion coefficient (BX1) for radiation unitless.
-
-    BX1 = KRAD * DT / ( DZ**2 )
     MONCE = 2
 
   END IF

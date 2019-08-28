@@ -24,6 +24,10 @@ module globals
   real :: FSUB=0.0,F=0.0,ZO=0.0,TP=0.0,TI_A=0.0,TI_B=0.0,DELZ(8)=0.0,CG=0.0
   real :: GAM=0.0,HET=0.0
   real :: U(50)=0.0,V(50)=0.0,UG(50)=0.0,VG(50)=0.0,T(50)=0.0,ZCOUNT=0.0
+
+  ! Used in mom.f90
+  real :: CR(46), OK(46), RC
+
   real :: OUTTT=0.0,SATAM=0.0,SATPM=0.0,STRTIM=0.0, TIMEND=0.0, REALTM=0.0,PTIME=0.0
   real :: DEL=0.0,DZETA=0.0,Z(9)=0.0,TT(9)=0.0,XFUN(9)=0.0
   real :: XLAT=0.0,XLONG=0.0,TZ=0.0,ALBDOE=0.0
@@ -55,6 +59,7 @@ module globals
   real :: RNET = 0.0
   real :: USTAR = 0.0
   real :: TSTAR = 0.0
+  real :: T1 = 0.0
   real :: HEAT = 0.0
   real :: HGT = 50.0
   real :: DELT = 1.0
