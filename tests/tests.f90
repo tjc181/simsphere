@@ -310,7 +310,7 @@ program test_simsphere
   real, parameter :: zo_expected = 0.05
 !  real, parameter :: obst_hgt_expected = 1
 !  logical, parameter :: cloud_flag_expected = .true.
-  integer, parameter :: cld_fract_expected = 14
+  real, parameter :: cld_fract_expected = 0.14
   real, parameter :: frveg_expected = 1
   real, parameter :: xlai_expected = 0
   real, parameter :: epsf_expected = 0.96

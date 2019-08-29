@@ -23,7 +23,7 @@ module config_mod
 
   type t_met
     real(kind=real64) :: omega, zo, obst_hgt
-    integer :: cld_fract
+    real(kind=real64) :: cld_fract
     logical :: cloud_flag
   end type t_met
 

@@ -160,7 +160,7 @@ contains
     aepsi = 1.0 
     omega = 3.13
     cloud_flag = .true. 
-    cld_fract = 14 
+    cld_fract = 0.14 
     frveg = 0
     rnet = 0.0 
     swave = 0.0 

@@ -66,10 +66,10 @@ module globals
   real :: DHET = 0.0
   real :: EVAP = 0.0
   real :: BULK = 0.0
+  real :: cld_fract = 0.0
 
 
 
-  integer(kind=1) :: cld_fract = 0
   integer :: RCCAP = 0
   integer :: NTRP = 0
   integer :: IMO = 0
