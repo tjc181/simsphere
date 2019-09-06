@@ -20,7 +20,7 @@ subroutine VEL (MONCE,IONCE,StabCriteria,YCOUNT,Obst_Hgt,dual_regime,zo_patch)
   real :: SA, SRFCZO, SO10M, STEN, FM, FTEN, USTAR1
   real :: CHIO, CHIA, CHI20, T_ft, FT20, SObst_Hgt, FObst_Hgt
   real :: CH_Obst_Hgt, FT_Obst_Hgt, RZA_Obst_Hgt
-  real :: T1, PSIHNEW, REKUST
+  real :: PSIHNEW, REKUST
   real :: Rtrans_patch, RtransW_patch
       
 !      INCLUDE 'modvars.h'
@@ -132,7 +132,7 @@ subroutine VEL (MONCE,IONCE,StabCriteria,YCOUNT,Obst_Hgt,dual_regime,zo_patch)
 
 !  Call the nightime routine.  Stable case
 
-    CALL BRI (T1,MONCE,PSIHNEW,YCOUNT,ZTEN) ! Stable
+    CALL BRI (MONCE,PSIHNEW,YCOUNT,ZTEN) ! Stable
 
     REKUST = 1 / (KARMAN * USTAR)
     RZAZO =  REKUST * ( ALOG( ZA / ZO ) + psihnew )

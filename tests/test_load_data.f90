@@ -41,9 +41,9 @@ program test_load_data
   n = n + 1
   tests(n) = assert(eq(met%obst_hgt,1.0_real64), 'obst_height == 1.0')
   n = n + 1
-  tests(n) = assert(met%cloud_flag .eqv. .true., 'cloud_flag eqv true')
+  tests(n) = assert(met%cloud_flag .eqv. .false., 'cloud_flag eqv false')
   n = n + 1
-  tests(n) = assert(met%cld_fract == 14, 'cld_fract == 14')
+  tests(n) = assert(eq(met%cld_fract,0.14_real64), 'cld_fract == 0.14')
   n = n + 1
   tests(n) = assert(eq(soil%f,0.5_real64), 'f == 0.5')
   n = n + 1

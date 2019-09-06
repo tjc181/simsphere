@@ -27,8 +27,8 @@ program sim_input_gen
   call json%add(met, 'omega', 3.13_wp)
   call json%add(met, 'zo', 0.05_wp)
   call json%add(met, 'obst_hgt', 1)
-  call json%add(met, 'cloud_flag', .true.)
-  call json%add(met, 'cld_fract', 14)
+  call json%add(met, 'cloud_flag', .false.)
+  call json%add(met, 'cld_fract', 0.14)
 
   ! Soil inputs
   call json%create_object(soil,'soil')
@@ -43,7 +43,7 @@ program sim_input_gen
   call json%add(soil, 'ti_b', 12.0_wp)
   call json%add(soil, 'albg', 0.1_wp)
   call json%add(soil, 'epsi', 0.96_wp)
-  call json%add(soil, 'index_soils', 5)
+  call json%add(soil, 'index_soils', 1)
   call json%add(soil, 'albedo_gflag', 'F')
 
   ! Time and location inputs

@@ -2,7 +2,7 @@ program test_bri
   use simsphere_mod, only: ifirst, tstar, t, u, v, qn, otemp, atemp, tdif_s, & 
                            ug, vg, tdif_50, zo, awind, ustar, heat, bulk,    &
                            uten, mol, advgt, evap, qd, u_fine, v_fine, &
-                           t_fine, q_fine, qd, qn, cf, aptemp, eq
+                           t_fine, q_fine, qd, qn, cf, aptemp, t1, eq
   use mod_testing, only: assert, initialize_tests, report_tests
   implicit none
 
@@ -11,9 +11,9 @@ program test_bri
   logical :: test_failed
   integer :: n, ntests
 
-  ! arg1 = T1, arg2 = MONCE, arg3 = PSIHNEW, arg4 = YCOUNT, arg5 = ZTEN
-  real :: arg1, arg3, arg4, arg5
-  integer :: arg2
+  ! arg1 = MONCE, arg2 = PSIHNEW, arg3 = YCOUNT, arg4 = ZTEN
+  real :: arg2, arg3, arg4
+  integer :: arg1
 
   ! Expected values
   real, parameter :: awind_exp = 1.0
@@ -68,7 +68,7 @@ program test_bri
 
   call bri_init
   call mom_init
-  call bri(arg1,arg2,arg3,arg4,arg5)
+  call bri(arg1,arg2,arg3,arg4)
   tests(n) = assert(eq(qd,qd_exp), 'qd')
   n = n + 1
   tests(n) = assert(eq(awind,awind_exp), 'awind')
@@ -84,8 +84,8 @@ program test_bri
 
   call bri_init
   call mom_init
-  arg4 = 1.0
-  call bri(arg1,arg2,arg3,arg4,arg5)
+  arg3 = 1.0
+  call bri(arg1,arg2,arg3,arg4)
   tests(n) = assert(eq(qd,qd_exp,1e-5), 'qd monce == 1.0')
   n = n + 1
   tests(n) = assert(eq(awind,awind_ycount1_exp), 'awind ycount == 1.0')
@@ -102,8 +102,8 @@ program test_bri
 !  call bri_init
 !  call mom_init
 !  ifirst = 1
-!  arg4 = 1.0
-!  call bri(arg1,arg2,arg3,arg4,arg5)
+!  arg3 = 1.0
+!  call bri(arg1,arg2,arg3,arg4)
 !  tests(n) = assert(eq(qd,qd_exp,1e-5), 'qd ycount, ifirst == 1.0')
 !  n = n + 1
 !  tests(n) = assert(eq(awind,awind_ycif_exp), 'awind ycount, ifirst == 1.0')
@@ -125,11 +125,11 @@ contains
   subroutine bri_init
     integer :: i
 
-    arg1 = 1.0
-    arg2 = 0
-    arg3 = 10.0
-    arg4 = 0.0
-    arg5 = 1.0
+    arg1 = 0
+    arg2 = 10.0
+    arg3 = 0.0
+    arg4 = 1.0
+    t1 = 1.0
     USTAR = 1.0
     bulk = 1.0
     ifirst = 0

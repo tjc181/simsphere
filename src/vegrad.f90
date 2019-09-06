@@ -3,7 +3,8 @@ subroutine  VEGRAD (TIME,RNETV,SWAVEV,TZERO)
   implicit none
 
   real :: TIME, RNETV, SWAVEV, TZERO
-  real :: t1, TZERO5, TZERO4
+  real :: TZERO5, TZERO4
+  !real :: T1
 
 !      INCLUDE 'modvars.h'
 
@@ -11,7 +12,8 @@ subroutine  VEGRAD (TIME,RNETV,SWAVEV,TZERO)
     TAF = otemp
     TF =  otemp
     TG =  otemp
-    t1 = atemp
+    !AAP: Is this supposed to be the same T1 used in VEL and BRI ???
+    T1 = atemp
     TA = ATEMP
 !	QA = QD(1)
     QAF = QD(1)
