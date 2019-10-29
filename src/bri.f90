@@ -5,12 +5,12 @@ subroutine  BRI (MONCE,PSIHNEW,YCOUNT,ZTEN)
 !  Subroutine BRI computes the M-O-L when BRI is (+) and less than
 !  .2 using the Blackadar model.
 
-  integer :: MONCE, DT, PHIH, I
+  integer :: MONCE, DT, I
   real :: T2, PSIHNEW, YCOUNT, ZTEN
   real :: A, Z1, B
   real :: ANEW, BNEW, CNEW, DNEW
   real :: Pot_S, WG1, CR1, TDIF, RADCOR, TSURF, USTAR1
-  real :: ZtenOVERL, ZOVERL, PSImzten, PSIMNEW, X1
+  real :: ZtenOVERL, ZOVERL, PSImzten, PSIMNEW
   integer :: icnt
 
 
@@ -28,9 +28,6 @@ subroutine  BRI (MONCE,PSIHNEW,YCOUNT,ZTEN)
 
 !  ZAN is the night-time surface depth and is input in START.
 !  ZAN is simply ZA @ night.
-
-  PHIH = 0
-  X1 = 0
 
   IF (YCOUNT <= 0 .and. IFIRST == 0) THEN
     ! Nighttime setup (YCOUNT <= 0)

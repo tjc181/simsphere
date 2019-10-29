@@ -1,0 +1,150 @@
+{
+  "inputs": {
+    "nobs_ptq": 12,
+    "nobs_wind": 11,
+    "meteorological": {
+      "omega": 3.13,
+      "zo": 0.2,
+      "obst_hgt": 1,
+      "cloud_flag": false,
+      "cld_fract": 0.0
+    },
+    "soil": {
+      "f": 0.5,
+      "fsub": 0.75,
+      "wmax": 0.34,
+      "btemp": 24.63,
+      "tp": 13,
+      "dual_ti": "N",
+      "ti_a": 12.0,
+      "ti_b": 12.0,
+      "albg": 0.1,
+      "epsi": 0.96,
+      "index_soils": 5,
+      "albedo_gflag": "F"
+    },
+    "time_location": {
+      "year": 89,
+      "month": 8,
+      "day": 4,
+      "tz": 6,
+      "xlat": 39.25,
+      "xlong": 96.34,
+      "strtim": 530,
+      "timend": 2330,
+      "outtt": 30,
+      "slope": 0,
+      "aspect": 0,
+      "station_height": 0.886
+    },
+    "vegetation": {
+      "frveg": 50.0,
+      "xlai": 7,
+      "epsf": 0.96,
+      "albedo_fflag": "N",
+      "albf": 0.1,
+      "stmtype": "L",
+      "index_veggies": 4,
+      "volrel": 10,
+      "rmin": 150,
+      "rcut": 1000,
+      "wilt": 0.08,
+      "vegheight": 2.0,
+      "width": 0.12,
+      "steady": "Y",
+      "ci": 300,
+      "co": 330,
+      "coz_sfc": 0,
+      "coz_air": 0.08
+    },
+    "wind": {
+      "ugs": 4.649,
+      "vgs": 8.445
+    },
+    "temp_sounding": {
+      "ps": [
+        967,
+        949,
+        900,
+        850,
+        700,
+        677,
+        628,
+        612,
+        606,
+        530,
+        460,
+        250
+      ],
+      "ts": [
+        24,
+        24,
+        23,
+        24,
+        11,
+        9,
+        4,
+        2,
+        2,
+        -7,
+        -10,
+        -40
+      ],
+      "dep": [
+        5,
+        5,
+        3,
+        8,
+        7,
+        11,
+        6,
+        7,
+        15,
+        17,
+        30,
+        30
+      ]
+    },
+    "wind_sounding": {
+      "dd0": [
+        180,
+        185,
+        225,
+        240,
+        225,
+        215,
+        230,
+        240,
+        245,
+        255,
+        195
+      ],
+      "ff0": [
+        7,
+        10,
+        35,
+        25,
+        15,
+        15,
+        30,
+        25,
+        44,
+        43,
+        14
+      ],
+      "zh": [
+        0,
+        1,
+        3,
+        5,
+        7,
+        9,
+        14,
+        20,
+        30,
+        41,
+        54
+      ]
+    }
+  }
+}

@@ -1,0 +1,3 @@
+i_model_f77_orig.dat, LUT_f77.dat, soils_f77.dat and veglut_f77.dat are the
+original files accomanying the fortran 77 version of the simsphere code and are
+not used with the f90 version.

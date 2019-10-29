@@ -1,4 +1,4 @@
-subroutine  PSLCAL (SGMA, PES)
+subroutine  PSLCAL (SGMA, PES, init)
   use simsphere_mod
   implicit none
 
@@ -10,7 +10,7 @@ subroutine  PSLCAL (SGMA, PES)
 
 !      INCLUDE 'modvars.h'
 
-  data init  /1/
+!  data init  /1/
 
 ! **  a program that finds leaf water potential analytically.
 

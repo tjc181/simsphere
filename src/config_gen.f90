@@ -18,17 +18,17 @@ program sim_input_gen
   call json%add(p, inp) !add it to the root
 
   ! Uncategorized inputs
-  call json%add(inp, 'nobs_ptq', 12)
-  call json%add(inp, 'nobs_wind', 11)
+  !call json%add(inp, 'nobs_ptq', 12)
+  !call json%add(inp, 'nobs_wind', 11)
 
   ! Meteorological inputs
   call json%create_object(met, 'meteorological')
   call json%add(inp, met)
   call json%add(met, 'omega', 3.13_wp)
-  call json%add(met, 'zo', 0.05_wp)
+  call json%add(met, 'zo', 0.2_wp)
   call json%add(met, 'obst_hgt', 1)
   call json%add(met, 'cloud_flag', .false.)
-  call json%add(met, 'cld_fract', 0.14)
+  call json%add(met, 'cld_fract', 0.0)
 
   ! Soil inputs
   call json%create_object(soil,'soil')
@@ -38,12 +38,12 @@ program sim_input_gen
   call json%add(soil, 'wmax', 0.34_wp)
   call json%add(soil, 'btemp', 24.63_wp)
   call json%add(soil, 'tp', 13)
-  call json%add(soil, 'dual_ti', 'Y')
+  call json%add(soil, 'dual_ti', 'N')
   call json%add(soil, 'ti_a', 12.0_wp)
   call json%add(soil, 'ti_b', 12.0_wp)
   call json%add(soil, 'albg', 0.1_wp)
   call json%add(soil, 'epsi', 0.96_wp)
-  call json%add(soil, 'index_soils', 1)
+  call json%add(soil, 'index_soils', 5)
   call json%add(soil, 'albedo_gflag', 'F')
 
   ! Time and location inputs
@@ -65,8 +65,8 @@ program sim_input_gen
   ! Vegetation inputs
   call json%create_object(veg, 'vegetation')
   call json%add(inp, veg)
-  call json%add(veg, 'frveg', 0)
-  call json%add(veg, 'xlai', 0)
+  call json%add(veg, 'frveg', 50)
+  call json%add(veg, 'xlai', 7)
   call json%add(veg, 'epsf', 0.96_wp)
   call json%add(veg, 'albedo_fflag', 'N')
   call json%add(veg, 'albf', 0.1_wp)
@@ -76,7 +76,7 @@ program sim_input_gen
   call json%add(veg, 'rmin', 150)
   call json%add(veg, 'rcut', 1000)
   call json%add(veg, 'wilt', 0.08_wp)
-  call json%add(veg, 'vegheight', 0.5_wp)
+  call json%add(veg, 'vegheight', 2.0_wp)
   call json%add(veg, 'width', 0.12_wp)
   call json%add(veg, 'steady', 'Y')
   call json%add(veg, 'ci', 300)

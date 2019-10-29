@@ -1,4 +1,4 @@
-subroutine  WATER (TIME,BareEvapFlux)
+subroutine  WATER (TIME,BareEvapFlux,WIN)
   use simsphere_mod, only: wgg, w2g, rhow, le, frveg, rnet, xleg, xlef, evap, &
                            delta, f, fsub, wmax, eq
   implicit none
@@ -38,7 +38,8 @@ subroutine  WATER (TIME,BareEvapFlux)
 
 ! This fixes tests, but breaks the program
    
-  IF ( eq(TIME,0.0) .or. (win < 0.001) ) THEN
+!  IF ( eq(TIME,0.0) .or. (win < 0.001) ) THEN
+  IF ( TIME .EQ. 0.0 ) THEN
     WIN = ( WGG + W2G ) / 2
   END IF
 

@@ -9,7 +9,9 @@ SUBROUTINE SNDING (ZLS, Old_Ahum, temp, windsnd, timeloc, wind)
   type(t_temp) :: temp
   type(t_windsnd) :: windsnd
   type(t_wind) :: wind
-  real :: EW(50),QS(50), ZLS(50)
+  real :: EW(50)            ! Saturation vapor pressure at read-in sounding level, es (mb)
+  real :: QS(50)            ! Specific humidity at read-in sounding level, q (g/g)
+  real :: ZLS(50)           ! Height above station of read-in sounding level (m)
   real :: UCOMP(50), VCOMP(50), GMQ(50), Pot_Temp (50)
   real, dimension(:), allocatable :: ps, dep, dd0, ff0, zh
 
@@ -32,15 +34,38 @@ SUBROUTINE SNDING (ZLS, Old_Ahum, temp, windsnd, timeloc, wind)
 ! Get data from data structures instead of input file unit 9
 ! Temporary until subroutine calls, globals reworked
   station_height = timeloc%station_height
-  nobs_wind = wind%num_obs
-  nobs_ptq = windsnd%num_obs
   dd0 = windsnd%dd0
   ff0 = windsnd%ff0
   zh = windsnd%zh
   ps = temp%ps
   ts = temp%ts
   dep = temp%dep
-  
+  ugs = wind%ugs
+  vgs = wind%vgs
+
+  nobs_ptq = size(ps)
+  nobs_wind = size(dd0)
+
+      WRITE(11,148) Station_Height*1000, UGS, VGS
+148   FORMAT(/'   ***  Station Height and UGS/VGS  ***'// &
+        'Station Height: ',F6.1,/, &
+        'UGS,VGS: ',2F6.1)
+
+      WRITE(11,'(/A/)') '   ***  Input Sounding  ***'
+
+      WRITE(11,151) NOBS_pTq
+151   FORMAT('Number of pressure levels: ',I3)
+      WRITE(11,152) 'P:   ',(PS(I),I=1,NOBS_pTq)
+      WRITE(11,152) 'T:   ',(TS(I),I=1,NOBS_pTq)
+      WRITE(11,152) 'DEP: ',(DEP(I),I=1,NOBS_pTq)
+152   FORMAT(A5,20F6.1)
+
+      WRITE(11,153) NOBS_wind
+153   FORMAT(/'Number of wind levels: ',I3)
+      WRITE(11,152) 'HGT: ',(ZH(I),I=1,NOBS_wind)
+      WRITE(11,152) 'DIR: ',(DD0(I),I=1,NOBS_wind)
+      WRITE(11,154) 'SPD: ',(FF0(I),I=1,NOBS_wind)
+154   FORMAT(A5,20F6.1)
 
 
 ! P/T/q first
@@ -236,6 +261,24 @@ SUBROUTINE SNDING (ZLS, Old_Ahum, temp, windsnd, timeloc, wind)
 
 !        rhoa = ps(j)*100./(287.*tbar) ! Kell's Precip water calc
 !        asum = asum + (qs(i) + qs(i+1))/2.*.001*rhoa*thick*100
+
+! Write out the interpolated sounding
+
+      WRITE(11,'(/A/)') '   ***  Interpolated Sounding  ***'
+
+      WRITE(11,251) NTRP+1
+251   FORMAT('Number of interpolated levels: ',I3)
+      WRITE(11,249) 'ZI:  ',(NINT(ZI(I)),I=1,NTRP+1)
+249   FORMAT(A5,3(20I6/))
+      WRITE(11,252) 'TD:  ',(TD(I),I=1,NTRP+1)
+252   FORMAT(A5,3(20F6.1/))
+      WRITE(11,253) 'QD:  ',(1000.*QD(I),I=1,NTRP+1)
+253   FORMAT(A5,3(20F6.1/))
+      WRITE(11,252) 'UD:   ',(UD(I),I=1,NTRP+1)
+      WRITE(11,254) 'VD:   ',(VD(I),I=1,NTRP+1)
+254   FORMAT(A5,3(20F6.1/))
+
+      WRITE (11,'(//A//)') '         ***  MODEL RESULTS  ***'
 
   return
 end

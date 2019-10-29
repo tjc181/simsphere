@@ -5,14 +5,19 @@ SUBROUTINE  CALC (OLDTMP, No_Rows)
   implicit none
 
   integer :: No_Rows
-  real :: Lat_in_radians, K
+  real :: Lat_in_radians
+!  integer K
 
   real :: OLDTMP, DECTIM, out_time_intv
 
-  K = XLAT
-  XLAT= (XLAT-K) / 0.6 + K
-  K = XLONG
-  XLONG = (XLONG-K) / 0.6 + K
+! Nobody would assume these days that a decimal lat/lon refers to
+! degrees and minutes (e.g. 39.25 N is 39 degrees, 25 minutes), so
+! I'm removing the below statements to leave the interpretation as
+! decimal degrees of latitude and longitude.  A.A.P.  20190926
+!  K = XLAT
+!  XLAT= (XLAT-K) / 0.6 + K
+!  K = XLONG
+!  XLONG = (XLONG-K) / 0.6 + K
 
 ! Convert Lat to radians, calc Coriolis force.
 

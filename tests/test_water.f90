@@ -26,7 +26,7 @@ program test_water
 
 
   ! arg1 is time, arg2 is BareEvapFlux
-  real :: arg1, arg2
+  real :: arg1, arg2, arg3
 
   n = 1
   ntests = 12
@@ -35,9 +35,9 @@ program test_water
 
   ! Case I
   call water_init
-  arg1 = 0.0
+  arg1 = 0.0  ! For time == 0, arg3 is initialized in "water"
   arg2 = 0.5
-  call water(arg1,arg2)
+  call water(arg1,arg2,arg3)
   tests(n) = assert(eq(f,f_exp), 'water f')
   n = n + 1
   tests(n) = assert(eq(fsub,fsub_exp), 'water fsub')
@@ -51,7 +51,7 @@ program test_water
   call water_init
   arg1 = 1.0 ! time
   arg2 = 0.5
-  call water(arg1,arg2)
+  call water(arg1,arg2,arg3)
   tests(n) = assert(eq(f,f_time_exp), 'water time > 0 f')
   n = n + 1
   tests(n) = assert(eq(fsub,fsub_time_exp), 'water time > 0 fsub')
@@ -66,7 +66,7 @@ program test_water
   arg1 = 1.0 ! time
   arg2 = 0.5
   rnet = 0.0
-  call water(arg1,arg2)
+  call water(arg1,arg2,arg3)
   tests(n) = assert(eq(f,f_rnet_exp), 'water rnet == 0 f')
   n = n + 1
   tests(n) = assert(eq(fsub,fsub_rnet_exp), 'water rnet == 0 fsub')

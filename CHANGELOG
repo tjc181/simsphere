@@ -1,0 +1,90 @@
+
+** Simsphere Version 0.1 Release **
+
+October 29, 2019 -- Art Person
+
+This is the first release of the fortran 90 code base that has been tested
+against the original fortran 77 code from circa 1996 and produces the same
+results.  The following modifications were made to fix some bugs in the
+fortran 90 conversion:
+
+  - Variables that needed to be preserved between calls were added to calling
+    arguments for air.f90, below.f90, flux.f90, pslcal.f90, vel.f90 and water.f90.
+    In the prior fortran 77 framework, these variables were preserved automatically
+    between calls.
+
+  - The original avr (average) code was re-implemented for smoothing of the
+    evaporative flux over 4 time steps.
+
+  - Removed unused variables PHIH and X1 from bri.f90.  Removed unused variable X1
+    from mom.f90.
+
+  - Discontinued the interpretation of decimal values of latitude and longitude
+    as degrees and minutes in favor of a simple decimal interpretation. Prior versions
+    would treat a value such as 25.39 as 25 degrees, 39 minutes.  The current
+    implementation treats such values as a simple decimal number (25.39 degrees).
+    This was implemented in calc.f90.
+
+  - Eliminated the input temperature and wind level counts for the sounding in favor of
+    using the number of levels presented in the sounding data to determine the counts.
+
+  - Corrected the equation calculating KMA in daykm.f90 to match what appears in the
+    original fortran 77 as well as the C++ version of the codes.
+
+  - Added code to snding.f90 to copy the geostrophic wind from the input variables
+    wind%ugs and wind%vgs into ugs and vgs where they are used during execution.
+    Prior versions were not using the input geostrophic winds.
+
+  - Added formatted textual output (o_model.dat) as an alternative to the JSON formatted
+    output (o_model.json).  A summary of the input values used to run the model are
+    included in the textual output.
+
+  - Determined that cld_fract is to be interpreted as tenths of cloud coverage and
+    implemented input values accordingly.  The C++ version of the code appears to
+    interpret this value as a percentage.  In future releases, this may be changed
+    to an actual decimal fraction.
+
+  - Fixed testing codes for calling argument changes as well as changes in acceptance
+    values due to fixes applied to the code base.  Updates were applied to test_air.f90,
+    test_average.f90, test_daykm.f90, test_flux.f90, test_load_data.f90, test_netrad.f90,
+    test_output.f90, test_pslcal.f90, test_vegval.f90, test_water.f90 and tests.f90.
+
+  - Original (ca 1996) versions of the input data files are included in the data/orig
+    directory.  Tested, matching versions of the input and output data files for the
+    fortran 77 and fortran 90 versions of the code are included in data/testing.
+
+  - Tweaked output values in config_gen.f90 to match the testing defaults.  Tweaked
+    acceptance values in test_load_data.f90 to reflect these changes.
+
+  - Implemented this CHANGELOG.
+
+Some changes that were made to the fortran 90 port prior to this release were:
+
+- Fixed 2-cycle loops in bri.f90 and mom.f90.
+- Fixed routine dectim in calc.f90 to return decimal time in seconds.
+- Fixed misnamed humidity variable name to windsnd (wind sounding) in:
+     config_gen.f90
+     config_mod.f90
+     loadjson.f90
+     main.f90
+     simsphere_mod.f90
+     snding.f90
+     start.f90
+     test_load_data.f90
+     test_snding.f90
+- Updated variable name Celsius_To_Kelvin in constants_mod.f90 to name
+     Celsius_to_Kelvin to be consistent with the other code portions.
+- Fixed use of variable MOL in daykm.f90 to allow for exponent of negative numbers.
+- Removed unused variable XMOD from globals.f90.
+- Fixed time variables in main.f90 to use values of seconds.
+- Removed (commented-out) met, veg and soil variables from main.f90 since they are not referenced.
+- Added "SAVE" characteristic to local variables in mom.f90 that are initialized and reused upon reentry.
+- Fixed routine Lwdown to use global variable Lwdn instead of defining a local variable.
+- Replace all occurences of 273.15 or 273.23 with the variable Celsius_to_Kelvin.
+- Disabled the saving of the variable "thick" in snding.f90 due to apparent mis-use.
+- Added missing second wind direction level to wind sounding for default input data.
+- Removed unused variable xmod from test_bri.f90.
+- Adjusted tests in test_calc.f90 to accomodate times in seconds.
+
+Original Fortran 90 code conversion and unit test development was by Tom Canich.
+

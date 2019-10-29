@@ -1,4 +1,5 @@
-subroutine FLUX (BareRadioTemp,VegnRadioTemp,BareEvapFlux,BareHeatFlux)
+subroutine FLUX (BareRadioTemp,VegnRadioTemp,BareEvapFlux, &
+  BareHeatFlux,averageinit)
   use simsphere_mod
   implicit none
 
@@ -13,6 +14,8 @@ subroutine FLUX (BareRadioTemp,VegnRadioTemp,BareEvapFlux,BareHeatFlux)
   real :: BareHeatFlux
   real :: Evap_Smooth
 
+  integer :: averageinit
+
 !      INCLUDE 'modvars.h'
 
 !  We calculate OTEMP from GTEMP routine once we have reached
@@ -25,7 +28,7 @@ subroutine FLUX (BareRadioTemp,VegnRadioTemp,BareEvapFlux,BareHeatFlux)
   BareEvapFlux = Le * Dens * ( Oshum - Qd(1) ) / Sumw * F
   if ( qd(1) >= oshum ) BareEvapFlux = 0.001
 
-  Evap_Smooth = smooth(BareEvapFlux)
+  call avr (BareEvapFlux, Evap_Smooth, averageinit)
   BareEvapFlux = Evap_Smooth
   Evap = BareEvapFlux
 

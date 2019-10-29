@@ -96,6 +96,70 @@ subroutine  START (Obst_Hgt, dual_regime, zo_patch, temp, windsnd, timeloc, wind
   coz_sfc = veg%coz_sfc
   coz_air = veg%coz_air
 
+!     Echo the input controls in the output
+      WRITE (11,'(/A/)') '         ***  INPUT PARAMETERS  ***'
+      WRITE (11,151) 'Year, Month, Day (IYR, IMO, IDAY): ', &
+        IYR, IMO, IDAY, &
+        'Time Zone (TZ): ',TZ, &
+        'Lat/Long (XLAT,XLONG): ',XLAT, XLONG, &
+        'Start/End Time (STRTIM, TIMEND): ',STRTIM, TIMEND, &
+        'Output Time Interval (OUTTT): ',OUTTT, &
+        'Slope and Aspect: ', SLOPE, ASPECT
+151   FORMAT (A,I5,I3,I3,/, &
+        A,F6.2,/, &
+        A,F8.3,',',F8.3,/, &
+        A,F6.2,F8.2,/, &
+        A,F6.0,/, &
+        A,2F6.1)
+
+!     Echo the input controls in the output
+      WRITE (11,152) 'Moisture Availability (F): ', F, &
+        'Root Zone Moisture Availability (FSUB): ', FSUB
+152   FORMAT(A,F5.2,/,A,F5.2)
+      WRITE (11,153) 'Substrate Maximum Water (WMAX): ', WMAX, &
+        'Lowest Soil Level Temperature (BTEMP): ', BTEMP
+153   FORMAT(A,F5.2,/,A,F7.2)
+      WRITE (11,154) 'Thermal Inertia (TP): ', TP, &
+        'Dual Thermal Inertia Flag and Values (DUAL_TI, TI_A, TI_B): ', &
+          DUAL_TI, TI_A, TI_B, &
+        'Ground Albedo Flag (ALBEDO_GFLAG): ', ALBEDO_GFLAG, &
+        'Ground Albedo (ALBG): ', ALBG, &
+        'Emissivity (EPSI): ', EPSI, &
+        'Soil Type Index Number (index_soils): ', index_soils
+154   FORMAT(A,F5.2,/,A,1X,A,1X,F7.2,F7.2, &
+        /,A,1X,A,/,A,F7.2, &
+        /,A,F7.2,/,A,I3)
+
+      WRITE (11,155) OMEGA, ZO, OBST_HGT, cloud_flag, cld_fract
+155   FORMAT('Precipitable Water Content (OMEGA): ',F5.2, &
+        /,'Roughness Height (ZO): ',F7.2, &
+        /,'Obstructions Height (OBST_HGT): ',F7.2,/, &
+        'Clouds Flag (CLOUD_FLAG): ',L2, &
+        /,'Cloud Fraction (CLOUD_FRACT): ',F5.2)
+
+      WRITE (11,156) FRVEG, XLAI, ALBEDO_FFLAG, EPSF, ALBF, STMTYPE, &
+        index_veggies, VOLREL, rmin, rcut, WILT, VEGHEIGHT, &
+        WIDTH, STEADY, CI, CO , coz_sfc, coz_air
+156   FORMAT('Vegetation Percent (FRVEG): ',F5.2,/, &
+        'Leaf Area Index (XLAI): ',F7.2,/, &
+        'Foliage Emissivity Flag (ALBEDO_FFLAG): ',A,/, &
+        'Foliage Emissivity (EPSF): ',F7.2,/, &
+        'Foliage Albedo (ALBF): ',F7.2,/, &
+        'Stomatal Resistance Scheme (STMTYPE): ',A,/, &
+        'Plant Type (index_veggies): ',I3,/, &
+        'Relative Water Volume (VOLREL): ',F7.2,/, &
+        'Bulk Stomatal Resistance (RMIN): ',F7.2,/, &
+        'Cuticular Resistance (RCUT): ',F7.2,/, &
+        'Wilting Point (WILT): ',F7.2,/, &
+        'Vegetation Height (VEGHEIGHT, STMTYPE=L): ',F7.2,/, &
+        'Leaf Width (WIDTH, STMTYPE=L): ',F7.2,/, &
+        'Capacitance Flag (STEADY, STMTYPE=L): ',A,/, &
+        'Internal CO2 Concentration (CI): ',F7.2,/, &
+        'External CO2 Concentration (CO): ',F7.2,/, &
+        'Surface Ozone Concentration (COZ_SFC): ',F7.2,/, &
+        'Ambient Ozone Concentration (COZ_AIR): ',F7.2)
+
+
 ! Include the vegetation and soils databases in the calculations.
 !
 
@@ -113,6 +177,15 @@ subroutine  START (Obst_Hgt, dual_regime, zo_patch, temp, windsnd, timeloc, wind
 
     close (unit = 1)
 
+      WRITE(11,166) soiltype, rks, cosbyb, thmax, psis
+166   FORMAT(//'   ***  Soil LUT Data Used for this run  ***'// &
+        'Soiltype: ',A/ &
+        'RKS: ',F6.1/ &
+        'CosbyB: ',F6.1/ &
+        'THMAX: ',F6.1/ &
+        'PSIS: ',F6.1)
+
+
     open (1, file = f_veg_lut) ! Open Veg File
 
     Read (1, *) num_of_veggies    ! Required for Interface
@@ -124,6 +197,29 @@ subroutine  START (Obst_Hgt, dual_regime, zo_patch, temp, windsnd, timeloc, wind
     end do
 
     close (unit = 1)
+
+      WRITE(11,177) planttype, rmin, mintemp, maxtemp, beta, b1, b2, &
+        psice, sc, rcut, zp, frhgt, frzp, rkocap, rccap, rzcap, volini, &
+        zstini
+177   FORMAT(//'   ***  Plant LUT data used for this run  ***'// &
+        'Planttype: ',A/ &
+        'RMIN: ',F6.1/ &
+        'MINTEMP: ',F6.2/ &
+        'MAXTEMP: ',F6.2/ &
+        'BETA: ',F6.1/ &
+        'B1: ',F6.1/ &
+        'B2: ',F6.1/ &
+        'PSICE: ',F6.1/ &
+        'SC: ',F6.1/ &
+        'RCUT: ',F6.1/ &
+        'ZP: ',F6.1/ &
+        'FRHGT: ',F6.1/ &
+        'FRZP: ',F6.1/ &
+        'RKOCAP: ',F6.1/ &
+        'RCCAP: ',F6.1/ &
+        'RZCAP: ',F6.1/ &
+        'VOLINI: ',F6.1/ &
+        'ZSTINI: ',F6.1)
 
     mintemp = mintemp + Celsius_to_Kelvin
     maxtemp = maxtemp + Celsius_to_Kelvin

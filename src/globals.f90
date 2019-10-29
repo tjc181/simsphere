@@ -70,7 +70,7 @@ module globals
 
 
 
-  integer :: RCCAP = 0
+  real :: RCCAP = 0
   integer :: NTRP = 0
   integer :: IMO = 0
   integer :: IDAY = 0

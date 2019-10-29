@@ -12,6 +12,7 @@ program test_air
 
   real, dimension(50) :: ZLS
   real :: YCOUNT = 1.0
+  real :: CHGT, CDELT, CTHETA
   integer :: i
 
   ! Expected values
@@ -49,7 +50,7 @@ program test_air
   ! Case I, hgt < zmix
   call air_init 
   hgt = 3.0
-  call air(ZLS,YCOUNT)
+  call air(ZLS,YCOUNT,CHGT,CDELT,CTHETA)
   tests(n) = assert(eq(td,td_exp), 'td')
   n = n + 1
   tests(n) = assert(eq(ycount,ycount_exp), 'ycount')
@@ -60,7 +61,7 @@ program test_air
 !  ! Case II, hgt > zmix
 !  call air_init
 !  hgt = 51.0
-!  call air(ZLS,YCOUNT)
+!  call air(ZLS,YCOUNT,CHGT,CDELT,CTHETA)
 !  tests(n) = assert(eq(td,td_hgt_exp), 'td')
 !  n = n + 1
 !  tests(n) = assert(eq(ycount,ycount_exp), 'ycount')

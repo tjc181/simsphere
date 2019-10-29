@@ -13,7 +13,8 @@ subroutine  VEGRAD (TIME,RNETV,SWAVEV,TZERO)
     TF =  otemp
     TG =  otemp
     !AAP: Is this supposed to be the same T1 used in VEL and BRI ???
-    T1 = atemp
+    !     Not the same in original code, so comment-out.
+!    T1 = atemp
     TA = ATEMP
 !	QA = QD(1)
     QAF = QD(1)

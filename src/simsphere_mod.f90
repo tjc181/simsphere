@@ -18,7 +18,7 @@ module simsphere_mod
   public :: output 
   public :: ozone
   public :: psgcal
-  public :: smooth
+!  public :: smooth
   public :: veghot 
 
 !
@@ -70,7 +70,7 @@ module simsphere_mod
 ! calculations and conversions before adding output data to JSON object.
 !
 
-    subroutine  output(json, out)
+    subroutine  output(json, out, outputinit)
       implicit none
     
     ! Here we finally get around to printing out the variables.
@@ -78,6 +78,8 @@ module simsphere_mod
       real, parameter :: Undefined = 0.0
       real :: G_Flux=0.0, Bowen=0.0, air_leaf_T=0.0
       real :: PES=0.0, Stom_R=0.0, co2_flux=0.0, ccan_concn=0.0, Water_Use_Eff=0.0
+
+      integer :: outputinit
     
       type(json_core) :: json
       type(json_value), pointer :: out
@@ -107,8 +109,54 @@ module simsphere_mod
       co2_flux = fco2*1e6
       ccan_concn = ccan*1e6
       Water_Use_Eff = (co2_flux*4.4e-8)/(xlef/le)
-    
-    
+
+      if (outputinit .eq. 1) then
+
+        WRITE (11,*) 'TIME: Local time (hours)'
+        WRITE (11,*) 'SWF: Shortwave_Flux (W m-2)'
+        WRITE (11,*) 'NETRAD: Net_Radiation (W m-2)'
+        WRITE (11,*) 'SENS: Sensible_Heat_Flux (W m-2)'
+        WRITE (11,*) 'LE: Latent_Heat_Flux (W m-2)'
+        WRITE (11,*) 'GRF: Ground_Flux (W m-2)'
+        WRITE (11,*) 'T50: Air_Temperature_50m (C)'
+        WRITE (11,*) 'T10: Air_Temperature_10m (C)'
+        WRITE (11,*) 'TFOL: Air_Temperature_Foliage (C)'
+        WRITE (11,*) 'TRAD: Radiometric_Temperature (C)'
+        WRITE (11,*) 'W50: Wind_50_Meters (Kts)'
+        WRITE (11,*) 'W10: Wind_10_Meters (Kts)'
+        WRITE (11,*) 'WFOL: Wind_In_Foliage (Kts)'
+        WRITE (11,*) 'SH50: Specific_Humidity_50m (g Kg-1)'
+        WRITE (11,*) 'SH10: Specific_Humidity_10m (g Kg-1)'
+        WRITE (11,*) 'SHFOL: Specific_Humidity_In_Foliage (g Kg-1)'
+        WRITE (11,*) 'BOW: Bowen_Ratio'
+        WRITE (11,*) 'SMA: Surface_Moisture_Availability'
+        WRITE (11,*) 'RZMA: Root_Zone_Moisture_Availability'
+        WRITE (11,*) 'STMR: Stomatal_Resistance (s m-1)'
+        WRITE (11,*) 'VPDEF: Vapour_Pressure_Deficit (mbar)'
+        WRITE (11,*) 'LWPOT: Leaf_Water_Potential (bars)'
+        WRITE (11,*) 'EWPOT: Epidermal_Water_Potential (bars)'
+        WRITE (11,*) 'GWPOT: Ground_Water_Potential (bars)'
+        WRITE (11,*) 'CO2F: CO2_Flux (micromoles m-2 s-1)'
+        WRITE (11,*) 'CO2CAN: CO2_Concentration_Canopy (ppmv)'
+        WRITE (11,*) 'WATEFF: Water_Use_Efficiency'
+        WRITE (11,*) 'O3CAN: O3_conc_canopy (ppmv)'
+        WRITE (11,*) 'GBLO3: Global_O3_flux (ug m-2 s-1)'
+        WRITE (11,*) 'O3F: O3_flux_plant (ug m-2 s-1)'
+
+        WRITE (11,9)
+9       FORMAT(/' TIME    SWF   NETRAD    SENS    LE      GRF', &
+          '    T50   T10', &
+          '   TFOL TRAD', &
+          '   W50   W10   WFOL  SH50  SH10 SHFOL ', &
+          '    BOW   SMA  RZMA', &
+          '    STMR  VPDEF  LWPOT EWPOT   GWPOT     CO2F ', &
+          ' CO2CAN', &
+          '    WATEFF   O3CAN  GBLO3   O3F'/)
+
+        outputinit = 2
+
+      endif
+
     !TJC  There doesn't seem to be any difference between these three output
     !TJC  cases.  They're intended to serve different purposes, but the same
     !TJC  calculations are done to the same variables during the write().
@@ -149,6 +197,14 @@ module simsphere_mod
         call json%add(out,'O3_conc_canopy/ppmv',real(caf,real64))
         call json%add(out,'Global_O3_flux/ugm-2s-1',real(fglobal,real64))
         call json%add(out,'O3_flux_plant/ugm-2s-1',real(flux_plant,real64))
+
+         WRITE (11,10) PTIME,SWAVE,RNET,HEAT,EVAP,G_Flux, &
+              atemp-273.15,ta-273.15,air_leaf_T,OTEMP-273.15, &
+              awind*1.98, uten*1.98, uaf*1.98, &
+              Q_Fine(1)*1000, QA*1000, QAF*1000, &
+              Bowen, F, FSUB, Stom_R, vfl, psim, psie, psig, &
+              co2_flux, ccan_concn, Water_Use_Eff,caf,fglobal, &
+              flux_plant
     
       else
       ! Day
@@ -185,6 +241,15 @@ module simsphere_mod
           call json%add(out,'O3_conc_canopy/ppmv',real(caf,real64))
           call json%add(out,'Global_O3_flux/ugm-2s-1',real(fglobal,real64))
           call json%add(out,'O3_flux_plant/ugm-2s-1',real(flux_plant,real64))
+
+         WRITE (11,10) PTIME,SWAVE,RNET,HEAT,EVAP,G_Flux, &
+              atemp-273.15,ta-273.15,air_leaf_T,OTEMP-273.15, &
+              awind*1.98, uten*1.98, uaf*1.98, &
+              Q_Fine(1)*1000, QA*1000, QAF*1000, &
+              Bowen, F, FSUB, Stom_R, vfl, psim, psie, psig, &
+              co2_flux, ccan_concn, Water_Use_Eff,caf,fglobal, &
+              flux_plant
+
         else
         ! Convert outputs to real64 to be compatible with JSON library.  Min/Max
         ! values are 2**-53..2**53 in JSON so the library only supports kind=real64
@@ -218,15 +283,23 @@ module simsphere_mod
           call json%add(out,'O3_conc_canopy/ppmv',real(caf,real64))
           call json%add(out,'Global_O3_flux/ugm-2s-1',real(fglobal,real64))
           call json%add(out,'O3_flux_plant/ugm-2s-1',real(flux_plant,real64))
+
+         WRITE (11,10) PTIME,SWAVE,RNET,HEAT,EVAP,G_Flux, &
+              atemp-273.15,ta-273.15,air_leaf_T,OTEMP-273.15, &
+              awind*1.98, uten*1.98, uaf*1.98, &
+              Q_Fine(1)*1000, QA*1000, QAF*1000, &
+              Bowen, F, FSUB, Stom_R, vfl, psim, psie, psig, &
+              co2_flux, ccan_concn, Water_Use_Eff,caf,fglobal, &
+              flux_plant
+
         endif
     
       end if
     
-    !10  FORMAT (F5.2,1x,5(F7.2,1X),1x,10(F5.2,1x)                           &
-    !            ,1x,F7.3,1x,2(F5.3),1X,F6.1,1x,F5.2,1x,2(F6.2,1x),          &
-    !            F6.3,1x,2(F6.2,1x),4(f5.3,1x))
-    
-    
+  10  FORMAT (F5.2,1X,5(F7.2,1X),1X,10(F5.2,1X) &
+              ,1X,F7.3,1X,F5.3,1X,F5.3,1X,F6.1,1X,F5.2,1X,2(F6.2,1X), &
+              G9.3E1,1X,F7.3,1X,F6.2,2X,G9.3E1,1X,3(F6.3,1X))
+
       return
     end subroutine output
 
@@ -257,8 +330,6 @@ module simsphere_mod
     
       return
     end subroutine VEGHOT
-
-! AVERAGE -- this appears to do nothing
 
 !    subroutine average(T_Unsmoothed, T_smoothed)
 !      implicit none
@@ -298,36 +369,36 @@ module simsphere_mod
 
 ! smooth() is a replacement function for AVERAGE.
 
-    real pure function smooth(unsmooth)
-      real, intent(in) :: unsmooth
-      real :: av_array(4), sum_array
-      integer :: init, i, j, k
-
-      init = 1
-      av_array(4) = 0.0
-      sum_array = 0.0
-
-      !TJC When will init not be 1?  Never...
-      if (init == 1) then ! fill all 4 elements with initial value of otemp
-        do i = 1,4
-          av_array(i) = unsmooth
-        end do
-        init = 2
-
-      else
-        do j = 2,4
-          av_array(j-1) = av_array(j)
-        end do
-        av_array(4) = unsmooth
-      end if
-
-      sum_array = 0
-      do k = 1,4
-        sum_array = av_array(k) + sum_array
-      end do
-      smooth = sum_array/4
-
-    end function smooth
+!    real pure function smooth(unsmooth)
+!      real, intent(in) :: unsmooth
+!      real :: av_array(4), sum_array
+!      integer :: init, i, j, k
+!
+!      init = 1
+!      av_array(4) = 0.0
+!      sum_array = 0.0
+!
+!      !TJC When will init not be 1?  Never...
+!      if (init == 1) then ! fill all 4 elements with initial value of otemp
+!        do i = 1,4
+!          av_array(i) = unsmooth
+!        end do
+!        init = 2
+!
+!      else
+!        do j = 2,4
+!          av_array(j-1) = av_array(j)
+!        end do
+!        av_array(4) = unsmooth
+!      end if
+!
+!      sum_array = 0
+!      do k = 1,4
+!        sum_array = av_array(k) + sum_array
+!      end do
+!      smooth = sum_array/4
+!
+!    end function smooth
 
 ! psgcal() is a function to replace subroutine PSGCAL
 

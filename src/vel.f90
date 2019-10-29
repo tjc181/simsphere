@@ -1,4 +1,5 @@
-subroutine VEL (MONCE,IONCE,StabCriteria,YCOUNT,Obst_Hgt,dual_regime,zo_patch)
+subroutine VEL (MONCE,IONCE,StabCriteria,YCOUNT,Obst_Hgt,dual_regime, &
+  zo_patch,VEGVELinit_vel,PSLCALINIT)
   use simsphere_mod
   implicit none
 
@@ -22,6 +23,9 @@ subroutine VEL (MONCE,IONCE,StabCriteria,YCOUNT,Obst_Hgt,dual_regime,zo_patch)
   real :: CH_Obst_Hgt, FT_Obst_Hgt, RZA_Obst_Hgt
   real :: PSIHNEW, REKUST
   real :: Rtrans_patch, RtransW_patch
+
+  integer(kind=1) :: VEGVELinit_vel
+  integer :: PSLCALINIT
       
 !      INCLUDE 'modvars.h'
 
@@ -188,7 +192,7 @@ subroutine VEL (MONCE,IONCE,StabCriteria,YCOUNT,Obst_Hgt,dual_regime,zo_patch)
 !  If vegetation included, call vegetation component.
 
   IF (SWAVE > 0 .AND. RNET > 0 .AND. FRVEG > 0) THEN
-    CALL VEGVEL
+    CALL VEGVEL(VEGVELinit_vel, PSLCALINIT)
   END IF
 
   return
