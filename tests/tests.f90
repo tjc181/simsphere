@@ -42,7 +42,7 @@ program test_simsphere
   logical, parameter :: psgcal_test = .true.
   logical, parameter :: vegflx_test = .true.
   logical, parameter :: avr_test_init1 = .true.
-  logical, parameter :: avr_test_init_not1 = .true.
+!  logical, parameter :: avr_test_init_not1 = .true.
   logical, parameter :: ozone_test = .true.
   logical, parameter :: co2flx_test = .true.
   logical, parameter :: veghot_test = .true.
@@ -165,9 +165,10 @@ program test_simsphere
   real :: vegflx_arg1
 
 ! avr_test_* variables
-  real, parameter :: avr_test_init1_expected = 20.0
-  real, parameter :: avr_test_init_not1_expected = 20.0
+  real, parameter :: avr_test_init1_expected = 300.5
+!  real, parameter :: avr_test_init_not1_expected = 20.0
   real :: avr_arg1, avr_arg2
+  integer :: avr_arg3
 
 ! co2flx_test variables
   real, parameter :: co2flx_ccan_expected = 1.77409637
@@ -310,7 +311,7 @@ program test_simsphere
   real, parameter :: zo_expected = 0.05
 !  real, parameter :: obst_hgt_expected = 1
 !  logical, parameter :: cloud_flag_expected = .true.
-  real, parameter :: cld_fract_expected = 0.14
+  real, parameter :: cld_fract_expected = 1.4
   real, parameter :: frveg_expected = 1
   real, parameter :: xlai_expected = 0
   real, parameter :: epsf_expected = 0.96
@@ -351,7 +352,7 @@ program test_simsphere
 
 ! mod_testing variable setup
   n = 1
-  ntests = 49
+  ntests = 48
   call initialize_tests(tests,ntests)
 ! end  mod_testing variable setup
 
@@ -676,7 +677,12 @@ program test_simsphere
 
   if (avr_test_init1) then
     call avr_init
-    avr_arg2 = smooth(avr_arg1)
+    do i=1,10
+    call avr(avr_arg1,avr_arg2,avr_arg3)
+    avr_arg1 = avr_arg1+1
+    end do
+!    write(6,*) 'avr after 10 passes: avr_arg1, avr_arg2, avr_arg3: ',avr_arg1, &
+!      avr_arg2, avr_arg3
     tests(n) = assert(eq(avr_arg2,avr_test_init1_expected), 'avr_test_init1')
     n = n + 1
   end if
@@ -685,12 +691,15 @@ program test_simsphere
 ! avr_test_init_not1
 !
 
-  if (avr_test_init_not1) then
-    call avr_init
-    avr_arg2 = smooth(avr_arg1)
-    tests(n) = assert(eq(avr_arg2,avr_test_init_not1_expected), 'avr_test_init_not1')
-    n = n + 1
-  end if
+!  if (avr_test_init_not1) then
+!    call avr_init
+!    call avr(avr_arg1,avr_arg2,avr_arg3)
+!    call avr(avr_arg1,avr_arg2,avr_arg3)
+!    call avr(avr_arg1,avr_arg2,avr_arg3)
+!    call avr(avr_arg1,avr_arg2,avr_arg3)
+!    tests(n) = assert(eq(avr_arg2,avr_test_init_not1_expected), 'avr_test_init_not1')
+!    n = n + 1
+!  end if
 
 !
 ! ozone_test
@@ -1109,8 +1118,8 @@ contains
   end subroutine vegflx_init
 
   subroutine avr_init
-    avr_arg1 = 20.0
-    avr_arg2 = 0.0
+    avr_arg1 = 293.0
+    avr_arg3 = 1
     return
   end subroutine avr_init
 

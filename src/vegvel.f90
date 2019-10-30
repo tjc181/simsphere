@@ -1,4 +1,4 @@
-subroutine  VEGVEL
+subroutine  VEGVEL(init_vel, PSLCALINIT)
   use simsphere_mod
   implicit none
 
@@ -7,9 +7,9 @@ subroutine  VEGVEL
   real :: PES, RHOCP, SIGALF, CDL, PI, SDL, rhg, RMRATIODIF, RHA, QSTA
   real :: XLEFN, TFN
 
-!      INCLUDE 'modvars.h'
+  integer :: PSLCALINIT
 
-  data init_vel /1/
+!      INCLUDE 'modvars.h'
 
   PES = ( XLAI / 2.0 ) + 1
   RHOCP = CP * PS1 * 100 / ( R * TAF )
@@ -70,7 +70,7 @@ subroutine  VEGVEL
     RST = RS * RCUT / (RS + RCUT) * PES / XLAI ! Total Leaf/Canopy Resistance
 
   ELSE IF (STMTYPE == 'L') THEN ! Lynn and Carlson
-    CALL PSLCAL (SGMA, PES)
+    CALL PSLCAL (SGMA, PES, PSLCALINIT)
 
     RL = RS * RCUT / ( RS + RCUT )   ! Leaf Resistance
     RST = RL * PES / XLAI    ! Total Leaf/Canopy Resistance

@@ -1,0 +1,7 @@
+These files are corresponding input/output files from running the fortran 77 and
+fortran 90 versions of the model for testing.  The inputs and outputs for each
+test configuration should match.  For example, when running the old fortran 77
+version using i_model_test1_f77.dat, it should produce results that match the
+output in file o_model_test1_f77.dat.  Similarly for the f90 input and output
+files.  And, the output in o_model_test1_f77.dat should agree with the output in
+o_model_test1_f90.dat and o_model_test1_f90.json.

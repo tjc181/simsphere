@@ -13,7 +13,7 @@ subroutine  MOM (Pot_S,DT,MONCE)
 
   real :: BX(46), WIND(46), WGEOS(46)
   real :: B(46), DUW(46), KRAD, DVW(46), DTW(46), RI(46)
-  real :: DU, DV, ABDU, ABDV, X1, OKMAX
+  real :: DU, DV, ABDU, ABDV, OKMAX
   integer :: I, icnt
   real :: DZ, SB, UIF, UIF2, BX1
   integer :: IMAX, IMAX1
@@ -24,7 +24,6 @@ subroutine  MOM (Pot_S,DT,MONCE)
 
 
   OKMAX = 1.0
-  X1 = 0.0
   DZ = 50.0 
   SB = 784.0
 !  IMAX = 50

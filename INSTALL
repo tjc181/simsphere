@@ -1,0 +1,78 @@
+Here are some general instructions for installing and running this
+software in the Linux (CentOS) environment:
+
+Requirements:
+
+   gfortran 7 or higher
+   json-fortran library (see below)
+   compare library (see below)
+
+NOTE:  In the sections below, $DISTROOT is assumed to be where the
+base simsphere directory is unpacked.
+
+Build the json-fortran component:
+
+   NOTE:  This builds the library in /tmp.  If your /tmp directory
+   is purged, you will have to re-build the json-fortran component.
+
+   cd $DISTROOT/simsphere/scripts
+
+   Update the "FC" definition in build-json-fortran.sh as necessary
+   to work in your environment.  For example:
+
+      FC=gfortran cmake -D SKIP_DOC_GEN:BOOL=TRUE -D ENABLE_TESTS:BOOL=FALSE -H./json-fortran -B./json-build
+
+   The above will inhibit building of the documentation and prevents
+   running of the tests (which produced a configuration error for us).
+
+   Finally:
+
+   ./build-json-fortran.sh
+
+Next, get the "compare" code from github:
+
+   cd $DISTROOT/externals
+   git clone git://github.com/tcanich/compare
+
+Now, build the model:
+
+   cd $DISTROOT/simsphere
+
+   # This produces the build files:
+   cmake -H. -B../simsphere-build
+
+   cmake --build ../simsphere-build
+
+Test the build:
+
+   cd $DISTROOT/simsphere-build
+   # Get a copy of the default json input file:
+   cp $DISTROOT/simsphere/data/default/i_model.json ./
+   ctest
+
+To run the model:
+
+   Create/go to a work space, for example:
+
+      mkdir $DISTROOT/work
+      cd $DISTROOT/work
+
+   Create a link to the source root "data" directory:
+
+      ln -s $DISTROOT/simsphere/data
+
+   Create an alias pointing to the executable
+
+      alias simsphere $DISTROOT/simsphere-build/bin/simsphere
+
+   Get a copy of the default json input file:
+
+      cp $DISTROOT/simsphere/data/default/i_model.json ./
+
+   Run the model:
+
+      simsphere
+
+   The output is in the file o_model.json and o_model.dat.
+
+

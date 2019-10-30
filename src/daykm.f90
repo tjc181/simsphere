@@ -28,14 +28,8 @@ subroutine  DAYKM(thick)
 ! **  of KMA and define K at the top of the mixing layer to be zero.
 
     !KMA = KARMAN * USTAR * ZA * ( 1.0 - ( 15.0 * ZA / MOL )**0.25)
-    ! Prevent possible divide-by-zero
-    if( eq(MOL,0.0,1E-4) ) MOL=1E-4
-    ! Deal with negative Monin-Obukhov length values by carrying the sign
-    ! through the exponent
-    RATIO = ABS( 15.0 * ZA / MOL )
-    SIGN = 1.0
-    IF( MOL < 0.0 ) SIGN = -1.0
-    KMA = KARMAN * USTAR * ZA * ( 1.0 - SIGN*RATIO**0.25 )
+    ! This matches the original f77 code:
+    KMA = KARMAN * USTAR * ZA * ( 1.0 - ( 15.0 * ZA / MOL ) )**0.25
     KM(1) = KMA
     KMW(1) = KMA
     KMAPRI = KMA * (1.0 / ZA - ( 15.0 / MOL ) / (1.0 - 15.0 * ZA / MOL))

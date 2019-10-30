@@ -33,6 +33,8 @@ program test_output
   real(kind=real64), parameter :: rnet_exp = 1.0
   real(kind=real64), parameter :: rnet_I_exp = 0.0
 
+  integer :: outputinit
+
 
   ! Buffer for looking up test variables in generated JSON output
   real(kind=real64) :: buf
@@ -45,7 +47,7 @@ program test_output
   call output_init
   test_file = 'test_caseI.json'
   rnet = 0.0
-  call output(json,out)
+  call output(json,out,outputinit)
   call json % print(p,test_file)
 
   ! Read back in and check data written
@@ -76,7 +78,7 @@ program test_output
   call output_init
   test_file = 'test_caseII.json'
   swave = 0.0
-  call output(json,out)
+  call output(json,out,outputinit)
   call json % print(p,test_file)
 
   call input_init
@@ -105,7 +107,7 @@ program test_output
   call output_init
   test_file = 'test_caseIII.json'
   heat = 1.0
-  call output(json,out)
+  call output(json,out,outputinit)
   call json % print(p,test_file)
 
   call input_init
@@ -120,7 +122,7 @@ program test_output
   call output_init
   test_file = 'test_caseIV.json'
   heat = 0.0
-  call output(json,out)
+  call output(json,out,outputinit)
   call json % print(p,test_file)
 
   call input_init

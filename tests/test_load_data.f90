@@ -22,7 +22,7 @@ program test_load_data
 
   ! Initialize mod_testing
   n = 1
-  ntests = 16
+  ntests = 14
   call initialize_tests(tests,ntests)
 
   ! Initialize JSON, data structures
@@ -31,19 +31,22 @@ program test_load_data
   ! Initialize data structures
   call load_config(cfg_file, met, timeloc, veg, wind, soil, temp, windsnd)
 
-  tests(n) = assert(wind%num_obs == 11, 'nobs_wind == 11')
-  n = n + 1
-  tests(n) = assert(windsnd%num_obs == 12, 'nobs_ptq == 12')
-  n = n + 1
+!  Sounding levels are now determined from the actual number of levels read in.
+!  Note: The below were mis-named anyway.
+!  tests(n) = assert(wind%num_obs == 11, 'nobs_wind == 11')
+!  n = n + 1
+!  tests(n) = assert(windsnd%num_obs == 12, 'nobs_ptq == 12')
+!  n = n + 1
+
   tests(n) = assert(eq(met%omega,3.13_real64), 'omega == 3.13')
   n = n + 1
-  tests(n) = assert(eq(met%zo,0.05_real64), 'zo == 0.05')
+  tests(n) = assert(eq(met%zo,0.2_real64), 'zo == 0.2')
   n = n + 1
   tests(n) = assert(eq(met%obst_hgt,1.0_real64), 'obst_height == 1.0')
   n = n + 1
   tests(n) = assert(met%cloud_flag .eqv. .false., 'cloud_flag eqv false')
   n = n + 1
-  tests(n) = assert(eq(met%cld_fract,0.14_real64), 'cld_fract == 0.14')
+  tests(n) = assert(eq(met%cld_fract,0.0_real64,0.0001), 'cld_fract == 0.0')
   n = n + 1
   tests(n) = assert(eq(soil%f,0.5_real64), 'f == 0.5')
   n = n + 1
@@ -59,7 +62,7 @@ program test_load_data
   tests(n) = assert(eq(timeloc%strtim,530.0_real64), 'strtim == 530')
   n = n + 1
 
-  tests(n) = assert(eq(veg%frveg,0.0_real64), 'frveg == 0')
+  tests(n) = assert(eq(veg%frveg,50.0_real64), 'frveg == 50')
   n = n + 1
   tests(n) = assert(veg%steady == 'Y', 'steady == Y')
   n = n + 1

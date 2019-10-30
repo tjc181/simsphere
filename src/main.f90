@@ -33,6 +33,15 @@ program simsphere
   real :: VegnNetRadn, VegnRadioTemp, YCOUNT=0.0
   logical :: dual_regime = .false.
 
+! Subroutine variables that are preserved between calls
+  real :: AIRCHGT=0.0, AIRCDELT, AIRCTHETA=1.0
+  real :: WATERWIN=0.0
+  real :: BELOWTE(9)=0.0
+  integer(kind=1) :: VEGVELinit_vel=1
+  integer :: averageinit=1
+  integer :: PSLCALINIT=1
+  integer :: outputinit=1
+
   type(t_timeloc) :: timeloc
   type(t_temp) :: temp
   type(t_windsnd) :: windsnd
@@ -53,7 +62,7 @@ program simsphere
 ! Start reads the values of various input parameters to get the model
 ! going and Snding reads in the sounding file.
 
-
+  OPEN ( UNIT=11, FILE = 'o_model.dat' )         ! Open the text output file
 
 !  CALL START (Obst_Hgt,dual_regime,zo_patch) ! Read and Check data
   CALL START (Obst_Hgt, dual_regime, zo_patch, temp, windsnd, timeloc, wind)   ! Read data
@@ -101,13 +110,14 @@ program simsphere
   ! Resistance values in the Transition and Surface Layers
   ! Entry to nighttime formulations (BRI & MOM) through this subroutine
   
-    CALL VEL (MONCE,IONCE,StabCriteria,YCOUNT,Obst_Hgt,dual_regime,zo_patch)
+    CALL VEL (MONCE,IONCE,StabCriteria,YCOUNT,Obst_Hgt,dual_regime, &
+    zo_patch,VEGVELinit_vel,PSLCALINIT)
   
   ! Mixed Layer
   
   !  write(*,*) 'HEAT: ',HEAT,' SWAVE: ',SWAVE,' RNET: ',RNET
     IF (HEAT>0.00001 .AND. SWAVE > 0 .AND. RNET > 0) THEN
-      CALL AIR (ZLS, YCOUNT)
+      CALL AIR (ZLS, YCOUNT, AIRCHGT, AIRCDELT, AIRCTHETA)
     END IF
   
   ! Eddy Diffusivities in the Mixed Layer
@@ -124,7 +134,7 @@ program simsphere
   
   ! Evaporative Flux, Surface Temperature solutions
   
-    CALL FLUX (BareRadioTemp,VegnRadioTemp,BareEvapFlux,BareHeatFlux)
+    CALL FLUX (BareRadioTemp,VegnRadioTemp,BareEvapFlux,BareHeatFlux,averageinit)
   
   ! Heat FLux - Penman Formulation
   
@@ -141,14 +151,14 @@ program simsphere
   
   ! End of the atmospheric cycle.
   
-    CALL BELOW (Time,BareRadioTemp,BareEvapFlux) ! Substrate
-  
+    CALL BELOW (Time,BareRadioTemp,BareEvapFlux,WATERWIN,BELOWTE) ! Substrate
+
   !  Output is written every OUTTT seconds.
   
     IF (eq(TMOD,0.0)) then
       call json % create_object(out,'output')
       call json % add(p,out)
-      CALL output(json, out)
+      CALL output(json, out, outputinit)
     end if
   
   ! Increment Time.
@@ -169,5 +179,7 @@ program simsphere
   call json % destroy(p)
   if (json % failed()) stop 1
 
+  ENDFILE (UNIT = 11)  ! Close the text output file
+  CLOSE (UNIT = 11)
 
 end

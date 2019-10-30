@@ -1,5 +1,5 @@
 program test_average
-  use simsphere_mod, only: smooth, eq
+  use simsphere_mod, only: eq
   use mod_testing, only: assert, initialize_tests, report_tests
   implicit none
 
@@ -9,6 +9,7 @@ program test_average
   integer :: n, ntests
 
   real :: avr_arg1, avr_arg2
+  integer :: avr_arg3
 
   ! Expected values
   real, parameter :: avr_test_init1_exp = 20.0
@@ -20,12 +21,12 @@ program test_average
   call initialize_tests(tests,ntests)
 
   call avr_init
-  avr_arg2 = smooth(avr_arg1)
+  call avr(avr_arg1,avr_arg2,avr_arg3)
   tests(n) = assert(eq(avr_arg2,avr_test_init1_exp), 'avr_test_init1')
   n = n + 1
 
   call avr_init
-  avr_arg2 = smooth(avr_arg1)
+  call avr(avr_arg1,avr_arg2,avr_arg3)
   tests(n) = assert(eq(avr_arg2,avr_test_init_not1_exp), 'avr_test_init_not1')
   n = n + 1
 
@@ -38,6 +39,7 @@ contains
   subroutine avr_init
     avr_arg1 = 20.0
     avr_arg2 = 0.0
+    avr_arg3 = 1
     return
   end subroutine avr_init
 

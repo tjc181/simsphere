@@ -23,7 +23,7 @@ module config_mod
 
   type t_met
     real(kind=real64) :: omega, zo, obst_hgt
-    real(kind=real64) :: cld_fract
+    real(kind=real64) :: cld_fract     ! Tenths of cloud cover
     logical :: cloud_flag
   end type t_met
 
@@ -203,8 +203,8 @@ contains
     if (.not. found) stop 1
     call json%get(root//path//'.vgs',wind%vgs, found)
     if (.not. found) stop 1
-    call json%get(root//'.nobs_wind',wind%num_obs, found)
-    if (.not. found) stop 1
+!    call json%get(root//'.nobs_wind',wind%num_obs, found)
+!    if (.not. found) stop 1
   
     ! Soil
     path = '.soil'
@@ -250,8 +250,8 @@ contains
     if (.not. found) stop 1
     call json%get(root//path//'.zh', windsnd%zh, found)
     if (.not. found) stop 1
-    call json%get(root//'.nobs_ptq', windsnd%num_obs, found)
-    if (.not. found) stop 1
+!    call json%get(root//'.nobs_ptq', windsnd%num_obs, found)
+!    if (.not. found) stop 1
 
     ! Clean up
     call destroy_json(json)

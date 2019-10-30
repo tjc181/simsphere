@@ -27,6 +27,7 @@ program test_flux
 
   ! arg1 is time, arg2 is BareEvapFlux
   real :: arg1, arg2, arg3, arg4
+  integer :: arg5
 
   arg1 = 267.0
   arg2 = 0.0
@@ -42,7 +43,8 @@ program test_flux
 
   ! Case I
   call flux_init
-  call flux(arg1,arg2,arg3,arg4)
+  arg5 = 1
+  call flux(arg1,arg2,arg3,arg4,arg5)
   tests(n) = assert(eq(arg1,arg1_exp), 'Flux BareRadioTemp')
   n = n + 1
   tests(n) = assert(eq(arg2,arg2_exp), 'Flux VegnRadioTemp')
@@ -56,9 +58,10 @@ program test_flux
 
   ! Case II, qd(1) >= oshum
   call flux_init
+  arg5 = 1
   qd(1) = 3.0
   oshum = 2.0
-  call flux(arg1,arg2,arg3,arg4)
+  call flux(arg1,arg2,arg3,arg4,arg5)
   tests(n) = assert(eq(arg3,arg3_qd_exp), 'Flux BareEvapFlux')
   n = n + 1
   tests(n) = assert(eq(ahum,ahum_qd_exp), 'Flux ahum night')
@@ -66,9 +69,10 @@ program test_flux
 
   ! Case III, rnet < 0
   call flux_init
+  arg5 = 1
   qd(1) = 1.0
   rnet = -1.0
-  call flux(arg1,arg2,arg3,arg4)
+  call flux(arg1,arg2,arg3,arg4,arg5)
   tests(n) = assert(eq(arg1,arg1_night_exp), 'Flux BareRadioTemp night')
   n = n + 1
   tests(n) = assert(eq(arg2,arg2_night_exp), 'Flux VegnRadioTemp night')

@@ -1,4 +1,4 @@
-subroutine  AIR (ZLS, YCOUNT)
+subroutine  AIR (ZLS, YCOUNT, CHGT, CDELT, CTHETA)
   use simsphere_mod, only: hgt, gam, gm, het, heat, otemp, advgt, dens, cp, &
                            aptemp, atemp, tdif_50, delt, dhet, td, ntrp,    &
                            rad, grav, delta, za, ifirst, deltaz, eq
@@ -7,10 +7,11 @@ subroutine  AIR (ZLS, YCOUNT)
 ! **  Subroutine air computes the daytime height of the mixing layer and
 ! **  the potential temperature at height ZA.
 
+  ! Preserved between calls as passed arguments
+  real :: CHGT, CDELT, CTHETA
+
   real :: ZLS(50)
-  real :: CHGT = 0.0
-  real :: CTHETA = 1.0
-  real :: CDELT, DELTX, zmix, tdel, ttop, YCOUNT
+  real :: DELTX, zmix, tdel, ttop, YCOUNT
   integer :: I, J, L
 
 !      INCLUDE 'modvars.h'
