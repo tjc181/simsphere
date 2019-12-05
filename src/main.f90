@@ -54,7 +54,8 @@ program simsphere
   type(json_core) :: json
   type(json_value), pointer :: p, out
 
-  character(len=:), allocatable :: out_file
+  character(len=12), parameter :: out_json = 'o_model.json'
+  character(len=11), parameter :: out_file = 'o_model.dat'
 
   
 !      INCLUDE 'modvars.h'
@@ -62,7 +63,7 @@ program simsphere
 ! Start reads the values of various input parameters to get the model
 ! going and Snding reads in the sounding file.
 
-  OPEN ( UNIT=11, FILE = 'o_model.dat' )         ! Open the text output file
+  open ( unit=11, file = out_file )         ! Open the text output file
 
 !  CALL START (Obst_Hgt,dual_regime,zo_patch) ! Read and Check data
   CALL START (Obst_Hgt, dual_regime, zo_patch, temp, windsnd, timeloc, wind)   ! Read data
@@ -169,13 +170,7 @@ program simsphere
   
   end do
 
-  if (.not. allocated(out_file)) then
-    allocate(character(len=12) :: out_file)
-    out_file = 'o_model.json'
-  end if
-
-  call json % print(p,'o_model.json')
-  deallocate(out_file)
+  call json % print(p,out_json)
   call json % destroy(p)
   if (json % failed()) stop 1
 
