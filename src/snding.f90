@@ -46,6 +46,8 @@ SUBROUTINE SNDING (ZLS, Old_Ahum, temp, windsnd, timeloc, wind)
   nobs_ptq = size(ps)
   nobs_wind = size(dd0)
 
+! Output to text file only when writeTXT is set
+  if (writeTXT) then
       WRITE(11,148) Station_Height*1000, UGS, VGS
 148   FORMAT(/'   ***  Station Height and UGS/VGS  ***'// &
         'Station Height: ',F6.1,/, &
@@ -66,6 +68,7 @@ SUBROUTINE SNDING (ZLS, Old_Ahum, temp, windsnd, timeloc, wind)
       WRITE(11,152) 'DIR: ',(DD0(I),I=1,NOBS_wind)
       WRITE(11,154) 'SPD: ',(FF0(I),I=1,NOBS_wind)
 154   FORMAT(A5,20F6.1)
+  end if
 
 
 ! P/T/q first
@@ -264,6 +267,8 @@ SUBROUTINE SNDING (ZLS, Old_Ahum, temp, windsnd, timeloc, wind)
 
 ! Write out the interpolated sounding
 
+! Only output to text file when writeTXT is true
+  if (writeTXT) then
       WRITE(11,'(/A/)') '   ***  Interpolated Sounding  ***'
 
       WRITE(11,251) NTRP+1
@@ -279,6 +284,7 @@ SUBROUTINE SNDING (ZLS, Old_Ahum, temp, windsnd, timeloc, wind)
 254   FORMAT(A5,3(20F6.1/))
 
       WRITE (11,'(//A//)') '         ***  MODEL RESULTS  ***'
+  end if
 
   return
 end

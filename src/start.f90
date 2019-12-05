@@ -96,6 +96,7 @@ subroutine  START (Obst_Hgt, dual_regime, zo_patch, temp, windsnd, timeloc, wind
   coz_sfc = veg%coz_sfc
   coz_air = veg%coz_air
 
+  if (writeTXT) then
 !     Echo the input controls in the output
       WRITE (11,'(/A/)') '         ***  INPUT PARAMETERS  ***'
       WRITE (11,151) 'Year, Month, Day (IYR, IMO, IDAY): ', &
@@ -158,6 +159,7 @@ subroutine  START (Obst_Hgt, dual_regime, zo_patch, temp, windsnd, timeloc, wind
         'External CO2 Concentration (CO): ',F7.2,/, &
         'Surface Ozone Concentration (COZ_SFC): ',F7.2,/, &
         'Ambient Ozone Concentration (COZ_AIR): ',F7.2)
+  end if
 
 
 ! Include the vegetation and soils databases in the calculations.
@@ -177,6 +179,7 @@ subroutine  START (Obst_Hgt, dual_regime, zo_patch, temp, windsnd, timeloc, wind
 
     close (unit = 1)
 
+  if (writeTXT) then
       WRITE(11,166) soiltype, rks, cosbyb, thmax, psis
 166   FORMAT(//'   ***  Soil LUT Data Used for this run  ***'// &
         'Soiltype: ',A/ &
@@ -184,6 +187,7 @@ subroutine  START (Obst_Hgt, dual_regime, zo_patch, temp, windsnd, timeloc, wind
         'CosbyB: ',F6.1/ &
         'THMAX: ',F6.1/ &
         'PSIS: ',F6.1)
+  end if
 
 
     open (1, file = f_veg_lut) ! Open Veg File
@@ -198,6 +202,7 @@ subroutine  START (Obst_Hgt, dual_regime, zo_patch, temp, windsnd, timeloc, wind
 
     close (unit = 1)
 
+    if (writeTXT) then
       WRITE(11,177) planttype, rmin, mintemp, maxtemp, beta, b1, b2, &
         psice, sc, rcut, zp, frhgt, frzp, rkocap, rccap, rzcap, volini, &
         zstini
@@ -220,6 +225,7 @@ subroutine  START (Obst_Hgt, dual_regime, zo_patch, temp, windsnd, timeloc, wind
         'RZCAP: ',F6.1/ &
         'VOLINI: ',F6.1/ &
         'ZSTINI: ',F6.1)
+    end if
 
     mintemp = mintemp + Celsius_to_Kelvin
     maxtemp = maxtemp + Celsius_to_Kelvin

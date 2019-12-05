@@ -57,13 +57,17 @@ program simsphere
   character(len=12), parameter :: out_json = 'o_model.json'
   character(len=11), parameter :: out_file = 'o_model.dat'
 
+
+
   
 !      INCLUDE 'modvars.h'
 
 ! Start reads the values of various input parameters to get the model
 ! going and Snding reads in the sounding file.
 
-  open ( unit=11, file = out_file )         ! Open the text output file
+  if (writeTXT) then
+    open ( unit=11, file = out_file )         ! Open the text output file
+  end if
 
 !  CALL START (Obst_Hgt,dual_regime,zo_patch) ! Read and Check data
   CALL START (Obst_Hgt, dual_regime, zo_patch, temp, windsnd, timeloc, wind)   ! Read data
@@ -174,7 +178,9 @@ program simsphere
   call json % destroy(p)
   if (json % failed()) stop 1
 
-  ENDFILE (UNIT = 11)  ! Close the text output file
-  CLOSE (UNIT = 11)
+  if (writeTXT) then
+    ENDFILE (UNIT = 11)  ! Close the text output file
+    CLOSE (UNIT = 11)
+  end if
 
 end
