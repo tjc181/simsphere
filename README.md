@@ -31,7 +31,8 @@ A C implementation also exists.  This is available for download at https://simsp
 ## Building the code
 
 You will need a Fortran 2008 compiler and CMake.  The code is currently being
-developed using gfortran 7.3.0.
+developed using gfortran 7.3.0.  Please see the [Getting Started
+guide](GETTINGSTARTED.md) for additional instructions.
 
 ### Unix:
 ```
