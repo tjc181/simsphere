@@ -1,6 +1,6 @@
-#Contributing to Simsphere
+# Contributing to Simsphere
 
-##Source Locations
+## Source Locations
 
 Toby Carlson's website at https://simsphere.ems.psu.edu is the
 authoritative source for the Simsphere model.
@@ -9,7 +9,7 @@ https://github.com/tjc181/simsphere is the authoritative repository for
 the Simsphere source code.  Clone the repository and submit pull requests
 via Github.  Use the Github issue tracker to raise and resolve issues.
 
-##Formatting and Style
+## Formatting and Style
 Code is free-form Fortran.  Begin in column 1.
 
 All variables explicitly declared.  Use "implicit none" in all units.
