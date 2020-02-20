@@ -6,11 +6,11 @@ addons:
     packages:
       - gfortran-7
 before_script:
-  - 
-  - DISTROOT=$HOME/simsphere BUILDROOT=$HOME/simsphere-build ./scripts/build-json-fortran.sh
-  - FC=gfortran-7 cmake .
-  - cmake --build .
+  - DISTROOT=. BUILDROOT=../build ./scripts/build-json-fortran.sh
+  - FC=gfortran-7 cmake -H$DISTROOT -B$BUILDROOT
+  - cmake --build $BUILDROOT
 script:
+  - cd $BUILDROOT
   - ./bin/config
   - ctest
 notifications:
