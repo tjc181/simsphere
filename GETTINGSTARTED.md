@@ -57,23 +57,26 @@ ctest
 mkdir $BUILDROOT/work
 cd $BUILDROOT/work
 ```
+
     2. Create a link to the source root "data" directory:
 ```
 ln -s $DISTROOT/data
 ```
+
     3. Create an alias pointing to the executable
 ```
-alias simsphere $BUILDROOT/bin/simsphere
+alias simsphere=$BUILDROOT/bin/simsphere
 ```
+
     4. Get a copy of the default json input file:
 ```
-cp $DISTROOT/simsphere/data/default/i_model.json .
+cp data/default/i_model.json .
 ```
 See the [Model Input Parameters](https://simsphere.ems.psu.edu/assets/downloads/Part%20IV;%20model%20input%20parameters.xls) spreadsheet for descriptions of the parameters and acceptable input ranges. 
 
 7. Execute the model
 ```
-bin/simsphere
+simsphere
 ```
 
 8. Review output
