@@ -7,8 +7,8 @@
 
 # These settings should be ok for Ubuntu 18.04.
 FC=gfortran-7
-DISTROOT=$HOME/simsphere
-BUILDROOT=$HOME/simsphere-build
+DISTROOT=${DISTROOT:-$HOME/simsphere}
+BUILDROOT=${BUILDROOT:-HOME/simsphere-build}
 
 
 # Download simsphere dependencies
