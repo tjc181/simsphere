@@ -6,9 +6,7 @@ addons:
     packages:
       - gfortran-7
 before_script:
-  - ./scripts/build-json-fortran.sh
-  - FC=gfortran-7 cmake .
-  - cmake --build .
+  - ./scripts/build.sh
 script:
   - ./bin/config
   - ctest

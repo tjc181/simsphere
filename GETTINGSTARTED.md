@@ -19,8 +19,8 @@ sudo apt install -y gfortran-7 git cmake
 
 2. Clone the git repository and set some variables
 ```
-git clone https://github.com/tjc181/simsphere
 export DISTROOT=$HOME/simsphere BUILDROOT=$HOME/simsphere-build
+git clone https://github.com/tjc181/simsphere $DISTROOT
 ```
 
 3. Clone the libjsonfortran repository and build the library
@@ -40,7 +40,7 @@ of the tests (which produced a configuration error for us).
 
 4. Build simsphere
 ```
-cmake -H. -B$BUILDROOT
+cmake -H$DISTROOT -B$BUILDROOT
 cmake --build $BUILDROOT
 ```
 
