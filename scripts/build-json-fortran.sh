@@ -1,9 +1,10 @@
 #!/bin/sh
 
-# Fetch and build json-fortran, a Simsphere dependency
+# Build json-fortran, a Simsphere dependency
 
-cd /tmp
-git clone git://github.com/jacobwilliams/json-fortran
-FC=gfortran-7 cmake -H./json-fortran -B./json-build
-cmake --build ./json-build
-cmake --target install ./json-build
+JSONBUILD=$BUILDROOT/json-build
+JSONDIST=$DISTROOT/externals/json-fortran
+
+FC=gfortran-7 cmake -D SKIP_DOC_GEN:BOOL=TRUE -H$JSONDIST -B$JSONBUILD
+cmake --build $JSONBUILD
+#cmake --target install $JSONBUILD

@@ -1,3 +1,6 @@
 [submodule "externals/compare"]
 	path = externals/compare
 	url = git://github.com/tcanich/compare.git
+[submodule "externals/json-fortran"]
+	path = externals/json-fortran
+	url = git://github.com/jacobwilliams/json-fortran

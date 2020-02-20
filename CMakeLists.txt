@@ -30,10 +30,8 @@ endif()
 # libcompare is provided via git submodule from git://github.com/tcanich/compare
 add_subdirectory(externals/compare)
 
-# libjson is provided by external script, built in /tmp/json-build for Travis
-find_package(jsonfortran NAMES jsonfortran-gnu HINTS /tmp/json-build REQUIRED)
-#add_library(jsonfortran SHARED IMPORTED)
-#set_target_properties(jsonfortran PROPERTIES IMPORTED_LOCATION ${CMAKE_BINARY_DIR}/lib/libjsonfortran.so)
+# libjson is provided by external script, built in the simsphere build json-build for Travis
+find_package(jsonfortran NAMES jsonfortran-gnu HINTS ${CMAKE_BINARY_DIR}/json-build REQUIRED)
 
 # library to archive (libsimsphere)
 add_library(simsphere_mod SHARED src/simsphere_mod.f90 src/config_mod.f90 src/constants_mod.f90 src/snding_mod.f90 src/stomata_mod.f90 src/transm_mod.f90 src/vel_mod.f90 src/globals.f90)

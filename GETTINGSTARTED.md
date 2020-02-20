@@ -54,8 +54,8 @@ ctest
 6. Setup a working directory and adjust input parameters
     1. Create/go to a work space, for example:
 ```
-mkdir $DISTROOT/work
-cd $DISTROOT/work
+mkdir $BUILDROOT/work
+cd $BUILDROOT/work
 ```
     2. Create a link to the source root "data" directory:
 ```
