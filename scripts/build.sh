@@ -7,9 +7,10 @@
 
 # These settings should be ok for Ubuntu 18.04.
 FC=${FC:-gfortran-7}
+CMAKE=${CMAKE:-cmake}
 DISTROOT=${DISTROOT:-$HOME/simsphere}
 BUILDROOT=${BUILDROOT:-$DISTROOT/build}
-export FC DISTROOT BUILDROOT
+export FC CMAKE DISTROOT BUILDROOT
 
 
 # Download simsphere dependencies
@@ -18,8 +19,8 @@ git submodule update --init --recursive
 
 # Build json-fortran, libcompare, simsphere
 scripts/build-json-fortran.sh
-cmake -H$DISTROOT -B$BUILDROOT
-cmake --build $BUILDROOT
+$CMAKE -H$DISTROOT -B$BUILDROOT
+$CMAKE --build $BUILDROOT
 
 # Test the build
 cd $BUILDROOT
