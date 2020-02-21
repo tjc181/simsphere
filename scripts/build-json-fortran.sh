@@ -2,8 +2,9 @@
 
 # Build json-fortran, a Simsphere dependency
 
-JSONBUILD=$BUILDROOT/json-build
+JSONBUILD=$BUILDROOT/json
 JSONDIST=$DISTROOT/externals/json-fortran
+FC=${FC:-gfortran}
 
-FC=gfortran-7 cmake -D SKIP_DOC_GEN:BOOL=TRUE -H$JSONDIST -B$JSONBUILD
+cmake -D SKIP_DOC_GEN:BOOL=TRUE -H$JSONDIST -B$JSONBUILD
 cmake --build $JSONBUILD

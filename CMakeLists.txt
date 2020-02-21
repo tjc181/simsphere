@@ -31,7 +31,7 @@ endif()
 add_subdirectory(externals/compare)
 
 # libjson is provided by external script, built in the simsphere build json-build for Travis
-find_package(jsonfortran NAMES jsonfortran-gnu HINTS ${CMAKE_BINARY_DIR}/json-build REQUIRED)
+find_package(jsonfortran NAMES jsonfortran-gnu HINTS ${CMAKE_BINARY_DIR}/json REQUIRED)
 
 # library to archive (libsimsphere)
 add_library(simsphere_mod SHARED src/simsphere_mod.f90 src/config_mod.f90 src/constants_mod.f90 src/snding_mod.f90 src/stomata_mod.f90 src/transm_mod.f90 src/vel_mod.f90 src/globals.f90)
