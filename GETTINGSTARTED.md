@@ -17,7 +17,7 @@ Consult the system documentation for details.
 sudo apt install -y gfortran-7 git cmake
 ```
 
-2. Clone the git repository and set some variables
+2. Clone the git repository
 ```
 git clone https://github.com/tjc181/simsphere $HOME/simsphere
 ```
