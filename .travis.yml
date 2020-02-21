@@ -6,9 +6,9 @@ addons:
     packages:
       - gfortran-7
 before_script:
-  - export DISTROOT=. BUILDROOT=../build 
+  - export DISTROOT=. BUILDROOT=../build FC=gfortran-7
   - ./scripts/build-json-fortran.sh
-  - FC=gfortran-7 cmake -H$DISTROOT -B$BUILDROOT
+  - cmake -H$DISTROOT -B$BUILDROOT
   - cmake --build $BUILDROOT
 script:
   - cd $BUILDROOT
