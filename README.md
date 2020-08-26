@@ -13,6 +13,10 @@ over a 24 hour day.
 Extensive information about the model is available at
 https://simsphere.ems.psu.edu .
 
+## Mailing list
+
+Consider subscribing to the mailing list SIMSPHERE-L@lists.psu.edu.  To subscribe, send an email to [listserv@lists.psu.edu](mailto:listserv@lists.psu.edu?Subject="SUBSCRIBE SIMSPHERE-L"&body="SUBSCRIBE SIMSPHERE-L").  The message body must contain the subscribe command and the list name; you may optionally include your name following list name on the same line.
+
 ## Fortran implementation
 
 This is an updated version of the original Fortran implementation.  The goals for this update include:
@@ -45,14 +49,11 @@ scripts/build.sh
 
 ### Windows:
 
-1. Install msys64 from https://www.msys2.org .  Start the msys64 shell to install the development tools with commands: 
+1. Install msys64 from https://www.msys2.org .  Start the MSYS2 MinGW 64-bit shell to install the development tools with commands: 
 ```
-pacman --needed -S base-devel
-pacman --needed -S mingw-w64-x86_64-gcc
-pacman --needed -S mingw-w64-x86_64-toolchain
-pacman --needed -S mingw-w64-x86_64-cmake
+pacman --needed -S base-devel mingw-w64-x86_64-gcc mingw-w64-x86_64-toolchain mingw-w64-x86_64-cmake git
 ```
-2. Within the msys64 shell, clone the Git repository:
+2. Within the MSYS2 MinGW 64-bit shell, clone the Git repository:
 ```
 git clone https://github.com/tjc181/simsphere
 ```
@@ -62,4 +63,5 @@ git clone https://github.com/tjc181/simsphere
 cd simpshere
 scripts/build.sh
 ```
+
 

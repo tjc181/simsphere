@@ -64,3 +64,7 @@ in the **$BUILDROOT** directory.  *o_model.dat* is plain text while *o_model.jso
 
 ## Windows 10
 Installation on Windows 10 systems is very similar to Ubuntu.  The development tools may be installed using the Msys2 system.  See the documentation in [README.md](README.md) for specific commands.
+
+## Mailing list
+
+Consider subscribing to the mailing list for additional help from other Simsphere users.  See [README.md](README.md) for subscription information.
