@@ -30,6 +30,8 @@ then
     cp $BUILDROOT/json/libjsonfortran.dll $BUILDROOT/bin
 else
     # Otherwise assume we're on a Unix
+    # Build json-fortran, libcompare, simsphere
+    scripts/build-json-fortran.sh
     $CMAKE -H$DISTROOT -B$BUILDROOT
     $CMAKE --build $BUILDROOT
 fi
