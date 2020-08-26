@@ -63,4 +63,4 @@ Output will be written to the files *o_model.dat* and *o_model.json*
 in the **$BUILDROOT** directory.  *o_model.dat* is plain text while *o_model.json* is JSON suitable for processing with other tools.
 
 ## Windows 10
-Installation on Windows 10 systems is very similar to Ubuntu, however the development tools are significantly more complicated to install.  See the documentation in [README.md](README.md) for a starting point.
+Installation on Windows 10 systems is very similar to Ubuntu.  The development tools may be installed using the Msys2 system.  See the documentation in [README.md](README.md) for specific commands.
