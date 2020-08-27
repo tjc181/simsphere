@@ -50,7 +50,7 @@ addons:
       - gfortran-7
 before_script:
   - export DISTROOT=. BUILDROOT=../build CMAKE=cmake
-  - ./scripts/build-json-fortran.sh
+  - $mingw64 ./scripts/build-json-fortran.sh
   - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then FC=gfortran-7 cmake -H$DISTROOT -B$BUILDROOT ; fi
   - if [[ "$TRAVIS_OS_NAME" == "windows" ]]; then cmake -H$DISTROOT -B$BUILDROOT -G "MinGW Makefiles"; cp $BUILDROOT/json/libjsonfortran.dll $BUILDROOT/bin; fi
   - cmake --build $BUILDROOT
