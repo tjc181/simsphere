@@ -15,7 +15,15 @@ https://simsphere.ems.psu.edu .
 
 ## Mailing list
 
-Consider subscribing to the mailing list SIMSPHERE-L@lists.psu.edu.  To subscribe, send an email to [listserv@lists.psu.edu](mailto:listserv@lists.psu.edu?Subject="SUBSCRIBE SIMSPHERE-L"&body="SUBSCRIBE SIMSPHERE-L").  The message body must contain the subscribe command and the list name; you may optionally include your name following list name on the same line.
+Consider subscribing to the mailing list SIMSPHERE-L@lists.psu.edu.  To subscribe, send email to listserv@lists.psu.edu.  The message body must contain the subscribe command and the list name; you may optionally include your name following list name on the same line.
+
+```
+SUBSCRIBE SIMSPHERE-L
+```
+or with optional name
+```
+SUBSCRIBE SIMSPHERE-L Jane Smith
+```
 
 ## Fortran implementation
 
