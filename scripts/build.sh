@@ -10,12 +10,13 @@ FC=${FC:-gfortran-7}
 CMAKE=${CMAKE:-cmake}
 DISTROOT=${DISTROOT:-$HOME/simsphere}
 BUILDROOT=${BUILDROOT:-$DISTROOT/build}
-export FC CMAKE DISTROOT BUILDROOT
+CMAKE_BUILD_TYPE="static"
+export FC CMAKE DISTROOT BUILDROOT CMAKE_BUILD_TYPE
 
 
 # Download simsphere dependencies
 cd $DISTROOT
-git submodule update --init --recursive
+#git submodule update --init --recursive
 
 # Check if we are on Windows
 if [ $(uname | grep MINGW) ]
@@ -23,6 +24,7 @@ then
     export FC=gfortran
     # Build json-fortran, libcompare, simsphere
     scripts/build-json-fortran.sh
+    scripts/build-libcompare.sh
     $CMAKE -H$DISTROOT -B$BUILDROOT -G "MinGW Makefiles"
     $CMAKE --build $BUILDROOT
     # Put the json-fortran shared library where programs can find it
@@ -32,6 +34,7 @@ else
     # Otherwise assume we're on a Unix
     # Build json-fortran, libcompare, simsphere
     scripts/build-json-fortran.sh
+    scripts/build-libcompare.sh
     $CMAKE -H$DISTROOT -B$BUILDROOT
     $CMAKE --build $BUILDROOT
 fi

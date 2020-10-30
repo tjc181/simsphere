@@ -1,23 +1,32 @@
 # cmake version, project name, language
 cmake_minimum_required(VERSION 2.8 FATAL_ERROR)
-project(simsphere)
+
+# Use MSVS folders to organize projects on windows
+#set_property(GLOBAL PROPERTY USE_FOLDERS ON)
+
+#set (PROJECT_DESCRIPTION "Soil-Vegetation-Atmosphere Transfer Model by Toby Carlson")
+#set (PROJECT_URL "https://simsphere.ems.psu.edu")
+
 enable_language(Fortran)
+#include ( "cmake/pickFortranCompilerFlags.cmake" )
 
 # set output paths for modules, archives, and executables
-set(CMAKE_Fortran_MODULE_DIRECTORY ${PROJECT_BINARY_DIR}/include)
+set(CMAKE_Fortran_MODULE_DIRECTORY ${CMAKE_BINARY_DIR}/include)
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 
 # if build type not specified, default to release
 if(NOT CMAKE_BUILD_TYPE)
-  set(CMAKE_BUILD_TYPE "release")
+  set(CMAKE_BUILD_TYPE "Release")
 endif()
 
+project(simsphere)
+
 # compiler flags for gfortran
-if(CMAKE_Fortran_COMPILER_ID MATCHES GNU)
+if(CMAKE_Fortran_COMPILER_ID STREQUAL GNU)
   set(CMAKE_Fortran_FLAGS_DEBUG "-O0 -std=f2008 -Wall -Wintrinsic-shadow -Wextra -pedantic -ggdb3 -fbacktrace -ffpe-trap=zero,overflow,underflow -fprofile-arcs -ftest-coverage")
-  set(CMAKE_Fortran_FLAGS_RELEASE "-std=f2008 -fprofile-arcs -ftest-coverage")
+  set(CMAKE_Fortran_FLAGS_RELEASE "-static -std=f2008 -fprofile-arcs -ftest-coverage")
 endif()
 
 # compiler flags for ifort
@@ -28,24 +37,24 @@ if(CMAKE_Fortran_COMPILER_ID MATCHES Intel)
 endif()
 
 # libcompare is provided via git submodule from git://github.com/tcanich/compare
-add_subdirectory(externals/compare)
+#add_subdirectory(externals/compare)
+find_package(compare-static NAMES compare-gnu HINTS ${CMAKE_BINARY_DIR}/compare REQUIRED)
 
 # libjson is provided by external script, built in the simsphere build json-build for Travis
-find_package(jsonfortran NAMES jsonfortran-gnu HINTS ${CMAKE_BINARY_DIR}/json REQUIRED)
+find_package(jsonfortran-static NAMES jsonfortran-gnu HINTS ${CMAKE_BINARY_DIR}/json REQUIRED)
 
 # library to archive (libsimsphere)
-add_library(simsphere_mod SHARED src/simsphere_mod.f90 src/config_mod.f90 src/constants_mod.f90 src/snding_mod.f90 src/stomata_mod.f90 src/transm_mod.f90 src/vel_mod.f90 src/globals.f90)
-add_dependencies(simsphere_mod compare)
-target_link_libraries(simsphere_mod compare jsonfortran)
-set_target_properties(simsphere_mod PROPERTIES INTERFACE_POSITION_INDEPENDENT_CODE ON)
+add_library(simsphere_mod STATIC src/simsphere_mod.f90 src/config_mod.f90 src/constants_mod.f90 src/snding_mod.f90 src/stomata_mod.f90 src/transm_mod.f90 src/vel_mod.f90 src/globals.f90)
+add_dependencies(simsphere_mod compare-static)
+target_link_libraries(simsphere_mod compare-static jsonfortran-static)
+#set_target_properties(simsphere_mod PROPERTIES INTERFACE_POSITION_INDEPENDENT_CODE ON)
 
 # Testing library (mod_testing)
-add_library(mod_testing SHARED tests/mod_testing.f90)
-set_target_properties(mod_testing PROPERTIES INTERFACE_POSITION_INDEPENDENT_CODE ON)
-
+add_library(mod_testing STATIC tests/mod_testing.f90)
+#set_target_properties(mod_testing PROPERTIES INTERFACE_POSITION_INDEPENDENT_CODE ON)
 
 # tests
-enable_testing()
+#enable_testing()
 add_executable(simsphere src/air.f90 src/albedo.f90 src/ball.f90 src/below.f90 src/bri.f90 src/calc.f90 src/canres.f90 src/capac.f90 src/daykm.f90 src/fine.f90 src/flux.f90 src/gettbl.f90 src/gtemp.f90 src/hot.f90 src/input.f90 src/intpol.f90 src/main.f90 src/momday.f90 src/mom.f90 src/netrad.f90 src/prfile.f90 src/pslcal.f90 src/psoil.f90 src/slope.f90 src/snding.f90 src/start.f90 src/vegflx.f90 src/vegrad.f90 src/vegvel.f90 src/vel.f90 src/water.f90 src/avr.f90)
 add_executable(config src/config_gen.f90)
 add_executable(loadjson src/loadjson.f90)
@@ -82,8 +91,8 @@ add_executable(test_vegrad src/vegrad.f90  tests/test_vegrad.f90)
 add_executable(test_vegvel src/vegvel.f90 src/ball.f90 src/pslcal.f90 src/capac.f90  tests/test_vegvel.f90)
 add_executable(test_water src/water.f90  tests/test_water.f90)
 
-target_link_libraries(simsphere simsphere_mod compare)
-target_link_libraries(config jsonfortran)
+target_link_libraries(simsphere simsphere_mod compare-static)
+target_link_libraries(config jsonfortran-static)
 target_link_libraries(loadjson simsphere_mod)
 target_link_libraries(simsphere_test simsphere_mod mod_testing)
 target_link_libraries(test_air simsphere_mod mod_testing)
@@ -118,7 +127,8 @@ target_link_libraries(test_vegrad simsphere_mod mod_testing)
 target_link_libraries(test_vegvel simsphere_mod mod_testing)
 target_link_libraries(test_water simsphere_mod mod_testing)
 
-target_include_directories(simsphere_mod PRIVATE ${compare_BINARY_DIR}/include PRIVATE ${jsonfortran_INCLUDE_DIRS})
+message ( STATUS "${compare_INCLUDE_DIR}" )
+target_include_directories(simsphere_mod PRIVATE ${compare_INCLUDE_DIR} PRIVATE ${jsonfortran_INCLUDE_DIRS})
 target_include_directories(simsphere PRIVATE ${jsonfortran_INCLUDE_DIRS})
 target_include_directories(config PRIVATE ${jsonfortran_INCLUDE_DIRS})
 target_include_directories(loadjson PRIVATE ${jsonfortran_INCLUDE_DIRS})
