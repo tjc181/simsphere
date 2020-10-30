@@ -6,10 +6,12 @@ addons:
     packages:
       - gfortran-7
 before_script:
+  - export DISTROOT=. BUILDROOT=../build FC=gfortran-7 CMAKE=cmake
   - ./scripts/build-json-fortran.sh
-  - FC=gfortran-7 cmake .
-  - cmake --build .
+  - cmake -H$DISTROOT -B$BUILDROOT
+  - cmake --build $BUILDROOT
 script:
+  - cd $BUILDROOT
   - ./bin/config
   - ctest
 notifications:
