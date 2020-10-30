@@ -1,9 +1,16 @@
 #!/bin/sh
 
-# Fetch and build json-fortran, a Simsphere dependency
+# Build json-fortran, a Simsphere dependency
 
-cd /tmp
-git clone git://github.com/jacobwilliams/json-fortran
-FC=gfortran-7 cmake -H./json-fortran -B./json-build
-cmake --build ./json-build
-cmake --target install ./json-build
+JSONBUILD=$BUILDROOT/json
+JSONDIST=$DISTROOT/externals/json-fortran
+
+# Test to see if we are working on Windows
+if [ $(uname | grep MINGW) ]
+then
+    $CMAKE -D SKIP_DOC_GEN:BOOL=TRUE -H$JSONDIST -B$JSONBUILD -G "MinGW Makefiles"
+else
+    # Otherwise, assume a Unix-like system
+    $CMAKE -D SKIP_DOC_GEN:BOOL=TRUE -H$JSONDIST -B$JSONBUILD 
+fi
+$CMAKE --build $JSONBUILD
