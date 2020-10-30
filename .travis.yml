@@ -69,7 +69,7 @@ deploy:
   - provider: releases
     skip_cleanup: true
     on:
-      branch: v0.1
+      branch: v0.1.1
     file:
       - simsphere-$TRAVIS_TAG*
     api_key:
