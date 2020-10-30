@@ -37,6 +37,7 @@ if(CMAKE_Fortran_COMPILER_ID MATCHES Intel)
 endif()
 
 # libcompare is provided via git submodule from git://github.com/tcanich/compare
+#add_subdirectory(externals/compare)
 find_package(compare-static NAMES compare-gnu HINTS ${CMAKE_BINARY_DIR}/compare REQUIRED)
 
 # libjson is provided by external script, built in the simsphere build json-build for Travis
