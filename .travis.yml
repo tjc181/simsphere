@@ -76,6 +76,5 @@ deploy:
 notifications:
   email: false
 
-
 after_success:
  - bash <(curl -s https://codecov.io/bash)
