@@ -10,6 +10,8 @@ program test_below
   integer :: n, ntests
 
   real :: arg1, arg2, arg3 !time, BareRadioTemp, BareEvapFlux
+  real :: waterwin
+  real :: belowte(9)
 
   ! Expected values
   real, parameter :: w2g_wmax_exp = 99.99
@@ -31,7 +33,7 @@ program test_below
   call below_init
   arg1 = 1.5
   wmax = 2.0
-  call below(arg1,arg2,arg3)
+  call below(arg1,arg2,arg3,waterwin,belowte)
   tests(n) = assert(eq(w2g,w2g_wmax_exp), 'w2g high wmax')
   n = n + 1
   tests(n) = assert(eq(wgg,wgg_wmax_exp), 'wgg high wmax')
@@ -44,21 +46,21 @@ program test_below
   ! time == 0.0
   call below_init
   arg1 = 0.0
-  call below(arg1,arg2,arg3)
+  call below(arg1,arg2,arg3,waterwin,belowte)
   tests(n) = assert(eq(tt,tt_exp), 'tt time == 0')
   n = n + 1
 
   ! Frveg  == 0.0
   call below_init
   frveg = 0.0
-  call below(arg1,arg2,arg3)
+  call below(arg1,arg2,arg3,waterwin,belowte)
   tests(n) = assert(eq(tt(1),tt_frveg0_exp), 'tt(1) frveg == 0')
   n = n + 1
 
   ! frveg == 1
   call below_init
   frveg = 1.0
-  call below(arg1,arg2,arg3)
+  call below(arg1,arg2,arg3,waterwin,belowte)
   tests(n) = assert(eq(tt(1),tt_frveg1_exp), 'tt(1) frveg == 1')
   n = n + 1
   
@@ -70,7 +72,7 @@ program test_below
   ! heat < 0
   call below_init
   heat = -1.0
-  call below(arg1,arg2,arg3)
+  call below(arg1,arg2,arg3,waterwin,belowte)
   tests(n) = assert(eq(tt(1),tt_low_heat_exp), 'tt(1) heat < 0')
   n = n + 1
 
@@ -97,6 +99,8 @@ contains
     ptime = 16
     arg2 = 265.0
     arg3 = 1800.0
+    waterwin = 0.0
+    belowte = 0.0
     return
   end subroutine below_init
 

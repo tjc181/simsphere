@@ -112,6 +112,7 @@ module simsphere_mod
 
       if (outputinit .eq. 1) then
 
+        if (writeTXT) then
         WRITE (11,*) 'TIME: Local time (hours)'
         WRITE (11,*) 'SWF: Shortwave_Flux (W m-2)'
         WRITE (11,*) 'NETRAD: Net_Radiation (W m-2)'
@@ -152,6 +153,7 @@ module simsphere_mod
           '    STMR  VPDEF  LWPOT EWPOT   GWPOT     CO2F ', &
           ' CO2CAN', &
           '    WATEFF   O3CAN  GBLO3   O3F'/)
+        endif
 
         outputinit = 2
 
@@ -198,6 +200,7 @@ module simsphere_mod
         call json%add(out,'Global_O3_flux/ugm-2s-1',real(fglobal,real64))
         call json%add(out,'O3_flux_plant/ugm-2s-1',real(flux_plant,real64))
 
+        if (writeTXT) then
          WRITE (11,10) PTIME,SWAVE,RNET,HEAT,EVAP,G_Flux, &
               atemp-273.15,ta-273.15,air_leaf_T,OTEMP-273.15, &
               awind*1.98, uten*1.98, uaf*1.98, &
@@ -205,6 +208,7 @@ module simsphere_mod
               Bowen, F, FSUB, Stom_R, vfl, psim, psie, psig, &
               co2_flux, ccan_concn, Water_Use_Eff,caf,fglobal, &
               flux_plant
+        endif
     
       else
       ! Day
@@ -242,6 +246,7 @@ module simsphere_mod
           call json%add(out,'Global_O3_flux/ugm-2s-1',real(fglobal,real64))
           call json%add(out,'O3_flux_plant/ugm-2s-1',real(flux_plant,real64))
 
+         if (writeTXT) then
          WRITE (11,10) PTIME,SWAVE,RNET,HEAT,EVAP,G_Flux, &
               atemp-273.15,ta-273.15,air_leaf_T,OTEMP-273.15, &
               awind*1.98, uten*1.98, uaf*1.98, &
@@ -249,6 +254,7 @@ module simsphere_mod
               Bowen, F, FSUB, Stom_R, vfl, psim, psie, psig, &
               co2_flux, ccan_concn, Water_Use_Eff,caf,fglobal, &
               flux_plant
+         end if
 
         else
         ! Convert outputs to real64 to be compatible with JSON library.  Min/Max
@@ -284,6 +290,7 @@ module simsphere_mod
           call json%add(out,'Global_O3_flux/ugm-2s-1',real(fglobal,real64))
           call json%add(out,'O3_flux_plant/ugm-2s-1',real(flux_plant,real64))
 
+         if (writeTXT) then
          WRITE (11,10) PTIME,SWAVE,RNET,HEAT,EVAP,G_Flux, &
               atemp-273.15,ta-273.15,air_leaf_T,OTEMP-273.15, &
               awind*1.98, uten*1.98, uaf*1.98, &
@@ -291,6 +298,7 @@ module simsphere_mod
               Bowen, F, FSUB, Stom_R, vfl, psim, psie, psig, &
               co2_flux, ccan_concn, Water_Use_Eff,caf,fglobal, &
               flux_plant
+         end if
 
         endif
     

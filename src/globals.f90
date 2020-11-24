@@ -2,6 +2,9 @@ module globals
   implicit none
   public
 
+! Flags to control output to JSON or text file
+  logical :: writeJSON=.true., writeTXT=.true.
+
 !  Global variables (formerly COMMON in modvars.h)
 
   real, dimension(:), allocatable :: ts

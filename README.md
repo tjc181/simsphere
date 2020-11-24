@@ -13,6 +13,18 @@ over a 24 hour day.
 Extensive information about the model is available at
 https://simsphere.ems.psu.edu .
 
+## Mailing list
+
+Consider subscribing to the mailing list SIMSPHERE-L@lists.psu.edu.  To subscribe, send email to listserv@lists.psu.edu.  The message body must contain the subscribe command and the list name; you may optionally include your name following list name on the same line.
+
+```
+SUBSCRIBE SIMSPHERE-L
+```
+or with optional name
+```
+SUBSCRIBE SIMSPHERE-L Jane Smith
+```
+
 ## Fortran implementation
 
 This is an updated version of the original Fortran implementation.  The goals for this update include:
@@ -31,50 +43,33 @@ A C implementation also exists.  This is available for download at https://simsp
 ## Building the code
 
 You will need a Fortran 2008 compiler and CMake.  The code is currently being
-developed using gfortran 7.3.0.
+developed using gfortran 7.3.0.  Please see the [Getting Started
+guide](GETTINGSTARTED.md) for additional instructions.
+
 
 ### Unix:
+Clone the repository and execute the include build script:
 ```
-git submodule update --init --recursive
-scripts/build-json-fortran.sh
-cmake -H. -B../simsphere-build
-cmake --build ../simsphere-build
-(cd ../simsphere-build && bin/config && ctest)
+git clone https://github.com/tjc181/simsphere
+cd simsphere
+scripts/build.sh
 ```
 
 ### Windows:
 
-#### Tooling:
-1. Install msys64 from https://www.msys2.org to install gfortran and make:
+1. Install msys64 from https://www.msys2.org .  Start the MSYS2 MinGW 64-bit shell to install the development tools with commands: 
 ```
-pacman -Sy mingw-w64-x86_64-gcc-fortran mingw-w64-x86_64-make
+pacman --needed -S base-devel mingw-w64-x86_64-gcc mingw-w64-x86_64-toolchain mingw-w64-x86_64-cmake git
 ```
-2. Install CMake from https://cmake.org.
-3. Add compiler and cmake to the Path environment variable:
+2. Within the MSYS2 MinGW 64-bit shell, clone the Git repository:
 ```
-set %Path%=%Path%;C:\Program Files\CMake\bin;C:\msys64\mingw64\bin
-```
-4. Install Git from https://git-scm.org.
-
-#### json-fortran dependency
-1. Clone https://github.com/jacobwilliams/json-fortran (assuming cloned to C:\temp\json-fortran)
-2. Build json-fortran in C:\temp\json-build
-```
-cd c:\temp\json-fortran
-cmake -H. -B..\json-build -G "MinGW Makefiles"
-cmake --build ..\json-build
+git clone https://github.com/tjc181/simsphere
 ```
 
-#### Simsphere
-1. Clone https://github.com/tjc181/simsphere and submodules.
-2. Configure and build the project with CMake (assuming cloned to C:\temp\simsphere):
+3. Within the cloned repository, execute the build script to build the model code and execute the test suite:
 ```
-cd c:\temp\simsphere
-cmake -H. -B..\sim-build -G "MinGW Makefiles" 
-cmake --build ..\sim-build
-cd ..\sim-build
-copy ..\json-build\libjsonfortran.dll .
-bin\config
-ctest
+cd simpshere
+scripts/build.sh
 ```
+
 

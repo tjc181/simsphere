@@ -54,7 +54,7 @@ add_library(mod_testing STATIC tests/mod_testing.f90)
 #set_target_properties(mod_testing PROPERTIES INTERFACE_POSITION_INDEPENDENT_CODE ON)
 
 # tests
-enable_testing()
+#enable_testing()
 add_executable(simsphere src/air.f90 src/albedo.f90 src/ball.f90 src/below.f90 src/bri.f90 src/calc.f90 src/canres.f90 src/capac.f90 src/daykm.f90 src/fine.f90 src/flux.f90 src/gettbl.f90 src/gtemp.f90 src/hot.f90 src/input.f90 src/intpol.f90 src/main.f90 src/momday.f90 src/mom.f90 src/netrad.f90 src/prfile.f90 src/pslcal.f90 src/psoil.f90 src/slope.f90 src/snding.f90 src/start.f90 src/vegflx.f90 src/vegrad.f90 src/vegvel.f90 src/vel.f90 src/water.f90 src/avr.f90)
 add_executable(config src/config_gen.f90)
 add_executable(loadjson src/loadjson.f90)
