@@ -4,6 +4,8 @@ os:
   - linux
   - windows
 
+dist: "xenial"
+
 before_install:
 - |-
   case $TRAVIS_OS_NAME in
@@ -66,12 +68,12 @@ before_deploy:
 
 deploy:
   - provider: releases
-    skip_cleanup: true
+    cleanup: false
     on:
-      branch: v0.1.3
+      branch: v0.1
     file:
       - simsphere-$TRAVIS_TAG*
-    api_key: $GITHUB_TOKEN
+    token: $GITHUB_TOKEN
 
 notifications:
   email: false
