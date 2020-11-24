@@ -68,15 +68,14 @@ before_deploy:
   - if [[ "$TRAVIS_OS_NAME" == "windows" ]]; then zip simsphere-$TRAVIS_TAG; fi
 
 deploy:
-  - provider: releases
-    cleanup: false
-    on:
-      branch: v0.1
-      tags: true
-    file:
-      - simsphere-$TRAVIS_TAG.tar.xz
-      - simsphere-$TRAVIS_TAG.zip
-    token: $GITHUB_TOKEN
+  provider: releases
+  on:
+    branch: v0.1
+    tags: true
+  file: 
+    - simsphere-$TRAVIS_TAG.tar.xz
+    - simsphere-$TRAVIS_TAG.zip
+  token: $GITHUB_TOKEN
 
 notifications:
   email: false
