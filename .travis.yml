@@ -70,7 +70,6 @@ before_deploy:
 deploy:
   provider: releases
   on:
-    branch: v0.1
     tags: true
   file: 
     - simsphere-$TRAVIS_TAG.tar.xz
