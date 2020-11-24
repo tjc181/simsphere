@@ -41,7 +41,6 @@ cache:
     - /C/tools/msys64
 
 
-
 addons:
   apt:
     sources:
@@ -51,8 +50,8 @@ addons:
 
 before_script:
   - export DISTROOT=. BUILDROOT=../build CMAKE=cmake
-  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then export FC=gfortran-7; ./scripts/build-json-fortran.sh; cmake -H$DISTROOT -B$BUILDROOT ; fi
-  - if [[ "$TRAVIS_OS_NAME" == "windows" ]]; then $mingw64 ./scripts/build-json-fortran.sh; cmake -H$DISTROOT -B$BUILDROOT -G "MinGW Makefiles"; cp $BUILDROOT/json/libjsonfortran.dll $BUILDROOT/bin; fi
+  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then export FC=gfortran-7; ./scripts/build-json-fortran.sh; ./scripts/build-libcompare.sh; cmake -H$DISTROOT -B$BUILDROOT ; fi
+  - if [[ "$TRAVIS_OS_NAME" == "windows" ]]; then $mingw64 ./scripts/build-json-fortran.sh; $mingw64 ./scripts/build-libcompare.sh; cmake -H$DISTROOT -B$BUILDROOT -G "MinGW Makefiles"; cp $BUILDROOT/json/libjsonfortran.dll $BUILDROOT/bin; fi
   - cmake --build $BUILDROOT
 
 script:
@@ -69,11 +68,10 @@ deploy:
   - provider: releases
     skip_cleanup: true
     on:
-      branch: v0.1.1
+      branch: v0.1
     file:
       - simsphere-$TRAVIS_TAG*
-    api_key:
-      secure: "TkkEUBPlR+9QvH4oMqJcLZMM3Z6tp5Ujyv0Tp0uwg11iUPuL5TMG5RRFUEJTyKHee7GMtyCmQr87JdgswcbxtF4dSlhoPlPSeBXBm4j8H16j8Bvc7W6jIlk8q3J35JLtAQg10LuLSiODaSDk5DobGIwfjtM+xvB6b7eT1iNBDWzgsc8CTHW2/nB+5URNt9rAcUDwQMrrEOxu5Jnr1lTc7HpEfsYgOUS6iV2Bhi/NuihTIlOE6gR/4emXj7CGHs2cyP+5hnqVC/16i3i0WtMDkZrY9FCP6VVXR4i6+n66zpB/gpm+7uAWdLMsXOb541ujofzUuNNqISwPg3DdXQSNxDRGUtQjxLBh6TU7ZB8ofuZFyPYHdKleEDvV+rU5xYZB3/oI+DZShbz566rgTlLEF+3FgkAxpKtkjtedxZplsDBi4RsT2NdiOvZKT3zhTPHzOutA6iwdj83xPYkA8tz50Nm4eIB+M2ipSsCRTQseMuYIk6yGo+oCy/WyK4LvRYQZkRXxFs1eT6hneMZxxDsl7w9VKErta46+wv7g4UWMuKjqYRV1RMOU/OtQZSKcX1bFaKh/IaLhA5cyW73FwxKV2QtaD0l2YXmRlRAknnhL659St6MFpUXRYuObOqO1NcBW2tr84oRYOcoYS1DX3Hd2OnDIvSV70PitGt3MWVYrWYo="
+    api_key: $GITHUB_TOKEN
 
 notifications:
   email: false
