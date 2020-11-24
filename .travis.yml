@@ -72,8 +72,10 @@ deploy:
     cleanup: false
     on:
       branch: v0.1
+      tags: true
     file:
-      - simsphere-$TRAVIS_TAG*
+      - simsphere-$TRAVIS_TAG.tar.xz
+      - simsphere-$TRAVIS_TAG.zip
     token: $GITHUB_TOKEN
 
 notifications:
