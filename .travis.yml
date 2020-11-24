@@ -42,7 +42,6 @@ cache:
     - $HOME/AppData/Local/Temp/chocolatey
     - /C/tools/msys64
 
-
 addons:
   apt:
     sources:
