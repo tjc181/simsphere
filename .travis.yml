@@ -65,16 +65,17 @@ before_deploy:
   - cd $DISTROOT
   - mv $BUILDROOT "simsphere-$TRAVIS_TAG"
   - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then tar cJvf simsphere-$TRAVIS_TAG.tar.xz simsphere-$TRAVIS_TAG; fi
-  - if [[ "$TRAVIS_OS_NAME" == "windows" ]]; then $mingw64 zip simsphere-$TRAVIS_TAG simsphere-$TRAVIS_TAG; fi
+  - if [[ "$TRAVIS_OS_NAME" == "windows" ]]; then $mingw64 zip simsphere-$TRAVIS_TAG.zip simsphere-$TRAVIS_TAG; fi
 
 deploy:
   provider: releases
-  on:
-    tags: true
+  api_key: $GITHUB_TOKEN
   file: 
     - simsphere-$TRAVIS_TAG.tar.xz
     - simsphere-$TRAVIS_TAG.zip
-  token: $GITHUB_TOKEN
+  on:
+    branch: v0.1
+    tags: true
 
 notifications:
   email: false
