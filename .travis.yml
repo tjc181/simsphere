@@ -73,6 +73,7 @@ deploy:
   file: 
     - simsphere-$TRAVIS_TAG.tar.xz
     - simsphere-$TRAVIS_TAG.zip
+  skip_cleanup: true
   on:
     branch: master
     tags: true
