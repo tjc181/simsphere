@@ -63,8 +63,6 @@ script:
   - ctest
 
 before_deploy:
-  - echo $DISTROOT
-  - echo $BUILDROOT
   - cd $DISTROOT
   - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then ./scripts/package-simsphere.sh $DISTROOT $BUILDROOT $TRAVIS_TAG; tar cJvf simsphere-$TRAVIS_CPU_ARCH-$TRAVIS_OS_NAME-$TRAVIS_TAG.tar.xz simsphere-$TRAVIS_TAG; fi
   - if [[ "$TRAVIS_OS_NAME" == "windows" ]]; then $mingw64 ./scripts/package-simsphere.sh $DISTROOT $BUILDROOT $TRAVIS_TAG; $mingw64 zip -r simsphere-$TRAVIS_CPU_ARCH-$TRAVIS_OS_NAME-$TRAVIS_TAG.zip simsphere-$TRAVIS_TAG; fi
