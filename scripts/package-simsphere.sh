@@ -16,20 +16,18 @@
 #                  |-/data
 #                       |-/default
 #                       |-/testing
-#                  |-/doc
 #
 # bin: static binaries
 # lib: static libraries
 # include: Fortran module files
 # data: lookup files, default input parameters file, test input/output files
-# doc: Getting started, Readme, etc.
 #
 
 DISTROOT=$1
 BUILDROOT=$2
 VERSION=$3
 PROGNAME="simsphere"
-DIRS="bin data doc include lib data/default data/testing"
+DIRS="bin data include lib data/default data/testing"
 PRGFILES="config loadjson simsphere" 
 TSTFILES="simsphere_test test_air test_albedo test_average test_ball test_below \
   test_bri test_calc test_canres test_capac test_co2flx test_daykm test_fine \
@@ -91,7 +89,7 @@ done
 
 for doc in $DOCFILES
 do
-  install -m644 $DISTROOT/$doc doc
+  install -m644 $DISTROOT/$doc .
 done
 
 

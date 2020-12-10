@@ -26,7 +26,7 @@ project(simsphere)
 # compiler flags for gfortran
 if(CMAKE_Fortran_COMPILER_ID STREQUAL GNU)
   set(CMAKE_Fortran_FLAGS_DEBUG "-O0 -std=f2008 -Wall -Wintrinsic-shadow -Wextra -pedantic -ggdb3 -fbacktrace -ffpe-trap=zero,overflow,underflow -fprofile-arcs -ftest-coverage")
-  set(CMAKE_Fortran_FLAGS_RELEASE "-static -std=f2008 -fprofile-arcs -ftest-coverage")
+  set(CMAKE_Fortran_FLAGS_RELEASE "-static -std=f2008")
 endif()
 
 # compiler flags for ifort
