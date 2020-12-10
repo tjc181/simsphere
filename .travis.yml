@@ -51,7 +51,7 @@ addons:
       - gfortran-7
 
 before_script:
-  - export DISTROOT=$(pwd) BUILDROOT=$(pwd)/build CMAKE=cmake
+  - export DISTROOT=$TRAVIS_BUILD_DIR BUILDROOT=$TRAVIS_BUILD_DIR/build CMAKE=cmake
   - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then export FC=gfortran-7; ./scripts/build-json-fortran.sh; ./scripts/build-libcompare.sh; cmake -H$DISTROOT -B$BUILDROOT ; fi
   - if [[ "$TRAVIS_OS_NAME" == "windows" ]]; then $mingw64 ./scripts/build-json-fortran.sh; $mingw64 ./scripts/build-libcompare.sh; cmake -H$DISTROOT -B$BUILDROOT -G "MinGW Makefiles"; cp $BUILDROOT/json/libjsonfortran.dll $BUILDROOT/bin; fi
   - cmake --build $BUILDROOT
@@ -65,15 +65,15 @@ before_deploy:
   - echo $DISTROOT
   - echo $BUILDROOT
   - cd $DISTROOT
-  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then ./scripts/package-simsphere.sh $DISTROOT $BUILDROOT $TRAVIS_TAG; tar cJvf simsphere-$TRAVIS_TAG.tar.xz simsphere-$TRAVIS_TAG; fi
-  - if [[ "$TRAVIS_OS_NAME" == "windows" ]]; then $mingw64 ./scripts/package-simsphere.sh $DISTROOT $BUILDROOT $TRAVIS_TAG; $mingw64 zip simsphere-$TRAVIS_TAG.zip simsphere-$TRAVIS_TAG; fi
+  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then ./scripts/package-simsphere.sh $DISTROOT $BUILDROOT $TRAVIS_TAG; tar cJvf simsphere-$TRAVIS_CPU_ARCH-$TRAVIS_OS_NAME-$TRAVIS_TAG.tar.xz simsphere-$TRAVIS_TAG; fi
+  - if [[ "$TRAVIS_OS_NAME" == "windows" ]]; then $mingw64 ./scripts/package-simsphere.sh $DISTROOT $BUILDROOT $TRAVIS_TAG; $mingw64 zip simsphere-$TRAVIS_CPU_ARCH-$TRAVIS_OS_NAME-$TRAVIS_TAG.zip simsphere-$TRAVIS_TAG; fi
 
 deploy:
   provider: releases
   api_key: $GITHUB_TOKEN
   file: 
-    - simsphere-$TRAVIS_TAG.tar.xz
-    - simsphere-$TRAVIS_TAG.zip
+    - simsphere-$TRAVIS_CPU_ARCH-$TRAVIS_OS_NAME-$TRAVIS_TAG.tar.xz
+    - simsphere-$TRAVIS_CPU_ARCH-$TRAVIS_OS_NAME-$TRAVIS_TAG.zip
   skip_cleanup: true
   on:
     branch: master

@@ -29,7 +29,6 @@ DISTROOT=$1
 BUILDROOT=$2
 VERSION=$3
 PROGNAME="simsphere"
-TMP=/tmp
 DIRS="bin data doc include lib data/default data/testing"
 PRGFILES="config loadjson simsphere" 
 TSTFILES="simsphere_test test_air test_albedo test_average test_ball test_below \
@@ -47,8 +46,8 @@ TESTING="i_model_test1_f77.dat o_model_test1_f77.dat o_model_test1_f90.json \
 DOCFILES="GETTINGSTARTED.md README.md CONTRIBUTING.md CHANGELOG LICENSE"
 
 # Create the directory structure
-mkdir $TMP/$PROGNAME-$VERSION
-cd $TMP/$PROGNAME-$VERSION
+mkdir $DISTROOT/$PROGNAME-$VERSION
+cd $DISTROOT/$PROGNAME-$VERSION
 for dir in $DIRS
 do
   mkdir $dir
@@ -94,6 +93,9 @@ for doc in $DOCFILES
 do
   install -m644 $DISTROOT/$doc doc
 done
+
+
+cd $DISTROOT
 
 
 exit 0
