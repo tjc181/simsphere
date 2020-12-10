@@ -30,28 +30,28 @@ cd $HOME/simsphere
 **NOTE:** You may need to adjust the _FC_ variable in the _build.sh_ script to fit your system.
 
 4. Setup a working directory and adjust input parameters
-    1. Create/go to a work space, for example:
+   Create/go to a work space, for example:
 ```
 mkdir work
 cd work
 ```
 
-    2. Create a link to the source root "data" directory:
+    Create a link to the source root "data" directory:
 ```
 ln -s ../data
 ```
 
-    3. Create an alias pointing to the executable
+    Create an alias pointing to the executable
 ```
 alias simsphere=$HOME/simsphere/bin/simsphere
 ```
 
-    4. Take a copy the default parameter input file
+    Take a copy the default parameter input file
 ```
 cp data/default/i_model.json .
 ```
 
-See the [Model Input Parameters](https://simsphere.ems.psu.edu/assets/downloads/Part%20IV;%20model%20input%20parameters.xls) spreadsheet for descriptions of the parameters and acceptable input ranges. 
+See the [Model Input Parameters](https://simsphere.ems.psu.edu/assets/downloads/Part%20IX%20Extended%20list%20of%20input%20variables.docx) document for descriptions of the parameters and acceptable input ranges. 
 
 5. Execute the model
 ```
