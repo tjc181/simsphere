@@ -51,7 +51,7 @@ addons:
       - gfortran-7
 
 before_script:
-  - export DISTROOT=$(pwd) BUILDROOT=./build CMAKE=cmake
+  - export DISTROOT=$(pwd) BUILDROOT=$DISTROOT/build CMAKE=cmake
   - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then export FC=gfortran-7; ./scripts/build-json-fortran.sh; ./scripts/build-libcompare.sh; cmake -H$DISTROOT -B$BUILDROOT ; fi
   - if [[ "$TRAVIS_OS_NAME" == "windows" ]]; then $mingw64 ./scripts/build-json-fortran.sh; $mingw64 ./scripts/build-libcompare.sh; cmake -H$DISTROOT -B$BUILDROOT -G "MinGW Makefiles"; cp $BUILDROOT/json/libjsonfortran.dll $BUILDROOT/bin; fi
   - cmake --build $BUILDROOT
@@ -64,7 +64,6 @@ script:
 before_deploy:
   - echo $DISTROOT
   - echo $BUILDROOT
-  - pwd
   - cd $DISTROOT
   - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then ./scripts/package-simsphere.sh $DISTROOT $BUILDROOT $TRAVIS_TAG; tar cJvf simsphere-$TRAVIS_TAG.tar.xz simsphere-$TRAVIS_TAG; fi
   - if [[ "$TRAVIS_OS_NAME" == "windows" ]]; then $mingw64 ./scripts/package-simsphere.sh $DISTROOT $BUILDROOT $TRAVIS_TAG; $mingw64 zip simsphere-$TRAVIS_TAG.zip simsphere-$TRAVIS_TAG; fi
