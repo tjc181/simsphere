@@ -69,11 +69,11 @@ before_deploy:
 
 deploy:
   provider: releases
-  api_key: $GITHUB_TOKEN
+  token: $GITHUB_TOKEN
   file: 
     - simsphere-$TRAVIS_CPU_ARCH-$TRAVIS_OS_NAME-$TRAVIS_TAG.tar.xz
     - simsphere-$TRAVIS_CPU_ARCH-$TRAVIS_OS_NAME-$TRAVIS_TAG.zip
-  skip_cleanup: true
+  cleanup: false
   on:
     branch: master
     tags: true
