@@ -9,6 +9,10 @@ https://github.com/tjc181/simsphere is the authoritative repository for
 the Simsphere source code.  Clone the repository and submit pull requests
 via Github.  Use the Github issue tracker to raise and resolve issues.
 
+All are welcome to download and use the program.  If you make substantive
+improvements to the code, please share these with the community via a
+Github pull request.
+
 ## Formatting and Style
 Code is free-form Fortran.  Begin in column 1.
 
