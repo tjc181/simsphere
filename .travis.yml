@@ -73,7 +73,7 @@ deploy:
   file: 
     - simsphere-$TRAVIS_CPU_ARCH-$TRAVIS_OS_NAME-$TRAVIS_TAG.tar.xz
     - simsphere-$TRAVIS_CPU_ARCH-$TRAVIS_OS_NAME-$TRAVIS_TAG.zip
-  cleanup: false
+  skip_cleanup: true
   on:
     branch: master
     tags: true
