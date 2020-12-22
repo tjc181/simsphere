@@ -16,7 +16,7 @@ export FC CMAKE DISTROOT BUILDROOT CMAKE_BUILD_TYPE
 
 # Download simsphere dependencies
 cd $DISTROOT
-#git submodule update --init --recursive
+git submodule update --init --recursive
 
 # Check if we are on Windows
 if [ $(uname | grep MINGW) ]
