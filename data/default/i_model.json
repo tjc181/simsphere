@@ -18,7 +18,7 @@
       "ti_b": 12.0,
       "albg": 0.1,
       "epsi": 0.96,
-      "index_soils": 8,
+      "index_soils": 1,
       "albedo_gflag": "F"
     },
     "time_location": {
