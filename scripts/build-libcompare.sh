@@ -3,7 +3,7 @@
 # Build libcompare, a Simsphere dependency
 
 LIBCOMPAREBUILD=$BUILDROOT/compare
-LIBCOMPAREDIST=$DISTROOT/externals/compare
+LIBCOMPAREDIST=$SIMHOME/externals/compare
 
 # Test to see if we are working on Windows
 if [ $(uname | grep MINGW) ]

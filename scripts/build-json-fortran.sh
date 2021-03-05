@@ -3,7 +3,7 @@
 # Build json-fortran, a Simsphere dependency
 
 JSONBUILD=$BUILDROOT/json
-JSONDIST=$DISTROOT/externals/json-fortran
+JSONDIST=$SIMHOME/externals/json-fortran
 
 # Test to see if we are working on Windows
 if [ $(uname | grep MINGW) ]
