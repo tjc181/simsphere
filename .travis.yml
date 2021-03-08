@@ -51,10 +51,10 @@ addons:
       - gfortran-7
 
 before_script:
-  - export DISTROOT=$TRAVIS_BUILD_DIR BUILDROOT=$TRAVIS_BUILD_DIR/build CMAKE=cmake
+  - export SIMHOME=$TRAVIS_BUILD_DIR BUILDROOT=$TRAVIS_BUILD_DIR/build CMAKE=cmake
   - if [[ "$TRAVIS_TAG" == "" ]]; then export CMAKE_BUILD_TYPE="Debug"; else export CMAKE_BUILD_TYPE="Release"; fi
-  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then export FC=gfortran-7; ./scripts/build-json-fortran.sh; ./scripts/build-libcompare.sh; cmake -H$DISTROOT -B$BUILDROOT ; fi
-  - if [[ "$TRAVIS_OS_NAME" == "windows" ]]; then $mingw64 ./scripts/build-json-fortran.sh; $mingw64 ./scripts/build-libcompare.sh; cmake -H$DISTROOT -B$BUILDROOT -G "MinGW Makefiles"; cp $BUILDROOT/json/libjsonfortran.dll $BUILDROOT/bin; fi
+  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then export FC=gfortran-7; ./scripts/build-json-fortran.sh; ./scripts/build-libcompare.sh; cmake -H$SIMHOME -B$BUILDROOT ; fi
+  - if [[ "$TRAVIS_OS_NAME" == "windows" ]]; then $mingw64 ./scripts/build-json-fortran.sh; $mingw64 ./scripts/build-libcompare.sh; cmake -H$SIMHOME -B$BUILDROOT -G "MinGW Makefiles"; cp $BUILDROOT/json/libjsonfortran.dll $BUILDROOT/bin; fi
   - cmake --build $BUILDROOT
 
 script:
@@ -63,9 +63,9 @@ script:
   - ctest
 
 before_deploy:
-  - cd $DISTROOT
-  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then ./scripts/package-simsphere.sh $DISTROOT $BUILDROOT $TRAVIS_TAG; tar cJvf simsphere-$TRAVIS_CPU_ARCH-$TRAVIS_OS_NAME-$TRAVIS_TAG.tar.xz simsphere-$TRAVIS_TAG; fi
-  - if [[ "$TRAVIS_OS_NAME" == "windows" ]]; then $mingw64 ./scripts/package-simsphere.sh $DISTROOT $BUILDROOT $TRAVIS_TAG; $mingw64 zip -r simsphere-$TRAVIS_CPU_ARCH-$TRAVIS_OS_NAME-$TRAVIS_TAG.zip simsphere-$TRAVIS_TAG; fi
+  - cd $SIMHOME
+  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then ./scripts/package-simsphere.sh $SIMHOME $BUILDROOT $TRAVIS_TAG; tar cJvf simsphere-$TRAVIS_CPU_ARCH-$TRAVIS_OS_NAME-$TRAVIS_TAG.tar.xz simsphere-$TRAVIS_TAG; fi
+  - if [[ "$TRAVIS_OS_NAME" == "windows" ]]; then $mingw64 ./scripts/package-simsphere.sh $SIMHOME $BUILDROOT $TRAVIS_TAG; $mingw64 zip -r simsphere-$TRAVIS_CPU_ARCH-$TRAVIS_OS_NAME-$TRAVIS_TAG.zip simsphere-$TRAVIS_TAG; fi
 
 deploy:
   provider: releases
