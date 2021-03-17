@@ -8,7 +8,7 @@
 # These settings should be ok for Ubuntu 18.04.
 FC=${FC:-gfortran-7}
 CMAKE=${CMAKE:-cmake}
-SIMHOME=${SIMHOME:-$HOME/simsphere}
+SIMHOME=${SIMHOME:-$(pwd)}
 BUILDROOT=${BUILDROOT:-$SIMHOME/build}
 CMAKE_BUILD_TYPE="static"
 export FC CMAKE SIMHOME BUILDROOT CMAKE_BUILD_TYPE
