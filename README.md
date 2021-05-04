@@ -36,10 +36,6 @@ This is an updated version of the original Fortran implementation.  The goals fo
 * Implement data structures to simplify passing arguments to routines, reduce global variables.
 * Aspire to rework subroutines with pure function calls.
 
-## Other implementations
-
-A C implementation also exists.  This is available for download at https://simsphere.ems.psu.edu.  The C implementation dates to the late 1990s.
-
 ## Building the code
 
 You will need a Fortran 2008 compiler and CMake.  The code is currently being
