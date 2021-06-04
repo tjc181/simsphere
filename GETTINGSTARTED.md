@@ -40,7 +40,7 @@ rename the folder _simsphere-v0.1.6_ to _simsphere_  .
 cd C:\Users\yourUsername\Documents\simsphere
 ```
 
-4. Skip ahead to the last section, [First model run](#firstmodelrun).
+4. Skip ahead to the last section, [First model run](#first-model-run).
 
 #### Ubuntu or CentOS 7 Linux
 1. Extract the compressed tar archive to a location on your computer.  This document assumes you will extract to your home directory, _$HOME_ .
@@ -50,7 +50,7 @@ cd C:\Users\yourUsername\Documents\simsphere
 mv simsphere-v0.1.6 simsphere
 ```
 
-3. Skip ahead to the last section, [First model run](#firstmodelrun).
+3. Skip ahead to the last section, [First model run](#first-model-run).
 
 ### Compiling Simsphere from source code
 
@@ -128,7 +128,7 @@ cd $HOME/simsphere
 ./scripts/build.sh
 ```
 
-4. The compiled software is now available in the _build/bin/_ directory.  Skip ahead to the last section, [First model run](#firstmodelrun).
+4. The compiled software is now available in the _build/bin/_ directory.  Skip ahead to the last section, [First model run](#first-model-run).
 
 #### Windows 10
 Use the [msys2](https://www.msys2.org/) platform to install the required
@@ -158,7 +158,7 @@ cd $HOME/simsphere
 ./scripts/build.sh
 ```
 
-6. The compiled software is now available in the _build/bin/_ directory.  Skip ahead to the last section, [First model run](#firstmodelrun).
+6. The compiled software is now available in the _build/bin/_ directory.  Skip ahead to the last section, [First model run](#first-model-run).
 
 
 ### First model run
