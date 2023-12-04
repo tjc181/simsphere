@@ -6,7 +6,7 @@
 
 
 # These settings should be ok for Ubuntu 18.04.
-FC=${FC:-gfortran-7}
+FC=${FC:-gfortran}
 CMAKE=${CMAKE:-cmake}
 SIMHOME=${SIMHOME:-$(pwd)}
 BUILDROOT=${BUILDROOT:-$SIMHOME/build}
@@ -21,7 +21,6 @@ git submodule update --init --recursive
 # Check if we are on Windows
 if [ $(uname | grep MINGW) ]
 then
-    export FC=gfortran
     # Build json-fortran, libcompare, simsphere
     scripts/build-json-fortran.sh
     scripts/build-libcompare.sh

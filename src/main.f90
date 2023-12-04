@@ -56,6 +56,7 @@ program simsphere
 
   character(len=12), parameter :: out_json = 'o_model.json'
   character(len=11), parameter :: out_file = 'o_model.dat'
+  character(len=15) :: Time_s
 
 
 
@@ -86,7 +87,7 @@ program simsphere
 
 ! Initialize JSON output
   call json % initialize(compact_reals=.true., real_format='*')
-  call json % create_object(p,'')
+  call json % create_array(p,'')
   
   do while (realtm < timend)
 !  5 CONTINUE                          ! Loop back here every 180 seconds
@@ -161,7 +162,8 @@ program simsphere
   !  Output is written every OUTTT seconds.
   
     IF (eq(TMOD,0.0)) then
-      call json % create_object(out,'output')
+      write(Time_s,'(f10.1)') Time
+      call json % create_object(out,'')
       call json % add(p,out)
       CALL output(json, out, outputinit)
     end if
