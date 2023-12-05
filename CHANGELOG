@@ -1,3 +1,12 @@
+** Simsphere Version 0.1.7 Release **
+
+December 5, 2023 -- Tom Canich
+
+This is a bug fix release addressing a problem with JSON output
+formatting.  JSON output was produced as a series of identically named
+objects which is difficult to parse with external programs.  This is
+now an array of anonymous objects.  Thanks to Rakesh Vadnathani for
+identifying the problem, #24.
 
 ** Simsphere Version 0.1 Release **
 
