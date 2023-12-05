@@ -56,7 +56,6 @@ program simsphere
 
   character(len=12), parameter :: out_json = 'o_model.json'
   character(len=11), parameter :: out_file = 'o_model.dat'
-  character(len=15) :: Time_s
 
 
 
@@ -162,7 +161,6 @@ program simsphere
   !  Output is written every OUTTT seconds.
   
     IF (eq(TMOD,0.0)) then
-      write(Time_s,'(f10.1)') Time
       call json % create_object(out,'')
       call json % add(p,out)
       CALL output(json, out, outputinit)
