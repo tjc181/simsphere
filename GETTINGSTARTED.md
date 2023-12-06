@@ -9,18 +9,17 @@ either via the pre-compiled options or source code.
 ### Pre-compiled binaries
 Download the latest release from the [Simsphere GitHub
 releases](https://github.com/tjc181/simsphere/releases) page.  At the
-time of writing, the latest release is version 0.1.6.  This is used
+time of writing, the latest release is version 0.1.7.  This is used
 throughout this document in text and hyperlinks.  If a newer release is
 available you are encouraged to use that and replace the version numbers
 below with the current version.
 
-The software is compiled and tested on 64-bit Windows 10 systems and
-64-bit Ubuntu 18.04, 20.04, and CentOS 7 Linux systems.  Other versions
-of Windows or Linux may work.  Please let us know if you have success
-on others.
+The software is compiled and tested on 64-bit Windows 10 and 64-bit
+Ubuntu Linux 20.04.  Other versions of Windows or Linux may work.
+Please let us know if you have success on others.
 
-* [Windows 10](https://github.com/tjc181/simsphere/releases/download/v0.1.6/simsphere-amd64-windows-v0.1.6.zip)
-* [Linux](https://github.com/tjc181/simsphere/releases/download/v0.1.6/simsphere-amd64-linux-v0.1.6.tar.xz)
+* [Windows 10](https://github.com/tjc181/simsphere/releases/download/v0.1.7/simsphere-amd64-windows-v0.1.7.zip)
+* [Linux](https://github.com/tjc181/simsphere/releases/download/v0.1.7/simsphere-amd64-linux-v0.1.7.tar.xz)
 
 #### Windows 10
 This document assumes you will extract to your Documents directory,
@@ -33,7 +32,7 @@ security software may display a security warning when extracting the
 archive.
 
 2. In the new Windows Explorer window displaying the extracted files,
-rename the folder _simsphere-v0.1.6_ to _simsphere_  .
+rename the folder _simsphere-v0.1.7_ to _simsphere_  .
 
 3. Open a _cmd.exe_ or PowerShell terminal and change to the directory where you extracted the archive:
 ```
@@ -45,9 +44,9 @@ cd C:\Users\yourUsername\Documents\simsphere
 #### Ubuntu or CentOS 7 Linux
 1. Extract the compressed tar archive to a location on your computer.  This document assumes you will extract to your home directory, _$HOME_ .
 
-2. Open a terminal.  Rename the extracted directory _simsphere-v0.1.6_ to _simsphere_ .
+2. Open a terminal.  Rename the extracted directory _simsphere-v0.1.7_ to _simsphere_ .
 ```
-mv simsphere-v0.1.6 simsphere
+mv simsphere-v0.1.7 simsphere
 ```
 
 3. Skip ahead to the last section, [First model run](#first-model-run).
@@ -139,9 +138,9 @@ cmd.exe and PowerShell.
 1. [Follow the msys2 installation instructions](https://www.msys2.org/)
 to install the base system.
 
-2. In the same MSYS2 shell, install the cmake and git packages:
+2. In the same MSYS2 shell, install the development, cmake, git, and zip packages:
 ```
-pacman -S --needed mingw-w64-x86_64-cmake git
+pacman -S --needed base-devel mingw-w64-x86_64-toolchain mingw-w64-x86_64-gcc mingw-w64-x86_64-cmake git zip
 ```
 
 3. Clone the git repository:

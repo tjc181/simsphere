@@ -39,31 +39,3 @@ This is an updated version of the original Fortran implementation.  The goals fo
 You will need a Fortran 2008 compiler and CMake.  The code is currently being
 developed using gfortran 7.3.0.  Please see the [Getting Started
 guide](GETTINGSTARTED.md) for additional instructions.
-
-
-### Unix:
-Clone the repository and execute the include build script:
-```
-git clone https://github.com/tjc181/simsphere
-cd simsphere
-scripts/build.sh
-```
-
-### Windows:
-
-1. Install msys64 from https://www.msys2.org .  Start the MSYS2 MinGW 64-bit shell to install the development tools with commands: 
-```
-pacman --needed -S base-devel mingw-w64-x86_64-gcc mingw-w64-x86_64-toolchain mingw-w64-x86_64-cmake git
-```
-2. Within the MSYS2 MinGW 64-bit shell, clone the Git repository:
-```
-git clone https://github.com/tjc181/simsphere
-```
-
-3. Within the cloned repository, execute the build script to build the model code and execute the test suite:
-```
-cd simpshere
-scripts/build.sh
-```
-
-
