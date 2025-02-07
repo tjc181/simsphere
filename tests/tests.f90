@@ -66,7 +66,7 @@ program test_simsphere
 ! spline_test variables
   integer, parameter :: spline_max_array = 62
   integer :: spline_arg3
-  real, parameter :: spline_expected(62) =                            &
+  real, parameter :: spline_expected(spline_max_array) =              &
     (/-6.71245960E-35,1.34249192E-34,-4.69872138E-34,1.74523920E-33,  &
       -6.51108452E-33,2.42991007E-32,-9.06853161E-32,3.38442174E-31,  &
       -1.26308335E-30,4.71389109E-30,-1.75924808E-29,6.56560291E-29,  &
