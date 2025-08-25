@@ -1,11 +1,13 @@
 # cmake version, project name, language
-cmake_minimum_required(VERSION 2.8 FATAL_ERROR)
+cmake_minimum_required(VERSION 2.8...4.1.0 FATAL_ERROR)
 
 # Use MSVS folders to organize projects on windows
 #set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 
 #set (PROJECT_DESCRIPTION "Soil-Vegetation-Atmosphere Transfer Model by Toby Carlson")
 #set (PROJECT_URL "https://simsphere.ems.psu.edu")
+
+project(simsphere)
 
 enable_language(Fortran)
 #include ( "cmake/pickFortranCompilerFlags.cmake" )
@@ -21,7 +23,6 @@ if(NOT CMAKE_BUILD_TYPE)
   set(CMAKE_BUILD_TYPE "Release")
 endif()
 
-project(simsphere)
 
 # compiler flags for gfortran
 if(CMAKE_Fortran_COMPILER_ID STREQUAL GNU)
