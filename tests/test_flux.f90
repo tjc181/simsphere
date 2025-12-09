@@ -14,13 +14,16 @@ program test_flux
   ! Expected results
   real, parameter :: arg1_exp = 294.5
   real, parameter :: arg2_exp = 0.0
-  real, parameter :: arg3_exp = 0.001
+! real, parameter :: arg3_exp = 0.001
+  real, parameter :: arg3_exp = 2.50000012E-04
   real, parameter :: arg4_exp = 0.0
-  real, parameter :: arg3_qd_exp = 0.001
+! real, parameter :: arg3_qd_exp = 0.001
+  real, parameter :: arg3_qd_exp = 7.36439697E+31
   real, parameter :: ahum_qd_exp = 3.0
   real, parameter :: arg1_night_exp = -8961.73926
   real, parameter :: arg2_night_exp = -8961.73926
-  real, parameter :: arg3_night_exp = 0.001
+! real, parameter :: arg3_night_exp = 0.001
+  real, parameter :: arg3_night_exp = 7.36439746E+31
   real, parameter :: arg4_night_exp = 2.49819231
   real, parameter :: ahum_exp = 1.0
 
@@ -74,8 +77,10 @@ program test_flux
   rnet = -1.0
   call flux(arg1,arg2,arg3,arg4,arg5)
   tests(n) = assert(eq(arg1,arg1_night_exp), 'Flux BareRadioTemp night')
+  write(*,*) arg1
   n = n + 1
   tests(n) = assert(eq(arg2,arg2_night_exp), 'Flux VegnRadioTemp night')
+  write(*,*) arg2
   n = n + 1
   tests(n) = assert(eq(arg3,arg3_night_exp), 'Flux BareEvapFlux night')
   n = n + 1

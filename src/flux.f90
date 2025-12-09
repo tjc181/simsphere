@@ -13,8 +13,17 @@ subroutine FLUX (BareRadioTemp,VegnRadioTemp,BareEvapFlux, &
   real :: BareEvapFlux,VegnEvapFlux,MixedEvapFlux
   real :: BareHeatFlux
   real :: Evap_Smooth
+  real :: history(4)
 
   integer :: averageinit
+
+  logical, save :: firstrun = .true.
+
+  if ( firstrun ) then
+    ! Initialize the array for smoothing average
+    history = 0.0  
+    firstrun = .false.
+  endif
 
 !      INCLUDE 'modvars.h'
 
@@ -28,7 +37,7 @@ subroutine FLUX (BareRadioTemp,VegnRadioTemp,BareEvapFlux, &
   BareEvapFlux = Le * Dens * ( Oshum - Qd(1) ) / Sumw * F
   if ( qd(1) >= oshum ) BareEvapFlux = 0.001
 
-  call avr (BareEvapFlux, Evap_Smooth, averageinit)
+  call avr (BareEvapFlux, Evap_Smooth, history)
   BareEvapFlux = Evap_Smooth
   Evap = BareEvapFlux
 

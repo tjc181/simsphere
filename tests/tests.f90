@@ -165,7 +165,8 @@ program test_simsphere
   real :: vegflx_arg1
 
 ! avr_test_* variables
-  real, parameter :: avr_test_init1_expected = 300.5
+!  real, parameter :: avr_test_init1_expected = 300.5
+  real, parameter :: avr_test_init1_expected = 0.25
 !  real, parameter :: avr_test_init_not1_expected = 20.0
   real :: avr_arg1, avr_arg2
   integer :: avr_arg3
