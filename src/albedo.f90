@@ -3,8 +3,8 @@ subroutine  ALBEDO (SOLSIN)
   implicit none
 
   real :: SOLSIN
-  logical :: ALGFLG = .false. ,ALFFLG = .false.
-  integer :: ALBFLG = 0
+  logical, save :: ALGFLG = .false. , ALFFLG = .false.
+  integer, save :: ALBFLG = 0
 
 !      INCLUDE 'modvars.h'
 
