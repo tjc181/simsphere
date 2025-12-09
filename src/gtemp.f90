@@ -9,7 +9,8 @@ subroutine GTEMP
 ! **  radiative balance.
 
   real :: A(5)
-  real :: ENGBAL, A1, B, C, DELTAX, XDIF, X
+  real :: ENGBAL, A1, DELTAX, XDIF
+  real(kind=qp) :: B, C, X
 
   integer :: I, J, K
 

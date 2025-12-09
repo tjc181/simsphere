@@ -1,10 +1,16 @@
 module constants
+  use, intrinsic :: iso_fortran_env
   implicit none
   private
   public :: vert_spacing, rhow, DELTA, rot_rate_earth, siga, dens, ft, ZA, SIGMA
   public :: LE, KARMAN, GRAV, R, RAD, CP, radian, sdec, Kts_To_Metres
   public :: Ft_To_Metres, Degs_To_Radians, Celsius_to_Kelvin
   public :: f_soil_lut, f_veg_lut, f_precip_lut
+  public :: sp, dp, qp
+
+  integer, parameter :: sp = REAL32
+  integer, parameter :: dp = REAL64
+  integer, parameter :: qp = REAL128
 
   integer, parameter :: vert_spacing = 250
   integer, parameter :: rhow=1000                ! Density of Water

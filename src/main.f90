@@ -38,7 +38,6 @@ program simsphere
   real :: WATERWIN=0.0
   real :: BELOWTE(9)=0.0
   integer(kind=1) :: VEGVELinit_vel=1
-  integer :: averageinit=1
   integer :: PSLCALINIT=1
   integer :: outputinit=1
 
@@ -139,7 +138,7 @@ program simsphere
   
   ! Evaporative Flux, Surface Temperature solutions
   
-    CALL FLUX (BareRadioTemp,VegnRadioTemp,BareEvapFlux,BareHeatFlux,averageinit)
+    CALL FLUX (BareRadioTemp,VegnRadioTemp,BareEvapFlux,BareHeatFlux)
   
   ! Heat FLux - Penman Formulation
   

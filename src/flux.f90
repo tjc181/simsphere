@@ -1,5 +1,5 @@
 subroutine FLUX (BareRadioTemp,VegnRadioTemp,BareEvapFlux, &
-  BareHeatFlux,averageinit)
+  BareHeatFlux)
   use simsphere_mod
   implicit none
 
@@ -14,8 +14,6 @@ subroutine FLUX (BareRadioTemp,VegnRadioTemp,BareEvapFlux, &
   real :: BareHeatFlux
   real :: Evap_Smooth
   real :: history(4)
-
-  integer :: averageinit
 
   logical, save :: firstrun = .true.
 

@@ -11,7 +11,7 @@ program test_gtemp
   integer :: n, ntests
 
   ! Expected results
-  real, parameter :: otemp_exp = 219.793854
+  real, parameter :: otemp_exp = 220.402557
 
   n = 1
   ntests = 1

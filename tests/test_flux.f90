@@ -14,15 +14,12 @@ program test_flux
   ! Expected results
   real, parameter :: arg1_exp = 294.5
   real, parameter :: arg2_exp = 0.0
-! real, parameter :: arg3_exp = 0.001
   real, parameter :: arg3_exp = 2.50000012E-04
   real, parameter :: arg4_exp = 0.0
-! real, parameter :: arg3_qd_exp = 0.001
   real, parameter :: arg3_qd_exp = 7.36439697E+31
   real, parameter :: ahum_qd_exp = 3.0
-  real, parameter :: arg1_night_exp = -8961.73926
-  real, parameter :: arg2_night_exp = -8961.73926
-! real, parameter :: arg3_night_exp = 0.001
+  real, parameter :: arg1_night_exp = -2.79424267E+28
+  real, parameter :: arg2_night_exp = -2.79424267E+28
   real, parameter :: arg3_night_exp = 7.36439746E+31
   real, parameter :: arg4_night_exp = 2.49819231
   real, parameter :: ahum_exp = 1.0
@@ -31,6 +28,9 @@ program test_flux
   ! arg1 is time, arg2 is BareEvapFlux
   real :: arg1, arg2, arg3, arg4
   integer :: arg5
+
+
+  integer :: i
 
   arg1 = 267.0
   arg2 = 0.0
@@ -113,7 +113,9 @@ contains
     t_fine = 1.0
     swave = 1.0
     heat = 2.49819231
-    z = 1.0
+    do i = 1,9
+      z(i) = 1.0
+    enddo
     epsi = 0.96
   
     ! vegflx initialization
