@@ -25,7 +25,7 @@ subroutine  sslope(sinsolelslope,solelslope,effdec,slb,hrangl)
 ! dipan = abs (atan (edip / xmeshl / (cos(atan(sdip/edip)))))
 ! dipaz = 3. * 3.14159/ 2. + atan( sdip / edip)
 
-! if ( edip. lt. 0. ) then
+! if ( edip < 0. ) then
 !   dipaz = dipaz - 3.14159
 ! end if
 
@@ -34,7 +34,7 @@ subroutine  sslope(sinsolelslope,solelslope,effdec,slb,hrangl)
 ! dipan = abs (atan (sdip / xmeshl ))
 ! dipaz = 3.14159
 
-!   if ( sdip. gt. 0. ) then
+!   if ( sdip > 0. ) then
 !     dipaz = 0.0
 !   end if
 
@@ -42,7 +42,7 @@ subroutine  sslope(sinsolelslope,solelslope,effdec,slb,hrangl)
 
   dipaz = ASPECT / 57.2958
 
-! if (dipaz. gt. 6.2835) then
+! if (dipaz > 6.2835) then
 !   azimuthangle = azimuthangle  - 360.
 ! endif
 
