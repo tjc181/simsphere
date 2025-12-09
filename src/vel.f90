@@ -40,7 +40,7 @@ subroutine VEL (MONCE,IONCE,StabCriteria,YCOUNT,Obst_Hgt,dual_regime, &
 !  HEAT = 0.  Therefore calc surface wind profile and resistances for
 !  the surface layer on the basis log wind profile law.
 
-  IF (StabCriteria .eq. 0 .or. (StabCriteria .eq. 1 .and.               &
+  IF (StabCriteria == 0 .or. (StabCriteria == 1 .and.               &
      Heat <= 0.0 )) THEN ! Neutral Profile (Rare)
            
 !         ^ Allow for negative heat flux 
@@ -73,7 +73,7 @@ subroutine VEL (MONCE,IONCE,StabCriteria,YCOUNT,Obst_Hgt,dual_regime, &
 !  wind profiles for momentum and heat (FM,FT) to determine the
 !  resistance term over the surface layer.
 
-  else if ( StabCriteria .eq. 1 .and. heat > 0) then ! Unstable
+  else if ( StabCriteria == 1 .and. heat > 0) then ! Unstable
     IF (EVAP < 0.000001) EVAP = 0.000001
     BOWEN = HEAT / EVAP
     IF ( ABS( BOWEN ) > 10 ) BOWEN = 10 * BOWEN / ABS ( BOWEN )
