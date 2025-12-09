@@ -165,11 +165,10 @@ program test_simsphere
   real :: vegflx_arg1
 
 ! avr_test_* variables
-!  real, parameter :: avr_test_init1_expected = 300.5
-  real, parameter :: avr_test_init1_expected = 0.25
+  real, parameter :: avr_test_init1_expected = 300.5
 !  real, parameter :: avr_test_init_not1_expected = 20.0
   real :: avr_arg1, avr_arg2
-  integer :: avr_arg3
+  real :: avr_arg3(4)
 
 ! co2flx_test variables
   real, parameter :: co2flx_ccan_expected = 1.77409637
@@ -1120,7 +1119,9 @@ contains
 
   subroutine avr_init
     avr_arg1 = 293.0
-    avr_arg3 = 1
+    do i = 1,4
+      avr_arg3(i) = 1.0
+    enddo
     return
   end subroutine avr_init
 
