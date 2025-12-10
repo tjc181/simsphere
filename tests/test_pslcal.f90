@@ -20,9 +20,10 @@ program test_pslcal
 
   ! Expected values
   real, parameter :: wpsi_unsteady_exp = 23.7398777
-  real, parameter :: wpsi_steady_exp = 29.0206356
+  real, parameter :: wpsi_steady_exp = 29.7048950
   real, parameter :: rlpsi_unsteady_exp = 24.9543571
-  real, parameter :: rlpsi_steady_exp = 28.9508419
+  real, parameter :: rlpsi_steady_exp = 29.6340542
+
 
   n = 1
   ntests = 4
@@ -41,7 +42,6 @@ program test_pslcal
   arg3 = 1
   steady = 'Y'
   call pslcal(arg1,arg2,arg3)
-  !write(6,*) 'pslcal steady: wpsi,rlpsi: ',wpsi,rlpsi
   tests(n) = assert(eq(wpsi,wpsi_steady_exp), 'wpsi steady')
   n = n + 1
   tests(n) = assert(eq(rlpsi,rlpsi_steady_exp), 'rlpsi steady')

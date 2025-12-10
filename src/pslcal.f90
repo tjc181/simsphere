@@ -1,4 +1,4 @@
-subroutine  PSLCAL (SGMA, PES, init)
+subroutine  PSLCAL (SGMA, PES)
   use simsphere_mod
   implicit none
 
@@ -6,7 +6,7 @@ subroutine  PSLCAL (SGMA, PES, init)
   real :: UNITS1, UNITS2, ZEFF, ZTOT, b1_p, b2_p, HBAR, H, Unscaled_RAF
   real :: RSTDIV, AROOT, BROOT, CROOT, Q_Boundary, ActSqrt, vfl2
   
-  integer(kind=1) :: init
+  logical, save :: init = .true.
 
 !      INCLUDE 'modvars.h'
 
@@ -81,9 +81,9 @@ subroutine  PSLCAL (SGMA, PES, init)
 
   RSCRIT = stomc(ft,rmin,b1,psice,fs)
 
-  if (init == 1) then
+  if (init .eqv. .true.) then
     vfl2 = vfl
-    init = 2
+    init = .false.
   else
     Q_boundary = (qstf/rst + qaf/raf) / (1/raf + 1/rst)
     vfl2 = (qstf - Q_boundary) * ps1/0.622

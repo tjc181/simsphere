@@ -1,13 +1,12 @@
-subroutine  VEGVEL(init_vel, PSLCALINIT)
+subroutine  VEGVEL()
   use simsphere_mod
   implicit none
 
   real :: SGMA
-  integer(kind=1), save :: init_vel
   real :: PES, RHOCP, SIGALF, CDL, PI, SDL, rhg, RMRATIODIF, RHA, QSTA
   real :: XLEFN, TFN
 
-  integer :: PSLCALINIT
+  logical, save :: init_vel = .true.
 
 !      INCLUDE 'modvars.h'
 
@@ -70,7 +69,7 @@ subroutine  VEGVEL(init_vel, PSLCALINIT)
     RST = RS * RCUT / (RS + RCUT) * PES / XLAI ! Total Leaf/Canopy Resistance
 
   ELSE IF (STMTYPE == 'L') THEN ! Lynn and Carlson
-    CALL PSLCAL (SGMA, PES, PSLCALINIT)
+    CALL PSLCAL (SGMA, PES)
 
     RL = RS * RCUT / ( RS + RCUT )   ! Leaf Resistance
     RST = RL * PES / XLAI    ! Total Leaf/Canopy Resistance
@@ -88,10 +87,10 @@ subroutine  VEGVEL(init_vel, PSLCALINIT)
 
 !    Average TF and XLEF after initial time step.
 
-  IF (init_vel == 1) THEN
+  IF (init_vel .eqv. .true.) THEN
     TF = TAF + ( RNETF - XLEFN ) / (CHF * DENS * CP)
     XLEF = XLEFN
-    init_vel = 2
+    init_vel = .false.
   ELSE
     XLEF = ( XLEF + XLEFN ) / 2
     TFN = TAF + ( RNETF - XLEFN ) / (CHF * DENS * CP)

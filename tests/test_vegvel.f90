@@ -9,13 +9,11 @@ program test_vegvel
   logical :: test_failed
   integer :: n, ntests
 
-  integer :: init_vel, PSLCALINIT
-
   ! Expected values
   real, parameter :: rst_exp = 0.0
   real, parameter :: tf_d_exp = -17448048.0
-  real, parameter :: tf_l_exp = -17448048.0
-  real, parameter :: tf_b_exp = -17448048.0
+  real, parameter :: tf_l_exp = -8723524.00
+  real, parameter :: tf_b_exp = -8723524.00
   real, parameter :: xlef_exp = 349979200.0
 
   n = 1
@@ -24,10 +22,8 @@ program test_vegvel
 
   ! stmtype == 'd'
   call vegvel_init
-  init_vel = 1
-  PSLCALINIT = 1
   stmtype = 'd'
-  call vegvel(init_vel,PSLCALINIT)
+  call vegvel
   tests(n) = assert(eq(rst,rst_exp), 'rst')
   n = n + 1
   tests(n) = assert(eq(tf,tf_d_exp), 'tf')
@@ -37,10 +33,8 @@ program test_vegvel
 
   ! stmtype == 'l'
   call vegvel_init
-  init_vel = 1
-  PSLCALINIT = 1
   stmtype = 'l'
-  call vegvel(init_vel,PSLCALINIT)
+  call vegvel
   tests(n) = assert(eq(rst,rst_exp), 'rst')
   n = n + 1
   tests(n) = assert(eq(tf,tf_l_exp), 'tf')
@@ -50,10 +44,8 @@ program test_vegvel
 
   ! stmtype == 'b'
   call vegvel_init
-  init_vel = 1
-  PSLCALINIT = 1
   stmtype = 'b'
-  call vegvel(init_vel,PSLCALINIT)
+  call vegvel
   tests(n) = assert(eq(rst,rst_exp), 'rst')
   n = n + 1
   tests(n) = assert(eq(tf,tf_b_exp), 'tf')

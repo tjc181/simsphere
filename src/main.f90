@@ -37,8 +37,6 @@ program simsphere
   real :: AIRCHGT=0.0, AIRCDELT, AIRCTHETA=1.0
   real :: WATERWIN=0.0
   real :: BELOWTE(9)=0.0
-  integer(kind=1) :: VEGVELinit_vel=1
-  integer :: PSLCALINIT=1
   integer :: outputinit=1
 
   type(t_timeloc) :: timeloc
@@ -115,7 +113,7 @@ program simsphere
   ! Entry to nighttime formulations (BRI & MOM) through this subroutine
   
     CALL VEL (MONCE,IONCE,StabCriteria,YCOUNT,Obst_Hgt,dual_regime, &
-    zo_patch,VEGVELinit_vel,PSLCALINIT)
+    zo_patch)
   
   ! Mixed Layer
   

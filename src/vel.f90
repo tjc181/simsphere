@@ -1,5 +1,5 @@
 subroutine VEL (MONCE,IONCE,StabCriteria,YCOUNT,Obst_Hgt,dual_regime, &
-  zo_patch,VEGVELinit_vel,PSLCALINIT)
+  zo_patch)
   use simsphere_mod
   implicit none
 
@@ -25,9 +25,6 @@ subroutine VEL (MONCE,IONCE,StabCriteria,YCOUNT,Obst_Hgt,dual_regime, &
   real :: PSIHNEW, REKUST
   real :: Rtrans_patch, RtransW_patch
 
-  integer(kind=1) :: VEGVELinit_vel
-  integer :: PSLCALINIT
-      
 !      INCLUDE 'modvars.h'
 
 !  ZO Roughness height, ZA Top of surface layer (50m)
@@ -201,7 +198,7 @@ subroutine VEL (MONCE,IONCE,StabCriteria,YCOUNT,Obst_Hgt,dual_regime, &
 !  If vegetation included, call vegetation component.
 
   IF (SWAVE > 0 .AND. RNET > 0 .AND. FRVEG > 0) THEN
-    CALL VEGVEL(VEGVELinit_vel, PSLCALINIT)
+    CALL VEGVEL()
   END IF
 
   return
