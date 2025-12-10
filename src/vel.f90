@@ -10,12 +10,13 @@ subroutine VEL (MONCE,IONCE,StabCriteria,YCOUNT,Obst_Hgt,dual_regime, &
 ! Alterations 16th July to account for different Roughness Lenghts 
 ! associated with partial vegetation calculations.
 
-  real :: KMM,KW,KS,KX
+  real :: KMM,KX
   real(kind=4) :: Obst_Hgt,zo_patch
   integer(kind=1) :: StabCriteria
   logical :: dual_regime
   integer :: MONCE, IONCE
-  real :: REFLEV, ZTEN, CMH, CMW, YCOUNT
+  real, save :: REFLEV, ZTEN, CMH, CMW, KS, KW
+  real :: YCOUNT
   real :: USCRN, RZAZO, U_Patch, Ustar_Patch, RZA_Obst, RObst_Patch
   real :: PTMP20, BOWEN, RTRANS, RTRANO3
   real :: SA, SRFCZO, SO10M, STEN, FM, FTEN, USTAR1
@@ -33,8 +34,16 @@ subroutine VEL (MONCE,IONCE,StabCriteria,YCOUNT,Obst_Hgt,dual_regime, &
 
 !  ZTEN - height at 10 m, REFLEV - "Screen or Anemometer Height".
 
-  DATA REFLEV, ZTEN, KS, KW / 2., 10., 2.49951e-2, 2.97681e-2 /
-  DATA CMH,CMW / 2*1. /
+  REFLEV = 2.0
+  ZTEN = 10.0
+  KS = 2.49951e-2
+  KW = 2.97681e-2
+  CMH = 2.0
+  CMW = 2.0
+  
+
+!  DATA REFLEV, ZTEN, KS, KW / 2., 10., 2.49951e-2, 2.97681e-2 /
+!  DATA CMH,CMW / 2*1. /
 
 !  The model assumes neutral conditions at the start of the run where
 !  HEAT = 0.  Therefore calc surface wind profile and resistances for
