@@ -3,7 +3,7 @@ subroutine  VEGVEL(init_vel, PSLCALINIT)
   implicit none
 
   real :: SGMA
-  integer(kind=1) :: init_vel
+  integer(kind=1), save :: init_vel
   real :: PES, RHOCP, SIGALF, CDL, PI, SDL, rhg, RMRATIODIF, RHA, QSTA
   real :: XLEFN, TFN
 
