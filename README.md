@@ -1,8 +1,3 @@
-**Repository transfer**: this repository will transfer
-to a new simsphere organization account December 11,
-2025. The new repository will be available on GitHub at
-[simsphere/simsphere](https://github.com/simsphere/simsphere).
-
 # Simsphere
 
 Welcome to the model Simsphere, a state-of-the art
